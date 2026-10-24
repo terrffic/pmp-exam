@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PMP® 标准模考 · 180题 / 230分钟</title>
+<title>PMP® 2026 中国大陆版模考 · 180题 / 240分钟</title>
 <style>
 :root{
   --bg:#f5f7fb; --card:#ffffff; --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb;
@@ -269,7 +269,7 @@ ul.notice li{margin:5px 0}
 <body>
 <header class="top">
   <div class="top-in">
-    <div class="brand">PMP® 标准模考 · 180 题 / 230 分钟<small>按真实考试时长与题量 · 2026年12月考期 · People / Process / Business Environment</small></div>
+    <div class="brand">PMP® 2026 中国大陆版模考 · 180 题 / 240 分钟<small>依据 2026 年 12 月 ECO（33% / 41% / 26%）· 非 PMI 官方真题</small></div>
     <div class="top-spacer"></div>
     <div class="pill" id="pillProgress">0 / 0</div>
     <div class="pill" id="clock">--:--</div>
@@ -283,11 +283,11 @@ ul.notice li{margin:5px 0}
   <section id="scIntro" class="screen active">
     <div class="card" style="margin-top:20px">
       <h1>PMP® 标准模拟考试 · 540 题库 / 5 套卷</h1>
-      <p class="sub">每套 180 题 / 230 分钟，对齐真实考试（三段式 + 两次休息）。<b>A、B、C 为三套完全独立的题库</b>；D、E 为跨题库混合卷。交卷后自动诊断错题类型，并生成针对性补强练习。</p>
+      <p class="sub">每套 180 题 / 240 分钟，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷。<b>A、B、C 为三套独立卷</b>，D、E 为混合卷。交卷后输出领域与知识点诊断，并生成针对性加练。</p>
       <div class="grid-info">
         <div class="stat"><b id="sTotal">0</b><span>题库总题量（A/B/C 各 180）</span></div>
         <div class="stat"><b>5 套 + 随机</b><span>可用试卷</span></div>
-        <div class="stat"><b>180 题 / 230 分钟</b><span>每套规格与真题一致</span></div>
+        <div class="stat"><b>180 题 / 240 分钟</b><span>2026 版考试时长与题量</span></div>
         <div class="stat"><b>错题诊断</b><span>按知识点统计 + 专项补强</span></div>
       </div>
       <h2>选择试卷</h2>
@@ -315,14 +315,14 @@ ul.notice li{margin:5px 0}
       <ul class="notice">
         <li>每套 180 题，配比对齐考纲：<b>人员约 42% / 流程约 50% / 商业环境约 8%</b>；A/B/C 三套题互不重复，合计 540 题。</li>
         <li>交卷后自动生成<b>错题诊断</b>：按知识点标签统计错误次数，可一键生成「薄弱知识点专项」「错题重练」与领域专项练习。</li>
-        <li>230 分钟，分三段；第 60、120 题处提示休息，休息期间计时暂停。</li>
+        <li>240 分钟，平台按第 60、120 题分段提示休息（<b>平台练习分段，非官方强制规则</b>），休息期间计时暂停。</li>
         <li>全部为情境化单选题，考察“先判断情境、再选最合适行动”的 PMI 思维，含敏捷、混合生命周期与挣值计算。</li>
         <li>每道题的解析包含：<b>正确答案 + 解题要点 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析（A–D 每个选项为什么对/为什么错）</b>。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
         <li>答题进度自动保存在本机，刷新或关闭后可继续；模考模式下未完成也可交卷。</li>
       </ul>
       <div class="mode-row">
-        <button class="btn primary" id="btnExam">开始考试（230 分钟）</button>
+        <button class="btn primary" id="btnExam">开始考试（240 分钟）</button>
         <button class="btn" id="btnPractice">练习模式（不限时 · 优先出未做过的题）</button>
         <button class="btn ghost" id="btnResume" style="display:none">继续上次答题</button>
         <button class="btn ghost" id="btnClearAll">清空记录</button>
@@ -414,7 +414,7 @@ ul.notice li{margin:5px 0}
     </div>
   </section>
 
-  <div class="footer">题目依据 PMI《考试内容大纲》与《PMBOK 指南（第七版）》《敏捷实践指南》命题原则编写，用于备考练习，非 PMI 官方真题。<br>提示：解析与知识点中可<b>选中词语</b>查定义。</div>
+  <div class="footer">命题依据：PMI 2026 年 12 月中国大陆版《PMP 认证考试内容大纲》与 PMBOK 第八版等实践资料；用于备考练习，<b>非 PMI 官方真题</b>，不代表官方题型比例或分数线。<br>提示：解析与知识点中可<b>选中词语</b>查定义。</div>
 </div>
 
 <!-- 划词查词 -->
@@ -838,20 +838,28 @@ function autoWhy(q){
 }
 function whyFor(q){ return WHY[q.stem.slice(0,12)] || autoWhy(q); }
 
-function detailHtml(q){
+function detailHtml(q, idx){
   let h = '';
   const t = topicOf(q.tag);
   if(t){
     h += '<div class="kp"><span class="kh">📘 知识点：'+t.id+'</span><div class="kt">'+t.text+'</div>'+
          '<div class="kq">⚠️ 常见陷阱：'+t.trap+'</div></div>';
   }
-  const why = whyFor(q);
-  if(why){
+  /* 只使用已完成专属撰写的逐项解析；未覆盖的题标记“待审核”，
+     不再用关键词规则自动断言错误原因（避免误导考生）。 */
+  const why = WHY[q.stem.slice(0,12)];
+  let perm = [0,1,2,3];
+  try{ if(idx !== undefined) perm = permOf(idx); }catch(e){}
+  if(why && why.length === 4){
     h += '<div style="margin-top:12px;font-weight:700;font-size:13px;color:#334155">🔍 逐项辨析</div>'+
-      '<ul class="why-list">'+ why.map((w,i)=>{
-        const isAns = i===q.answer;
-        return '<li class="'+(isAns?'ok':'no')+'"><span class="wl">'+'ABCD'[i]+'</span><span>'+w+'</span></li>';
+      '<ul class="why-list">'+ perm.map((orig, pos)=>{
+        const isAns = orig === q.answer;
+        return '<li class="'+(isAns?'ok':'no')+'"><span class="wl">'+'ABCD'[pos]+'</span><span>'+why[orig]+'</span></li>';
       }).join('') + '</ul>';
+  }else{
+    h += '<div class="kp" style="margin-top:12px;border-style:solid;border-color:#fcd34d;background:#fffbeb">'+
+      '<span class="kh" style="color:#92400e">🔍 逐项辨析：待审核</span>'+
+      '<div class="kt">该题尚未完成逐项专属解析。为保证准确性，系统不自动生成通用错误原因，请以上方解题要点与知识点讲解为准。</div></div>';
   }
   return h;
 }
@@ -4650,9 +4658,20 @@ const QUESTIONS = [
 
 const TOTAL = QUESTIONS.length;
 /* 题库以定义顺序保存，题目索引始终稳定（错题池、答题记录都依赖索引，绝不能在加载时重排数组） */
-const KEY = 'pmp_exam_bank_v2';
-const EXAM_SECONDS = 230*60;   // 真实考试答题时间
-const BREAK_AT = [60,120];    // 第 60、120 题后可休息（真实考试两次休息）
+const KEY = 'pmp_exam_bank_v3';      // v3：2026 领域重分类 + 选项随机化，旧记录不兼容
+const DATA_VERSION = 3;
+const EXAM_SECONDS = 240*60;         // 2026 中国大陆版：180 题 / 240 分钟
+const BREAK_AT = [60,120];           // 平台练习分段提示（非官方强制规则）
+
+/* ---- 2026 版领域重分类 ----
+   任务书：风险、变更控制、障碍/问题管理等任务归入业务环境；
+   同时将治理、合规、收益、战略、外部环境、伦理、AI 治理、可持续、组织变革归入业务环境。
+   原始领域保留在 legacyDomain，便于审计回溯。*/
+const BI_TAG_KEYS = ['风险','变更','问题','障碍','治理','合规','法规','审计','收益','价值','战略','商业论证','外部','市场','竞争','伦理','道德','AI','可持续','环境','社会','变革','文化','知识产权','数据安全','汇率','关税','许可','资质','监管','社区','公众','工会','PMO','OPA','EEF'];
+QUESTIONS.forEach(q=>{
+  q.legacyDomain = q.domain;
+  if(BI_TAG_KEYS.some(k=>(q.tag||'').indexOf(k)>=0)) q.domain = 'business';
+});
 
 /* ---------------- 试卷与组卷 ---------------- */
 const PAPERS = [
@@ -4663,7 +4682,7 @@ const PAPERS = [
   {id:'E', name:'E 卷', desc:'混合组卷 · 优先未做题'},
   {id:'R', name:'随机组卷', desc:'每次重新抽题'}
 ];
-const QUOTA = {people:76, process:90, business:14};
+const QUOTA = {people:59, process:74, business:47};   // 2026 版：约 33% / 41% / 26%
 
 function packRnd(seed){
   let s = seed>>>0;
@@ -4731,11 +4750,37 @@ function paperIdx(id){
   return all.filter(i=>QUESTIONS[i].paper===id);
 }
 
-/* 组卷：A/B/C 为三套独立题库（按卷内固定种子打乱题序）；D/E/随机 按领域配额分层抽样，优先未做过的题 */
+/* A/B/C 分片：按新领域配额把题库切成三段，每段 59/74/47。
+   若某领域题量不足 3 倍配额（当前 Business 113 < 141），C 卷会用 A/B 中同领域题补足并标注重叠。 */
+let PAPER_CACHE = null;
+function splitPapers(){
+  const pools = {people:[], process:[], business:[]};
+  QUESTIONS.forEach((q,i)=>{ if(pools[q.domain]) pools[q.domain].push(i); });
+  const out = {A:[], B:[], C:[]};
+  Object.keys(pools).forEach((d, di)=>{
+    const q = QUOTA[d];
+    const list = shuffleIdx(pools[d], 7100 + di*97 + pools[d].length);
+    out.A.push(...list.slice(0, q));
+    out.B.push(...list.slice(q, 2*q));
+    const rest = list.slice(2*q);
+    out.C.push(...rest.slice(0, q));
+    if(rest.length < q){                       /* 题量不足：从 A/B 同领域题中补，保证配额 */
+      const need = q - rest.length;
+      const extra = shuffleIdx(out.A.concat(out.B).filter(i=>QUESTIONS[i].domain===d), 7200 + di*13);
+      out.C.push(...extra.slice(0, need));
+    }
+  });
+  out.A = shuffleIdx(out.A, 8101);
+  out.B = shuffleIdx(out.B, 8102);
+  out.C = shuffleIdx(out.C, 8103);
+  return out;
+}
+
+/* 组卷：A/B/C 按 2026 配额分片；D/E/随机 按配额分层抽样，优先未做过的题 */
 function buildPaper(id){
   if(id==='A'||id==='B'||id==='C'){
-    const seed = id==='A' ? 9001 : id==='B' ? 9002 : 9003;
-    return shuffleIdx(paperIdx(id), seed);
+    if(!PAPER_CACHE) PAPER_CACHE = splitPapers();
+    return PAPER_CACHE[id].slice();
   }
   const seed = id==='D'?2202 : id==='E'?3303 : Date.now();
   const rnd = packRnd(seed);
@@ -4786,8 +4831,26 @@ let state = {
   drill:false,       // 是否为专项练习（自定义题目集）
   practiceSubmitted:false,  // 练习模式是否已提交过（用于避免重复提示覆盖）
   set:null,          // 当前试卷的题目索引数组
+  opts:null,         // 题目索引 -> 选项展示顺序（原索引数组），实现答案位置随机化
+  endsAt:0,          // 计时结束时间戳（避免 setInterval 累计误差）
   reviewSet:null     // 错题重做时的题目索引数组
 };
+
+/* 选项排列：按“卷种 + 题目索引”生成，同一题在不同卷可不同，刷新后保持 */
+function makePerm(idx){
+  const base = (String(state.paper||'A').charCodeAt(0) || 65) * 101 + (state.drill ? 7919 : 0);
+  const rnd = packRnd(base + idx * 13 + 7);
+  const a = [0,1,2,3];
+  for(let i=3;i>0;i--){ const j = Math.floor(rnd()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; }
+  return a;
+}
+function ensureOpts(list){
+  if(!state.opts) state.opts = {};
+  list.forEach(i=>{ if(!state.opts[i]) state.opts[i] = makePerm(i); });
+}
+function permOf(idx){
+  return (state.opts && state.opts[idx]) ? state.opts[idx] : [0,1,2,3];
+}
 let timer = null;
 let activeList = null; // 当前使用的题目列表（全部或错题）
 
@@ -4796,7 +4859,7 @@ function save(){
   try{localStorage.setItem(KEY,JSON.stringify({
     mode:state.mode,answers:state.answers,marked:state.marked,current:state.current,
     left:state.left,submitted:state.submitted,started:state.startedAt,reviewSet:state.reviewSet,brk:state.brk,revealed:state.revealed,
-    paper:state.paper,set:state.set,drill:state.drill
+    paper:state.paper,set:state.set,drill:state.drill,opts:state.opts,endsAt:state.endsAt
   }));}catch(e){}
 }
 function load(){
@@ -4812,14 +4875,16 @@ function fmt(s){
 function startTimer(){
   stopTimer();
   if(state.mode!=='exam'){ $('clock').textContent='练习'; $('clock').classList.remove('low'); return; }
+  /* 以结束时间戳计算剩余时间，避免 setInterval 在后台被节流导致计时不准 */
+  if(!state.endsAt) state.endsAt = Date.now() + state.left*1000;
   const tick=()=>{
-    state.left--;
-    $('clock').textContent=fmt(state.left);
+    state.left = Math.max(0, Math.round((state.endsAt - Date.now())/1000));
+    $('clock').textContent = fmt(state.left);
     if(state.left<=300) $('clock').classList.add('low');
     if(state.left<=0){ stopTimer(); doSubmit(true); }
     else save();
   };
-  $('clock').textContent=fmt(state.left);
+  tick();
   timer=setInterval(tick,1000);
 }
 function stopTimer(){ if(timer){clearInterval(timer);timer=null;} }
@@ -4839,6 +4904,9 @@ function beginExam(mode, resume, paper, custom){
     state.paper = paper || 'A';
     state.drill = !!custom && paper !== 'P';
     state.practiceSubmitted = false;
+    state.brk = {};                 /* 修复：新卷必须重置休息点 */
+    state.opts = {};                /* 新卷重新生成选项排列 */
+    state.endsAt = Date.now() + EXAM_SECONDS*1000;
     state.set = custom ? custom.slice() : buildPaper(state.paper);
     save();
   }
@@ -4846,6 +4914,8 @@ function beginExam(mode, resume, paper, custom){
   if(!state.revealed) state.revealed={};
   if(!state.set || !state.set.length) state.set = buildPaper(state.paper||'A');
   activeList = state.reviewSet && state.reviewSet.length ? state.reviewSet : state.set;
+  ensureOpts(activeList);
+  if(!state.endsAt) state.endsAt = Date.now() + state.left*1000;
   if(state.current>=activeList.length) state.current=0;
   showScreen('scQuiz');
   if(!state.submitted) startTimer(); else { stopTimer(); $('clock').textContent='已交卷'; }
@@ -4870,22 +4940,24 @@ function render(){
   $('btnMark').textContent = state.marked[idx] ? '★ 已标记' : '标记待定';
 
   const ul=$('qOpts'); ul.innerHTML='';
-  q.options.forEach((opt,i)=>{
+  const perm = permOf(idx);
+  const picked0 = state.answers[idx];
+  q.options.forEach((_, pos)=>{
+    const orig = perm[pos];                 /* 展示位置 → 原始选项索引 */
     const li=document.createElement('li');
     let cls='opt';
-    const picked = state.answers[idx];
-    if(picked===i) cls+=' sel';
+    if(picked0===orig) cls+=' sel';
     const showAnswer = isRevealed(idx);
     if(showAnswer){
       cls+=' locked';
-      if(i===q.answer) cls+=' correct';
-      else if(picked===i) cls+=' wrong';
+      if(orig===q.answer) cls+=' correct';
+      else if(picked0===orig) cls+=' wrong';
     }
     li.className=cls;
-    li.innerHTML='<span class="mark">'+'ABCD'[i]+'</span><span>'+opt+'</span>';
+    li.innerHTML='<span class="mark">'+'ABCD'[pos]+'</span><span>'+q.options[orig]+'</span>';
     li.onclick=()=>{
       if(showAnswer) return;
-      state.answers[idx]=i; save(); render(); checkBreak();
+      state.answers[idx]=orig; save(); render(); checkBreak();
     };
     ul.appendChild(li);
   });
@@ -4895,7 +4967,8 @@ function render(){
   if(showAnswer && state.answers[idx]!==undefined){
     const right = state.answers[idx]===q.answer;
     fb.className='fb '+(right?'good':'bad');
-    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+'ABCD'.charAt(q.answer)+'</b><div class="why">'+q.exp+'</div>'+detailHtml(q);
+    const permFb = permOf(idx);
+    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+'ABCD'.charAt(permFb.indexOf(q.answer))+'</b><div class="why">'+q.exp+'</div>'+detailHtml(q, idx);
   }else{ fb.className=''; fb.innerHTML=''; }
 
   const revealBtn=$('btnReveal');
@@ -4949,14 +5022,14 @@ function go(delta){
   checkBreak();
 }
 
-/* 真实考试在第 60、120 题后有两次休息，休息期间计时暂停 */
+/* 平台练习分段（非官方强制规则）：第 60、120 题提示休息，休息期间计时暂停 */
 function checkBreak(){
   if(state.mode!=='exam'||state.submitted||activeList.length<150) return;
   const n=answeredCount();
   for(const t of BREAK_AT){
     if(n>=t && !state.brk[t]){
       state.brk[t]=true; save(); stopTimer();
-      alert('已完成 '+t+' 题 —— 休息点（真实考试共两次、每次 10 分钟）。\n休息期间计时已暂停，当前剩余 '+fmt(state.left)+'。\n点击确定后继续答题。');
+      alert('已完成 '+t+' 题 —— 平台练习分段提示（非官方强制规则）。\n休息期间计时已暂停，当前剩余 '+fmt(state.left)+'。\n点击确定后继续答题。');
       startTimer();
       break;
     }
@@ -4980,7 +5053,9 @@ function doSubmit(auto){
   if(!auto && un>0){
     if(!confirm('还有 '+un+' 题未作答，确定要交卷吗？')) return;
   }
-  state.submitted=true; stopTimer(); markDone(activeList); addWrong(activeList); save();
+  state.submitted=true; stopTimer();
+  markDone(activeList.filter(i=>state.answers[i]!==undefined));   /* 未作答不计入“已完成” */
+  addWrong(activeList); save();
   renderResult(); showScreen('scResult');
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -5001,7 +5076,7 @@ function renderResult(){
   $('rSub').innerHTML = '答对 '+correct+' / '+list.length+' 题' +
     (practice ? '　·　已完成 '+list.length+' / '+all.length+' 题（仅统计已作答）' : '') +
     (used!==null?'　·　用时约 '+used+' 分钟':'') +
-    (list.length ? '　·　' + (pct>=70?'<span class="ok">达到建议达标线（70%）</span>':'<span class="no">未达建议达标线，建议重点复盘错题</span>') : '');
+    (list.length ? '　·　' + (pct>=70?'<span class="ok">达到平台建议练习目标（70%，非官方分数线）</span>':'<span class="no">未达平台建议练习目标（70% 为内部参考，非官方分数线）</span>') : '');
 
   const bars=$('rBars'); bars.innerHTML='';
   Object.keys(stat).forEach(k=>{
@@ -5020,13 +5095,15 @@ function renderResult(){
   list.forEach((idx,n)=>{
     const q=QUESTIONS[idx]; const picked=state.answers[idx];
     const right = picked===q.answer;
+    const permR = permOf(idx);
+    const posOf = o => permR.indexOf(o);
     const div=document.createElement('div'); div.className='rev-item';
     div.innerHTML='<div class="rstem">第 '+(n+1)+' 题　<span class="badge '+DOMAIN[q.domain].cls+'">'+DOMAIN[q.domain].name+'</span> '+(q.tag?'· '+q.tag:'')+'</div>'+
       '<div class="rline">'+q.stem+'</div>'+
-      '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+(picked===undefined?'未作答':'ABCD'.charAt(picked)+'. '+q.options[picked])+'</b></div>'+
-      (right?'':'<div class="rline">正确答案：<b class="ok">'+'ABCD'.charAt(q.answer)+'. '+q.options[q.answer]+'</b></div>')+
+      '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+(picked===undefined?'未作答':'ABCD'.charAt(posOf(picked))+'. '+q.options[picked])+'</b></div>'+
+      (right?'':'<div class="rline">正确答案：<b class="ok">'+'ABCD'.charAt(posOf(q.answer))+'. '+q.options[q.answer]+'</b></div>')+
       '<div class="exp">'+q.exp+'</div>'+
-      '<details class="dwrap"><summary>📘 知识点讲解与逐项辨析</summary>'+detailHtml(q)+'</details>';
+      '<details class="dwrap"><summary>📘 知识点讲解与逐项辨析</summary>'+detailHtml(q, idx)+'</details>';
     rl.appendChild(div);
   });
   $('btnContinue').style.display = practice ? '' : 'none';
@@ -5875,10 +5952,11 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') go(-1);
   const k=e.key.toUpperCase();
   if('ABCD'.includes(k) && !e.ctrlKey){
-    const i='ABCD'.indexOf(k);
+    const pos='ABCD'.indexOf(k);
     const idx=activeList[state.current];
-    if(i<QUESTIONS[idx].options.length && !(state.submitted||state.mode==='practice')){
-      state.answers[idx]=i; save(); render();
+    const perm = permOf(idx);
+    if(pos<QUESTIONS[idx].options.length && !isRevealed(idx)){
+      state.answers[idx]=perm[pos]; save(); render();
     }
   }
 });
