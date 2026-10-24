@@ -221,6 +221,46 @@ ul.notice li{margin:5px 0}
   .lookup-tip{font-size:14px;padding:8px 14px}
 }
 .kp .khint{font-weight:400;font-size:11.5px;color:#64748b;margin-left:6px}
+/* 知识速查入口 */
+.entry-card{display:flex;align-items:center;gap:14px;border:1.5px solid #c7d2fe;background:linear-gradient(120deg,#eef2ff,#f8fafc);border-radius:14px;padding:15px 17px;cursor:pointer;transition:.15s}
+.entry-card:hover{border-color:#6366f1;box-shadow:0 6px 18px rgba(79,70,229,.12);transform:translateY(-1px)}
+.ec-ico{font-size:25px;line-height:1}
+.ec-main{flex:1}
+.ec-main b{display:block;font-size:15.5px;color:#1e293b}
+.ec-main span{font-size:12.5px;color:#64748b;display:block;margin-top:3px;line-height:1.5}
+.ec-arrow{font-size:19px;color:#6366f1;font-weight:700}
+/* 术语库 */
+.tsearch{width:100%;margin:12px 0 10px;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:inherit;outline:none;background:#fff;color:var(--ink)}
+.tsearch:focus{border-color:#93c5fd;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.tchips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px}
+.tchip{font-size:12.5px;padding:4px 11px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;color:#475569}
+.tchip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.tlist{margin-top:6px}
+.titem{border:1px solid var(--line);border-radius:10px;margin-bottom:9px;overflow:hidden;background:#fff}
+.titem.open{border-color:#93c5fd;box-shadow:0 2px 10px rgba(37,99,235,.07)}
+.thead{display:flex;align-items:center;gap:9px;padding:11px 13px;cursor:pointer;flex-wrap:wrap}
+.thead b{font-size:15px;color:var(--brand)}
+.thead .tfull{font-size:11.5px;color:#94a3b8}
+.thead .tcn{font-size:13.5px;color:#334155}
+.thead .tcat{margin-left:auto;font-size:11px;background:#f1f5f9;color:#64748b;border-radius:999px;padding:2px 8px}
+.tbody{display:none;padding:0 14px 14px;border-top:1px dashed var(--line)}
+.titem.open .tbody{display:block}
+.tsec{margin-top:11px}
+.tsec h4{margin:0 0 4px;font-size:12.5px;color:#1e40af;letter-spacing:.02em}
+.tsec p{margin:0;font-size:14px;line-height:1.8;color:#1f2937}
+.tsec.calc p{background:#f8fafc;border-left:3px solid #93c5fd;padding:7px 11px;border-radius:0 6px 6px 0}
+.tsec.exam p{background:#fffbeb;border-left:3px solid #fcd34d;padding:7px 11px;border-radius:0 6px 6px 0}
+.tquiz{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.tquiz .tq{font-size:13px;font-weight:700;color:#334155;margin-bottom:7px}
+.tqitem{border:1px solid var(--line);border-radius:9px;padding:11px 12px;margin-bottom:9px;background:#fcfdff}
+.tqstem{font-size:14px;line-height:1.7;margin-bottom:8px}
+.tqopt{border:1px solid var(--line);border-radius:8px;padding:8px 11px;margin-bottom:6px;font-size:13.5px;cursor:pointer;background:#fff;display:flex;gap:8px;line-height:1.6}
+.tqopt:hover{border-color:#93c5fd;background:var(--brand-soft)}
+.tqopt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.tqopt.no{border-color:var(--bad);background:var(--bad-soft)}
+.tqexp{font-size:13px;color:#374151;background:#f8fafc;border-left:3px solid var(--brand);padding:7px 10px;border-radius:0 6px 6px 0;margin-top:4px;display:none}
+.tqexp.show{display:block}
+@media(max-width:600px){.thead .tfull{display:none}.titem .tsec p{font-size:13.5px}}
 </style>
 <meta name="theme-color" content="#2563eb">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -262,6 +302,13 @@ ul.notice li{margin:5px 0}
         <button class="btn ghost" id="btnDrillPeople">人员专项 30 题</button>
         <button class="btn ghost" id="btnDrillProcess">流程专项 30 题</button>
         <button class="btn ghost" id="btnDrillBiz">商业环境专项 20 题</button>
+      </div>
+
+      <h2 style="margin-top:22px">知识速查</h2>
+      <div class="entry-card" id="btnTermsEntry">
+        <div class="ec-ico">📚</div>
+        <div class="ec-main"><b>缩写与术语速查（40 个高频）</b><span>EVM / CPI / WBS / DoD / SBI / GROW…：释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
+        <div class="ec-arrow">→</div>
       </div>
 
       <h2 style="margin-top:20px">考试说明</h2>
@@ -348,6 +395,22 @@ ul.notice li{margin:5px 0}
         <button class="btn ghost" id="btnBackHome">返回首页</button>
         <button class="btn ghost" id="btnPrint">打印 / 导出 PDF</button>
       </div>
+    </div>
+  </section>
+
+  <!-- 缩写与术语速查 -->
+  <section id="scTerms" class="screen">
+    <div class="card" style="margin-top:20px">
+      <div class="qbar">
+        <span class="qnum" style="font-size:18px">📚 缩写与术语速查</span>
+        <span style="flex:1"></span>
+        <button class="btn sm" id="btnTermsBack">返回首页</button>
+      </div>
+      <p class="sub">高频英文缩写与专有词汇：缩写全称、释义、计算逻辑（如有）、考试要点，每个词配 2 道典型考察题。点卡片展开。</p>
+      <input id="termSearch" class="tsearch" placeholder="搜索：CPI、挣值、WBS、DoD、SBI…">
+      <div class="tchips" id="termChips"></div>
+      <div class="tlist" id="termList"></div>
+      <p class="sub" id="termEmpty" style="display:none;margin-top:14px">没有匹配的术语，换个关键词试试（支持缩写或中文）。</p>
     </div>
   </section>
 
@@ -4762,7 +4825,7 @@ function startTimer(){
 function stopTimer(){ if(timer){clearInterval(timer);timer=null;} }
 
 function showScreen(id){
-  ['scIntro','scQuiz','scResult'].forEach(s=>$(s).classList.toggle('active',s===id));
+  ['scIntro','scQuiz','scResult','scTerms'].forEach(s=>$(s).classList.toggle('active',s===id));
   $('btnSubmitTop').style.display = (id==='scQuiz')?'':'none';
 }
 
@@ -5109,6 +5172,367 @@ function renderPapers(){
   });
 }
 
+/* ================= 缩写与术语速查 ================= */
+const TERMS = [
+{abbr:'EVM', full:'Earned Value Management', cn:'挣值管理', cat:'成本',
+ def:'把范围、进度与成本整合起来，用“货币化的完成量”同时衡量进度与成本绩效的方法。它回答两个问题：进度到哪了、钱花得值不值。',
+ calc:'三个基础量：PV（计划价值）、EV（挣值）、AC（实际成本）。偏差 = 挣值 − 基准；指数 = 挣值 ÷ 基准。所有 EVM 指标都由这三者派生。',
+ exam:'考试常考“给三个数判断状态”或“给 BAC 与 CPI 算 EAC”。记住：SV 用货币表达进度，SPI 是进度效率，两者都不能替代关键路径分析。',
+ quiz:[
+  {q:'挣值管理（EVM）最核心的作用是：',o:['计算项目利润率','用统一口径同时衡量进度与成本绩效','只衡量成本是否超支','预测项目风险等级'],a:1,e:'EVM 用预算价值把“完成多少工作”货币化，从而在同一尺度上比较进度与成本，避免只看花费或只看工期的片面判断。'},
+  {q:'在 EVM 中，PV 与 EV 的差额（EV−PV）反映的是：',o:['成本偏差','进度偏差','质量偏差','范围变更'],a:1,e:'EV−PV 即 SV，用货币形式表达进度偏差；EV−AC 才是成本偏差 CV。'}
+ ]},
+{abbr:'PV', full:'Planned Value', cn:'计划价值', cat:'成本',
+ def:'截止某时点，按计划应该完成的工作所对应的预算金额，也叫“计划工作的预算成本（BCWS）”。它代表“到这个时间点本该完成多少预算价值”。',
+ calc:'PV = 计划完成比例 × 该工作的预算（BAC 的一部分）。检查点不同，PV 会随时间累积增长。',
+ exam:'PV 是“计划线”，永远按计划算，不受实际进度与花费影响。题目里出现“按计划应完成”就是 PV。',
+ quiz:[
+  {q:'某工作包预算 ¥100,000，计划本月完成 40%，则本月末的 PV 为：',o:['¥40,000','¥60,000','¥100,000','无法计算'],a:0,e:'PV = 计划完成比例 × 预算 = 40% × 100,000 = 40,000。PV 只看计划，与实际做了多少无关。'},
+  {q:'关于 PV，正确的说法是：',o:['PV 随实际花费变化','PV 随实际完成量变化','PV 按计划进度计算，与实际执行无关','PV 等于 AC 加上 EV'],a:2,e:'PV 是计划基准值，只由计划进度与预算决定；EV 才随实际完成量变化，AC 随实际花费变化。'}
+ ]},
+{abbr:'EV', full:'Earned Value', cn:'挣值', cat:'成本',
+ def:'截止某时点，实际完成的工作按“预算单价”折算出的价值，也叫“已完成工作的预算成本（BCWP）”。它衡量的是产出，而不是花费。',
+ calc:'EV = 实际完成比例 × 该工作的预算（BAC）。注意用预算单价，不用实际单价。',
+ exam:'高频陷阱：EV 不是“花了多少钱”，也不是“收到多少款”。题目给“完成了 60%”时应先算 EV，再与 AC、PV 比较。',
+ quiz:[
+  {q:'某工作包预算 ¥200,000，实际完成 60%，实际已花费 ¥140,000。EV 为：',o:['¥120,000','¥140,000','¥200,000','¥80,000'],a:0,e:'EV = 60% × 200,000 = 120,000；140,000 是 AC。EV 用预算单价折算，与实际花费无关。'},
+  {q:'EV 与 AC 的关系可用于判断：',o:['进度是否提前','成本是否节约或超支','质量是否达标','范围是否蔓延'],a:1,e:'EV−AC 为成本偏差 CV，EV/AC 为成本绩效指数 CPI，两者都衡量成本绩效；进度要看 EV 与 PV。'}
+ ]},
+{abbr:'AC', full:'Actual Cost', cn:'实际成本', cat:'成本',
+ def:'截止某时点，为完成已完成工作而实际发生的全部费用，包括人工、材料、设备、采购以及按规则分摊的间接成本。',
+ calc:'AC 由财务与工时系统归集，是“真金白银”的支出；注意口径要与 EV 的预算口径一致（含不含间接费、税、管理费）。',
+ exam:'AC 不能用来判断进度；AC 大于 EV 说明超支。若题目给“已支付”“已发生费用”，通常就是 AC。',
+ quiz:[
+  {q:'某项目 EV=¥500,000，AC=¥550,000。下列判断正确的是：',o:['成本节约 ¥50,000','成本超支 ¥50,000','进度落后 ¥50,000','无法判断'],a:1,e:'CV = EV−AC = −50,000，负值表示成本超支 50,000。'},
+  {q:'计算 AC 时最需要注意的是：',o:['只统计直接人工','口径要与 EV 的预算口径一致','只统计已付款项','必须包含管理储备'],a:1,e:'AC 与 EV 必须同口径比较（是否含间接费、税、分摊），否则 CV/CPI 会失真。'}
+ ]},
+{abbr:'CV', full:'Cost Variance', cn:'成本偏差', cat:'成本',
+ def:'已完成工作的预算价值与实际成本之间的差额，衡量成本绩效。',
+ calc:'CV = EV − AC。CV > 0 成本节约；CV < 0 成本超支；CV = 0 符合预算。',
+ exam:'记住符号方向：正值好（节约），负值坏（超支）。考试常与 SV 一起出，注意别把“负值”误判成“节约”。',
+ quiz:[
+  {q:'EV=¥300,000，AC=¥360,000，则 CV 为：',o:['+¥60,000，成本节约','−¥60,000，成本超支','−¥60,000，进度落后','+¥60,000，进度提前'],a:1,e:'CV = 300,000 − 360,000 = −60,000，负值表示超支 60,000。'},
+  {q:'CV 为正值说明：',o:['进度提前','成本节约','范围扩大','质量提升'],a:1,e:'CV>0 表示完成同样的工作花的钱少于预算，即成本节约；与进度无关。'}
+ ]},
+{abbr:'SV', full:'Schedule Variance', cn:'进度偏差', cat:'成本',
+ def:'已完成工作的预算价值与计划价值之间的差额，用货币形式表达进度偏差。',
+ calc:'SV = EV − PV。SV > 0 进度提前；SV < 0 进度落后。',
+ exam:'SV 在项目末期会自然趋近 0（因为工作都完成了），所以末期应改用 SPI 或关键路径判断进度。',
+ quiz:[
+  {q:'EV=¥300,000，PV=¥400,000，则 SV 为：',o:['−¥100,000，进度落后','+¥100,000，进度提前','−¥100,000，成本超支','+¥100,000，成本节约'],a:0,e:'SV = 300,000 − 400,000 = −100,000，负值表示进度落后（少完成了 10 万预算价值的工作）。'},
+  {q:'为什么项目末期不宜再用 SV 判断进度？',o:['SV 只适用于敏捷项目','所有工作完成时 EV 接近 BAC，SV 会趋近 0','SV 无法计算','SV 只反映成本'],a:1,e:'接近完工时 EV 接近 PV，SV 自然趋近 0，掩盖了过程中的延误；末期应结合 SPI、里程碑与关键路径判断。'}
+ ]},
+{abbr:'CPI', full:'Cost Performance Index', cn:'成本绩效指数', cat:'成本',
+ def:'每花费 1 元实际成本所获得的预算价值，衡量资金使用效率。',
+ calc:'CPI = EV / AC。CPI > 1 成本节约；CPI < 1 超支；CPI = 0.8 表示每花 1 元只获得 0.8 元价值。',
+ exam:'CPI 是预测 EAC 的关键：偏差具代表性时 EAC = BAC / CPI。题目若给“按当前绩效继续”，就用这个公式。',
+ quiz:[
+  {q:'EV=¥400,000，AC=¥500,000，CPI 为：',o:['0.8','1.25','−0.2','0.2'],a:0,e:'CPI = 400,000 / 500,000 = 0.8，说明每花 1 元只产出 0.8 元预算价值，处于超支状态。'},
+  {q:'CPI=0.8 且剩余工作将按当前绩效继续，BAC=¥1,000,000，则 EAC 为：',o:['¥800,000','¥1,000,000','¥1,250,000','¥1,200,000'],a:2,e:'EAC = BAC / CPI = 1,000,000 / 0.8 = 1,250,000。CPI 小于 1 时 EAC 必然大于 BAC。'}
+ ]},
+{abbr:'SPI', full:'Schedule Performance Index', cn:'进度绩效指数', cat:'成本',
+ def:'实际完成的预算价值与计划价值之比，衡量进度效率。',
+ calc:'SPI = EV / PV。SPI > 1 提前；SPI < 1 落后。SPI = 0.8 表示只完成了计划的 80%。',
+ exam:'SPI 是按挣值加权的整体指标，可能被非关键路径活动“拉高”，不能替代关键路径判断。',
+ quiz:[
+  {q:'EV=¥400,000，PV=¥500,000，SPI 为：',o:['1.25','0.8','0.2','−0.2'],a:1,e:'SPI = 400,000 / 500,000 = 0.8，表示只完成计划的 80%，进度落后。'},
+  {q:'项目 SPI=1.05，但关键路径已延误 5 天，最合理的解释是：',o:['数据一定算错了','SPI 被非关键路径的提前完成拉高，关键路径延误仍会威胁完工日期','项目一定提前完工','关键路径不影响完工'],a:1,e:'SPI 是整体加权值，会掩盖关键路径问题；进度控制必须同时看关键路径、里程碑与浮动消耗。'}
+ ]},
+{abbr:'EAC', full:'Estimate At Completion', cn:'完工估算', cat:'成本',
+ def:'在当前绩效与已知条件下，项目全部完成时的预计总成本。',
+ calc:'① 偏差具代表性：EAC = BAC / CPI；② 按原预算继续：EAC = AC + (BAC − EV)；③ 原估算失效：EAC = AC + 自下而上的完工尚需估算。',
+ exam:'先看题目是否说明“按当前绩效继续”或“原假设已失效”，据此选公式；不要默认用 BAC/CPI。',
+ quiz:[
+  {q:'BAC=¥1,000,000，EV=¥250,000，AC=¥300,000，剩余工作按当前成本绩效继续，EAC 约为：',o:['¥1,050,000','¥1,200,000','¥1,000,000','¥900,000'],a:1,e:'CPI = 250,000/300,000 ≈ 0.833；EAC = 1,000,000 / 0.833 ≈ 1,200,000。'},
+  {q:'当原估算假设已完全失效时，最合适的 EAC 算法是：',o:['BAC/CPI','AC + 重新自下而上估算的剩余工作成本','BAC−EV','PV/CPI'],a:1,e:'原假设失效时不能按历史绩效外推，应重新估算剩余工作：EAC = AC + 新的 ETC。'}
+ ]},
+{abbr:'ETC', full:'Estimate To Complete', cn:'完工尚需估算', cat:'成本',
+ def:'从当前时点到项目完成，还需要投入多少成本。',
+ calc:'ETC = EAC − AC。若按原预算完成，ETC = BAC − EV。',
+ exam:'EAC 是“总数”，ETC 是“还要多少”，两者差一个 AC。题目问“还需多少预算”通常要 ETC。',
+ quiz:[
+  {q:'EAC=¥1,250,000，AC=¥500,000，则 ETC 为：',o:['¥750,000','¥1,250,000','¥500,000','¥1,750,000'],a:0,e:'ETC = EAC − AC = 1,250,000 − 500,000 = 750,000，即完成剩余工作还需 75 万。'},
+  {q:'ETC 与 EAC 的关系是：',o:['ETC = EAC + AC','EAC = AC + ETC','ETC = BAC − EAC','两者无关'],a:1,e:'完工估算 = 已花成本 + 尚需成本，即 EAC = AC + ETC。'}
+ ]},
+{abbr:'TCPI', full:'To-Complete Performance Index', cn:'完工尚需绩效指数', cat:'成本',
+ def:'为在既定预算（或既定 EAC）内完成剩余工作，剩余部分必须达到的成本效率。',
+ calc:'按 BAC 完工：TCPI = (BAC − EV) / (BAC − AC)；按 EAC 完工：TCPI = (BAC − EV) / (EAC − AC)。TCPI > 1 表示剩余工作必须比已完成的更高效。',
+ exam:'TCPI 常与 CPI 对比：若 CPI 已小于 1 而 TCPI 远大于 1，说明原预算已不可行，需要削减范围或追加预算。',
+ quiz:[
+  {q:'BAC=¥400,000，EV=¥100,000，AC=¥125,000，要求按原预算完工，TCPI 约为：',o:['0.80','1.09','1.25','0.91'],a:1,e:'TCPI = (400,000−100,000)/(400,000−125,000) = 300,000/275,000 ≈ 1.09，剩余工作必须比过去更高效。'},
+  {q:'TCPI 大于 1 意味着：',o:['过去成本节约','剩余工作必须提高成本效率才能守住预算','项目一定亏损','进度一定落后'],a:1,e:'TCPI>1 说明要按原预算完工，剩余每 1 元投入必须产出超过 1 元的预算价值，难度加大。'}
+ ]},
+{abbr:'EMV', full:'Expected Monetary Value', cn:'期望货币值', cat:'风险',
+ def:'用概率加权后的风险货币影响，把不确定性折算成一个可与成本比较的数值。',
+ calc:'EMV = 概率 × 影响（金额）。威胁取负值、机会取正值；多个风险可代数相加得到整体风险敞口，用于估算应急储备。',
+ exam:'常考“给概率和损失算 EMV”“汇总多个风险估算储备”。注意机会的 EMV 为正，可抵扣威胁敞口。',
+ quiz:[
+  {q:'某风险有 30% 概率造成 ¥200,000 损失，其 EMV 为：',o:['−¥60,000','−¥200,000','−¥30,000','+¥60,000'],a:0,e:'EMV = 30% × (−200,000) = −60,000。'},
+  {q:'项目有三项风险，EMV 分别为 −20,000、−15,000、+8,000，可用于估算应急储备的净敞口约为：',o:['27,000','35,000','43,000','8,000'],a:0,e:'负向合计 35,000，机会 +8,000 可抵扣，净敞口约 27,000，作为应急储备参考。'}
+ ]},
+{abbr:'NPV', full:'Net Present Value', cn:'净现值', cat:'成本',
+ def:'把项目未来各期现金流按折现率折算到今天后的净额，衡量项目在考虑资金时间价值后的财务可行性。',
+ calc:'NPV = Σ[现金流_t / (1+r)^t] − 初始投资。NPV > 0 通常可行；多方案比较时 NPV 越大越好。',
+ exam:'与回收期、IRR 对比考：回收期忽略回收后的收益与时间价值，IRR 是使 NPV 为零的折现率。',
+ quiz:[
+  {q:'在选择两个互斥方案时，最能反映资金时间价值的指标是：',o:['投资回收期','净现值（NPV）','总成本','内部收益率（IRR）'],a:1,e:'NPV 把全部现金流按折现率折算，直接反映价值增量；回收期忽略回收后的收益与时间价值。'},
+  {q:'NPV 大于 0 通常表示：',o:['项目一定会盈利','按给定折现率，项目收益超过资金成本，财务上可行','项目没有风险','回收期最短'],a:1,e:'NPV>0 说明按该折现率折算后收益大于投入，是投资可行的信号，但不代表没有风险。'}
+ ]},
+{abbr:'WBS', full:'Work Breakdown Structure', cn:'工作分解结构', cat:'范围',
+ def:'以可交付成果为导向、对项目范围进行层级分解的结构，最底层是工作包。',
+ calc:'遵循 100% 规则：子层之和必须完整覆盖父层范围，不重不漏。范围基准 = 范围说明书 + WBS + WBS 词典。',
+ exam:'常考“WBS 最底层是什么”“由谁编制”“100% 规则含义”。答案通常是工作包、团队共同编制、不重不漏。',
+ quiz:[
+  {q:'WBS 的最底层元素是：',o:['活动','工作包','里程碑','可交付成果'],a:1,e:'WBS 最底层是工作包，是估算成本与持续时间、分配责任的基础；活动是工作包进一步分解的结果。'},
+  {q:'WBS 的“100% 规则”指的是：',o:['必须分解到 100 个以上工作包','子层元素之和完整覆盖父层范围，不重不漏','必须覆盖 100% 的预算','必须由 100% 的团队成员参与'],a:1,e:'100% 规则要求分解完整且互斥，确保范围全覆盖，避免遗漏与重复计费。'}
+ ]},
+{abbr:'CPM', full:'Critical Path Method', cn:'关键路径法', cat:'进度',
+ def:'通过分析活动顺序与持续时间，找出决定项目最短工期的路径（总浮动为零）的方法。',
+ calc:'路径总时长最长者即关键路径；总浮动 = LS − ES = LF − EF。关键路径上任何延误都会直接推迟完工。',
+ exam:'常与“多条关键路径”“压缩工期应压哪条”结合考。压缩只能针对关键路径上的活动才有效。',
+ quiz:[
+  {q:'关键路径上的一项活动延误 3 天，且项目总浮动为零，结果是：',o:['没有影响','项目完工日期延后 3 天','只影响紧后活动','自动触发索赔'],a:1,e:'关键路径总浮动为零，其延误直接传导至完工日期，需压缩进度或提交变更。'},
+  {q:'要有效压缩项目总工期，应优先压缩：',o:['任意活动','非关键路径上浮动大的活动','关键路径上的活动','所有活动同时压缩'],a:2,e:'只有压缩关键路径上的活动才能缩短总工期；压缩非关键路径只会增加其浮动，不改变完工日期。'}
+ ]},
+{abbr:'PERT', full:'Program Evaluation and Review Technique', cn:'计划评审技术（三点估算）', cat:'进度',
+ def:'用乐观、最可能、悲观三个估计值来估算活动持续时间的方法，用于应对不确定性。',
+ calc:'贝塔分布（PERT 常用）：(O + 4M + P) / 6；三角分布：(O + M + P) / 3；标准差 ≈ (P − O) / 6。',
+ exam:'题目给出三个值先判断用哪个公式：说 PERT 或加权平均用贝塔，说三角分布用简单平均。',
+ quiz:[
+  {q:'某活动乐观 4 天、最可能 6 天、悲观 14 天，按 PERT 贝塔分布估算为：',o:['8 天','7 天','6 天','9 天'],a:0,e:'(4 + 4×6 + 14) / 6 = 42/6 = 8 天。'},
+  {q:'PERT 中标准差的计算方式是：',o:['(P − O) / 6','(P + O) / 2','(O + M + P) / 3','P − M'],a:0,e:'标准差 ≈ (悲观 − 乐观) / 6，用于衡量估算的不确定性范围。'}
+ ]},
+{abbr:'CCB', full:'Change Control Board', cn:'变更控制委员会', cat:'范围',
+ def:'由关键相关方组成、负责评审并批准或否决基准变更的正式决策机构。',
+ calc:'标准流程：提出变更请求 → 记录 → 全面影响分析 → CCB 审批 → 更新基准与计划 → 执行 → 通知相关方。',
+ exam:'常见错误项是“项目经理自行批准”“跳过 CCB 先做后补”。CCB 批的是基准变更，日常小调整按团队约定处理。',
+ quiz:[
+  {q:'关于 CCB，正确的说法是：',o:['由项目经理一人组成','由关键相关方组成，负责批准或否决基准变更','只审批成本变更','可以事后追认任何变更'],a:1,e:'CCB 由具备决策权的多方代表组成，评审基准变更；项目经理负责准备影响分析，不能单方面批准。'},
+  {q:'客户在项目中期提出增加三项功能，项目经理首先应：',o:['立即安排团队开发','提交变更请求并评估对范围、进度、成本、质量与风险的影响，再交 CCB 审批','以合同已签为由拒绝','记录下来放到下阶段再考虑'],a:1,e:'变更必须先评估影响再决策；直接开发属于范围蔓延，直接拒绝忽视价值，拖延则失去决策时机。'}
+ ]},
+{abbr:'RTM', full:'Requirements Traceability Matrix', cn:'需求跟踪矩阵', cat:'范围',
+ def:'把每个需求与业务目标、设计、开发、测试和最终交付物逐一对应起来的表格，确保需求被覆盖且可追溯。',
+ calc:'正向跟踪：需求 → 设计 → 代码 → 测试 → 交付；反向跟踪：交付物 → 需求来源，用于识别多余功能（镀金）。',
+ exam:'考“用什么工具确保需求不遗漏/可追溯”“如何发现镀金”，答案通常是 RTM。',
+ quiz:[
+  {q:'用于确保每个需求都能追溯到业务目标、设计与测试的工具是：',o:['需求跟踪矩阵（RTM）','WBS 词典','风险分解结构','责任分配矩阵'],a:0,e:'RTM 建立需求与其他工件的一一对应关系，防止遗漏，也便于识别无来源的多余功能。'},
+  {q:'通过反向跟踪（交付物 → 需求来源），最可能发现的问题是：',o:['进度延误','交付了未被要求的功能（镀金）','成本超支','质量缺陷'],a:1,e:'若某项交付物找不到对应需求来源，说明可能是未经批准的范围增加或镀金。'}
+ ]},
+{abbr:'RACI', full:'Responsible, Accountable, Consulted, Informed', cn:'责任分配矩阵', cat:'团队',
+ def:'用四种角色描述每项活动责任关系的矩阵：R 执行、A 最终负责、C 被咨询、I 被知会。',
+ calc:'每项活动只能有一个 A（最终问责），R 可以多人；C 与 I 按需设置，避免“人人负责等于无人负责”。',
+ exam:'常考“每项活动应有几个 A”，答案是唯一一个。A 与 R 可由同一人担任，但问责必须清晰。',
+ quiz:[
+  {q:'RACI 中“A（Accountable）”的正确要求是：',o:['每项活动可以有多个 A','每项活动只能有一个 A','A 必须由项目经理担任','A 与 R 不能是同一人'],a:1,e:'A 是最终负责人，必须唯一，否则出现责任分散与决策推诿；R 可多人执行。'},
+  {q:'团队成员被安排做具体工作，同时需要被定期告知进展，这两个角色分别是：',o:['R 与 I','A 与 C','C 与 I','R 与 C'],a:0,e:'做具体工作的是 R（Responsible），只需被告知的是 I（Informed）。'}
+ ]},
+{abbr:'RBS', full:'Risk Breakdown Structure', cn:'风险分解结构', cat:'风险',
+ def:'按风险来源层级归类（技术、外部、组织、项目管理等）的框架，用于系统识别与汇总风险。',
+ calc:'不涉及计算；按类别逐层展开，配合概率影响矩阵与风险登记册使用。',
+ exam:'别与 WBS（可交付成果）和 OBS（组织）混淆：RBS 是风险分类，用于提高识别的完整性。',
+ quiz:[
+  {q:'风险分解结构（RBS）的主要作用是：',o:['按可交付成果分解工作','按风险来源分类，帮助系统识别与汇总风险','按组织部门分配职责','计算风险货币值'],a:1,e:'RBS 按技术、外部、组织、项目管理等来源分层归类，使风险识别更系统，也便于汇总某类风险敞口。'},
+  {q:'下列关于 RBS 与 WBS 的区别，正确的是：',o:['两者都是范围分解工具','WBS 分解可交付成果，RBS 分类风险来源','RBS 用于成本估算','WBS 只用于风险'],a:1,e:'WBS 面向范围与交付物，RBS 面向风险来源，OBS 面向组织，三者用途不同。'}
+ ]},
+{abbr:'QA', full:'Quality Assurance', cn:'质量保证', cat:'质量',
+ def:'关注“过程是否按标准执行”的预防性活动，如质量审计、过程分析、过程改进。',
+ calc:'不涉及计算；核心是把质量做进过程（预防），而不是靠末端检验挑出缺陷。',
+ exam:'常与 QC 对比考：QA 管过程、预防；QC 管结果、检查。看到“审计流程是否遵循标准”就是 QA。',
+ quiz:[
+  {q:'以下哪项属于质量保证（QA）活动？',o:['对成品抽样检验','评审开发流程是否遵循组织标准','执行系统集成测试','修复生产缺陷'],a:1,e:'QA 关注过程遵循性与改进（审计、过程分析）；检验、测试、缺陷修复属于 QC。'},
+  {q:'QA 与 QC 的核心区别是：',o:['QA 关注结果，QC 关注过程','QA 关注过程与预防，QC 关注结果与检查','两者完全相同','QA 只做文档审查'],a:1,e:'QA 是过程导向、预防为主；QC 是结果导向、检查为主，两者互补。'}
+ ]},
+{abbr:'QC', full:'Quality Control', cn:'质量控制', cat:'质量',
+ def:'监督并记录质量活动结果、评估绩效并推荐纠正措施的过程，关注产品结果是否符合质量要求。',
+ calc:'常用工具：检查、控制图、抽样、帕累托图、因果图。控制图判异：超出 ±3σ 或连续 7 点同侧/趋势。',
+ exam:'“测试、检查、抽样、发现缺陷”都是 QC；QC 发现问题后常触发变更请求或返工。',
+ quiz:[
+  {q:'控制图显示连续 7 个点位于均值同一侧但未越界，应：',o:['视为正常，不需处理','视为过程存在系统性变化的失控信号，调查原因','立即调整控制界限','停止项目'],a:1,e:'连续 7 点同侧属非随机模式（失控信号），即使未越界也要调查系统性原因。'},
+  {q:'QC 与 QA 的关系是：',o:['QC 在前，QA 在后','QA 面向过程预防，QC 面向结果检查，二者互补','QC 只做文档审查','QA 可以替代 QC'],a:1,e:'QA 保证过程正确，QC 验证结果合格；缺少任何一方都会导致质量风险。'}
+ ]},
+{abbr:'SWOT', full:'Strengths, Weaknesses, Opportunities, Threats', cn:'态势分析', cat:'风险',
+ def:'从内部优势、劣势与外部机会、威胁四个维度分析项目或组织处境的方法，常用于识别风险与机会。',
+ calc:'不涉及计算；输出通常是四象限清单，并据此制定利用优势、弥补劣势、抓住机会、规避威胁的策略。',
+ exam:'SWOT 同时覆盖威胁（负面风险）与机会（正面风险），题目问“识别机会”时也可用它。',
+ quiz:[
+  {q:'SWOT 分析中的“O”和“T”分别指：',o:['目标与任务','机会与威胁','组织与技术','输出与时间'],a:1,e:'O = Opportunities（外部机会），T = Threats（外部威胁）；S/W 为内部优势与劣势。'},
+  {q:'团队希望同时识别项目面临的威胁与潜在机会，最适合的工具是：',o:['SWOT 分析','控制图','帕累托图','RACI 矩阵'],a:0,e:'SWOT 从内外四维度展开，能同时暴露负面风险与正面机会。'}
+ ]},
+{abbr:'SOW', full:'Statement of Work', cn:'工作说明书', cat:'采购',
+ def:'清晰描述被采购的范围、规格、数量、质量要求、交付时间与验收标准的文件，是卖方报价与验收的依据。',
+ calc:'不涉及计算；要求清晰、完整、可衡量，避免歧义导致范围争议与索赔。',
+ exam:'常考“SOW 应包含什么”“模糊的 SOW 会带来什么后果”。答案指向清晰可衡量的范围与验收标准。',
+ quiz:[
+  {q:'采购工作说明书（SOW）最应具备的特点是：',o:['尽量简短，留给卖方发挥','清晰、完整、可衡量地描述范围与验收标准','只写交付时间','直接引用内部流程文件'],a:1,e:'SOW 是报价与验收的共同依据，含糊会导致范围争议、返工与索赔。'},
+  {q:'SOW 描述不清最可能导致的直接后果是：',o:['采购流程变快','范围争议与索赔增加','供应商数量减少','质量标准提高'],a:1,e:'需求边界模糊时，双方对“该做什么”理解不同，容易产生变更争议与索赔。'}
+ ]},
+{abbr:'FFP', full:'Firm Fixed Price', cn:'固定总价合同', cat:'采购',
+ def:'价格在合同中固定、不随实际成本变化的合同类型，成本风险主要由卖方承担。',
+ calc:'买方支付固定总价；卖方实际成本低于合同价即为利润，超支则自担（除合同约定的调价情形）。',
+ exam:'适用范围明确、设计成熟的工作。卖方风险大，报价通常更高；范围变更需走合同变更。',
+ quiz:[
+  {q:'工作范围非常明确、设计图纸完整时，最合适的合同类型是：',o:['成本加固定费用合同','固定总价合同（FFP）','工料合同','成本加激励费用合同'],a:1,e:'范围明确时用固定总价，成本风险主要由卖方承担，买方价格确定性最高。'},
+  {q:'固定总价合同中，成本超支的主要承担方是：',o:['买方','卖方','双方平均','保险公司'],a:1,e:'FFP 下卖方以固定价格交付，实际成本超支由卖方承担（除合同约定的调价条款）。'}
+ ]},
+{abbr:'CPFF / CPIF', full:'Cost Plus Fixed Fee / Cost Plus Incentive Fee', cn:'成本加固定费用 / 成本加激励费用合同', cat:'采购',
+ def:'买方报销卖方实际成本并另付费用的合同类型：CPFF 费用固定；CPIF 费用随成本绩效浮动，形成节约激励。',
+ calc:'CPFF：总价 = 实际成本 + 固定费用。CPIF：费用 = 目标费用 + (目标成本 − 实际成本) × 卖方分成比例。',
+ exam:'范围不确定时用成本补偿类，买方承担主要成本风险。CPIF 比 CPFF 更有成本控制激励。',
+ quiz:[
+  {q:'工作范围难以精确界定、但希望激励卖方控制成本，最合适的合同是：',o:['固定总价合同','成本加激励费用合同（CPIF）','工料合同且无上限','总价加经济价格调整合同'],a:1,e:'范围不确定宜用成本补偿类；CPIF 通过费用随成本节约浮动，形成成本控制激励。'},
+  {q:'成本补偿类合同中，成本风险主要在：',o:['卖方','买方','双方平均','第三方'],a:1,e:'买方报销实际成本，因此承担主要成本超支风险，需加强审计与绩效审查。'}
+ ]},
+{abbr:'T&M', full:'Time and Material', cn:'工料合同', cat:'采购',
+ def:'按约定的单价与实际工时/材料用量计费的合同，兼具成本补偿与固定单价特征。',
+ calc:'结算金额 = 实际工时 × 单价 + 材料费；通常设置上限（Not-to-Exceed）以控制风险。',
+ exam:'适合小规模、范围不明确、需快速补充人力或材料的场景；无上限的 T&M 对买方风险很大。',
+ quiz:[
+  {q:'需要紧急补充少量专家人力、工作量难以预估时，最合适的合同是：',o:['固定总价合同','工料合同（T&M）','成本加固定费用合同','总价加激励费用合同'],a:1,e:'T&M 兼具灵活性与单价确定性，适合小规模、范围不清的补充资源；应设置费用上限。'},
+  {q:'工料合同设置“不超过上限（Not-to-Exceed）”的主要目的是：',o:['方便卖方报价','控制买方的成本风险','缩短合同周期','免除验收'],a:1,e:'按实结算容易失控，上限条款为买方提供成本封顶保护。'}
+ ]},
+{abbr:'DoD', full:'Definition of Done', cn:'完成定义', cat:'敏捷',
+ def:'团队对所有增量统一约定的质量门槛，说明“我们说完成时，必须包含哪些活动与标准”。',
+ calc:'无计算；典型内容：代码评审、单元/集成测试、文档更新、部署到测试环境、验收标准满足。',
+ exam:'与 AC（验收标准）区分：AC 针对单个故事的业务条件，DoD 是团队统一的质量底线，二者需同时满足。',
+ quiz:[
+  {q:'关于完成定义（DoD），正确的是：',o:['由项目经理单独制定','由团队共同约定并持续完善，是统一的质量门槛','只指编码完成','与验收标准是一回事'],a:1,e:'DoD 由团队共同制定并在回顾中优化，是每个增量都必须满足的质量底线。'},
+  {q:'DoD 与验收标准（AC）的关系是：',o:['两者相同','AC 针对单个故事的业务条件，DoD 是团队统一的质量门槛','DoD 只用于缺陷修复','AC 由团队制定、DoD 由客户制定'],a:1,e:'AC 回答“这个功能做对了吗”，DoD 回答“完成的定义包含哪些质量活动”，交付需两者都满足。'}
+ ]},
+{abbr:'DoR', full:'Definition of Ready', cn:'就绪定义', cat:'敏捷',
+ def:'条目进入迭代前必须满足的条件，确保需求足够清晰、可估算、可执行。',
+ calc:'无计算；典型条件：价值清晰、验收标准明确、依赖已确认、已估算、可在迭代内完成。',
+ exam:'DoR 是“入口门槛”，DoD 是“出口门槛”。题目问“避免迭代内返工/阻塞”时选 DoR。',
+ quiz:[
+  {q:'就绪定义（DoR）的主要作用是：',o:['定义产品何时上市','确保进入迭代的条目已具备可执行条件，减少返工与阻塞','规定代码规范','确定项目收尾条件'],a:1,e:'DoR 是迭代入口门槛：需求清晰、验收标准明确、依赖确认，才能避免迭代内返工。'},
+  {q:'DoR 与 DoD 的区别是：',o:['DoR 是出口标准，DoD 是入口标准','DoR 是入口标准，DoD 是出口标准','两者都是出口标准','两者都不需要团队参与'],a:1,e:'DoR 管“能不能开始做”，DoD 管“做成什么样才算完成”。'}
+ ]},
+{abbr:'MVP', full:'Minimum Viable Product', cn:'最小可行产品', cat:'敏捷',
+ def:'用最小成本交付、足以验证核心价值假设并获取真实反馈的产品版本。',
+ calc:'无计算；本质是“最小范围 + 可发布 + 可验证”，不是“功能残缺的半成品”。',
+ exam:'常与 MMF（最小可售功能）、原型对比：MVP 面向市场验证，原型面向设计澄清。',
+ quiz:[
+  {q:'为尽早验证市场对新功能的接受度，团队应优先：',o:['一次性交付完整功能集','交付最小可行产品（MVP）并基于反馈迭代','先完成详细设计文档','只做内部原型不发布'],a:1,e:'MVP 用最小成本获取真实用户反馈，降低试错成本；完整交付会让反馈来得太晚。'},
+  {q:'MVP 与原型的主要区别是：',o:['两者完全相同','MVP 是可发布给真实用户的最小产品，原型多用于设计验证','MVP 不面向用户','原型必须上线'],a:1,e:'MVP 面向真实市场验证价值假设；原型用于澄清需求与设计，可能不发布。'}
+ ]},
+{abbr:'WIP', full:'Work In Progress', cn:'在制品', cat:'敏捷',
+ def:'同时处于进行中状态的工作项数量。WIP 越多，排队与上下文切换越严重，周期时间越长。',
+ calc:'利特尔法则：平均周期时间 ≈ 平均在制品数量 ÷ 平均吞吐量。降低 WIP 可缩短周期时间。',
+ exam:'看板题常考“某列堆积怎么办”：答案通常是设置并执行 WIP 限制、暴露瓶颈，而不是简单加人。',
+ quiz:[
+  {q:'看板团队发现“测试”列长期堆积、周期时间变长，最有效的做法是：',o:['增加开发人员提高吞吐','为各列设置并执行 WIP 限制，暴露瓶颈并倒逼上游改进','把测试整体外包','减少测试环节'],a:1,e:'WIP 限制能让瓶颈显性化，推动流程改进；只加上游人员会让堆积更严重。'},
+  {q:'根据利特尔法则，在吞吐量不变的情况下降低在制品数量，会：',o:['延长周期时间','缩短周期时间','不影响周期时间','提高缺陷率'],a:1,e:'周期时间 ≈ WIP ÷ 吞吐量，WIP 降低则周期时间缩短。'}
+ ]},
+{abbr:'CFD', full:'Cumulative Flow Diagram', cn:'累计流图', cat:'敏捷',
+ def:'按状态展示各类工作项数量随时间累积的图，用于观察在制品分布、瓶颈与流动效率。',
+ calc:'各状态带的垂直宽度 = 该状态当前在制品数量；带宽持续变宽说明堆积；斜率 = 吞吐量。',
+ exam:'常考“某条带越来越宽说明什么”：答案是该环节积压、存在瓶颈。',
+ quiz:[
+  {q:'累计流图中“待测试”带持续变宽，说明：',o:['需求太少','测试环节成为瓶颈，上游产出无法及时验证','团队人数不足','客户不验收'],a:1,e:'带宽代表该状态的在制品数量，持续变宽说明积压，瓶颈位于该环节。'},
+  {q:'累计流图中某状态带的斜率反映：',o:['该状态的吞吐速度','项目的利润率','风险大小','团队人数'],a:0,e:'斜率反映单位时间内通过该状态的工作量，即吞吐速度；斜率变平说明流动变慢。'}
+ ]},
+{abbr:'WSJF', full:'Weighted Shortest Job First', cn:'加权最短作业优先', cat:'敏捷',
+ def:'按“单位工作量能带来多少价值”排序待办项的方法，用于在容量有限时最大化交付价值。',
+ calc:'WSJF = 延迟成本（业务价值 + 时间紧迫性 + 风险降低/机会）÷ 工作量（规模或工期）。数值越大越优先。',
+ exam:'常与 MoSCoW 对比：WSJF 是定量排序，MoSCoW 是粗分类。题目出现“价值/工期比”就是 WSJF。',
+ quiz:[
+  {q:'需要按“价值、时间紧迫性与工作量”综合排序需求，最适合的方法是：',o:['MoSCoW','加权最短作业优先（WSJF）','随机排序','按提出时间排序'],a:1,e:'WSJF = 延迟成本 ÷ 工作量，能定量排出“性价比”最高的顺序，优先交付高价值低成本项。'},
+  {q:'某需求 WSJF 得分最高，意味着：',o:['它的工作量最大','它单位工作量带来的延迟成本最高，应优先做','它的风险最高','它一定最简单'],a:1,e:'WSJF 高表示相对于投入的工作量，延迟成本更大，因此应排在最前。'}
+ ]},
+{abbr:'INVEST', full:'Independent, Negotiable, Valuable, Estimable, Small, Testable', cn:'用户故事质量准则', cat:'敏捷',
+ def:'判断一个用户故事是否优质的六条标准：独立、可协商、有价值、可估算、足够小、可测试。',
+ calc:'无计算；用于故事编写与评审时的自检清单。',
+ exam:'常把六个词作为选项考“哪个不属于 INVEST”，注意它不是优先级方法。',
+ quiz:[
+  {q:'下列哪一项不属于 INVEST 准则？',o:['可估算（Estimable）','可测试（Testable）','可追溯（Traceable）','足够小（Small）'],a:2,e:'INVEST = 独立、可协商、有价值、可估算、足够小、可测试；“可追溯”属于需求跟踪矩阵的范畴。'},
+  {q:'一个故事“大到无法在一个迭代内完成”，违反了 INVEST 的哪条准则？',o:['独立','有价值','足够小（Small）','可协商'],a:2,e:'故事应足够小以便在一个迭代内完成，否则需要按价值或流程拆分。'}
+ ]},
+{abbr:'DEEP', full:'Detailed appropriately, Estimated, Emergent, Prioritized', cn:'产品待办列表特征', cat:'敏捷',
+ def:'优质产品待办列表的四个特征：详略得当、已估算、持续涌现、已按优先级排序。',
+ calc:'无计算；强调待办列表是“活”的，需持续梳理（Refinement）。',
+ exam:'常与 INVEST（故事质量）、DoR（入口条件）区分：DEEP 描述整个待办列表的属性。',
+ quiz:[
+  {q:'DEEP 描述的是：',o:['单个用户故事的质量','产品待办列表应具备的特征','团队的角色分工','迭代评审的流程'],a:1,e:'DEEP = 详略得当、已估算、涌现式、已排序，是对整个产品待办列表的要求。'},
+  {q:'“待办列表顶部条目详细、底部条目粗略”体现了 DEEP 的哪一特征？',o:['Detailed appropriately（详略得当）','Estimated（已估算）','Emergent（涌现）','Prioritized（已排序）'],a:0,e:'近期要做的条目应细化，远期条目保持粗粒度，随优先级上升再细化。'}
+ ]},
+{abbr:'CI / CD', full:'Continuous Integration / Continuous Delivery (Deployment)', cn:'持续集成 / 持续交付（部署）', cat:'敏捷',
+ def:'CI 指频繁合并代码并自动构建测试；CD 指保持随时可发布（持续交付）或自动发布到生产（持续部署）。',
+ calc:'无计算；关键是缩短反馈周期、把质量内建到流水线中。',
+ exam:'常考“集成问题总在末期爆发怎么办”：答案是持续集成 + 接口契约 + 早期联合验证。',
+ quiz:[
+  {q:'团队每天多次合并代码并自动构建测试，这属于：',o:['持续集成（CI）','持续部署','结对编程','重构'],a:0,e:'CI 强调频繁合并与自动化验证，尽早发现集成冲突与缺陷。'},
+  {q:'持续交付与持续部署的主要区别是：',o:['两者完全相同','持续交付保证随时可发布（需人工批准上线），持续部署自动发布到生产','持续交付只做构建','持续部署不需要测试'],a:1,e:'持续交付把发布能力常态化、由业务决定何时上线；持续部署进一步自动化到生产。'}
+ ]},
+{abbr:'TDD', full:'Test-Driven Development', cn:'测试驱动开发', cat:'敏捷',
+ def:'先写一个失败的自动化测试，再写最少代码使其通过，最后重构的开发实践（红—绿—重构）。',
+ calc:'无计算；产出是可回归的测试资产与更清晰的设计。',
+ exam:'常与“质量内建”“缺陷预防”结合考：TDD 让缺陷在编码阶段即被发现。',
+ quiz:[
+  {q:'“先写失败的测试，再写最小实现使其通过，最后重构”描述的是：',o:['行为驱动开发（BDD）','测试驱动开发（TDD）','探索性测试','静态代码分析'],a:1,e:'TDD 的红—绿—重构循环把需求转化为可执行测试，提升设计质量并预防缺陷。'},
+  {q:'TDD 对项目质量的最大价值在于：',o:['减少测试人员数量','把质量内建到编码过程，形成可回归的测试资产','替代用户验收测试','缩短文档编写时间'],a:1,e:'TDD 让缺陷在编码阶段暴露，并沉淀可重复执行的回归测试，是质量内建的核心实践。'}
+ ]},
+{abbr:'SBI', full:'Situation, Behavior, Impact', cn:'情境—行为—影响反馈模型', cat:'团队',
+ def:'一种结构化反馈方法：描述具体情境、可观察的行为及其造成的影响，避免评价人格。',
+ calc:'无计算；句式示例：“昨天评审会上你三次打断客户发言（情境+行为），导致客户不再提问（影响），下次可以先记录再统一回应（建议）”。',
+ exam:'常考“如何给团队成员提负面反馈”：答案是用 SBI、私下、具体、面向改进。',
+ quiz:[
+  {q:'“昨天评审会上你三次打断客户发言，导致客户不再提问”，这句话运用的是：',o:['SBI 反馈模型','SMART 目标','GROW 模型','RACI 矩阵'],a:0,e:'该表述包含情境（评审会）、可观察行为（打断发言）与影响（客户不再提问），属于 SBI。'},
+  {q:'SBI 反馈相比“你太不专业了”，主要优势是：',o:['更简短','聚焦可观察事实与影响，减少防御心理','更委婉但含糊','不需要提出改进建议'],a:1,e:'SBI 用事实与影响代替人格评价，让接收者更容易接受并明确改进方向。'}
+ ]},
+{abbr:'GROW', full:'Goal, Reality, Options, Will', cn:'教练对话模型', cat:'团队',
+ def:'教练式对话的四步结构：明确目标、厘清现状、探索选项、确认行动意愿。',
+ calc:'无计算；核心是通过提问激发思考，而不是直接给答案。',
+ exam:'常考“成员来问怎么办，教练式领导应如何回应”：答案是先提问引导，而非直接给方案。',
+ quiz:[
+  {q:'用 GROW 模型辅导成员时，第一步应聚焦：',o:['直接给出解决方案','明确他想达成的目标','分析技术细节','替他做决定'],a:1,e:'GROW 依次为 Goal（目标）→ Reality（现状）→ Options（选项）→ Will（行动），先厘清目标才有方向。'},
+  {q:'成员带着问题来请示“我该怎么做”，教练式领导最恰当的回应是：',o:['直接给出详细步骤','先提问引导其分析选项与影响，共同得出结论','让其自行查资料','替他完成这项工作'],a:1,e:'提问能激发思考与责任感，避免形成依赖；直接给答案虽快，但抑制成长。'}
+ ]},
+{abbr:'OPA / EEF', full:'Organizational Process Assets / Enterprise Environmental Factors', cn:'组织过程资产 / 事业环境因素', cat:'商业',
+ def:'OPA 是组织内部可复用的过程、模板、政策与知识库（可借鉴、可更新）；EEF 是项目所处的内外部环境条件（通常不可控，需适应）。',
+ calc:'无计算；判断要点：来自组织积累、可被项目使用或更新的是 OPA；外部或组织层面给定、项目难以改变的是 EEF。',
+ exam:'高频分类题：模板、历史数据、经验教训库 → OPA；法规、市场、组织文化、基础设施 → EEF。',
+ quiz:[
+  {q:'组织已有的项目模板与历史项目数据属于：',o:['事业环境因素（EEF）','组织过程资产（OPA）','项目文件','商业论证'],a:1,e:'模板、流程、历史数据与知识库属 OPA，是可复用、可更新的内部资产。'},
+  {q:'行业监管法规与市场行情属于：',o:['OPA','EEF','项目章程','风险登记册'],a:1,e:'法规与市场属外部环境条件，项目通常无法改变，只能适应，因此是 EEF。'}
+ ]},
+];
+let termFilter = { q:'', cat:'全部' };
+
+function termQuizHtml(t, ti){
+  return '<div class="tquiz"><div class="tq">典型考察题（'+t.quiz.length+' 题）</div>'+
+    t.quiz.map((item, qi)=>'<div class="tqitem" data-t="'+ti+'" data-q="'+qi+'">'+
+      '<div class="tqstem">'+(qi+1)+'. '+item.q+'</div>'+
+      item.o.map((o, oi)=>'<div class="tqopt" data-o="'+oi+'"><span>'+'ABCD'[oi]+'</span><span>'+o+'</span></div>').join('')+
+      '<div class="tqexp">正确答案：'+'ABCD'[item.a]+'　'+item.e+'</div>'+
+    '</div>').join('')+'</div>';
+}
+function renderTerms(){
+  const list = $('termList'); if(!list) return;
+  const q = (termFilter.q||'').trim().toLowerCase();
+  const cat = termFilter.cat;
+  const items = TERMS.filter(t=>{
+    if(cat !== '全部' && t.cat !== cat) return false;
+    if(!q) return true;
+    return (t.abbr+' '+t.full+' '+t.cn).toLowerCase().indexOf(q) >= 0;
+  });
+  list.innerHTML = items.map(t=>{
+    const i = TERMS.indexOf(t);
+    return '<div class="titem" data-i="'+i+'">'+
+      '<div class="thead"><b>'+t.abbr+'</b><span class="tfull">'+t.full+'</span><span class="tcn">'+t.cn+'</span><span class="tcat">'+t.cat+'</span></div>'+
+      '<div class="tbody">'+
+        '<div class="tsec"><h4>释义</h4><p>'+t.def+'</p></div>'+
+        (t.calc ? '<div class="tsec calc"><h4>计算逻辑</h4><p>'+t.calc+'</p></div>' : '')+
+        '<div class="tsec exam"><h4>考试要点</h4><p>'+t.exam+'</p></div>'+
+        termQuizHtml(t, i)+
+      '</div></div>';
+  }).join('');
+  $('termEmpty').style.display = items.length ? 'none' : 'block';
+}
+function renderTermChips(){
+  const box = $('termChips'); if(!box) return;
+  const cats = ['全部'].concat([...new Set(TERMS.map(t=>t.cat))]);
+  box.innerHTML = cats.map(c=>'<span class="tchip'+(c===termFilter.cat?' on':'')+'" data-cat="'+c+'">'+c+'</span>').join('');
+}
+
 /* ---------------- 划词查词：本地术语库 + 联网补充 ---------------- */
 const GLOSSARY = {
 '挣值管理':'用货币衡量进度与成本绩效的方法：比较已完成工作的预算价值（EV）、计划价值（PV）与实际成本（AC），得出偏差与绩效指数。',
@@ -5391,6 +5815,34 @@ $('btnContinue').onclick=()=>{ showScreen('scQuiz'); render(); window.scrollTo({
 $('btnRestart').onclick=()=>{ clearSave(); location.reload(); };
 $('btnBackHome').onclick=()=>{ stopTimer(); showScreen('scIntro'); };
 $('btnPrint').onclick=()=>window.print();
+
+/* 术语速查事件 */
+$('btnTermsEntry').onclick=()=>{ showScreen('scTerms'); renderTermChips(); renderTerms(); window.scrollTo({top:0,behavior:'smooth'}); };
+$('btnTermsBack').onclick=()=>{ showScreen('scIntro'); window.scrollTo({top:0,behavior:'smooth'}); };
+$('termSearch').addEventListener('input', e=>{ termFilter.q = e.target.value; renderTerms(); });
+$('termChips').addEventListener('click', e=>{
+  const c = e.target.closest('.tchip'); if(!c) return;
+  termFilter.cat = c.dataset.cat; renderTermChips(); renderTerms();
+});
+$('termList').addEventListener('click', e=>{
+  const opt = e.target.closest('.tqopt');
+  if(opt){
+    const wrap = opt.closest('.tqitem');
+    if(!wrap || wrap.dataset.done) return;
+    const ti = +wrap.dataset.t, qi = +wrap.dataset.q;
+    const item = TERMS[ti].quiz[qi], chose = +opt.dataset.o;
+    wrap.dataset.done = '1';
+    Array.from(wrap.querySelectorAll('.tqopt')).forEach((el, idx)=>{
+      if(idx === item.a) el.classList.add('ok');
+      else if(idx === chose) el.classList.add('no');
+      el.style.cursor = 'default';
+    });
+    wrap.querySelector('.tqexp').classList.add('show');
+    return;
+  }
+  const head = e.target.closest('.thead');
+  if(head) head.parentElement.classList.toggle('open');
+});
 
 /* 划词查词事件 */
 $('lookupTip').addEventListener('mousedown', e=>e.preventDefault());
