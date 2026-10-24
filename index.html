@@ -313,7 +313,7 @@ ul.notice li{margin:5px 0}
 
       <h2 style="margin-top:20px">考试说明</h2>
       <ul class="notice">
-        <li>每套 180 题，配比对齐考纲：<b>人员约 42% / 流程约 50% / 商业环境约 8%</b>；A/B/C 三套题互不重复，合计 540 题。</li>
+        <li>每套 180 题，按 <b>2026 版 ECO 配比</b>组卷：<b>人员 33%（59 题）/ 过程 41%（74 题）/ 业务环境 26%（47 题）</b>。A、B 两套互不重复；C 卷当前有部分题目与 A/B 重叠（业务环境与过程题量尚不足），重叠数量在试卷卡片上标注。</li>
         <li>交卷后自动生成<b>错题诊断</b>：按知识点标签统计错误次数，可一键生成「薄弱知识点专项」「错题重练」与领域专项练习。</li>
         <li>240 分钟，平台按第 60、120 题分段提示休息（<b>平台练习分段，非官方强制规则</b>），休息期间计时暂停。</li>
         <li>全部为情境化单选题，考察“先判断情境、再选最合适行动”的 PMI 思维，含敏捷、混合生命周期与挣值计算。</li>
@@ -3362,7 +3362,7 @@ const QUESTIONS = [
 {
  paper:'B', domain:'business', tag:'市场窗口',
  stem:'产品原计划 6 个月后完整上线，竞争对手将在 3 个月后发布同类产品，客户希望抢占窗口期。项目经理应建议：',
- options:['保持原范围与节奏，用完整功能形成差异化竞争','先交付最小可售功能抢占窗口，其余功能随后续版本迭代','压缩测试与验收环节，把完整功能提前到 3 个月上线','与客户重新谈判上线日期，把竞争压力转化为范围调整'],
+ options:['保持原范围与节奏，用完整功能形成差异化竞争','先交付最小可售功能抢占窗口，其余功能随后续版本迭代','压缩测试与验收环节，把完整功能提前到 3 个月上线','要求团队通过加班赶工，把完整功能提前到 3 个月上线'],
  answer:1,
  exp:'市场窗口属于商业环境约束：用最小可售功能先交付核心价值，既抓住时机又保留后续演进空间，是范围与时间的正当取舍。',
  why:['完整功能 6 个月后才面世，窗口期已过，差异化无从体现。','正确。MMF 先交付核心价值，其余功能按迭代补充，兼顾窗口与质量。','压缩测试与验收是用质量换时间，上线后故障成本更高。','重新谈判日期只是把决策推后，并未解决窗口期问题。']
@@ -4609,7 +4609,7 @@ const QUESTIONS = [
 {
  paper:'C', domain:'business', tag:'价格竞争',
  stem:'竞争对手降价 20%，客户要求同步降价否则转投他人。合同尚未签署，项目毛利本已偏低。项目经理首先应：',
- options:['核对客户降价诉求背后的决策标准，测算各方案对成本、质量与交付的影响','接受降价，并要求团队压缩测试与文档工作量以维持原有毛利','拒绝降价并援引公司价格政策，等待客户重新评估选择','把降价请求提交变更控制委员会，按变更流程审议'],
+ options:['核对客户降价诉求背后的决策标准，量化各方案的影响','接受降价，并要求团队压缩测试与文档工作量以维持原有毛利','拒绝降价并援引公司价格政策，等待客户重新评估选择','把降价请求提交变更控制委员会，按变更流程审议'],
  answer:0,
  exp:'价格压力应回到价值与成本结构：先弄清客户真正的决策标准（总拥有成本、交付风险、服务），再用量化方案支撑取舍，而不是直接让价或关闭对话。',
  why:['正确。先了解决策标准并量化影响，才能在保价值的前提下提出可接受的商务方案。','压缩测试与文档是用质量换价格，短期保住毛利，长期抬高失败成本。','直接拒绝会关闭协商空间，也未回应客户的真实顾虑。','价格与商务条款尚未形成基准，不属于 CCB 的基准变更范畴。']
@@ -4735,17 +4735,86 @@ const ECO_RULES = [
   ['PE3',['领导','授权','自组织','团队','绩效','激励','认可','心理安全','信任','辅导','教练','培训','技能','能力','技能矩阵','流失','转岗','弹性','多代际','驻场','外包团队','部门孤岛','跨团队','情绪','情商','倾听','反馈','SBI','GROW','面子','非语言','多样性','包容','角色','决策','基本规则','工作协议','团队章程','虚拟','远程','跨时区','跨职能','入职','文化融合']],
   ['PR1',['项目管理计划','项目文件','PMIS','渐进明细','计划批准','计划编制','健康检查','阶段评审','假设日志','数据收集','引导式研讨会','决策技术','群体决策','问题解决','问题日志','章程']]
 ];
-QUESTIONS.forEach(q=>{
-  q.legacyDomain = q.legacyDomain || q.domain;
-  const tag = q.tag || '';
-  let task = null;
+/* ---- 逐题 ECO 确认表（人工判定，540 项）----
+   设计原则：
+   1) 每题以显式任务码保存在 q.eco，ecoStatus 为 confirmed / review；
+   2) 关键词规则 ECO_RULES 仅生成“建议值” q.ecoGuess，只用于审计比对，不再决定归属；
+   3) 无显式值时不回退到 PE3/PR1/BE1，而是标记 review 并保留原领域。*/
+const ECO_CONFIRMED = (
+  'PE2 PE8 PE8 PE3 PE4 PE3 PE3 PE3 PE3 PE3 BE4 PE3 PE8 PE3 PE3 PE3 BE6 PE3 PE3 PE6 PE3 PE7 ' /* 0-21 */ +
+  'BE3 PR6 PR6 PR8 PR8 BE5 BE5 BE5 PR2 PR1 PR7 PR7 PR5 PR2 PR2 PR2 PR10 PR3 PR3 PR3 PR9 PR8 PR1 BE3 PR9 PR2 PR8 PR4 PR9 BE4 PR3 ' /* 22-52 */ +
+  'BE2 BE7 BE8 PR3 BE2 ' /* 53-57 */ +
+  'PE2 PE2 PE2 PE8 PE8 PE4 PE4 PE4 PE3 PE3 PE3 PE3 PE3 PE3 PE3 PE3 PE8 PE8 PE3 PE3 PE3 PE3 PE3 PE3 PE3 PE3 PR4 PR4 PE3 PR4 PE3 PE3 PE3 PE3 PE3 PE8 PE3 PE3 PE8 PE8 PE3 BE4 PE3 PR7 PE2 PE8 PE3 PE3 PE3 PE3 PE3 PE5 PE7 BE6 ' /* 58-111 */ +
+  'PR8 PR6 PR6 PR6 BE5 BE5 BE5 BE5 BE5 BE5 BE5 BE5 BE5 PR7 PR7 PR7 PR7 PR7 PR7 PR7 PR7 PR5 PR5 PR5 PR5 PR5 PR5 PR5 PR5 PR5 BE5 PR2 PR2 PR2 PR2 PR3 PR8 PR8 PR1 PR3 PR8 PR8 PR1 BE3 BE3 PR1 PR7 PR7 PR7 PR2 PR2 PR9 PR6 PR6 PR1 PR10 PE7 PR8 PR1 BE1 BE1 BE8 BE2 BE2 BE2 BE2 BE2 BE2 ' /* 112-179 */ +
+  'PE2 PE3 PE3 PE8 PE3 PE3 PE4 PE3 PE3 PE3 PE3 PE3 PE8 PE8 PE3 PE3 PE3 PE8 PR4 PE3 PE3 PE5 PE2 PE7 PE7 PE3 PE3 PE8 PE3 PE3 PE3 PE3 PE7 PE5 PE3 PR4 PE3 PE3 PE4 PE3 PE3 PE3 PE3 BE2 PE3 PE1 PE8 PE5 PE3 PE3 PE3 PE3 BE8 BE5 PE3 BE6 PE3 BE8 PE3 PE3 PE3 PE2 PE3 PE7 PR8 PE3 PE8 PE3 PE6 PE3 PR4 PE3 PE8 PE3 PE3 BE6 ' /* 180-255 */ +
+  'BE3 BE3 BE3 PR2 BE5 BE5 BE5 BE5 PR7 PR7 PR7 PR5 PR8 PR6 PR6 PR7 PE8 PE8 PE4 PE4 BE5 BE5 BE5 BE5 PR8 PR8 PR6 PR6 PR5 PR5 PR1 PR2 PR2 PR2 PR9 PR1 PR1 PR3 PR9 PE8 PR8 PR8 PR5 PR2 PR7 PR1 PR1 PR9 BE3 PR10 PR2 PR2 PR3 PR8 BE3 PR7 PR7 PE8 BE5 PR5 PR9 PR9 PR6 PR4 PR7 PR3 PR7 PR7 PR5 BE7 BE1 PR3 PR9 PR5 PR5 PR2 PR3 BE5 PR7 PE8 PR8 PR6 BE1 PR10 PR4 PR3 PR10 PR1 PR8 BE5 BE8 BE1 BE2 BE2 BE2 BE2 BE7 BE2 PR3 BE8 BE2 BE2 BE2 BE8 ' /* 256-359 */ +
+  'BE7 BE2 BE1 BE7 PE3 PE3 PE2 PE4 PE8 PE3 BE2 PE2 PR7 PE4 PE5 BE2 PR8 PE3 PE3 PE3 BE7 PE3 PE8 PE3 PE3 BE2 PE3 BE1 PE3 PE8 PE2 PE6 PE7 PE3 PE8 PE3 PE2 BE7 BE7 PE8 PE3 PR4 BE7 PE3 PE3 PE8 PE3 PE7 BE8 PE1 PE3 PE3 PE3 PE3 PE8 PR4 PE5 PE3 PE7 PE2 PE3 PE3 BE2 PE3 PE2 PE7 BE4 PE3 PE8 PE3 PE6 PE7 BE4 BE6 PE4 PE3 ' /* 360-435 */ +
+  'PR3 PR2 BE3 PR2 PR2 PR8 PR8 PR4 PR8 PE8 PE8 PE8 PE8 PR2 PE4 PE8 PE8 PR7 PR7 PR7 PR7 PR7 PR7 PR7 PR7 PR6 PR6 PR6 PR6 PR8 BE5 BE5 BE5 BE5 BE5 BE4 PR5 PR5 PR5 PR5 PR5 PR5 PR6 PE4 PE4 PR2 PR1 PR1 BE3 BE3 BE1 PE7 PR9 PR10 PR1 PE3 PR3 BE6 PR9 PR9 BE5 PE7 PR3 PR7 PR7 PR7 PR3 PR9 PR1 PR5 PR3 PE3 PR1 PR1 PR1 PR1 PR1 BE4 PE3 PE8 PR3 BE5 PR9 PR10 BE1 BE3 PR1 PR9 PR1 BE4 BE8 BE1 BE2 BE2 BE8 BE8 BE8 BE8 BE8 BE2 BE8 PR3 BE7 BE2 ' /* 436-539 */
+).trim().split(/\s+/);
+const ECO_REVIEW_IDX = new Set([1,2,10,19,42,56,69,87,147,148,162,171,175,226,238,244,270,281,292,297,321,340,342,387,402,449,499,516,520,537]);
+
+function ecoGuessOf(tag){
+  const t = tag || '';
   for(const [id, keys] of ECO_RULES){
-    if(keys.some(k=>tag.indexOf(k)>=0)){ task = id; break; }
+    if(keys.some(k=>t.indexOf(k)>=0)) return id;
   }
-  if(!task) task = q.domain==='people' ? 'PE3' : q.domain==='process' ? 'PR1' : 'BE1';
-  q.ecoTask = task;
-  q.domain = ECO_TASKS[task].d;
+  return null;
+}
+
+if(ECO_CONFIRMED.length !== QUESTIONS.length){
+  console.error('ECO_CONFIRMED 长度与题库不一致：', ECO_CONFIRMED.length, QUESTIONS.length);
+}
+
+QUESTIONS.forEach((q,i)=>{
+  q.legacyDomain = q.legacyDomain || q.domain;
+  q.ecoGuess = ecoGuessOf(q.tag);                 /* 关键词建议，仅审计用 */
+  const fixed = ECO_CONFIRMED[i] || null;
+  if(fixed && ECO_TASKS[fixed]){
+    q.eco = fixed;
+    q.ecoStatus = ECO_REVIEW_IDX.has(i) ? 'review' : 'confirmed';
+    q.domain = ECO_TASKS[fixed].d;
+  }else{
+    q.eco = null;
+    q.ecoStatus = 'review';
+  }
+  q.ecoTask = q.eco || q.ecoGuess || null;        /* 兼容旧字段 */
 });
+/* 审计：关键词建议与人工确认的差异（关键词误判率） */
+const ECO_DIFF = QUESTIONS.filter(q=>q.ecoGuess && q.eco && q.ecoGuess!==q.eco);
+const ECO_UNMAPPED = QUESTIONS.filter(q=>!q.eco);
+
+/* ---------------- 存量改写（第二子批：BE4×5 / BE6×3 / PE6×2）----------------
+   改写以“覆盖字段”的方式应用，原题干与选项仍保留在题库数组中可追溯；
+   每题均给出 4 条专属逐项解析（why），不再依赖关键词规则生成。*/
+const REWRITE_B2 = {"51":{"stem":"项目现场一台关键设备突发故障，可能导致本周交付延误。项目经理首先应：","options":["联系供应商要求立即更换设备，并同步通知客户延期","更新风险登记册，把设备故障列为已发生风险并跟踪","组织现场人员自主排查，确认无法修复后再联系供应商","登记为问题，指定责任人与期限，评估对交付的影响"],"answer":3,"exp":"已发生的负面事件属于“问题”，应进入问题日志（Issue Log）并指定负责人、解决期限与升级路径；同时评估对项目目标的影响，据此决定处置方案。这与尚未发生的“风险”是两套不同机制。","why":["立即联系供应商并通知客户延期，跳过了影响评估与内部决策，可能造成不必要的商务承诺。","记入风险登记册会与问题管理混淆：事件已发生，不再是概率性风险，处置责任容易落空。","自主排查可能加快恢复，但未先登记问题与评估影响，处置过程不可追溯、也无明确责任人。","正确。已发生的负面事件应进入问题日志，明确责任人与解决期限，并评估对目标的影响，再据此选择处置方案。"]},"99":{"stem":"开发与运维就上线责任边界反复推诿，发布已延误两周。项目经理首先应：","options":["上报双方共同上级，由管理层裁定责任归属","在例会上重申上线日期，要求双方各承担一半工作","召集双方梳理上线流程，明确职责、接口与交接标准","由项目团队直接接管运维方的上线操作与值班安排"],"answer":2,"exp":"跨团队推诿通常源于职责与接口不清。项目经理应先推动双方共同定义职责矩阵（RACI）、接口与交接标准，并建立共同目标，从机制上消除互相等待的空间。","why":["升级能快速定责，但在职责边界本身未澄清前裁定，问题会在下一个接口再次出现。","简单分摊工作量不改变边界模糊，双方仍会在交界处互相等待。","正确。推诿多源于职责与接口不清，先共同定义职责、接口与交接标准，才能消除复发。","接管他人职责会打乱既有运维体系，也超出项目经理的授权范围。"]},"111":{"stem":"回顾会每次都能列出改进项，但连续三次都没有落实。最有效的纠正是：","options":["把改进项写入项目管理计划，由管理层按月检查落实情况","由项目经理统一承接全部改进项，确保每项都有人负责","只保留少量改进项，明确责任人与验收标准，下期先验收","降低回顾会频次，改为每季度集中讨论并落实改进"],"answer":2,"exp":"改进要闭环：每次只选少量可执行项，指定责任人与验收标准，并在下次回顾会首先检视上期行动项，形成 PDCA 循环；否则回顾会会失去团队信任。","why":["写入计划能提高可见性，但若不指定责任人与验收节点，仍会停留在文档层面。","由项目经理独揽会让改进脱离团队，且产能有限，反而拖延。","正确。控制数量、明确责任人与验收标准、下期先验收，是让改进真正落地的最小闭环。","降低频次会削弱反馈节奏，问题积累更久才被处理，团队也更难形成改进习惯。"]},"255":{"stem":"一名成员多次提出流程改进建议均未被采纳，现已不再提建议。项目经理应：","options":["与其单独沟通，说明当前建议未被采纳的具体原因","建立建议登记、评估与反馈机制，公开采纳结果并给试点机会","请其按正式变更流程提交，由变更控制委员会审议","在团队会议上鼓励大家多提建议，不针对个人处理"],"answer":1,"exp":"持续改进依赖员工愿意发声。建立“登记—评估—反馈—试点—公开结果”的透明通道，能让建议有明确去向，恢复参与感，避免形成沉默的团队。","why":["一对一解释能缓解个人情绪，但机制不变，其他人的建议仍会石沉大海。","正确。透明的建议闭环让每条建议都有明确去向，是恢复参与感的关键。","流程改进建议通常不涉及基准变更，走 CCB 会拉长周期，进一步打击积极性。","泛泛鼓励缺少落地通道，成员会认为只是口号，沉默反而加剧。"]},"391":{"stem":"客户 CEO 临时要求参加明天的迭代评审，并希望现场提出新需求。项目经理应：","options":["调整评审议程，预留时段收集意见，并说明后续进入待办排序","婉拒其参会，改由产品负责人会后单独汇报","按原议程进行，会后就其提出的需求另行安排沟通","在评审中当场承诺需求，以示对高层关注的重视"],"answer":0,"exp":"高层参与既是机会也是风险。应调整议程、预留专门时段收集意见，并明确“所有新需求进入待办列表由产品负责人排序”的机制，既尊重其关注又保护团队节奏。","why":["正确。预留时段并说明排序机制，既尊重高层关注，也维护了需求流入的单一通道。","直接婉拒会传递排斥信号，可能失去高层对项目的支持。","按原议程进行会让其意见无处安放，容易在会后形成绕过流程的直接指派。","当场承诺会破坏待办排序与产能约束，把压力转嫁给团队并损害可预测性。"]},"426":{"stem":"其他部门频繁临时抽调团队成员处理紧急事务，迭代目标屡次未达成。作为服务型领导者，项目经理应：","options":["与相关部门约定资源使用规则，并设定例外升级路径","要求团队成员自行判断，并拒绝其他部门的抽调请求","默认接受抽调，同时在迭代计划中预留一定缓冲","把被抽调成员的工作转给其他成员，通过加班完成"],"answer":0,"exp":"保护团队专注是服务型领导的核心职责：通过资源使用规则与例外升级路径处理干扰，把临时请求纳入正式优先级决策，而不是让团队独自承受或靠加班消化。","why":["正确。服务型领导要为团队移除系统性干扰：用资源规则与升级路径处理例外，而不是让团队独自承受。","把冲突下放给个人，成员缺乏拒绝的授权，容易演变为部门之间的摩擦。","预留缓冲只能吸收少量干扰，频繁抽调仍会侵蚀迭代目标与承诺的可信度。","用加班弥补会累积技术债与倦怠，且未触及抽调的制度性原因。"]},"430":{"stem":"一位高层每周调整项目优先级，团队反复返工、士气下降。项目经理应：","options":["严格执行最新指示，确保团队始终跟随高层意图","与其约定优先级决策标准与最小变更间隔，并量化影响","请发起人出面协调，阻止该高层继续直接干预项目","由团队自行判断哪些变更值得执行，减少返工"],"answer":1,"exp":"优先级需要稳定的决策机制：明确优先级来源与判断标准、量化每次变更对交付的影响、约定最小变更间隔，既保留必要的灵活性，又保护团队产能。","why":["无条件跟随会让返工常态化，团队无法形成交付节奏，承诺也失去意义。","正确。明确标准、量化影响、设定节奏，是把“频繁干预”转为“有序决策”的关键。","请发起人压制会恶化相关方关系，且未建立可持续的决策机制。","把判断权下放给团队会造成优先级口径不一，高层诉求仍会以其他方式进入。"]},"432":{"stem":"线上系统出现数据异常，已影响客户结算，团队仍在讨论根本原因。项目经理应：","options":["等待根因定位后再统一修复，避免误操作扩大影响","先启动应急预案控制影响，同时并行排查根因","立即回滚到上一版本，确认无异常后再分析原因","通知客户暂停结算业务，待查明原因后恢复"],"answer":1,"exp":"危机处置遵循“先止损、再定位”：立即启动应急预案（回滚、限流、人工核算等）控制业务影响，同时并行开展根因分析，事后复盘并固化改进。","why":["串行等待会让业务影响持续扩大，客户损失随时间累积。","正确。控制影响与根因排查并行，既压缩损失窗口，也不延误定位。","回滚是可选止血手段之一，但未评估根因就回滚可能无效，且把分析推迟到恢复之后。","单方面暂停业务会影响客户运营，应在评估影响范围后与客户共同决定。"]},"433":{"stem":"回顾会连续三个迭代都在讨论“代码评审太慢”，结论却始终是“加强沟通”。项目经理应：","options":["更换回顾会主持人，请外部敏捷教练引导讨论","把“加强沟通”写入团队工作协议，作为正式约定","延长回顾会时长，让团队充分讨论该问题","要求团队提出可验证的具体措施，如设定评审响应时限"],"answer":3,"exp":"改进项必须可验证。把“加强沟通”这类笼统结论转成可度量的具体措施（如评审响应时限、评审人轮值、每日固定评审时段），才能判断改进是否真的发生。","why":["更换主持人可能改善讨论氛围，但不会自动让结论变得可执行。","写入工作协议只是形式化，模糊表述仍然无法验收，也无法判断是否改善。","延长时长会增加讨论量，不解决结论空泛、无人落地的根因。","正确。可验证的具体措施才能形成可度量的改进闭环，避免同一议题反复空转。"]},"525":{"stem":"同一类交付延误已连续三个迭代出现。最有效的处理顺序是：","options":["先增加人力缩短工期，再观察延误是否消失","先调整进度基准，使计划与实际产能相匹配","先追究延误责任，再要求相关成员提交改进承诺","先定义问题并分析根因，再制定措施、验证并标准化"],"answer":3,"exp":"结构化问题解决（定义问题—分析根因—制定方案—验证效果—标准化）能避免“症状治疗”，把一次性修复转化为过程改进，防止同类问题重复发生。","why":["未经根因分析就加人，可能抬高沟通成本与协调开销，延误照旧。","调整基准只是让偏差在报表上消失，交付能力并未提升。","追责会抑制问题暴露，成员更倾向隐瞒延误，问题被推迟到更晚才被发现。","正确。结构化问题解决（定义—分析—解决—验证—标准化）把一次性修复转为过程改进。"]}};
+Object.keys(REWRITE_B2).forEach(function(k){ Object.assign(QUESTIONS[+k], REWRITE_B2[k]); });
+
+/* ---------------- 新增题目（第二批：10 道业务环境题）----------------
+   覆盖 BE4 障碍与问题、BE6 持续改进、BE2 合规（含 AI 治理与数据本地化）、
+   BE7 组织变革、BE8 外部环境、BE3 变更可追溯。*/
+const NEW_QUESTIONS_B2 = [{"paper":"N","isNew":true,"eco":"BE4","tag":"跨部门阻塞","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"项目需要安全部门开通生产环境权限，申请提交三周仍未批复，两个迭代的部署被迫延期。项目经理应：","options":["登记为问题，明确责任人与期限，按升级路径推动","请团队先用测试环境模拟上线，等权限批复后再补部署","在指导委员会上直接要求更换安全部门对接人","调整迭代目标，把部署相关工作整体推迟到下一季度"],"answer":0,"exp":"跨部门依赖形成的阻塞属于“问题”而非风险：应登记到问题日志，指定责任人与解决期限，并按组织既定的升级路径推动，形成可追溯的闭环。","why":["正确。阻塞已是既成事实，登记、定责、限期并走升级路径，才可能真正解除阻塞。","测试环境可暂时替代，但生产部署无法绕过权限要求，延期风险仍然存在。","在治理会上要求换人属于越级处置具体人员，且未先走约定的升级路径。","整体推迟一个季度会把局部阻塞放大为范围与进度调整，代价远高于解决阻塞本身。"]},{"paper":"N","isNew":true,"eco":"BE4","tag":"供应商事故","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"关键供应商发生安全事故，其工厂停产，直接影响到下月的交付里程碑。项目经理首先应：","options":["评估影响范围并启动备选供应方案，同时按合同准备索赔","立即终止与该供应商的合同，重新组织招标","等待供应商给出恢复时间，再决定是否调整计划","通知客户交付将延期，并承诺一个新的交付日期"],"answer":0,"exp":"已发生的负面事件要先评估影响、控制交付风险：启用备选供应方案保证连续性，同时按合同条款准备索赔材料，两条线并行推进。","why":["正确。先评估影响、启动备选方案控制交付风险，同时按合同准备索赔，是并行的两手准备。","在替代方案就绪前终止合同会切断供货来源，反而加剧交付风险。","被动等待会浪费可用的应对窗口，里程碑风险持续累积。","在影响范围与应对方案未明前对外承诺新日期，容易造成二次违约。"]},{"paper":"N","isNew":true,"eco":"BE6","tag":"度量与瓶颈","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"团队缺陷密度连续两个季度下降，但交付周期明显变长。质量负责人主张继续加大评审力度。项目经理应：","options":["分析各项度量之间的关系，识别评审是否已成为周期瓶颈","支持质量负责人的判断，质量应优先于交付速度","停止统计缺陷密度，改为只跟踪交付周期与准时率","增加评审人员，以缩短评审环节的排队等待时间"],"answer":0,"exp":"持续改进要基于度量之间的因果关系。缺陷密度下降但周期变长，说明改善可能已把约束转移到评审环节；应先分析评审时长、排队与周期时间的关系，再决定是否继续加码。","why":["正确。先看清度量之间的牵制关系，才能判断改进是否已把瓶颈转移到评审环节。","把质量与速度简单对立会掩盖真实约束点，继续加码评审可能进一步拉长周期。","只保留单一指标会失去对质量趋势的可见性，问题会在后期集中暴露。","增加评审人员未必缩短等待，评审效率受资质与上下文熟悉度限制。"]},{"paper":"N","isNew":true,"eco":"BE6","tag":"价值流改进","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"价值流分析显示，一项需求从提出到上线平均需要 40 天，其中实际工作时间仅 8 天。项目经理应优先：","options":["压缩实际工作时间，要求团队提高编码与测试效率","分析等待与排队环节，减少交接、审批与环境的阻塞","增加并行开发的需求数量，提高资源利用率","缩短迭代长度，用更频繁的评审加快反馈"],"answer":1,"exp":"周期时间中实际工作只占 20%，改善重点在非增值的等待。应分析交接、审批、环境准备与排队环节，减少阻塞与批量传递，而不是继续压榨加工时间。","why":["实际工作仅占两成，继续压缩加工时间对整体周期的改善非常有限。","正确。周期主要由等待构成，应先消除交接、审批与环境阻塞等非增值环节。","提高在制品数量会加剧排队与切换，周期时间通常进一步变长。","缩短迭代能改善反馈节奏，但不解决跨环节的等待与阻塞。"]},{"paper":"N","isNew":true,"eco":"BE2","tag":"AI 治理","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"团队使用生成式 AI 起草对外提交的技术方案，其中包含客户敏感数据与合规声明。项目经理应要求：","options":["禁止在项目中使用生成式 AI，全部文档改由人工撰写","仅由资深工程师使用 AI，其他成员不得使用","限定可输入的数据范围，并对产出做人工复核与留痕","在文档末尾注明由 AI 辅助生成，提示读者注意甄别"],"answer":2,"exp":"AI 应用治理的核心是数据边界、人工复核与可追溯：明确哪些数据可以输入、哪些不可以，AI 产出必须由责任人复核并留存记录，对外提交内容尤其如此。","why":["全面禁用规避了风险，但也放弃了效率，且未建立可复用的治理规则。","按资历限制使用并不能解决数据外泄与内容准确性问题。","正确。限定输入范围、要求人工复核并留存记录，构成可审计的 AI 使用控制。","仅做披露不构成控制，敏感数据外泄与内容错误的风险依然存在。"]},{"paper":"N","isNew":true,"eco":"BE2","tag":"数据本地化","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"项目上线前两个月，监管要求客户数据必须存储在境内，而现有架构使用境外云区域。项目经理应：","options":["暂停项目，等待监管给出明确的实施指引","先按原架构上线，待监管正式检查时再启动迁移","请客户签署免责声明，由客户承担合规责任","评估迁移方案与风险，提交变更请求并调整计划"],"answer":3,"exp":"合规要求变化属于必须响应的外部约束：应评估迁移方案、成本与风险，通过变更控制流程调整范围与计划，并与客户同步影响。","why":["全面暂停会损失交付窗口，应先评估可行方案再决定节奏。","明知不合规仍上线，可能面临处罚与强制下线，代价远高于提前迁移。","合规责任不能通过免责声明转移，组织仍需承担法律后果。","正确。评估方案与风险、走变更流程、同步调整计划，是应对强制合规变化的完整路径。"]},{"paper":"N","isNew":true,"eco":"BE7","tag":"并购后流程整合","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"两家公司合并后，团队仍按各自原有流程提交需求与验收，交接频繁出错。项目经理应：","options":["要求双方严格按收购方的流程执行，不再讨论","保留两套流程，由项目经理在中间做人工转换","统一流程与模板，说明理由并分批培训、提供过渡支持","等合并整合方案确定后，再统一项目流程"],"answer":2,"exp":"组织变革要真正落地，需要统一目标流程、说明变更理由、分批培训并提供过渡期支持，同时用试点与反馈降低抵触，而不只是发布新规定。","why":["强制推行缺少认同与能力建设，容易形成表面遵守、私下绕行。","由项目经理人工转换会形成瓶颈，也无法消除两套流程本身的冲突。","正确。统一流程、说明理由、分批培训与过渡支持，才能形成真实的行为改变。","无限期等待会让交接错误持续发生，整合成本进一步上升。"]},{"paper":"N","isNew":true,"eco":"BE8","tag":"原材料价格与中断","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"关键原材料价格三个月内上涨 40%，且主要产地出现供应中断迹象。项目经理应：","options":["按原预算继续采购，待成本超支后再申请追加预算","评估成本与交付影响，寻找替代材料并更新风险与预算","立即提高产品售价，把成本压力转移给客户","暂停采购，等待价格回落后再恢复生产"],"answer":1,"exp":"外部环境变化需同时处理成本与供应两条线：量化对成本基准与交付的影响，评估替代材料或替代来源，并更新风险登记册与完工预测。","why":["被动等待超支会使项目在预算耗尽后失去调整空间。","正确。同时评估成本与交付影响、寻找替代来源并更新风险与预算预测，覆盖了两条风险线。","单方面提价涉及商务与合同决策，超出项目经理授权，且未必被市场接受。","暂停采购可能导致停产，交付风险高于价格风险。"]},{"paper":"N","isNew":true,"eco":"BE8","tag":"强制标准更新","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"行业强制标准发布更新版，现有设计有一项指标将在验收时不再符合要求，距验收还有四个月。项目经理应：","options":["按原设计完成交付，在验收时申请过渡期豁免","评估变更范围与成本，提交变更请求并调整验收标准","先完成交付，把标准符合性作为后续版本处理","等待客户提出明确要求后，再启动设计调整工作"],"answer":1,"exp":"强制性标准变化必须在验收前响应：评估设计变更的范围、成本与进度影响，通过变更控制流程获批，并同步更新验收标准与合规依据。","why":["把希望寄托在豁免上风险极高，且强制标准的豁免未必获批。","正确。评估变更范围与成本、走变更流程、同步调整验收标准，是合规前提下的完整响应。","不符合强制标准的交付无法通过验收，后续版本处理会造成二次返工。","被动等待会压缩本就有限的调整窗口，四个月内可能来不及完成变更。"]},{"paper":"N","isNew":true,"eco":"BE3","tag":"变更可追溯","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","stem":"审计要求所有需求变更都可追溯到决策依据，而团队目前只在聊天工具里口头确认变更。项目经理应：","options":["把聊天记录导出归档，作为变更决策的证据","请审计方降低要求，敏捷项目难以保留完整记录","在迭代评审会上集中补记历史变更的决策过程","要求所有变更走书面变更请求，记录影响分析与批准人"],"answer":3,"exp":"变更控制要求可追溯：书面变更请求、影响分析与批准记录构成完整的证据链。敏捷并不排斥记录，只是记录的载体与粒度可以裁剪。","why":["聊天记录缺少影响分析与批准人，无法证明决策的合规性与授权。","合规与审计要求通常不可协商，敏捷实践本身也不排斥变更记录。","事后集中补记容易失真，也无法还原当时的决策依据与授权人。","正确。书面请求 + 影响分析 + 批准人，构成可审计的变更证据链。"]}];
+NEW_QUESTIONS_B2.forEach(function(q){
+  q.legacyDomain = q.legacyDomain || 'business';
+  q.ecoStatus = 'confirmed';
+  q.ecoTask = q.eco;
+  q.domain = ECO_TASKS[q.eco].d;
+  QUESTIONS.push(q);
+});
+
+/* ---------------- 开发方法（生命周期）标签 ----------------
+   2026 版考纲要求预测型 / 敏捷型 / 混合型贯穿三个领域。
+   标签依据题目情境中的方法学线索自动判定，lifeSource='auto' 表示待人工复核；
+   阶段 1 先建立可统计的基线，阶段 2 按缺口语料定向补题（见 reports 中的整改计划）。*/
+const LIFE_AGILE = ['迭代','冲刺','待办','站会','回顾','Scrum','scrum','看板','故事点','增量','发布规划','MVP','DoD','DoR','燃尽','累计流','速度','自组织','产品负责人','敏捷','WIP','重构','持续集成','TDD','结对','刺探','Spike','快速反馈','跨职能团队','迭代评审','时间盒'];
+const LIFE_PRED  = ['阶段关卡','阶段末','基准','WBS','关键路径','挣值','CPI','SPI','EAC','EAC','合同','SOW','验收标准','里程碑','变更控制委员会','CCB','预测型','瀑布','甘特','范围说明书','工作分解'];
+QUESTIONS.forEach(function(q){
+  const s = (q.stem||'') + ' ' + (q.tag||'');
+  const a = LIFE_AGILE.some(function(k){return s.indexOf(k)>=0;});
+  const p = LIFE_PRED.some(function(k){return s.indexOf(k)>=0;});
+  q.life = a && p ? 'hybrid' : a ? 'agile' : p ? 'predictive' : 'predictive';
+  q.lifeSource = (a||p) ? 'auto' : 'default';
+});
+const LIFE_STAT = QUESTIONS.reduce(function(m,q){ m[q.life]=(m[q.life]||0)+1; return m; },{predictive:0,agile:0,hybrid:0});
 
 /* ---------------- 试卷与组卷 ---------------- */
 const PAPERS = [
@@ -4827,10 +4896,34 @@ function paperIdx(id){
 /* A/B/C 分片：按新领域配额把题库切成三段，每段 59/74/47。
    若某领域题量不足 3 倍配额（当前 Business 113 < 141），C 卷会用 A/B 中同领域题补足并标注重叠。 */
 let PAPER_CACHE = null;
+/* 保证每套卷覆盖全部 26 项 ECO 任务：对零覆盖任务，用同领域题替换“该领域内出现次数最多”的任务的一题。
+   只做同领域替换，因此不破坏 59/74/47 的领域配额。*/
+function ensureTaskCoverage(list){
+  const cnt = {};
+  list.forEach(i=>{ const e=QUESTIONS[i].eco; cnt[e]=(cnt[e]||0)+1; });
+  Object.keys(ECO_TASKS).forEach(function(t){
+    if(cnt[t]) return;
+    const dom = ECO_TASKS[t].d;
+    const pool = QUESTIONS.map((q,i)=>i).filter(i=>QUESTIONS[i].eco===t);
+    if(!pool.length) return;
+    const inDom = list.filter(i=>QUESTIONS[i].domain===dom);
+    if(!inDom.length) return;
+    const victim = inDom.slice().sort((a,b)=>(cnt[QUESTIONS[b].eco]||0)-(cnt[QUESTIONS[a].eco]||0))[0];
+    const pick = pool.find(i=>list.indexOf(i)<0);
+    if(pick===undefined) return;
+    list[list.indexOf(victim)] = pick;
+    cnt[QUESTIONS[victim].eco] = (cnt[QUESTIONS[victim].eco]||1) - 1;
+    cnt[t] = 1;
+  });
+  return list;
+}
+
+const PAPER_DUP = {A:0, B:0, C:0};   /* 记录因某领域题量不足而不得不复用的题数 */
 function splitPapers(){
   const pools = {people:[], process:[], business:[]};
   QUESTIONS.forEach((q,i)=>{ if(pools[q.domain]) pools[q.domain].push(i); });
   const out = {A:[], B:[], C:[]};
+  PAPER_DUP.C = 0;
   Object.keys(pools).forEach((d, di)=>{
     const q = QUOTA[d];
     const list = shuffleIdx(pools[d], 7100 + di*97 + pools[d].length);
@@ -4838,15 +4931,18 @@ function splitPapers(){
     out.B.push(...list.slice(q, 2*q));
     const rest = list.slice(2*q);
     out.C.push(...rest.slice(0, q));
-    if(rest.length < q){                       /* 题量不足：从 A/B 同领域题中补，保证配额 */
+    if(rest.length < q){                       /* 题量不足：从 A/B 同领域题中补，保证 180/配额，并如实计数 */
       const need = q - rest.length;
-      const extra = shuffleIdx(out.A.concat(out.B).filter(i=>QUESTIONS[i].domain===d), 7200 + di*13);
-      out.C.push(...extra.slice(0, need));
+      const taken = new Set(out.C);
+      const extra = shuffleIdx(out.A.concat(out.B).filter(i=>QUESTIONS[i].domain===d && !taken.has(i)), 7200 + di*13);
+      const picked = extra.slice(0, need);
+      out.C.push(...picked);
+      PAPER_DUP.C += picked.length;
     }
   });
-  out.A = shuffleIdx(out.A, 8101);
-  out.B = shuffleIdx(out.B, 8102);
-  out.C = shuffleIdx(out.C, 8103);
+  out.A = ensureTaskCoverage(shuffleIdx(out.A, 8101));
+  out.B = ensureTaskCoverage(shuffleIdx(out.B, 8102));
+  out.C = ensureTaskCoverage(shuffleIdx(out.C, 8103));
   return out;
 }
 
@@ -4870,7 +4966,7 @@ function buildPaper(id){
     out.push(...fresh.concat(used).slice(0, QUOTA[d]));
   });
   for(let i=out.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const t=out[i]; out[i]=out[j]; out[j]=t; }
-  return out;
+  return ensureTaskCoverage(out);
 }
 
 /* 练习模式组卷：未做过 > 做过但做错过 > 做过且做对，保证优先刷到新题 */
@@ -5317,7 +5413,8 @@ function renderPapers(){
     const list = (p.id==='R') ? null : buildPaper(p.id);
     const n = list ? list.length : 180;
     const cnt = list ? list.filter(i=>done.has(i)).length : 0;
-    d.innerHTML = '<b>'+p.name+'</b><span>'+p.desc+'</span><span><em>'+n+' 题</em>'+(p.id==='R'?'':'　已做 '+cnt)+'</span>';
+    const dup = (p.id==='C' && PAPER_DUP.C) ? '　<span style="color:#b45309">含 '+PAPER_DUP.C+' 题与 A/B 重叠</span>' : '';
+    d.innerHTML = '<b>'+p.name+'</b><span>'+p.desc+'</span><span><em>'+n+' 题</em>'+(p.id==='R'?'':'　已做 '+cnt)+dup+'</span>';
     d.onclick = ()=>{ selectedPaper = p.id; renderPapers(); };
     box.appendChild(d);
   });
