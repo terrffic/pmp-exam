@@ -320,7 +320,19 @@ ul.notice li{margin:5px 0}
 .mk-row .mk-a{flex:0 0 auto;display:flex;gap:6px}
 .mk-tag{display:inline-block;padding:1px 7px;border-radius:999px;font-size:11px;border:1px solid #cbd5e1;background:#f8fafc;color:#475569}
 .mk-empty{padding:28px 14px;text-align:center;color:#64748b;font-size:13.5px;line-height:1.95}
+/* 标记题知识点扩展讲解（按主题去重，默认全部展开） */
+.mk-tpnd{margin-top:10px}
+.mk-tp{border:1px solid #c7d2fe;border-radius:10px;background:#f8faff;margin-top:10px;overflow:hidden}
+.mk-tp-h{display:flex;align-items:center;gap:8px;width:100%;box-sizing:border-box;text-align:left;padding:10px 13px;background:#eef2ff;border:0;border-bottom:1px solid #e0e7ff;font:inherit;font-size:13.5px;font-weight:700;color:#3730a3;cursor:pointer}
+.mk-tp-h:hover{background:#e5eaff}
+.mk-tp-h .mk-tp-n{margin-left:auto;font-weight:400;font-size:11.5px;color:#4f46e5;background:#fff;border:1px solid #c7d2fe;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.mk-tp-h .mk-tp-x{font-weight:400;font-size:11.5px;color:#64748b;white-space:nowrap}
+.mk-tp-b{padding:12px 14px 14px}
+.mk-tp-b[hidden]{display:none}
+.mk-tp-q{margin-top:12px;padding-top:9px;border-top:1px dashed #c7d2fe;font-size:11.5px;color:#64748b;line-height:1.8}
 @media(max-width:600px){
+  .mk-tp-h{flex-wrap:wrap}
+  .mk-tp-h .mk-tp-n{margin-left:0}
   .mk-row{flex-wrap:wrap}
   .mk-row .mk-q{flex:1 1 100%}
   .mk-row .mk-a{flex:0 0 100%;justify-content:flex-end}
@@ -375,14 +387,14 @@ ul.notice li{margin:5px 0}
       <h2 style="margin-top:22px">我的标记</h2>
       <div class="entry-card" id="btnMarkEntry">
         <div class="ec-ico">⭐</div>
-        <div class="ec-main"><b>标记过的题目（<span id="markEntryCount">0</span> 道）</b><span>标记会永久保存在本机（重开试卷、换套卷都不会丢）。标记题在练习时<b>自动展开知识点完整讲解</b>，可一键生成标记题专项练习。</span></div>
+        <div class="ec-main"><b>标记过的题目（<span id="markEntryCount">0</span> 道）</b><span>标记会永久保存在本机（重开试卷、换套卷都不会丢）。标记题在练习时<b>自动展开知识点完整讲解</b>，本页还把标记题的知识点<b>按主题去重、逐条展开扩展讲解</b>，并可一键生成标记题专项练习。</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
       <h2 style="margin-top:22px">知识速查</h2>
       <div class="entry-card" id="btnTermsEntry">
         <div class="ec-ico">📚</div>
-        <div class="ec-main"><b>缩写与术语速查（40 个高频）</b><span>EVM / CPI / WBS / DoD / SBI / GROW…：释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
+        <div class="ec-main"><b>缩写与术语速查（118 个高频）</b><span>EVM / CPI / WBS / DoD / SBI / GROW…：释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
@@ -393,7 +405,7 @@ ul.notice li{margin:5px 0}
         <li>240 分钟，平台按第 60、120 题分段提示休息（<b>平台练习分段，非官方强制规则</b>），休息期间计时暂停。</li>
         <li>题型包含<b>单选、多选（明确选出几项）、案例组（同一背景连续多问）、图表分析（挣值曲线、燃尽图等内联图像）</b>，以及计算与综合判断题。全部考察“先判断情境、再选最合适行动”的判断力。</li>
         <li>每题解析包含：<b>正确答案 + 解题要点 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析</b>。题目按<b>预测型 / 敏捷型 / 混合型</b>与<b>基础 / 中等 / 较难</b>标注，交卷后按领域、开发方法、题型分别统计正确率。</li>
-        <li><b>标记与知识点讲解</b>：答题时点「标记待定」把题存进首页的<b>「我的标记」</b>，标记永久保存在本机（重开试卷、切换套卷、刷新都不丢）；<b>标记题在练习时自动展开完整知识点讲解</b>（概念 · 机制 · 判断线索 · 易混淆 · 常见问法 · 关联知识点）。题目下方的「📘 知识点讲解」按钮随时可点，<b>只讲知识点、不揭示答案</b>；模考未交卷时隐藏，避免影响公平性。</li>
+        <li><b>标记与知识点讲解</b>：答题时点「标记待定」把题存进首页的<b>「我的标记」</b>，标记永久保存在本机（重开试卷、切换套卷、刷新都不丢）；<b>标记题在练习时自动展开完整知识点讲解</b>（概念 · 机制 · 判断线索 · 易混淆 · 常见问法 · 关联知识点）；「我的标记」页会把全部标记题按知识点主题去重、<b>逐条展开扩展讲解</b>，并可按标记题一键组卷专项练习。题目下方的「📘 知识点讲解」按钮随时可点，<b>只讲知识点、不揭示答案</b>；模考未交卷时隐藏，避免影响公平性。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
         <li>答题进度自动保存在本机，刷新或关闭后可继续；模考模式下未完成也可交卷。</li>
       </ul>
@@ -415,7 +427,7 @@ ul.notice li{margin:5px 0}
         <span style="flex:1"></span>
         <button class="btn sm ghost" id="btnMarkBack">返回首页</button>
       </div>
-      <p class="sub">标记用于“先记下来、回头专攻”。标记<b>永久保存在本机</b>，重开试卷、切换套卷或刷新页面都不会丢；标记题在练习界面会<b>自动展开知识点完整讲解</b>。</p>
+      <p class="sub">标记用于“先记下来、回头专攻”。标记<b>永久保存在本机</b>，重开试卷、切换套卷或刷新页面都不会丢；标记题在练习界面会<b>自动展开知识点完整讲解</b>，本页还会把全部标记题按知识点主题去重、<b>逐条展开扩展讲解</b>（概念 · 机制 · 判断线索 · 易混淆 · 常见问法 · 关联）。</p>
       <div id="markBody"></div>
     </div>
   </section>
@@ -1309,24 +1321,14 @@ function topicDeepOf(q){
   const f = TOPIC_FRAMEWORK[q.domain] || TOPIC_FRAMEWORK.process;
   return { t: f, d: null, fallback: true };
 }
-function topicPanelHtml(q, idx, full){
-  const info = topicDeepOf(q);
+/* 知识点正文：①概念要点 + ②展开讲解 ③判断线索 ④易混淆 ⑤常见问法 ⑥关联（full）+ 常见陷阱。
+   题目下方面板与「我的标记」页的知识点扩展讲解共用，保证两处口径完全一致。 */
+function topicSectionsHtml(info, full){
   const t = info.t, d = info.d;
-  const marked = !!(state.marked && state.marked[idx]) || markHas(idx);
-  const dom = (DOMAIN[q.domain] || {}).name || '';
-  const lifeTxt = q.life === 'agile' ? '敏捷型' : q.life === 'hybrid' ? '混合型' : '预测型';
-  const diffTxt = q.difficulty === 'hard' ? '较难' : q.difficulty === 'basic' ? '基础' : '中等';
   const core = d ? d.core : t.core, judge = d ? d.judge : t.judge;
   const confuse = d ? d.confuse : t.confuse, ask = d ? d.ask : t.ask;
   const link = (d ? d.link : t.link) || [];
-
-  let h = '<div class="tpanel">';
-  h += '<div class="tp-hd">📘 知识点 · ' + t.id +
-       (marked ? '<span class="tp-mark">⭐ 已标记 · 完整讲解</span>' : '') +
-       '<span class="tp-tag">' + dom + ' · ' + lifeTxt + ' · ' + diffTxt + '</span></div>';
-  h += '<div class="tp-bd">';
-  h += '<div class="tp-sec"><div class="tp-sec-h">① 概念要点</div><div class="tp-sec-b">' + acrMark(t.text) + '</div></div>';
-
+  let h = '<div class="tp-sec"><div class="tp-sec-h">① 概念要点</div><div class="tp-sec-b">' + acrMark(t.text) + '</div></div>';
   if(full){
     if(core)    h += '<div class="tp-sec"><div class="tp-sec-h">② 展开讲解（机制与原理）</div><div class="tp-sec-b">' + acrMark(core) + '</div></div>';
     if(judge)   h += '<div class="tp-sec"><div class="tp-sec-h">③ 判断线索（看到什么信号，就往哪个方向想）</div><div class="tp-sec-b">' + acrMark(judge) + '</div></div>';
@@ -1339,8 +1341,23 @@ function topicPanelHtml(q, idx, full){
   }else if(judge){
     h += '<div class="tp-sec"><div class="tp-sec-h">② 判断线索</div><div class="tp-sec-b">' + acrMark(judge) + '</div></div>';
   }
-
   if(t.trap) h += '<div class="tp-note">⚠️ <b>常见陷阱</b>：' + acrMark(t.trap) + '</div>';
+  return h;
+}
+
+function topicPanelHtml(q, idx, full){
+  const info = topicDeepOf(q);
+  const t = info.t;
+  const marked = !!(state.marked && state.marked[idx]) || markHas(idx);
+  const dom = (DOMAIN[q.domain] || {}).name || '';
+  const lifeTxt = q.life === 'agile' ? '敏捷型' : q.life === 'hybrid' ? '混合型' : '预测型';
+  const diffTxt = q.difficulty === 'hard' ? '较难' : q.difficulty === 'basic' ? '基础' : '中等';
+  let h = '<div class="tpanel">';
+  h += '<div class="tp-hd">📘 知识点 · ' + t.id +
+       (marked ? '<span class="tp-mark">⭐ 已标记 · 完整讲解</span>' : '') +
+       '<span class="tp-tag">' + dom + ' · ' + lifeTxt + ' · ' + diffTxt + '</span></div>';
+  h += '<div class="tp-bd">';
+  h += topicSectionsHtml(info, full);
 
   if(marked){
     const m = marksLoad()[idx];
@@ -7179,6 +7196,41 @@ function mkBar(label, n, total, color){
          '<div class="mk-bar-t"><i style="width:' + pct + '%;background:' + color + '"></i></div></div>';
 }
 
+/* 标记题 → 按知识点主题去重分组：
+   同一主题的标记题只需要讲一次，避免 20 道标记题把同一段讲解重复 20 遍。 */
+function markTopicGroups(rows){
+  const o = marksLoad(), map = {}, out = [];
+  (rows || []).forEach(function(i){
+    const q = QUESTIONS[i]; if(!q) return;
+    const info = topicDeepOf(q);
+    const key = info.t.id;
+    let g = map[key];
+    if(!g){ g = map[key] = { id: key, info: info, qs: [], tags: [], marks: 0 }; out.push(g); }
+    g.qs.push(i);
+    g.marks += (o[i] && o[i].n) || 1;
+    if(q.tag && g.tags.indexOf(q.tag) < 0) g.tags.push(q.tag);
+  });
+  out.sort(function(a,b){ return b.qs.length - a.qs.length || String(a.id).localeCompare(String(b.id)); });
+  return out;
+}
+
+/* 单个主题的扩展讲解卡片：默认展开，可单独收起；题目编号对应上面清单的序号 */
+function markTopicCardHtml(g, k, open, posMap){
+  const one = g.qs.length === 1;
+  let h = '<div class="mk-tp" data-g="' + k + '">';
+  h += '<button class="mk-tp-h" data-tp-h="' + k + '" aria-expanded="' + (open ? 'true' : 'false') + '">' +
+       '<span>📘 ' + g.id + '</span>' +
+       '<span class="mk-tp-n">' + g.qs.length + ' 题' + (one ? '' : ' · 合并讲解') + '</span>' +
+       '<span class="mk-tp-x" data-tp-x="' + k + '">' + (open ? '收起' : '展开') + '</span></button>';
+  h += '<div class="mk-tp-b" data-tp-b="' + k + '"' + (open ? '' : ' hidden') + '>';
+  h += topicSectionsHtml(g.info, true);
+  h += '<div class="mk-tp-q">关联标记题：' + g.qs.map(function(i){
+    return '第 ' + (posMap && posMap[i] ? posMap[i] : 1) + ' 题';
+  }).join('、') + (g.tags.length ? '　｜　标签：' + g.tags.slice(0, 8).join(' / ') + (g.tags.length > 8 ? ' 等' : '') : '') + '</div>';
+  h += '</div></div>';
+  return h;
+}
+
 function renderMarkPage(){
   const box = $('markBody'); if(!box) return;
   const S = markStat();
@@ -7196,6 +7248,9 @@ function renderMarkPage(){
   }
 
   const total = S.all.length;
+  const groups = markTopicGroups(S.all);
+  const posMap = {};
+  S.all.forEach(function(i, k){ posMap[i] = k + 1; });
   let h = '<div class="mk-top">';
   h += '<div class="mk-kpi"><b>' + total + '</b><span>已标记题目（去重）</span></div>';
   h += '<div class="mk-kpi"><b>' + S.answered + '</b><span>其中已作答</span></div>';
@@ -7215,9 +7270,22 @@ function renderMarkPage(){
 
   const top = Object.keys(S.tp).map(function(k){ return [k, S.tp[k]]; })
     .sort(function(a,b){ return b[1] - a[1]; }).slice(0, 10);
+  const gById = {};
+  groups.forEach(function(g, k){ gById[g.id] = k; });
   h += '<h2 style="font-size:15px;margin-top:18px">标记最集中的知识点</h2>';
   h += '<div class="tp-sec-b">' + top.map(function(x){
-    return '<span class="tp-chip">' + x[0] + ' × ' + x[1] + '</span>';
+    const gi = gById[x[0]];
+    const attr = gi === undefined ? '' : ' data-jump="' + gi + '" style="cursor:pointer" title="跳到该知识点的扩展讲解"';
+    return '<span class="tp-chip"' + attr + '>' + x[0] + ' × ' + x[1] + '</span>';
+  }).join('') + '</div>';
+
+  h += '<h2 style="font-size:15px;margin-top:18px">标记题知识点扩展讲解（按主题去重 · ' + groups.length + ' 个主题）</h2>';
+  h += '<p class="sub">共 ' + total + ' 道标记题，归并成 ' + groups.length + ' 个知识点主题，<b>下面全部展开</b>：每个主题给出①概念要点 ②展开讲解（机制与原理）③判断线索 ④易混淆辨析 ⑤常见问法 ⑥关联知识点 + 常见陷阱。同一主题只讲一次，标记题越多省得越多。</p>';
+  h += '<div class="mk-tools" style="margin:8px 0 0">' +
+       '<button class="btn sm ghost" id="mkTpAll">全部收起</button>' +
+       '<span class="sub" style="font-size:12px;color:#94a3b8;align-self:center">点主题标题可单独收起 / 展开</span></div>';
+  h += '<div class="mk-tpnd">' + groups.map(function(g, k){
+    return markTopicCardHtml(g, k, true, posMap);
   }).join('') + '</div>';
 
   h += '<div class="mk-tools">' +
@@ -7255,6 +7323,45 @@ function renderMarkPage(){
   });
   h += '</div>';
   box.innerHTML = h;
+
+  /* 知识点扩展讲解开合：单主题点标题，一键全部展开 / 收起 */
+  function setAllTp(expand){
+    box.querySelectorAll('[data-tp-b]').forEach(function(el){
+      if(expand) el.removeAttribute('hidden'); else el.setAttribute('hidden', '');
+    });
+    box.querySelectorAll('[data-tp-x]').forEach(function(el){ el.textContent = expand ? '收起' : '展开'; });
+    box.querySelectorAll('[data-tp-h]').forEach(function(el){ el.setAttribute('aria-expanded', expand ? 'true' : 'false'); });
+    const ab = $('mkTpAll'); if(ab) ab.textContent = expand ? '全部收起' : '全部展开';
+  }
+  box.querySelectorAll('[data-tp-h]').forEach(function(b){
+    b.onclick = function(){
+      const k = b.getAttribute('data-tp-h');
+      const body = box.querySelector('[data-tp-b="' + k + '"]');
+      const x = box.querySelector('[data-tp-x="' + k + '"]');
+      if(!body) return;
+      const willOpen = body.hasAttribute('hidden');
+      if(willOpen) body.removeAttribute('hidden'); else body.setAttribute('hidden', '');
+      b.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      if(x) x.textContent = willOpen ? '收起' : '展开';
+      const allClosed = Array.prototype.every.call(box.querySelectorAll('[data-tp-b]'), function(el){ return el.hasAttribute('hidden'); });
+      const ab = $('mkTpAll'); if(ab) ab.textContent = allClosed ? '全部展开' : '全部收起';
+    };
+  });
+  const ta = $('mkTpAll');
+  if(ta) ta.onclick = function(){ setAllTp(ta.textContent === '全部收起' ? false : true); };
+  box.querySelectorAll('[data-jump]').forEach(function(c){
+    c.onclick = function(){
+      const g = box.querySelector('[data-g="' + c.getAttribute('data-jump') + '"]');
+      if(!g) return;
+      const body = g.querySelector('[data-tp-b]');
+      if(body && body.hasAttribute('hidden')){
+        body.removeAttribute('hidden');
+        const x = g.querySelector('[data-tp-x]'); if(x) x.textContent = '收起';
+        const hd = g.querySelector('[data-tp-h]'); if(hd) hd.setAttribute('aria-expanded', 'true');
+      }
+      g.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    };
+  });
 
   box.querySelectorAll('[data-tp]').forEach(function(b){
     b.onclick = function(){
