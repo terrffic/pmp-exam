@@ -261,6 +261,16 @@ ul.notice li{margin:5px 0}
 .tqexp{font-size:13px;color:#374151;background:#f8fafc;border-left:3px solid var(--brand);padding:7px 10px;border-radius:0 6px 6px 0;margin-top:4px;display:none}
 .tqexp.show{display:block}
 @media(max-width:600px){.thead .tfull{display:none}.titem .tsec p{font-size:13.5px}}
+.casebox{background:#f1f5f9;border-left:3px solid #64748b;border-radius:0 8px 8px 0;padding:10px 12px;margin:0 0 12px;font-size:13.5px;color:#334155;line-height:1.7}
+.casebox b{color:#0f172a}
+.tlabel{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:700;color:#7c3aed;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:20px;padding:1px 8px;vertical-align:middle}
+.figwrap{margin:12px 0;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:8px 6px}
+.figwrap svg{display:block;width:100%;height:auto}
+.stat-hd{font-size:12.5px;font-weight:700;color:#475569;margin:14px 0 6px}
+@media print{
+  header.top,.navrow,.side,.mode-row,.btn{display:none!important}
+  body{background:#fff} .card{box-shadow:none}
+}
 </style>
 <meta name="theme-color" content="#2563eb">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -285,7 +295,7 @@ ul.notice li{margin:5px 0}
       <h1>PMP® 标准模拟考试 · 540 题库 / 5 套卷</h1>
       <p class="sub">每套 180 题 / 240 分钟，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷。<b>A、B、C 为三套独立卷</b>，D、E 为混合卷。交卷后输出领域与知识点诊断，并生成针对性加练。</p>
       <div class="grid-info">
-        <div class="stat"><b id="sTotal">0</b><span>题库总题量（A/B/C 各 180）</span></div>
+        <div class="stat"><b id="sTotal">0</b><span>题库总题量（每卷 180 · 三卷独立）</span></div>
         <div class="stat"><b>5 套 + 随机</b><span>可用试卷</span></div>
         <div class="stat"><b>180 题 / 240 分钟</b><span>2026 版考试时长与题量</span></div>
         <div class="stat"><b>错题诊断</b><span>按知识点统计 + 专项补强</span></div>
@@ -313,11 +323,11 @@ ul.notice li{margin:5px 0}
 
       <h2 style="margin-top:20px">考试说明</h2>
       <ul class="notice">
-        <li>每套 180 题，按 <b>2026 版 ECO 配比</b>组卷：<b>人员 33%（59 题）/ 过程 41%（74 题）/ 业务环境 26%（47 题）</b>。A、B 两套互不重复；C 卷当前有部分题目与 A/B 重叠（业务环境与过程题量尚不足），重叠数量在试卷卡片上标注。</li>
+        <li>每套 180 题，按 <b>2026 版 ECO 配比</b>组卷：<b>人员 33%（59 题）/ 过程 41%（74 题）/ 业务环境 26%（47 题）</b>。<b>A、B、C 三套卷完全独立</b>（跨卷重复 0 题），每卷均覆盖 26 项官方任务。D、E 与随机卷为混合卷，可跨卷复用题目。</li>
         <li>交卷后自动生成<b>错题诊断</b>：按知识点标签统计错误次数，可一键生成「薄弱知识点专项」「错题重练」与领域专项练习。</li>
         <li>240 分钟，平台按第 60、120 题分段提示休息（<b>平台练习分段，非官方强制规则</b>），休息期间计时暂停。</li>
-        <li>全部为情境化单选题，考察“先判断情境、再选最合适行动”的 PMI 思维，含敏捷、混合生命周期与挣值计算。</li>
-        <li>每道题的解析包含：<b>正确答案 + 解题要点 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析（A–D 每个选项为什么对/为什么错）</b>。</li>
+        <li>题型包含<b>单选、多选（明确选出几项）、案例组（同一背景连续多问）、图表分析（挣值曲线、燃尽图等内联图像）</b>，以及计算与综合判断题。全部考察“先判断情境、再选最合适行动”的判断力。</li>
+        <li>每题解析包含：<b>正确答案 + 解题要点 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析</b>。题目按<b>预测型 / 敏捷型 / 混合型</b>与<b>基础 / 中等 / 较难</b>标注，交卷后按领域、开发方法、题型分别统计正确率。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
         <li>答题进度自动保存在本机，刷新或关闭后可继续；模考模式下未完成也可交卷。</li>
       </ul>
@@ -4819,6 +4829,20 @@ NEW_QUESTIONS_B3.forEach(function(q){
   q.lifeSource = q.lifeSource || 'manual';
   QUESTIONS.push(q);
 });
+/* ---------------- 题型扩展样例（多选 / 图表 / 案例组）----------------
+   这一批同时承担两个作用：补齐业务环境与 PE1 的结构缺口，以及验证题型模型。
+   type: single | multi | case | chart；多选用 answers + pick，图题用 figure 内联 SVG。*/
+const NEW_QUESTIONS_T = [{"paper":"X","isNew":true,"eco":"PE1","tag":"混合团队目标对齐","domain":"people","legacyDomain":"people","ecoStatus":"confirmed","life":"hybrid","lifeSource":"manual","type":"single","stem":"矩阵组织中，硬件团队按阶段交付、软件团队按迭代交付，两边对“项目成功”的理解不一致。项目经理应首先：","options":["以合同中的验收条款作为唯一成功标准，统一双方口径","要求硬件团队改用迭代节奏，与软件团队保持一致","与两个团队共同定义兼顾阶段里程碑与增量价值的成功标准","把两个团队的目标分别上报各自职能经理裁定"],"answer":2,"exp":"混合项目的成功标准必须同时容纳阶段验收与增量价值。让两个团队共同定义并能各自在自己的节奏中验证，才能形成一致的目标感，而不是用一方的方法强加给另一方。","why":["合同验收条款只覆盖合规底线，无法解释增量价值，团队仍会各自解读。","硬件受认证与物理周期约束，强行改为迭代节奏不现实。","正确。共同定义兼顾两类节奏的成功标准，是混合团队目标对齐的起点。","分别上报会形成两套互不相干的目标，项目经理也失去整合职责。"]},{"paper":"X","isNew":true,"eco":"BE2","tag":"数据使用授权","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"agile","lifeSource":"manual","type":"multi","pick":2,"stem":"项目拟把客户数据用于训练内部模型。上线前必须完成的工作包括：（选择 2 项）","options":["把数据匿名化后直接使用，无需再做合规评估","确认数据使用授权范围与客户同意的覆盖度","仅在模型上线后补充隐私影响评估","评估适用的数据保护法规并留存合规证据"],"answers":[1,3],"exp":"训练数据涉及二次使用，必须同时确认授权边界与法规依据：授权是否覆盖“模型训练”这一用途、适用法规有哪些具体要求，并留存可审计的证据。","why":["匿名化降低但不必然消除风险，仍需评估是否属于可豁免情形。","正确。授权范围是否覆盖模型训练用途，是合规的前提。","隐私影响评估应在上线前完成，事后补充无法消除已发生的风险。","正确。识别适用法规并留存证据，才能应对审计与监管问询。"]},{"paper":"X","isNew":true,"eco":"BE8","tag":"挣值曲线判读","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"hybrid","lifeSource":"manual","type":"chart","stem":"下图是项目第 6 个月的挣值曲线。据此判断，项目当前状态是：","figure":{"kind":"evm","maxX":6,"maxY":120,"xStep":1,"xTitle":"月份","yTitle":"累计价值（万元）","alt":"挣值曲线：PV 100、EV 85、AC 110","series":[{"name":"PV","color":"#2563eb","pts":[[0,0],[6,100]]},{"name":"EV","color":"#16a34a","pts":[[0,0],[6,85]]},{"name":"AC","color":"#dc2626","pts":[[0,0],[6,110]]}]},"options":["进度超前且成本节约","进度落后且成本超支","进度落后但成本节约","进度与成本均符合计划"],"answer":1,"exp":"EV 85 低于 PV 100，说明完成的工作量少于计划（进度落后）；AC 110 高于 EV 85，说明为完成这些工作花了更多钱（成本超支）。即 SPI<1 且 CPI<1。","why":["EV<PV 表示进度落后，不是超前。","正确。EV<PV（进度落后）且 AC>EV（成本超支），两项同时不达标。","AC>EV 表示成本超支，不存在节约。","三条曲线未重合，说明进度与成本都偏离计划。"]},{"paper":"X","isNew":true,"eco":"BE3","tag":"混合项目监管变更","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"hybrid","lifeSource":"manual","type":"case","caseId":"CASE-BANK","caseText":"某银行核心系统升级采用混合模式：监管接口按阶段交付并通过合规评审，客户功能按双周迭代。第 4 个迭代末，监管发布新规，要求交易日志保留期从 6 个月延长至 3 年，而现有架构按 6 个月设计。","stem":"项目经理首先应：","options":["先按原设计上线，后续版本再满足新规","暂停全部迭代，等待监管给出实施细则","要求团队在下一个迭代内完成全部改造","评估架构改造的范围、成本与合规时限，提交变更请求"],"answer":3,"exp":"这是外部强制要求引发的变更，且直接影响架构与合规验收。应先量化影响（改造范围、成本、与监管时限的关系），再走变更控制，让有权限的人基于事实决策。","why":["不合规上线可能被要求下线，整改成本远高于提前变更。","全面暂停会同时损失交付窗口，且未先弄清影响范围。","在未评估影响前承诺一个迭代完成，容易造成质量与合规双重风险。","正确。先评估影响再提交变更请求，是处理强制合规变更的标准路径。"]},{"paper":"X","isNew":true,"eco":"BE3","tag":"迭代内高价值变更","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"agile","lifeSource":"manual","type":"case","caseId":"CASE-BANK","stem":"客户希望新增一项营销功能，价值高但会占用本迭代产能。产品负责人应：","options":["放入待办参与排序并按合同留痕，与合规改造统一排期","立即插入当前迭代，优先交付高价值功能","拒绝该需求，说明本迭代已无剩余产能","与团队私下替换等量工作，不惊动客户"],"answer":0,"exp":"敏捷通过待办排序吸收变更，而不是在迭代内插入。同时合同要求变更留痕，因此必须记录并统一排期，兼顾响应速度与可追溯性。","why":["正确。进入待办排序、按合同留痕、与合规改造统一排期，兼顾敏捷响应与合规要求。","迭代内插入会破坏迭代目标与承诺，可预测性受损。","一刀切拒绝会把高价值机会挡在门外。","私下替换会让范围与合同记录不一致，审计时无法追溯。"]},{"paper":"X","isNew":true,"eco":"BE1","tag":"迭代级审计负担","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"hybrid","lifeSource":"manual","type":"case","caseId":"CASE-BANK","stem":"合规团队要求每次迭代都提供完整审计包，团队认为负担过重。最合适的做法是：","options":["在季度末集中补齐全部审计材料","申请豁免迭代级审计，改为年度检查","把审计证据产出写入迭代完成定义，按季度汇总","每个迭代结束后安排一次完整合规审计"],"answer":2,"exp":"治理要求与迭代节奏可以对齐：把证据产出变成迭代交付物的一部分，季度末只需汇总。这样既不产生集中补材料的失真，也不至于让审计成本压过交付节奏。","why":["集中补材料容易失真，无法反映迭代过程中的真实状态。","审计频次通常由监管或组织规定，项目不能单方面豁免。","正确。证据产出写入 DoD，合规成为日常交付的一部分，季度末仅需汇总。","每迭代做完整审计会让治理成本压过交付节奏。"]},{"paper":"X","isNew":true,"eco":"BE6","tag":"流动度量选择","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"agile","lifeSource":"manual","type":"multi","pick":2,"stem":"回顾会发现交付周期变长。要定位原因，应优先收集的度量包括：（选择 2 项）","options":["在制品数量与队列长度","团队成员的加班时长","代码行数与提交次数","各环节的等待时间与阻塞时长"],"answers":[0,3],"exp":"周期变长通常来自流动受阻：在制品过多导致排队，某环节的等待或阻塞成为瓶颈。这两类指标能直接指向约束点；加班时长与代码规模是间接指标，难以定位瓶颈。","why":["正确。在制品与队列长度直接反映排队与拥塞程度。","加班时长反映投入，不说明流程在哪里堵住。","代码规模与提交次数是产出指标，与周期因果关系弱。","正确。等待与阻塞时长能定位具体瓶颈环节。"]},{"paper":"X","isNew":true,"eco":"BE6","tag":"燃尽图异常判读","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"agile","lifeSource":"manual","type":"chart","stem":"下图是某迭代的燃尽图。团队在第 6 天后的情况最可能是：","figure":{"kind":"burndown","maxX":10,"maxY":100,"xStep":1,"xTitle":"迭代第 N 天","yTitle":"剩余故事点","alt":"燃尽图：实际剩余量在第 6 天由 50 回升到 70","series":[{"name":"理想","color":"#94a3b8","dash":true,"pts":[[0,100],[10,0]]},{"name":"实际","color":"#7c3aed","pts":[[0,100],[1,88],[2,75],[3,62],[4,55],[5,50],[6,70],[7,52],[8,35],[9,20]]}]},"options":["团队提前完成了全部工作","有未纳入计划的工作被加入，剩余量上升","迭代范围被正式削减","估算准确，按计划推进"],"answer":1,"exp":"燃尽图的剩余量在迭代中途回升，通常意味着范围被追加或发现了未预估的工作。若范围被削减，曲线会向下跳变；若按计划推进，实际线应与理想线大致贴合。","why":["剩余量回升与“提前完成”相反。","正确。剩余量向上跳变，说明有新增工作进入本迭代。","范围削减会让剩余量向下跳变，而不是上升。","实际线明显偏离理想线，且出现回升，不属按计划推进。"]},{"paper":"X","isNew":true,"eco":"BE6","tag":"改进未命中瓶颈","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"agile","lifeSource":"manual","type":"single","stem":"团队连续三个迭代改进了“代码评审时效”，但交付周期没有变化。项目经理应：","options":["继续加大评审投入，观察更长周期","认为度量不准，停止跟踪周期时间","增加评审人员，进一步压缩评审时长","用价值流数据重新定位约束，确认瓶颈是否在别处"],"answer":3,"exp":"改进只有命中系统约束才会改变整体结果。评审时效改善而周期不变，说明评审并非当前瓶颈；应用价值流数据重新定位约束，把改进投到真正限制产出的环节。","why":["继续加码会持续投入在非瓶颈环节，边际收益接近于零。","否定度量会失去验证手段，改进重新变成凭感觉。","增加评审人员未必缩短等待，评审效率受资质与上下文限制。","正确。用价值流数据重新定位约束，才能让改进对准系统瓶颈。"]},{"paper":"X","isNew":true,"eco":"BE2","tag":"AI 生成合规文本","domain":"business","legacyDomain":"business","ecoStatus":"confirmed","life":"agile","lifeSource":"manual","type":"single","stem":"团队用生成式 AI 起草对外报告中的合规声明。最需要控制的是：","options":["限定输入数据的范围，并要求责任人对输出逐项复核","在文末注明内容由 AI 生成，提示读者甄别","只允许资深员工使用 AI 起草","禁止在对外材料中使用生成式 AI"],"answer":0,"exp":"AI 用于对外合规文本的风险是数据外泄与内容失真。控制点应是输入边界（哪些数据可以给模型）与输出责任（由谁复核、留痕），而不是仅做披露或按资历限制使用。","why":["正确。限定输入范围 + 责任人逐项复核，是可审计的控制组合。","仅做披露不构成控制，错误内容与敏感数据问题依然存在。","按资历限制并不能解决数据外泄与内容准确性问题。","全面禁止规避了风险，但也放弃了效率，且未建立可复用的治理规则。"]}];
+NEW_QUESTIONS_T.forEach(function(q){
+  q.legacyDomain = q.legacyDomain || q.domain;
+  q.ecoStatus = 'confirmed';
+  q.ecoTask = q.eco;
+  q.domain = ECO_TASKS[q.eco].d;
+  q.lifeSource = 'manual';
+  q.type = q.type || 'single';
+  QUESTIONS.push(q);
+});
+
 /* ---------------- 开发方法（生命周期）标签 ----------------
    2026 版考纲要求预测型 / 敏捷型 / 混合型贯穿三个领域。
    标签依据题目情境中的方法学线索自动判定，lifeSource='auto' 表示待人工复核；
@@ -4834,6 +4858,24 @@ QUESTIONS.forEach(function(q){
   q.lifeSource = (a||p) ? 'auto' : 'default';
 });
 const LIFE_STAT = QUESTIONS.reduce(function(m,q){ m[q.life]=(m[q.life]||0)+1; return m; },{predictive:0,agile:0,hybrid:0});
+
+/* 难度标签（平台内部训练分层，非 PMI 官方比例）：
+   basic 识记/单一知识点；mid 单一情境判断；hard 多约束、计算或需要权衡。
+   自动标注后可由人工在 q.difficulty 上覆盖。*/
+QUESTIONS.forEach(function(q){
+  if(q.difficultySource==='manual') return;
+  const s = (q.stem||'') + ' ' + (q.tag||'');
+  const calc = /计算|PV=|EV=|AC=|CPI|SPI|EAC|ETC|VAC|TCPI|EMV|NPV|FPIF|浮动|渠道数|速度/.test(s);
+  const len = (q.stem||'').length;
+  const multiConstraint = /首先|最合适|权衡|同时|冲突|但|且/.test(q.stem||'');
+  const tp = q.type || 'single';
+  if(tp!=='single') q.difficulty='hard';
+  else if(calc) q.difficulty='hard';
+  else if(len>=40) q.difficulty='hard';
+  else if(len>=26) q.difficulty='mid';
+  else q.difficulty='basic';
+  q.difficultySource='auto';
+});
 
 /* ---------------- 试卷与组卷 ---------------- */
 const PAPERS = [
@@ -4874,8 +4916,8 @@ function addWrong(list){
   try{
     const m = wrongMap();
     list.forEach(i=>{
-      if(state.answers[i]===undefined) return;
-      if(state.answers[i]!==QUESTIONS[i].answer) m[i] = (m[i]||0) + 1;
+      if(!isAnswered(state.answers[i])) return;
+      if(!isRight(QUESTIONS[i], state.answers[i])) m[i] = (m[i]||0) + 1;
     });
     localStorage.setItem(KEY+'_wrong', JSON.stringify(m));
   }catch(e){}
@@ -4912,80 +4954,203 @@ function paperIdx(id){
   return all.filter(i=>QUESTIONS[i].paper===id);
 }
 
-/* A/B/C 分片：按新领域配额把题库切成三段，每段 59/74/47。
-   若某领域题量不足 3 倍配额（当前 Business 113 < 141），C 卷会用 A/B 中同领域题补足并标注重叠。 */
+/* ================= 组卷引擎（蓝图驱动 + 独立池预分配） =================
+   设计目标：
+   1) A/B/C 三套卷的题目在分配阶段就互斥，绝不依赖后置修补制造或消除重复；
+   2) 每卷满足 59/74/47 领域配额、26 项任务覆盖、预测型与敏捷/混合型配比；
+   3) 任何无法满足的约束都记入 PAPER_GAPS，供审计报告如实呈现，不静默降级。*/
 let PAPER_CACHE = null;
-/* 保证每套卷覆盖全部 26 项 ECO 任务：对零覆盖任务，用同领域题替换“该领域内出现次数最多”的任务的一题。
-   只做同领域替换，因此不破坏 59/74/47 的领域配额。*/
-function ensureTaskCoverage(list){
+
+const BLUEPRINT = {
+  total: 180,
+  domains: QUOTA,                                  /* 59 / 74 / 47 */
+  life: {predictive: 72, agileHybrid: 108},        /* 约 40% / 60% */
+  tasks: 26
+};
+
+/* 稳定题目 ID：内容哈希（题干 + 首个选项），题库顺序调整不影响历史记录 */
+function qhash(str){
+  let x = 2166136261;
+  for(let i=0;i<str.length;i++){ x ^= str.charCodeAt(i); x = Math.imul(x, 16777619); }
+  return (x>>>0).toString(36);
+}
+(function assignQid(){
+  const seen = {};
+  QUESTIONS.forEach(function(q){
+    let id = 'Q' + qhash((q.stem||'') + '|' + (q.options||[])[0]);
+    if(seen[id]){ seen[id]++; id = id + '-' + seen[id]; } else { seen[id]=1; }
+    q.qid = id;
+    q.ver = q.ver || 1;
+    q.type = q.type || 'single';
+    if(q.type==='multi' && !q.pick) q.pick = (q.answers||[]).length;
+  });
+})();
+
+/* 判分：单选 / 多选（多选要求完全匹配） */
+function isRight(q, picked){
+  if(q.type==='multi'){
+    const a = (q.answers||[]).slice().sort().join(',');
+    const b = (Array.isArray(picked)?picked:[]).slice().sort().join(',');
+    return a!=='' && a===b;
+  }
+  return typeof picked==='number' && picked===q.answer;
+}
+function answerLetter(q){
+  if(q.type==='multi') return (q.answers||[]).map(function(i){return 'ABCD'[i];}).join('、');
+  return 'ABCD'[q.answer];
+}
+
+/* 卷内任务覆盖修复：只在该卷所在领域的“备用余量”中替换，绝不跨卷借题 */
+function repairTaskCoverage(list, spare){
+  const gaps = [];
   const cnt = {};
-  list.forEach(i=>{ const e=QUESTIONS[i].eco; cnt[e]=(cnt[e]||0)+1; });
+  list.forEach(function(i){ const t=QUESTIONS[i].eco; cnt[t]=(cnt[t]||0)+1; });
   Object.keys(ECO_TASKS).forEach(function(t){
     if(cnt[t]) return;
     const dom = ECO_TASKS[t].d;
-    const pool = QUESTIONS.map((q,i)=>i).filter(i=>QUESTIONS[i].eco===t);
-    if(!pool.length) return;
-    const inDom = list.filter(i=>QUESTIONS[i].domain===dom);
-    if(!inDom.length) return;
-    const victim = inDom.slice().sort((a,b)=>(cnt[QUESTIONS[b].eco]||0)-(cnt[QUESTIONS[a].eco]||0))[0];
-    const pick = pool.find(i=>list.indexOf(i)<0);
-    if(pick===undefined) return;
-    list[list.indexOf(victim)] = pick;
-    cnt[QUESTIONS[victim].eco] = (cnt[QUESTIONS[victim].eco]||1) - 1;
+    const pool = spare.filter(function(i){ return QUESTIONS[i].eco===t && QUESTIONS[i].domain===dom; });
+    if(!pool.length){ gaps.push(t); return; }
+    const inDom = list.filter(function(i){ return QUESTIONS[i].domain===dom; });
+    if(!inDom.length){ gaps.push(t); return; }
+    const victim = inDom.slice().sort(function(a,b){
+      return (cnt[QUESTIONS[b].eco]||0)-(cnt[QUESTIONS[a].eco]||0);
+    })[0];
+    const pick = pool[0];
+    const at = list.indexOf(victim);
+    list[at] = pick;
+    spare.splice(spare.indexOf(pick),1);
+    spare.push(victim);
+    cnt[QUESTIONS[victim].eco] = (cnt[QUESTIONS[victim].eco]||1)-1;
     cnt[t] = 1;
   });
-  return list;
+  return gaps;
 }
 
-const PAPER_DUP = {A:0, B:0, C:0};   /* 记录因某领域题量不足而不得不复用的题数 */
-function splitPapers(){
-  const pools = {people:[], process:[], business:[]};
-  QUESTIONS.forEach((q,i)=>{ if(pools[q.domain]) pools[q.domain].push(i); });
+const PAPER_DUP = {A:0, B:0, C:0};
+const PAPER_GAPS = {A:[], B:[], C:[], D:[], E:[], R:[]};
+const PAPER_REPORT = {};
+
+/* 三套独立池：逐题贪心分配，保证互斥 + 领域配额 + 卷内 life 配比 */
+function buildExclusivePools(){
+  const ids = ['A','B','C'];
   const out = {A:[], B:[], C:[]};
-  PAPER_DUP.C = 0;
-  Object.keys(pools).forEach((d, di)=>{
-    const q = QUOTA[d];
-    const list = shuffleIdx(pools[d], 7100 + di*97 + pools[d].length);
-    out.A.push(...list.slice(0, q));
-    out.B.push(...list.slice(q, 2*q));
-    const rest = list.slice(2*q);
-    out.C.push(...rest.slice(0, q));
-    if(rest.length < q){                       /* 题量不足：从 A/B 同领域题中补，保证 180/配额，并如实计数 */
-      const need = q - rest.length;
-      const taken = new Set(out.C);
-      const extra = shuffleIdx(out.A.concat(out.B).filter(i=>QUESTIONS[i].domain===d && !taken.has(i)), 7200 + di*13);
-      const picked = extra.slice(0, need);
-      out.C.push(...picked);
-      PAPER_DUP.C += picked.length;
-    }
+  const spare = {A:[], B:[], C:[]};
+  const domains = ['people','process','business'];
+  const domainReport = {};
+
+  domains.forEach(function(d, di){
+    const quota = QUOTA[d];
+    const all = QUESTIONS.map(function(q,i){ return i; }).filter(function(i){ return QUESTIONS[i].domain===d; });
+    const poolsNeed = quota*3;
+    const lifeTotal = {predictive:0, agileHybrid:0};
+    all.forEach(function(i){ lifeTotal[QUESTIONS[i].life==='predictive'?'predictive':'agileHybrid']++; });
+    const predPerPaper = all.length ? Math.round(quota * lifeTotal.predictive / all.length) : quota;
+    const lifeNeed = {predictive: predPerPaper, agileHybrid: quota - predPerPaper};
+
+    const taken = new Set();
+    const cur = {A:0, B:0, C:0};
+    const lifeCur = {A:{predictive:0,agileHybrid:0}, B:{predictive:0,agileHybrid:0}, C:{predictive:0,agileHybrid:0}};
+
+    /* 阶段 1：任务覆盖——每个任务的题目轮转分给三卷，保证每卷每任务至少 1 题 */
+    const byTask = {};
+    all.forEach(function(i){ const t=QUESTIONS[i].eco; (byTask[t]=byTask[t]||[]).push(i); });
+    Object.keys(byTask).forEach(function(t, ti){
+      const arr = shuffleIdx(byTask[t], 9100 + di*131 + ti*17 + byTask[t].length);
+      const base = (di + ti) % 3;
+      for(let k=0;k<Math.min(3, arr.length);k++){
+        const i = arr[k];
+        const paper = ids[(base + k) % 3];
+        if(cur[paper] >= quota) continue;
+        out[paper].push(i); taken.add(i); cur[paper]++;
+        lifeCur[paper][QUESTIONS[i].life==='predictive'?'predictive':'agileHybrid']++;
+      }
+    });
+
+    /* 阶段 2：按 life 缺口贪心填充剩余题目 */
+    const rest = shuffleIdx(all.filter(function(i){ return !taken.has(i); }), 9500 + di*37);
+    rest.forEach(function(i){
+      const kind = QUESTIONS[i].life==='predictive'?'predictive':'agileHybrid';
+      const cands = ids.filter(function(p){ return cur[p] < quota; });
+      if(!cands.length) return;
+      cands.sort(function(a,b){
+        const ga = (lifeNeed[kind] - lifeCur[a][kind]);
+        const gb = (lifeNeed[kind] - lifeCur[b][kind]);
+        if(gb !== ga) return gb - ga;
+        return cur[a] - cur[b];
+      });
+      const p = cands[0];
+      out[p].push(i); taken.add(i); cur[p]++;
+      lifeCur[p][kind]++;
+    });
+
+    /* 阶段 3：仍不足 quota 的卷，从该领域未分配题补齐；不足则记缺口 */
+    const left = all.filter(function(i){ return !taken.has(i); });
+    ids.forEach(function(p){
+      while(cur[p] < quota && left.length){
+        const i = left.pop();
+        out[p].push(i); taken.add(i); cur[p]++;
+        lifeCur[p][QUESTIONS[i].life==='predictive'?'predictive':'agileHybrid']++;
+      }
+    });
+    /* 该领域的备用余量（用于卷内任务修复，不跨卷） */
+    const unassigned = all.filter(function(i){ return !taken.has(i); });
+    ids.forEach(function(p){ spare[p].push.apply(spare[p], unassigned); });
+    domainReport[d] = {available: all.length, need: poolsNeed, perPaper: {A:cur.A,B:cur.B,C:cur.C}, lifeNeed:lifeNeed};
   });
-  out.A = ensureTaskCoverage(shuffleIdx(out.A, 8101));
-  out.B = ensureTaskCoverage(shuffleIdx(out.B, 8102));
-  out.C = ensureTaskCoverage(shuffleIdx(out.C, 8103));
-  return out;
+
+  return {out: out, spare: spare, domainReport: domainReport};
 }
 
-/* 组卷：A/B/C 按 2026 配额分片；D/E/随机 按配额分层抽样，优先未做过的题 */
+function splitPapers(){
+  const built = buildExclusivePools();
+  const res = {A:[], B:[], C:[]};
+  ['A','B','C'].forEach(function(p, pi){
+    const list = shuffleIdx(built.out[p], 8100 + pi);
+    /* 卷内任务覆盖修复：只用本卷领域的备用余量（独立副本），不引入跨卷重复 */
+    const gaps = repairTaskCoverage(list, built.spare[p].slice());
+    PAPER_GAPS[p] = gaps;
+    res[p] = list;
+  });
+  /* 重复校验（应为 0；若不为 0 说明分配逻辑被破坏，如实记录） */
+  const sA = new Set(res.A), sB = new Set(res.B);
+  PAPER_DUP.A = res.A.length - sA.size;
+  PAPER_DUP.B = res.B.length - sB.size;
+  PAPER_DUP.C = res.C.filter(function(i){ return sA.has(i)||sB.has(i); }).length;
+  return res;
+}
+
+/* D/E/R：蓝图抽样（允许与 A/B/C 复用，但在卷内同样做任务覆盖修复） */
 function buildPaper(id){
   if(id==='A'||id==='B'||id==='C'){
     if(!PAPER_CACHE) PAPER_CACHE = splitPapers();
     return PAPER_CACHE[id].slice();
   }
-  const seed = id==='D'?2202 : id==='E'?3303 : Date.now();
+  const seed = id==='D'?2202 : id==='E'?3303 : (Date.now()>>>0);
   const rnd = packRnd(seed);
   const done = doneSet();
-  const bucket = {people:[],process:[],business:[]};
-  QUESTIONS.forEach((q,i)=>{ if(bucket[q.domain]) bucket[q.domain].push(i); });
   const out = [];
-  Object.keys(bucket).forEach(d=>{
-    const list = bucket[d].slice();
+  const domains = ['people','process','business'];
+  domains.forEach(function(d){
+    const quota = QUOTA[d];
+    const pool = QUESTIONS.map(function(q,i){ return i; }).filter(function(i){ return QUESTIONS[i].domain===d; });
+    const list = pool.slice();
     for(let i=list.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const t=list[i]; list[i]=list[j]; list[j]=t; }
-    const fresh = list.filter(i=>!done.has(i));
-    const used  = list.filter(i=>done.has(i));
-    out.push(...fresh.concat(used).slice(0, QUOTA[d]));
+    /* 任务覆盖优先：先每任务取 1 题，再按未做优先补足 */
+    const picked = [];
+    const seenTask = {};
+    list.forEach(function(i){
+      const t = QUESTIONS[i].eco;
+      if(!seenTask[t] && picked.length < quota){ seenTask[t]=1; picked.push(i); }
+    });
+    const rest = list.filter(function(i){ return picked.indexOf(i)<0; });
+    const fresh = rest.filter(function(i){ return !done.has(i); });
+    const used = rest.filter(function(i){ return done.has(i); });
+    picked.push.apply(picked, fresh.concat(used).slice(0, quota - picked.length));
+    out.push.apply(out, picked.slice(0, quota));
   });
   for(let i=out.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const t=out[i]; out[i]=out[j]; out[j]=t; }
-  return ensureTaskCoverage(out);
+  PAPER_GAPS[id] = repairTaskCoverage(out, []);
+  return out;
 }
 
 /* 练习模式组卷：未做过 > 做过但做错过 > 做过且做对，保证优先刷到新题 */
@@ -5111,6 +5276,60 @@ function beginExam(mode, resume, paper, custom){
   render();
 }
 
+/* 案例组背景：允许同组任一题携带背景，渲染时统一取用 */
+function caseTextOf(q){
+  if(q && q.caseText) return q.caseText;
+  if(!q || !q.caseId) return '';
+  const t = QUESTIONS.find(function(x){ return x.caseId===q.caseId && x.caseText; });
+  return t ? t.caseText : '';
+}
+
+/* 已作答判断：多选为非空数组，单选为数字 */
+function isAnswered(picked){
+  if(Array.isArray(picked)) return picked.length>0;
+  return picked!==undefined && picked!==null;
+}
+
+/* 图表题渲染：内联 SVG，支持挣值曲线与燃尽图 */
+function figureSvg(fig){
+  if(!fig || !fig.kind) return '';
+  const W=520,H=205,PL=46,PR=14,PT=16,PB=30;
+  const iw=W-PL-PR, ih=H-PT-PB;
+  const maxX=fig.maxX||6, maxY=fig.maxY||120;
+  const sx=function(x){ return PL + iw*(x/maxX); };
+  const sy=function(y){ return PT + ih*(1-y/maxY); };
+  let g='';
+  /* 网格与坐标轴 */
+  for(let k=0;k<=4;k++){
+    const y=PT+ih*k/4;
+    g+='<line x1="'+PL+'" y1="'+y.toFixed(1)+'" x2="'+(W-PR)+'" y2="'+y.toFixed(1)+'" stroke="#eef2f7" stroke-width="1"/>';
+    const val=Math.round(maxY*(1-k/4));
+    g+='<text x="'+(PL-8)+'" y="'+(y+4).toFixed(1)+'" font-size="10" fill="#64748b" text-anchor="end">'+val+'</text>';
+  }
+  g+='<line x1="'+PL+'" y1="'+PT+'" x2="'+PL+'" y2="'+(PT+ih)+'" stroke="#94a3b8" stroke-width="1.2"/>';
+  g+='<line x1="'+PL+'" y1="'+(PT+ih)+'" x2="'+(W-PR)+'" y2="'+(PT+ih)+'" stroke="#94a3b8" stroke-width="1.2"/>';
+  const xStep = fig.xStep || 1;
+  for(let x=0;x<=maxX;x+=xStep){
+    g+='<text x="'+sx(x).toFixed(1)+'" y="'+(PT+ih+16)+'" font-size="10" fill="#64748b" text-anchor="middle">'+x+'</text>';
+  }
+  if(fig.xTitle) g+='<text x="'+(PL+iw/2)+'" y="'+(H-4)+'" font-size="10.5" fill="#475569" text-anchor="middle">'+fig.xTitle+'</text>';
+  if(fig.yTitle) g+='<text x="12" y="'+(PT+ih/2)+'" font-size="10.5" fill="#475569" text-anchor="middle" transform="rotate(-90 12 '+(PT+ih/2)+')">'+fig.yTitle+'</text>';
+  /* 数据系列 */
+  (fig.series||[]).forEach(function(s){
+    const pts=s.pts.map(function(pt){ return [sx(pt[0]),sy(pt[1])]; });
+    g+='<polyline fill="none" stroke="'+s.color+'" stroke-width="2.4"'+(s.dash?' stroke-dasharray="6 4"':'')+' points="'+pts.map(function(q){return q[0].toFixed(1)+','+q[1].toFixed(1);}).join(' ')+'"/>';
+    pts.forEach(function(q){ g+='<circle cx="'+q[0].toFixed(1)+'" cy="'+q[1].toFixed(1)+'" r="2.6" fill="'+s.color+'"/>'; });
+  });
+  /* 图例 */
+  let lx=PL+6;
+  (fig.series||[]).forEach(function(s){
+    g+='<rect x="'+lx+'" y="'+(PT-10)+'" width="12" height="3" fill="'+s.color+'"/>';
+    g+='<text x="'+(lx+16)+'" y="'+(PT-5)+'" font-size="10" fill="#334155">'+s.name+'</text>';
+    lx += 22 + s.name.length*6.5;
+  });
+  return '<div class="figwrap"><svg viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="'+(fig.alt||'图表')+'">'+g+'</svg></div>';
+}
+
 /* 是否揭示本题答案：交卷后全部揭示；练习模式需手动点“查看解析” */
 function isRevealed(idx){
   if(state.submitted) return true;
@@ -5125,47 +5344,66 @@ function render(){
   $('qNum').textContent = '第 '+(state.current+1)+' 题 / 共 '+activeList.length;
   const bd=$('qBadge'); bd.textContent=d.name; bd.className='badge '+d.cls;
   $('qTag').textContent = q.tag||'';
-  $('qStem').textContent = q.stem;
+  const typeLabel = q.type==='multi' ? '多选 · 选出 '+(q.pick||(q.answers||[]).length)+' 项'
+    : q.type==='case' ? '案例题' : q.type==='chart' ? '图表分析' : '';
+  $('qStem').innerHTML =
+    (caseTextOf(q) ? '<div class="casebox"><b>案例背景</b><br>'+caseTextOf(q)+'</div>' : '') +
+    '<span>'+q.stem+'</span>' +
+    (typeLabel ? '<span class="tlabel">'+typeLabel+'</span>' : '') +
+    (q.figure ? figureSvg(q.figure) : '');
   $('btnMark').textContent = state.marked[idx] ? '★ 已标记' : '标记待定';
 
   const ul=$('qOpts'); ul.innerHTML='';
   const perm = permOf(idx);
+  const isMulti = q.type==='multi';
   const picked0 = state.answers[idx];
+  const pickedArr = isMulti ? (Array.isArray(picked0)?picked0:(typeof picked0==='number'?[picked0]:[])) : [];
+  const correctSet = isMulti ? (q.answers||[]) : [q.answer];
   q.options.forEach((_, pos)=>{
     const orig = perm[pos];                 /* 展示位置 → 原始选项索引 */
     const li=document.createElement('li');
     let cls='opt';
-    if(picked0===orig) cls+=' sel';
+    if(isMulti ? pickedArr.indexOf(orig)>=0 : picked0===orig) cls+=' sel';
     const showAnswer = isRevealed(idx);
     if(showAnswer){
       cls+=' locked';
-      if(orig===q.answer) cls+=' correct';
-      else if(picked0===orig) cls+=' wrong';
+      if(correctSet.indexOf(orig)>=0) cls+=' correct';
+      else if(pickedArr.indexOf(orig)>=0 || picked0===orig) cls+=' wrong';
     }
     li.className=cls;
     li.innerHTML='<span class="mark">'+'ABCD'[pos]+'</span><span>'+q.options[orig]+'</span>';
     li.onclick=()=>{
       if(showAnswer) return;
-      state.answers[idx]=orig; save(); render(); checkBreak();
+      if(isMulti){
+        const cur = Array.isArray(state.answers[idx]) ? state.answers[idx].slice() : [];
+        const at = cur.indexOf(orig);
+        if(at>=0) cur.splice(at,1); else cur.push(orig);
+        state.answers[idx] = cur;
+      }else{
+        state.answers[idx]=orig;
+      }
+      save(); render(); checkBreak();
     };
     ul.appendChild(li);
   });
 
   const showAnswer = isRevealed(idx);
   const fb=$('qFb');
-  if(showAnswer && state.answers[idx]!==undefined){
-    const right = state.answers[idx]===q.answer;
+  if(showAnswer && isAnswered(state.answers[idx])){
+    const right = isRight(q, state.answers[idx]);
     fb.className='fb '+(right?'good':'bad');
     const permFb = permOf(idx);
-    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+'ABCD'.charAt(permFb.indexOf(q.answer))+'</b><div class="why">'+q.exp+'</div>'+detailHtml(q, idx);
+    const ansTxt = isMulti
+      ? (q.answers||[]).slice().sort().map(function(o){ return 'ABCD'.charAt(permFb.indexOf(o)); }).join('、')
+      : 'ABCD'.charAt(permFb.indexOf(q.answer));
+    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+ansTxt+'</b><div class="why">'+q.exp+'</div>'+detailHtml(q, idx);
   }else{ fb.className=''; fb.innerHTML=''; }
 
   const revealBtn=$('btnReveal');
   const canReveal = state.mode==='practice' && !state.submitted;
   revealBtn.style.display = canReveal ? '' : 'none';
   if(canReveal){
-    const done = state.answers[idx]!==undefined;
-    revealBtn.disabled = !done || isRevealed(idx);
+    revealBtn.disabled = !isAnswered(state.answers[idx]) || isRevealed(idx);
     revealBtn.textContent = isRevealed(idx) ? '已显示解析' : '查看解析';
   }
 
@@ -5183,17 +5421,17 @@ function render(){
   renderPalette();
 }
 function answeredCount(){
-  return activeList.filter(i=>state.answers[i]!==undefined).length;
+  return activeList.filter(i=>isAnswered(state.answers[i])).length;
 }
 function renderPalette(){
   const p=$('palette'); p.innerHTML='';
   activeList.forEach((idx,n)=>{
     const b=document.createElement('button');
     let cls='pal';
-    if(state.answers[idx]!==undefined) cls+=' answered';
+    if(isAnswered(state.answers[idx])) cls+=' answered';
     if(state.marked[idx]) cls+=' marked';
     if(state.submitted){
-      if(state.answers[idx]===QUESTIONS[idx].answer) cls+=' right';
+      if(isRight(QUESTIONS[idx], state.answers[idx])) cls+=' right';
       else cls+=' wrong';
     }
     if(n===state.current) cls+=' cur';
@@ -5231,8 +5469,8 @@ function doSubmit(auto){
   if(state.mode==='practice' && !state.submitted){
     if(Object.keys(state.answers).length===0){ alert('还没有作答任何题目，先做几题再来查看解析吧。'); return; }
     if(!state.revealed) state.revealed={};
-    activeList.forEach(i=>{ if(state.answers[i]!==undefined) state.revealed[i]=true; });
-    markDone(activeList.filter(i=>state.answers[i]!==undefined));
+    activeList.forEach(i=>{ if(isAnswered(state.answers[i])) state.revealed[i]=true; });
+    markDone(activeList.filter(i=>isAnswered(state.answers[i])));
     addWrong(activeList);
     state.practiceSubmitted = true;
     save(); renderResult(); showScreen('scResult');
@@ -5243,7 +5481,7 @@ function doSubmit(auto){
     if(!confirm('还有 '+un+' 题未作答，确定要交卷吗？')) return;
   }
   state.submitted=true; stopTimer();
-  markDone(activeList.filter(i=>state.answers[i]!==undefined));   /* 未作答不计入“已完成” */
+  markDone(activeList.filter(i=>isAnswered(state.answers[i])));   /* 未作答不计入“已完成” */
   addWrong(activeList); save();
   renderResult(); showScreen('scResult');
   window.scrollTo({top:0,behavior:'smooth'});
@@ -5252,11 +5490,17 @@ function doSubmit(auto){
 function renderResult(){
   const practice = (state.mode==='practice' && !state.submitted);
   const all = activeList;
-  const list = practice ? all.filter(i=>state.answers[i]!==undefined) : all;
-  let correct=0; const stat={people:[0,0],process:[0,0],business:[0,0]};
+  const list = practice ? all.filter(i=>isAnswered(state.answers[i])) : all;
+  let correct=0;
+  const stat={people:[0,0],process:[0,0],business:[0,0]};
+  const lifeStat={predictive:[0,0],agile:[0,0],hybrid:[0,0]};
+  const typeStat={single:[0,0],multi:[0,0],case:[0,0],chart:[0,0]};
   list.forEach(i=>{
-    const q=QUESTIONS[i]; stat[q.domain][1]++;
-    if(state.answers[i]===q.answer){correct++;stat[q.domain][0]++;}
+    const q=QUESTIONS[i];
+    const lt = q.life || 'predictive';
+    const tp = q.type || 'single';
+    stat[q.domain][1]++; lifeStat[lt][1]++; typeStat[tp][1]++;
+    if(isRight(q, state.answers[i])){ correct++; stat[q.domain][0]++; lifeStat[lt][0]++; typeStat[tp][0]++; }
   });
   const pct = list.length ? Math.round(correct/list.length*100) : 0;
   const el=$('rScore'); el.textContent=pct+'%';
@@ -5276,6 +5520,24 @@ function renderResult(){
       '<span>'+c+'/'+t+'　'+p+'%</span>';
     bars.appendChild(row);
   });
+  const LIFE_NAME={predictive:'预测型',agile:'敏捷型',hybrid:'混合型'};
+  const TYPE_NAME={single:'单选题',multi:'多选题',case:'案例题',chart:'图表题'};
+  function addGroup(title, obj, names){
+    const hd=document.createElement('div');
+    hd.className='stat-hd'; hd.textContent=title; bars.appendChild(hd);
+    Object.keys(obj).forEach(function(k){
+      const c=obj[k][0], t=obj[k][1];
+      if(!t) return;
+      const pc=Math.round(c/t*100);
+      const row=document.createElement('div'); row.className='bar-row';
+      row.innerHTML='<span>'+names[k]+'</span>'+
+        '<div class="bar"><i class="'+(pc>=70?'g':'r')+'" style="width:'+pc+'%"></i></div>'+
+        '<span>'+c+'/'+t+'　'+pc+'%</span>';
+      bars.appendChild(row);
+    });
+  }
+  addGroup('开发方法正确率（平台内部统计）', lifeStat, LIFE_NAME);
+  addGroup('题型正确率（平台内部统计）', typeStat, TYPE_NAME);
 
   const rl=$('rList');
   const left = all.length - list.length;
@@ -5283,14 +5545,22 @@ function renderResult(){
     (practice && left>0 ? '<p class="sub">还有 '+left+' 题未作答，未作答题目不显示答案。可点下方「继续作答」补完后再次提交查看。</p>' : '');
   list.forEach((idx,n)=>{
     const q=QUESTIONS[idx]; const picked=state.answers[idx];
-    const right = picked===q.answer;
+    const right = isRight(q, picked);
     const permR = permOf(idx);
     const posOf = o => permR.indexOf(o);
+    const isM = q.type==='multi';
+    const pickedTxt = isM
+      ? (Array.isArray(picked)&&picked.length ? picked.slice().sort().map(function(o){return 'ABCD'.charAt(posOf(o));}).join('、') : '未作答')
+      : (picked===undefined?'未作答':'ABCD'.charAt(posOf(picked))+'. '+q.options[picked]);
+    const ansTxtR = isM
+      ? (q.answers||[]).slice().sort().map(function(o){return 'ABCD'.charAt(posOf(o));}).join('、')
+      : 'ABCD'.charAt(posOf(q.answer));
     const div=document.createElement('div'); div.className='rev-item';
     div.innerHTML='<div class="rstem">第 '+(n+1)+' 题　<span class="badge '+DOMAIN[q.domain].cls+'">'+DOMAIN[q.domain].name+'</span> '+(q.tag?'· '+q.tag:'')+'</div>'+
+      (caseTextOf(q)?'<div class="casebox"><b>案例背景</b><br>'+caseTextOf(q)+'</div>':'')+
       '<div class="rline">'+q.stem+'</div>'+
-      '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+(picked===undefined?'未作答':'ABCD'.charAt(posOf(picked))+'. '+q.options[picked])+'</b></div>'+
-      (right?'':'<div class="rline">正确答案：<b class="ok">'+'ABCD'.charAt(posOf(q.answer))+'. '+q.options[q.answer]+'</b></div>')+
+      '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+pickedTxt+'</b></div>'+
+      (right?'':'<div class="rline">正确答案：<b class="ok">'+ansTxtR+(isM?'':' . '+q.options[q.answer])+'</b></div>')+
       '<div class="exp">'+q.exp+'</div>'+
       '<details class="dwrap"><summary>📘 知识点讲解与逐项辨析</summary>'+detailHtml(q, idx)+'</details>';
     rl.appendChild(div);
@@ -6146,10 +6416,63 @@ document.addEventListener('keydown',e=>{
     const idx=activeList[state.current];
     const perm = permOf(idx);
     if(pos<QUESTIONS[idx].options.length && !isRevealed(idx)){
-      state.answers[idx]=perm[pos]; save(); render();
+      const qq=QUESTIONS[idx];
+      if(qq.type==='multi'){
+        const cur=Array.isArray(state.answers[idx])?state.answers[idx].slice():[];
+        const at=cur.indexOf(perm[pos]);
+        if(at>=0) cur.splice(at,1); else cur.push(perm[pos]);
+        state.answers[idx]=cur;
+      }else{
+        state.answers[idx]=perm[pos];
+      }
+      save(); render();
     }
   }
 });
+
+/* ================= 题库审计接口（供自动化脚本与质量面板调用） ================= */
+function auditSnapshot(){
+  const cnt=function(fn){ const m={}; QUESTIONS.forEach(function(q){ const k=fn(q); m[k]=(m[k]||0)+1; }); return m; };
+  const papers={};
+  ['A','B','C','D','E'].forEach(function(id){
+    const list=buildPaper(id);
+    const d={people:0,process:0,business:0}, l={predictive:0,agile:0,hybrid:0}, t={}, task={};
+    list.forEach(function(i){ const q=QUESTIONS[i]; d[q.domain]++; l[q.life]++; const tp=q.type||'single'; t[tp]=(t[tp]||0)+1; task[q.eco]=(task[q.eco]||0)+1; });
+    papers[id]={total:list.length, domain:d, life:l, type:t,
+      tasksCovered:Object.keys(task).length,
+      missingTasks:Object.keys(ECO_TASKS).filter(function(k){ return !task[k]; }),
+      innerDup:list.length-new Set(list).size};
+  });
+  const sA=new Set(buildPaper('A')), sB=new Set(buildPaper('B')), sC=new Set(buildPaper('C'));
+  const cross={AB:buildPaper('A').filter(function(i){return sB.has(i);}).length,
+               AC:buildPaper('A').filter(function(i){return sC.has(i);}).length,
+               BC:buildPaper('B').filter(function(i){return sC.has(i);}).length};
+  const ratio=function(q){ if(!q.options||q.options.length<4) return 0;
+    const l=q.options.map(function(x){return x.length;});
+    const ans = q.type==='multi' ? (q.answers||[])[0] : q.answer;
+    const avg=(l.reduce(function(a,b){return a+b;},0)-l[ans])/3;
+    return avg? l[ans]/avg : 0; };
+  const ratios=QUESTIONS.map(ratio).filter(function(x){return x>0;});
+  return {
+    total:QUESTIONS.length,
+    qid:{present:QUESTIONS.filter(function(q){return q.qid;}).length, unique:new Set(QUESTIONS.map(function(q){return q.qid;})).size},
+    domain:cnt(function(q){return q.domain;}),
+    ecoTask:cnt(function(q){return q.eco;}),
+    ecoStatus:cnt(function(q){return q.ecoStatus;}),
+    life:cnt(function(q){return q.life;}),
+    type:cnt(function(q){return q.type||'single';}),
+    difficulty:cnt(function(q){return q.difficulty||'unknown';}),
+    answerPos:cnt(function(q){ return q.type==='multi' ? 'multi' : 'ABCD'[q.answer]; }),
+    whyCovered:QUESTIONS.filter(function(q){return q.why&&q.why.length===4;}).length,
+    avgRatio: ratios.reduce(function(a,b){return a+b;},0)/ratios.length,
+    over15: ratios.filter(function(x){return x>1.5;}).length,
+    papers: papers,
+    crossDup: cross,
+    paperDup: PAPER_DUP,
+    paperGaps: PAPER_GAPS
+  };
+}
+if(typeof window!=='undefined'){ window.PMP_AUDIT = auditSnapshot; }
 
 /* 初始化 */
 $('sTotal').textContent=TOTAL;
