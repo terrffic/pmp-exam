@@ -61,6 +61,36 @@ ul.notice li{margin:5px 0}
 .paper b{display:block;font-size:15px}
 .paper span{font-size:12px;color:var(--muted);display:block;margin-top:2px;line-height:1.5}
 .paper em{font-style:normal;font-size:11px;color:var(--brand);font-weight:700}
+/* 套卷完成记录 */
+.paper .pstat{display:inline-block;margin-top:7px;font-size:11px;font-weight:700;line-height:1.7;padding:1px 7px;border-radius:6px;border:1px solid}
+.paper .pstat.ok{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+.paper .pstat.part{background:#fffbeb;color:#b45309;border-color:#fcd34d}
+.paper .pstat.none{background:#f8fafc;color:#94a3b8;border-color:#e2e8f0}
+.plog{margin-top:14px;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+.plog-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 14px;background:#f8fafc;border-bottom:1px solid var(--line);font-size:13px;font-weight:700;color:#334155}
+.plog-hd .pl-sum{font-weight:600;font-size:12px;color:var(--muted)}
+.plog-hd .pl-sum b{color:var(--brand)}
+.plog-hd .pl-sum b.full{color:#047857}
+.pl-hd-sp{flex:1}
+.plog-reset{font-size:11.5px;color:#94a3b8;background:none;border:0;cursor:pointer;padding:2px 4px;text-decoration:underline}
+.plog-reset:hover{color:#ef4444}
+.plog-row{display:grid;grid-template-columns:78px minmax(0,1fr) 88px 88px 106px;gap:8px;align-items:center;padding:9px 14px;border-top:1px dashed #eef2f7;font-size:12.5px;color:#334155}
+.plog-hd + .plog-row{border-top:0}
+.plog-row .pl-name{font-weight:700;color:#1e293b;white-space:nowrap}
+.plog-row .pl-name i{font-style:normal;font-size:10px;font-weight:700;color:var(--brand);background:var(--brand-soft);border:1px solid #bfdbfe;border-radius:4px;padding:0 4px;margin-left:3px}
+.plog-row .pl-state.ok{color:#047857;font-weight:700}
+.plog-row .pl-state.part{color:#b45309}
+.plog-row .pl-state.none{color:#94a3b8}
+.plog-row .pl-num{font-variant-numeric:tabular-nums;color:#475569}
+.plog-row .pl-num b{color:#0f172a}
+.plog-row .pl-time{font-size:11.5px;color:#94a3b8;font-variant-numeric:tabular-nums}
+.plog-row .pl-tip{grid-column:2/-1;font-size:11.5px;color:#94a3b8;margin-top:-2px}
+.plog-note{padding:8px 14px;border-top:1px dashed #eef2f7;font-size:11.5px;color:#94a3b8;line-height:1.7}
+@media(max-width:640px){
+  .plog-row{grid-template-columns:60px minmax(0,1fr) 74px;row-gap:2px}
+  .plog-row .pl-hide-sm{display:none}
+  .plog-row .pl-tip{grid-column:2/-1}
+}
 /* 错题诊断 */
 .diag{margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
 .diag-row{display:grid;grid-template-columns:160px 1fr 160px;gap:10px;align-items:center;margin:7px 0;font-size:13px}
@@ -396,6 +426,7 @@ ul.notice li{margin:5px 0}
       </div>
       <h2>选择试卷</h2>
       <div class="papers" id="papers"></div>
+      <div class="plog" id="plog"></div>
       <p class="sub" style="margin-top:10px">💡 <b>练习模式</b>每次从 816 题中按考纲比例重新组卷，优先出你没做过的题（其次出做错过的），越练覆盖越全；C/D/E 卷与随机卷同样优先抽新题。</p>
 
       <h2 style="margin-top:22px">辅助练习（按错题自动补强）</h2>
@@ -430,6 +461,7 @@ ul.notice li{margin:5px 0}
         <li>题型包含<b>单选、多选（明确选出几项）、案例组（同一背景连续多问）、图表分析（挣值曲线、燃尽图等内联图像）</b>，以及计算与综合判断题。全部考察“先判断情境、再选最合适行动”的判断力。</li>
         <li>每题解析包含：<b>正确答案 + 解题要点 + 📄 原题回放 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析（<b>错项优先</b>：先把每个错项为什么错讲清，最后再说正确项）+ 🧮 考点方法详解 + 📖 术语对照</b>。其中<b>考点方法详解</b>会把这个考点相关的一串方法一次讲全——例如风险定量分析不只讲 EMV，还会讲决策树、蒙特卡洛、敏感性分析，各自给出<b>含义、计算过程与适用场景</b>。题目按<b>预测型 / 敏捷型 / 混合型</b>与<b>基础 / 中等 / 较难</b>标注，交卷后按领域、开发方法、题型分别统计正确率。</li>
         <li><b>标记与知识点讲解</b>：答题时点「标记待定」把题存进首页的<b>「我的标记」</b>，标记永久保存在本机（重开试卷、切换套卷、刷新都不丢）；<b>标记题在练习时自动展开完整知识点讲解</b>（概念 · 机制 · 判断线索 · 易混淆 · 常见问法 · 关联知识点）；「我的标记」页会把全部标记题按知识点主题去重、<b>逐条展开扩展讲解</b>，并可按标记题一键组卷专项练习。题目下方的「📘 知识点讲解」按钮随时可点，<b>只讲知识点、不揭示答案</b>；模考未交卷时隐藏，避免影响公平性。</li>
+        <li><b>三套真题完成记录</b>：只有<b>整卷 180 题全部作答并交卷</b>才算「完整做完一遍」，做到一半的只记录进度、不计遍数。首页「三套真题完成情况」会显示每套的<b>完成遍数、最近成绩、最佳成绩、最近完成时间</b>，试卷卡片上也会直接标 ✅ / ⏳ / ○。记录只存本机，可在该区块点「重置完成记录」单独清除（不影响答题进度、错题池与标记）。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
         <li>答题进度自动保存在本机，刷新或关闭后可继续；模考模式下未完成也可交卷。</li>
       </ul>
@@ -511,6 +543,7 @@ ul.notice li{margin:5px 0}
         <div>
           <div class="big" id="rScore">0</div>
           <div class="sub" id="rSub">正确率</div>
+          <div class="sub" id="rPaper" style="margin-top:7px;font-size:12.5px"></div>
         </div>
         <div style="flex:1;min-width:260px">
           <div id="rBars"></div>
@@ -6222,6 +6255,111 @@ function markDone(list){
   }catch(e){}
 }
 
+/* ---------------- 套卷完成记录：哪一套已经完整做过一遍 ----------------
+   只记录“整卷模考”（A/B/C 三套真题 + D/E 混合卷）；练习卷(P)、随机卷(R)、专项加练不记。
+   一次交卷中把 180 题全部作答 → 记为“完整做完一遍”；只做了一部分的，记录进度但不计遍数。 */
+const PAPER_LOG_KEY = KEY + '_papers';
+function paperLogAll(){
+  try{
+    const m = JSON.parse(localStorage.getItem(PAPER_LOG_KEY)||'{}');
+    return (m && typeof m==='object' && !Array.isArray(m)) ? m : {};
+  }catch(e){ return {}; }
+}
+function paperLogSave(m){
+  try{ localStorage.setItem(PAPER_LOG_KEY, JSON.stringify(m||{})); }catch(e){}
+}
+function paperLogGet(id){ return paperLogAll()[id] || null; }
+function clearPaperLog(){ try{ localStorage.removeItem(PAPER_LOG_KEY); }catch(e){} }
+function paperLogged(id, drill){
+  return !!id && id!=='P' && id!=='R' && !drill;
+}
+function recordPaperRun(id, answered, total, correct, isExam){
+  if(!paperLogged(id,false) || !total) return null;
+  const m = paperLogAll();
+  const r = m[id] || {runs:0, full:0, lastAt:0, lastPct:0, bestPct:0, bestAt:0,
+                      fullPct:0, fullAt:0, lastAnswered:0, lastTotal:0, lastCorrect:0, lastMode:''};
+  const pct = Math.round((correct||0)/total*100);
+  r.runs = (r.runs||0) + 1;
+  r.lastAt = Date.now();
+  r.lastPct = pct;
+  r.lastCorrect = correct||0;
+  r.lastTotal = total;
+  r.lastAnswered = answered||0;
+  r.lastMode = isExam ? 'exam' : 'practice';
+  if(answered >= total){                      /* 全部作答并交卷 → 完整做完一遍 */
+    r.full = (r.full||0) + 1;
+    r.fullAt = r.lastAt;
+    r.fullPct = pct;
+    if(!r.bestPct || pct > r.bestPct){ r.bestPct = pct; r.bestAt = r.lastAt; }
+  }
+  m[id] = r;
+  paperLogSave(m);
+  return r;
+}
+function fmtLogTime(ts){
+  if(!ts) return '—';
+  const d = new Date(ts);
+  const p = function(n){ return String(n).length<2 ? '0'+n : String(n); };
+  return (d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+/* 试卷卡片上的短标签 */
+function paperCardStat(id){
+  const r = paperLogGet(id);
+  if(!r || !r.runs) return {cls:'none', text:'○ 还没做过'};
+  if(!r.full) return {cls:'part', text:'⏳ 上次做到 '+r.lastAnswered+'/'+r.lastTotal};
+  return {cls:'ok', text:'✅ 已完整做完 '+r.full+' 遍 · 最近 '+r.fullPct+'%'};
+}
+/* 完成情况表里的状态文案 */
+function paperState(id){
+  const r = paperLogGet(id);
+  if(!r || !r.runs) return {cls:'none', text:'○ 还没做过'};
+  if(!r.full) return {cls:'part', text:'⏳ 上次做到 '+r.lastAnswered+'/'+r.lastTotal+'，未完整做完'};
+  let t = '✅ 已完整做完 '+r.full+' 遍';
+  if(r.lastAnswered < r.lastTotal) t += '（最近一次只做 '+r.lastAnswered+' 题）';
+  return {cls:'ok', text:t};
+}
+function paperLogRowHtml(id, tag){
+  const r = paperLogGet(id), st = paperState(id);
+  const done = !!(r && r.full);
+  return '<div class="plog-row" data-paper="'+id+'">'+
+    '<span class="pl-name">'+id+' 卷'+(tag?'<i>真题</i>':'')+'</span>'+
+    '<span class="pl-state '+st.cls+'">'+st.text+'</span>'+
+    '<span class="pl-num pl-hide-sm">'+(done?'最近 <b>'+r.fullPct+'%</b>':'最近 <b>—</b>')+'</span>'+
+    '<span class="pl-num pl-hide-sm">'+(done?'最佳 <b>'+r.bestPct+'%</b>':'最佳 <b>—</b>')+'</span>'+
+    '<span class="pl-time">'+(done?fmtLogTime(r.fullAt):'—')+'</span>'+
+  '</div>';
+}
+function paperLogHtml(){
+  const all = paperLogAll();
+  const trio = ['A','B','C'].filter(function(id){ return all[id] && all[id].full; }).length;
+  const mix  = ['D','E'].filter(function(id){ return all[id] && all[id].runs; });
+  let h = '<div class="plog-hd"><span>📋 三套真题完成情况</span>'+
+    '<span class="pl-sum">已完整做完 <b'+(trio?' class="full"':'')+'>'+trio+'</b> / 3 套'+
+    '<span style="font-weight:400">（180 题全部作答并交卷才算一遍）</span></span>'+
+    '<span class="pl-hd-sp"></span>'+
+    '<button class="plog-reset" id="plogReset">重置完成记录</button></div>';
+  ['A','B','C'].forEach(function(id){ h += paperLogRowHtml(id, true); });
+  if(mix.length){
+    h += '<div class="plog-note">D、E 混合卷：' + mix.map(function(id){
+      const r = all[id];
+      return id+' 卷 '+paperState(id).text + (r.full ? '（最近 '+r.fullPct+'% · '+fmtLogTime(r.fullAt)+'）' : '');
+    }).join('　·　') + '</div>';
+  }else{
+    h += '<div class="plog-note">D、E 为混合组卷（可与 A/B/C 复用题目），整卷完成记录同样保存；随机卷与专项加练不计入套卷记录。</div>';
+  }
+  return h;
+}
+function renderPaperLog(){
+  const box = $('plog');
+  if(!box) return;
+  box.innerHTML = paperLogHtml();
+  const btn = $('plogReset');
+  if(btn) btn.onclick = function(){
+    if(!confirm('确定重置三套真题（含 D/E 混合卷）的完成记录？\n只清记录，不影响答题进度、错题池与标记。')) return;
+    clearPaperLog(); renderPaperLog(); renderPapers();
+  };
+}
+
 /* ---------------- 错题池与诊断 ---------------- */
 function wrongMap(){
   try{ return JSON.parse(localStorage.getItem(KEY+'_wrong')||'{}'); }catch(e){ return {}; }
@@ -6950,9 +7088,25 @@ function doSubmit(auto){
   }
   state.submitted=true; stopTimer();
   markDone(activeList.filter(i=>isAnswered(state.answers[i])));   /* 未作答不计入“已完成” */
-  addWrong(activeList); save();
+  addWrong(activeList);
+  recordCurrentPaper();
+  save();
   renderResult(); showScreen('scResult');
   window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* 交卷时登记套卷完成情况（三套真题 / D、E 混合卷；练习卷、随机卷、专项加练不记） */
+function recordCurrentPaper(){
+  if(state.mode!=='exam') return null;
+  if(!paperLogged(state.paper, state.drill)) return null;
+  const list = activeList || [];
+  if(!list.length) return null;
+  const answered = list.filter(i=>isAnswered(state.answers[i])).length;
+  let correct = 0;
+  list.forEach(i=>{ if(isRight(QUESTIONS[i], state.answers[i])) correct++; });
+  const rec = recordPaperRun(state.paper, answered, list.length, correct, state.mode==='exam');
+  renderPaperLog(); renderPapers();
+  return rec;
 }
 
 function renderResult(){
@@ -6978,6 +7132,28 @@ function renderResult(){
     (practice ? '　·　已完成 '+list.length+' / '+all.length+' 题（仅统计已作答）' : '') +
     (used!==null?'　·　用时约 '+used+' 分钟':'') +
     (list.length ? '　·　' + (pct>=70?'<span class="ok">达到平台建议练习目标（70%，非官方分数线）</span>':'<span class="no">未达平台建议练习目标（70% 为内部参考，非官方分数线）</span>') : '');
+
+  /* 套卷完成情况：这次是否算“完整做过一遍” */
+  const rp = $('rPaper');
+  if(rp){
+    if(!paperLogged(state.paper, state.drill)){
+      rp.innerHTML = ''; rp.style.display = 'none';
+    }else{
+      rp.style.display = '';
+      const rec = paperLogGet(state.paper);
+      const total = all.length;
+      const answered = all.filter(i=>isAnswered(state.answers[i])).length;
+      const fullThis = answered >= total;
+      let t = '📋 '+state.paper+' 卷 · 本次作答 <b>'+answered+'/'+total+'</b> 题';
+      if(rec && rec.full > 0){
+        t += '　·　已完整做完 <b class="ok">'+rec.full+'</b> 遍（最近 '+rec.fullPct+'% · 最佳 '+rec.bestPct+'% · '+fmtLogTime(rec.fullAt)+'）';
+        if(!fullThis) t += '　·　本次未做完，不计入遍数';
+      }else{
+        t += fullThis ? '　·　<b class="ok">已记为完整做完 1 遍</b>' : '　·　未做完，暂不计入遍数';
+      }
+      rp.innerHTML = t;
+    }
+  }
 
   const bars=$('rBars'); bars.innerHTML='';
   Object.keys(stat).forEach(k=>{
@@ -7171,7 +7347,9 @@ function renderPapers(){
     const n = list ? list.length : 180;
     const cnt = list ? list.filter(i=>done.has(i)).length : 0;
     const dup = (p.id==='C' && PAPER_DUP.C) ? '　<span style="color:#b45309">含 '+PAPER_DUP.C+' 题与 A/B 重叠</span>' : '';
-    d.innerHTML = '<b>'+p.name+'</b><span>'+p.desc+'</span><span><em>'+n+' 题</em>'+(p.id==='R'?'':'　已做 '+cnt)+dup+'</span>';
+    const st = (p.id==='R') ? null : paperCardStat(p.id);
+    d.innerHTML = '<b>'+p.name+'</b><span>'+p.desc+'</span><span><em>'+n+' 题</em>'+(p.id==='R'?'':'　已做 '+cnt)+dup+'</span>'+
+      (st ? '<span class="pstat '+st.cls+'">'+st.text+'</span>' : '');
     d.onclick = ()=>{ selectedPaper = p.id; renderPapers(); };
     box.appendChild(d);
   });
@@ -7829,7 +8007,7 @@ $('btnSubmit').onclick=()=>doSubmit(false);
 $('btnSubmitTop').onclick=()=>doSubmit(false);
 $('btnContinue').onclick=()=>{ showScreen('scQuiz'); render(); window.scrollTo({top:0,behavior:'smooth'}); };
 $('btnRestart').onclick=()=>{ clearSave(); location.reload(); };
-$('btnBackHome').onclick=()=>{ stopTimer(); showScreen('scIntro'); };
+$('btnBackHome').onclick=()=>{ stopTimer(); renderPapers(); renderPaperLog(); showScreen('scIntro'); };
 $('btnPrint').onclick=()=>window.print();
 
 /* ================= 我的标记：统计 / 清单 / 专项 ================= */
@@ -8204,6 +8382,7 @@ if(typeof window!=='undefined'){ window.PMP_AUDIT = auditSnapshot; }
 /* 初始化 */
 $('sTotal').textContent=TOTAL;
 renderPapers();
+renderPaperLog();
 refreshDrillHint();
 refreshMarkEntry();
 const s=load();
