@@ -78,6 +78,24 @@ ul.notice li{margin:5px 0}
 .plog-hd + .plog-row{border-top:0}
 .plog-row .pl-name{font-weight:700;color:#1e293b;white-space:nowrap}
 .plog-row .pl-name i{font-style:normal;font-size:10px;font-weight:700;color:var(--brand);background:var(--brand-soft);border:1px solid #bfdbfe;border-radius:4px;padding:0 4px;margin-left:3px}
+.plog-row .pl-name i.k-mix{color:#b45309;background:#fffbeb;border-color:#fcd34d}
+/* 学习诊断：三套口径 */
+.stats{margin-top:12px;border:1px solid #e2e8f0;border-radius:12px;padding:12px 14px;background:#f8fafc}
+.stats:empty{display:none}
+.st-head{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;font-size:13.5px;color:#0f172a}
+.st-head>span{font-size:11.5px;color:#64748b;font-weight:400}
+.st-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.st-cell{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px}
+.st-lb{font-size:11.5px;color:#475569;font-weight:700}
+.st-v{font-size:23px;font-weight:800;color:#0f172a;line-height:1.25;font-variant-numeric:tabular-nums}
+.st-v i{font-size:12px;font-style:normal;color:#64748b;margin-left:1px}
+.st-n{font-size:11px;color:#64748b;margin-top:1px}
+.st-note{font-size:10.5px;color:#94a3b8;line-height:1.5;margin-top:4px}
+.st-foot{margin-top:9px;font-size:11px;color:#92400e;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:6px 9px;line-height:1.6}
+.st-empty{font-size:12px;color:#64748b;line-height:1.85}
+.sim-note{margin:10px 0 2px;font-size:12px;line-height:1.8;color:#92400e;background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:8px 10px}
+.sim-note code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;background:#fff;border:1px solid #fde68a;border-radius:4px;padding:0 3px}
+@media(max-width:640px){.st-grid{grid-template-columns:1fr}}
 .plog-row .pl-state.ok{color:#047857;font-weight:700}
 .plog-row .pl-state.part{color:#b45309}
 .plog-row .pl-state.none{color:#94a3b8}
@@ -201,6 +219,13 @@ ul.notice li{margin:5px 0}
 .pal.marked::after{content:"";position:absolute;top:3px;right:3px;width:6px;height:6px;border-radius:50%;background:var(--warn)}
 .pal.right{background:var(--ok-soft);border-color:#86efac;color:#15803d}
 .pal.wrong{background:var(--bad-soft);border-color:#fca5a5;color:#b91c1c}
+.pal.lock{opacity:.38;cursor:not-allowed;text-decoration:line-through}
+.brk-mask{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:95;display:flex;align-items:center;justify-content:center;padding:20px}
+.brk-card{background:#fff;border-radius:16px;padding:24px 26px;max-width:430px;width:100%;box-shadow:0 24px 60px rgba(15,23,42,.35);text-align:center}
+.brk-hd{font-size:17px;font-weight:800;color:#0f172a;margin-bottom:8px}
+.brk-p{font-size:13px;line-height:1.85;color:#475569;margin:0 0 14px;text-align:left}
+.brk-time{font-size:44px;font-weight:800;color:var(--brand);font-variant-numeric:tabular-nums;letter-spacing:1px;margin:4px 0 16px}
+.brk-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .legend{font-size:12px;color:var(--muted);margin-top:10px;display:flex;gap:12px;flex-wrap:wrap}
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:4px}
 /* result */
@@ -416,6 +441,16 @@ ul.notice li{margin:5px 0}
 .st-name{font-size:13.5px;font-weight:700;color:#1e293b}
 .st-meta{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .st-map{margin-left:auto;font-size:11px;color:#64748b;border:1px dashed #cbd5e1;border-radius:5px;padding:1px 6px;white-space:nowrap}
+.st-grade{font-size:10.5px;font-weight:700;border-radius:5px;padding:1px 6px;border:1px solid;cursor:help;white-space:nowrap}
+.st-grade.g-A{color:#b91c1c;background:#fef2f2;border-color:#fca5a5}
+.st-grade.g-B{color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe}
+.st-grade.g-C{color:#0f766e;background:#f0fdfa;border-color:#99f6e4}
+.st-grade.g-D{color:#7c3aed;background:#f5f3ff;border-color:#ddd6fe}
+.sr-grades{margin-top:11px;border:1px solid #e2e8f0;border-radius:10px;padding:9px 11px;background:#fff}
+.sr-g-h{font-size:12px;font-weight:700;color:#334155;margin-bottom:6px}
+.sr-g{font-size:11.5px;line-height:1.7;color:#475569;display:flex;gap:7px;padding:2px 0}
+.sr-g b{flex:0 0 62px}
+.sr-g.g-A b{color:#b91c1c}.sr-g.g-B b{color:#1d4ed8}.sr-g.g-C b{color:#0f766e}.sr-g.g-D b{color:#7c3aed}
 .st-body{padding:0 14px 13px;border-top:1px solid var(--line)}
 .st-goal{font-size:12.5px;color:#475569;background:#f8fafc;border-left:3px solid #93c5fd;border-radius:8px;padding:8px 10px;margin-top:11px;line-height:1.8}
 .st-kps{list-style:none;margin:10px 0 0;padding:0;counter-reset:sk}
@@ -444,7 +479,7 @@ ul.notice li{margin:5px 0}
 <body>
 <header class="top">
   <div class="top-in">
-    <div class="brand">PMP® 2026 中国大陆版模考 · 180 题 / 240 分钟<small>依据 2026 年 12 月 ECO（33% / 41% / 26%）· 非 PMI 官方真题</small></div>
+    <div class="brand">PMP® 2026 中国大陆版模考 · 6 套整卷 / 180 题 · 3 节<small>依据 2026 年 12 月 ECO（33% / 41% / 26%）· 非 PMI 官方真题</small></div>
     <div class="top-spacer"></div>
     <div class="pill" id="pillProgress">0 / 0</div>
     <div class="pill" id="clock">--:--</div>
@@ -457,18 +492,19 @@ ul.notice li{margin:5px 0}
   <!-- 首页 -->
   <section id="scIntro" class="screen active">
     <div class="card" style="margin-top:20px">
-      <h1>PMP® 标准模拟考试 · 816 题库 / 5 套卷</h1>
-      <p class="sub">每套 180 题 / 240 分钟，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套独立卷</b>，D、E 为混合卷。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照；四个选项篇幅已做均衡处理，正确项不存在“最长/最短”线索。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。交卷后输出领域与知识点诊断，并生成针对性加练。</p>
+      <h1>PMP® 标准模拟考试 · 841 题库 / 6 套整卷</h1>
+      <p class="sub">每套 180 题，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套内容互不重复的独立标准卷</b>；<b>D、E、F 为混合卷</b>，题目从三套独立卷中固定抽取并重新配比，<b>存在复用，不构成新的独立题量</b>。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。交卷后输出领域、知识点与三套口径的学习诊断。</p>
       <div class="grid-info">
         <div class="stat"><b id="sTotal">0</b><span>题库总题量（每卷 180 · 三卷独立）</span></div>
-        <div class="stat"><b>5 套 + 随机</b><span>可用试卷</span></div>
-        <div class="stat"><b>180 题 / 240 分钟</b><span>2026 版考试时长与题量</span></div>
-        <div class="stat"><b>错题诊断</b><span>按知识点统计 + 专项补强</span></div>
+        <div class="stat"><b>6 套 + 随机</b><span>整卷 · 其中 3 套独立</span></div>
+        <div class="stat"><b id="sTime">180 题 / 240 分钟</b><span id="sTimeNote">含 10 分钟缓冲，可切官方 230 分钟</span></div>
+        <div class="stat"><b>三套统计口径</b><span>首答 / 重练 / 模考分开算</span></div>
       </div>
       <h2>选择试卷</h2>
       <div class="papers" id="papers"></div>
       <div class="plog" id="plog"></div>
-      <p class="sub" style="margin-top:10px">💡 <b>练习模式</b>每次从 816 题中按考纲比例重新组卷，优先出你没做过的题（其次出做错过的），越练覆盖越全；C/D/E 卷与随机卷同样优先抽新题。</p>
+      <div class="stats" id="statsBox"></div>
+      <p class="sub" style="margin-top:10px">💡 <b>练习模式</b>每次从 841 题中按考纲比例重新组卷，优先出你没做过的题（其次出做错过的），越练覆盖越全；D/E/F 与随机卷同样优先抽新题。</p>
 
       <h2 style="margin-top:22px">辅助练习（按错题自动补强）</h2>
       <p class="sub" id="drillHint">完成一套试卷后，这里会按你的错题知识点推荐专项练习。</p>
@@ -501,13 +537,13 @@ ul.notice li{margin:5px 0}
 
       <h2 style="margin-top:20px">考试说明</h2>
       <ul class="notice">
-        <li>每套 180 题，按 <b>2026 版 ECO 配比</b>组卷：<b>人员 33%（59 题）/ 过程 41%（74 题）/ 业务环境 26%（47 题）</b>。<b>A、B、C 三套卷完全独立</b>（跨卷重复 0 题），每卷均覆盖 26 项官方任务。D、E 与随机卷为混合卷，可跨卷复用题目。</li>
-        <li>交卷后自动生成<b>错题诊断</b>：按知识点标签统计错误次数，可一键生成「薄弱知识点专项」「错题重练」与领域专项练习。</li>
-        <li>240 分钟，平台按第 60、120 题分段提示休息（<b>平台练习分段，非官方强制规则</b>），休息期间计时暂停。</li>
+        <li>每套 180 题，按 <b>2026 版 ECO 配比</b>组卷：<b>人员 33%（59 题）/ 过程 41%（74 题）/ 业务环境 26%（47 题）</b>。<b>A、B、C 三套卷内容完全独立</b>（跨卷重复 0 题），每卷均覆盖 26 项官方任务。D、E、F 从这三套独立卷中固定抽取并重新配比，<b>与独立卷存在复用</b>；随机卷每次重新抽题。二者都不构成新的独立题量，页面上已如实标注。</li>
+        <li><b>计时与分节</b>：官方考试为 180 题 / <b>230 分钟</b>，分为 3 个分节（1–60、61–120、121–180），每节提交后<b>不能返回修改</b>，分节之间可有 <b>10 分钟休息</b>（休息期间计时停止）。本平台严格模式按同一模型实现；为减少练习时的压缩感，默认给 <b>240 分钟</b>（含 10 分钟缓冲），可在下方切换为<b>严格官方 230 分钟</b>。练习模式不分节、不限时、可自由跳题。</li>
         <li>题型包含<b>单选、多选（明确选出几项）、案例组（同一背景连续多问）、图表分析（挣值曲线、燃尽图等内联图像）</b>，以及计算与综合判断题。全部考察“先判断情境、再选最合适行动”的判断力。</li>
         <li>每题解析包含：<b>正确答案 + 解题要点 + 📄 原题回放 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析（<b>错项优先</b>：先把每个错项为什么错讲清，最后再说正确项）+ 🧮 考点方法详解 + 📖 术语对照</b>。其中<b>考点方法详解</b>会把这个考点相关的一串方法一次讲全——例如风险定量分析不只讲 EMV，还会讲决策树、蒙特卡洛、敏感性分析，各自给出<b>含义、计算过程与适用场景</b>。题目按<b>预测型 / 敏捷型 / 混合型</b>与<b>基础 / 中等 / 较难</b>标注，交卷后按领域、开发方法、题型分别统计正确率。</li>
         <li><b>标记与知识点讲解</b>：答题时点「标记待定」把题存进首页的<b>「我的标记」</b>，标记永久保存在本机（重开试卷、切换套卷、刷新都不丢）；<b>标记题在练习时自动展开完整知识点讲解</b>（概念 · 机制 · 判断线索 · 易混淆 · 常见问法 · 关联知识点）；「我的标记」页会把全部标记题按知识点主题去重、<b>逐条展开扩展讲解</b>，并可按标记题一键组卷专项练习。题目下方的「📘 知识点讲解」按钮随时可点，<b>只讲知识点、不揭示答案</b>；模考未交卷时隐藏，避免影响公平性。</li>
-        <li><b>三套真题完成记录</b>：只有<b>整卷 180 题全部作答并交卷</b>才算「完整做完一遍」，做到一半的只记录进度、不计遍数。首页「三套真题完成情况」会显示每套的<b>完成遍数、最近成绩、最佳成绩、最近完成时间</b>，试卷卡片上也会直接标 ✅ / ⏳ / ○。记录只存本机，可在该区块点「重置完成记录」单独清除（不影响答题进度、错题池与标记）。</li>
+        <li><b>整卷完成记录</b>：只有<b>整卷 180 题全部作答并交卷</b>才算「完整做完一遍」，做到一半的只记录进度、不计遍数。首页「六套整卷完成情况」会按<b>独立卷 / 混合卷</b>分组，显示每套的<b>完成遍数、最近成绩、最佳成绩、最近完成时间</b>，试卷卡片上也会直接标 ✅ / ⏳ / ○。记录只存本机，可在该区块点「重置完成记录」单独清除（不影响答题进度、错题池与标记）。</li>
+        <li><b>三套统计口径分开</b>：<b>首答正确率</b>（每题只计第一次）、<b>重复练习正确率</b>（第 2 次起，含记忆效应）、<b>独立模考正确率</b>（只统计整卷模考）分别显示，不混算。平台<b>不公布也不猜测及格线</b>；页面出现的 <b>70% 仅为内部练习参考值</b>，PMI 不公开及格分，任何模拟分数都不能预测官方考试结果。</li>
         <li><b>考点大纲</b>：按 2026 版 ECO 的 <b>26 项任务</b>整理了 <b>166 个知识点</b>（每条含要点、常用工具、判断线索），支持关键词检索与<b>按任务一键专项练习</b>，并附 <b>PMBOK 第八版 6 条原则 / 7 个绩效域</b>对照。提醒：PMI <b>不出版「官方考试教材」</b>，考试以 ECO 为依据，PMBOK 是参考标准而非教材——该页开头有完整说明。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
         <li>答题进度自动保存在本机，刷新或关闭后可继续；模考模式下未完成也可交卷。</li>
@@ -517,6 +553,10 @@ ul.notice li{margin:5px 0}
         <button class="btn" id="btnPractice">练习模式（不限时 · 优先出未做过的题）</button>
         <button class="btn ghost" id="btnResume" style="display:none">继续上次答题</button>
         <button class="btn ghost" id="btnClearAll">清空记录</button>
+      </div>
+      <div class="mode-row" style="margin-top:8px">
+        <button class="btn ghost sm" id="btnTimeMode">切换为严格官方时长（230 分钟）</button>
+        <span class="sub" id="timeModeNote" style="font-size:11.5px;margin:0;align-self:center"></span>
       </div>
       <div class="progress"><i id="introProg"></i></div>
     </div>
@@ -644,6 +684,19 @@ ul.notice li{margin:5px 0}
   </section>
 
   <div class="footer">命题依据：PMI 2026 年 12 月中国大陆版《PMP 认证考试内容大纲》与 PMBOK 第八版等实践资料；用于备考练习，<b>非 PMI 官方真题</b>，不代表官方题型比例或分数线。<br>提示：解析与知识点中可<b>选中词语</b>查定义。</div>
+</div>
+
+<!-- 分节休息 -->
+<div id="brkMask" class="brk-mask" style="display:none">
+  <div class="brk-card">
+    <div class="brk-hd">☕ 分节休息</div>
+    <p class="brk-p">本节已提交并锁定，<b>不能返回修改</b>。官方考试在分节之间提供 <b>10 分钟休息</b>，休息期间<b>计时停止</b>；可随时点「继续」提前开始下一节。</p>
+    <div class="brk-time" id="brkTime">10:00</div>
+    <div class="brk-btns">
+      <button class="btn primary" id="brkGo">继续下一节</button>
+      <button class="btn ghost" id="brkSkip">跳过休息</button>
+    </div>
+  </div>
 </div>
 
 <!-- 划词查词 -->
@@ -2125,6 +2178,12 @@ function topicPanelHtml(q, idx, full){
 
 function detailHtml(q, idx, withRef, noTopic){
   let h = '';
+  /* 同逻辑变式题提示：同考点、同解法、只换背景，避免被当成两道不同的题来估分 */
+  const simIds = (typeof SIM_OF !== 'undefined' && q.qid && SIM_OF[q.qid]) || [];
+  if(simIds.length){
+    h += '<div class="sim-note">⚠️ <b>同逻辑变式题</b>：本题与 ' + simIds.map(function(id){ return '<code>'+id+'</code>'; }).join('、') +
+         ' 属同一考点、同一解题逻辑，只是更换了项目背景。练习同一套时不会同时抽到；统计时请勿把它们当作独立能力点。</div>';
+  }
   if(withRef !== false){
     /* 原题回放：把题干与四个选项一并渲染进解析区，方便对照 A/B/C/D 的逐项辨析 */
     const perm0 = (idx === undefined) ? [0,1,2,3] : permOf(idx);
@@ -6046,7 +6105,19 @@ function refreshMarkEntry(){
   const el = document.getElementById('markEntryCount');
   if(el) el.textContent = markCount();
 }
-const EXAM_SECONDS = 240*60;         // 2026 中国大陆版：180 题 / 240 分钟
+/* 计时：官方 180 题 / 230 分钟；平台默认给 10 分钟缓冲，可在首页切换为「严格官方时长」。
+   两者都按 180 题实现，切换只影响计时长短，不影响题量、配比与判分。 */
+const EXAM_MINUTES = { official: 230, buffer: 240 };
+const CFG_KEY = KEY + '_cfg';
+function cfgGet(){
+  try{ return JSON.parse(localStorage.getItem(CFG_KEY) || '{}') || {}; }catch(e){ return {}; }
+}
+function cfgSet(k, v){
+  const c = cfgGet(); c[k] = v;
+  try{ localStorage.setItem(CFG_KEY, JSON.stringify(c)); }catch(e){}
+}
+function examTimeMode(){ return cfgGet().time === 'official' ? 'official' : 'buffer'; }
+function EXAM_SECONDS(){ return EXAM_MINUTES[examTimeMode()] * 60; }
 const BREAK_AT = [60,120];           // 平台练习分段提示（非官方强制规则）
 
 /* ---- 2026 版领域重分类 ----
@@ -6111,7 +6182,7 @@ const ECO_RULES = [
   ['PE3',['领导','授权','自组织','团队','绩效','激励','认可','心理安全','信任','辅导','教练','培训','技能','能力','技能矩阵','流失','转岗','弹性','多代际','驻场','外包团队','部门孤岛','跨团队','情绪','情商','倾听','反馈','SBI','GROW','面子','非语言','多样性','包容','角色','决策','基本规则','工作协议','团队章程','虚拟','远程','跨时区','跨职能','入职','文化融合']],
   ['PR1',['项目管理计划','项目文件','PMIS','渐进明细','计划批准','计划编制','健康检查','阶段评审','假设日志','数据收集','引导式研讨会','决策技术','群体决策','问题解决','问题日志','章程']]
 ];
-/* ---- 逐题 ECO 确认表（人工判定，816 项）----
+/* ---- 逐题 ECO 确认表（人工判定，841 项）----
    设计原则：
    1) 每题以显式任务码保存在 q.eco，ecoStatus 为 confirmed / review；
    2) 关键词规则 ECO_RULES 仅生成“建议值” q.ecoGuess，只用于审计比对，不再决定归属；
@@ -6158,6 +6229,8 @@ QUESTIONS.forEach((q,i)=>{
 /* 审计：关键词建议与人工确认的差异（关键词误判率） */
 const ECO_DIFF = QUESTIONS.filter(q=>q.ecoGuess && q.eco && q.ecoGuess!==q.eco);
 const ECO_UNMAPPED = QUESTIONS.filter(q=>!q.eco);
+
+
 
 /* ---------------- 存量改写（第二子批：BE4×5 / BE6×3 / PE6×2）----------------
    改写以“覆盖字段”的方式应用，原题干与选项仍保留在题库数组中可追溯；
@@ -6224,11 +6297,52 @@ NEW_QUESTIONS_AG.forEach(function(q){
   QUESTIONS.push(q);
 });
 
+
+
+
+/* ==NEW_C_START== 补题批次 C：25 题覆盖 25 个原本「题库无对应题」的知识点。
+   每题的 kp 字段直接写明目标知识点（任务-序号），由 KP_OF 优先采用，避免自动映射漂移。 */
+const NEW_QUESTIONS_C = [
+{"eco":"PE1","kp":"PE1-3","tag":"愿景与目标共识","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE1","stem":"项目启动会上，项目经理宣讲了既定目标，团队表示理解但执行消极，认为目标与客户实际需求不符。项目经理应：","options":["重申目标由管理层确定，要求团队先执行再看效果","组织共创工作坊，与团队和客户共同校准目标与成功标准","更换团队成员，补充认同该目标的人","把目标拆成更细的任务，直接分配到个人"],"answer":1,"exp":"承诺来自参与。目标单向宣贯、团队未参与校准，最容易出现「理解但不认账」。应通过共创工作坊让团队与关键相关方一起校准目标与成功标准，把「被告知的目标」变成「共同承诺的目标」。","why":["错：重申权威只强化「这是上面定的」，团队仍不会真正承诺。","正确：共创让团队与客户共同校准目标，承诺度来自参与感而不是权威。","错：换人掩盖了目标未校准的真问题，新人同样会质疑。","错：拆任务解决的是「怎么做」，当前卡点在「做什么、为什么」，层级不对。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE1","kp":"PE1-6","tag":"愿景传达","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE1","stem":"项目进行到第三个迭代，新成员问起项目最终要达成什么，几位老成员的回答并不一致。项目经理应：","options":["让新成员自行查阅项目章程中的目标描述","在评审与回顾中持续引用愿景，并统一对外表述","重新召开一次启动会，把愿景再宣讲一遍","把愿景贴在办公区，供成员自行阅读"],"answer":1,"exp":"愿景不是开场讲一次，而是在每次评审、决策与回顾中被反复引用。持续沟通并统一表述，才能让新老成员对「最终要达成什么」形成同一版本的理解。","why":["错：章程文本通常抽象，单靠自读无法消除理解分歧。","正确：把愿景嵌入评审、回顾与决策说明，并统一表述，才会形成一致理解。","错：再宣讲一次仍是单向传递，几周后分歧会重新出现。","错：张贴属于被动曝光，不解决表述不一致的问题。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"PE2","kp":"PE2-5","tag":"基本规则","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE2","stem":"两个小组因接口责任不清反复争执，几乎每次都要项目经理出面调解。项目经理应：","options":["每次争执都亲自主持调解，确保快速平息","推动制定接口责任矩阵与团队基本规则，从源头减少争执","把两个小组的办公位置分开，减少直接接触","要求双方负责人书面承诺不再争执"],"answer":1,"exp":"反复出现的同类冲突说明缺少预防性机制。用接口责任矩阵（RACI）明确归属、用团队基本规则约定协作方式，才能把「事后调解」转为「事前预防」。","why":["错：逐次调解会让项目经理成为永久仲裁者，团队不会形成自主解决能力。","正确：用责任矩阵明确接口、用基本规则约定协作，才能从源头减少同类冲突。","错：物理隔离只减少接触，接口工作仍需协作，冲突会以更隐蔽的方式出现。","错：书面承诺没有改变责任边界，冲突条件仍在，承诺难以维持。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE3","kp":"PE3-9","tag":"领导风格","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE3","stem":"项目进入危机处置期，需要快速统一决策；而团队平时习惯高度自治。项目经理应：","options":["继续保持民主决策，避免破坏团队已有的自治文化","临时转向更直接的指挥方式，说明原因并在危机后恢复授权","完全放手，让团队在危机中自行决定应对方式","从此改为命令式管理，把直接指挥固定为长期风格"],"answer":1,"exp":"领导风格应随情境调整：危机期需要更快的决策与更明确的指令，但要说明理由、限定范围，并在危机结束后把授权还给团队，避免临时切换变成长期收权。","why":["错：危机中仍坚持全员共识，决策速度可能跟不上损失扩大的节奏。","正确：危机期临时收紧、说明原因、事后归还授权，兼顾效率与信任。","错：完全放手在危机期会放大混乱，团队缺少统一指挥。","错：把临时手段固化为长期风格，会摧毁自治基础与团队动力。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE4","kp":"PE4-6","tag":"相关方更新","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE4","stem":"项目进行到中期，最初识别的关键相关方已调岗，新接任者尚未纳入沟通。项目经理应：","options":["沿用原相关方登记册，等新任负责人主动联系","定期复核相关方登记册，识别人员变动并更新参与策略","只与新任领导沟通，不再联系原对接人","把相关方管理整体移交客户方项目经理"],"answer":1,"exp":"相关方是动态的：组织调整、职责变化都会改变影响力与关注点。应把「复核登记册」变成例行动作，及时识别新角色、更新参与度评估与沟通计划。","why":["错：被动等待会让新任负责人在关键决策前完全缺席，验收风险上升。","正确：定期复核并更新参与策略，才能在人员变动时保持沟通连续。","错：原对接人可能仍是影响者（如转任顾问），切断联系会丢失信息通道。","错：移交管理权等于放弃对相关方参与的责任，项目经理仍需主导。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE5","kp":"PE5-2","tag":"收益与成功标准","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE5","stem":"项目启动阶段，客户关注上线速度，团队关注功能完整，双方都认为自己的标准才是验收依据。项目经理首先应：","options":["按合同条款确定唯一验收标准，其他诉求不再讨论","组织双方明确并书面确认成功标准、验收口径与优先级","先按团队标准开发，验收时再协商折中","请发起人裁定采用哪一方的标准"],"answer":1,"exp":"期望差异大多源于成功标准未在早期共识。应把「什么算成功、按什么口径验收、速度与完整如何取舍」写成可检验的条目并双方确认，后续争议才有共同依据。","why":["错：合同条款通常只覆盖范围与付款，无法替代对「成功」的具体定义。","正确：把成功标准、验收口径与优先级书面化，是后续所有取舍的共同基准。","错：把分歧推迟到验收，等于把最贵的时点留给最难的谈判。","错：让发起人裁定只能解决单次争议，无法建立可复用的验收口径。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE5","kp":"PE5-4","tag":"相关方期望管理","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE5","stem":"运营部门要求零停机切换，销售部门要求提前两周上线，两个要求在当前资源下无法同时满足。项目经理应：","options":["优先满足销售的上线时间，停机风险由运营承担","优先满足运营的零停机要求，整体推迟上线","组织双方共同评估影响，形成带条件的折中方案并记录决策","把两个要求都写进计划，留待执行阶段再协调"],"answer":2,"exp":"多方期望冲突需要显性权衡：把两个要求的代价、可接受的条件与替代方案摆在一起评估，形成双方都知情同意的折中方案，并记录决策依据，避免后期互相推责。","why":["错：单方面牺牲运营，切换时运营拒绝配合，风险实际更大。","错：直接推迟等于牺牲另一方诉求，且未解决零停机的资源缺口。","正确：共同评估、形成带条件的折中并留痕，才能让双方对结果负责。","错：把矛盾写进计划只是延后爆发，执行阶段协调成本更高。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE5","kp":"PE5-5","tag":"跨文化协作","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE5","stem":"总部团队习惯邮件正式确认，海外团队习惯即时消息快速决策，同一决策因此出现两个版本。项目经理应：","options":["要求全球统一使用总部的邮件确认流程","约定决策记录的载体与生效规则，兼顾双方工作习惯","允许两种方式并存，由各团队自行判断何时用哪种","把所有决策改为会议口头确认，会后不再留痕"],"answer":1,"exp":"跨文化协作的关键不是统一习惯，而是统一「决策如何生效」：明确哪类决策需要书面确认、记录存放在哪里、以哪个版本为准，同时保留各自习惯的沟通方式。","why":["错：强制统一会削弱海外团队的响应速度，执行中容易出现绕行。","正确：约定载体与生效规则，既尊重差异又保证唯一结论。","错：两种方式并存而不定生效规则，正是当前双版本的成因。","错：口头确认缺少可追溯记录，跨时区场景下更容易各记一版。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE6","kp":"PE6-2","tag":"信息发布一致性","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE6","stem":"周报、看板与会议纪要对同一风险的描述不一致，相关方各自引用不同版本，决策反复。项目经理应：","options":["要求各方以周报为准，其他渠道不再更新风险状态","每次会议重新口头同步一遍最新状态","指定唯一的信息源，其他渠道只引用不重复维护","增加一次每周对齐会，专门统一口径"],"answer":2,"exp":"多源信息必然分叉。应指定唯一的信息源（如风险登记册），其他渠道只做引用与摘要，从机制上消除版本冲突，而不是靠反复对齐。","why":["错：只有一个渠道更新，其他渠道仍留旧版本，冲突依旧。","错：口头同步无法留痕，会后各方仍按各自记录执行。","正确：单一事实来源加其他渠道只引用，才能根治版本不一致。","错：对齐会能暂时统一口径，但两个数据源仍在分叉，下周还要再对一次。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE6","kp":"PE6-5","tag":"相关方投诉处理","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE6","stem":"客户对接人多次在项目群里公开抱怨交付质量，团队士气受到影响。项目经理应：","options":["在群里公开回应，逐条反驳不实的指责","私下沟通了解具体不满，形成书面改进承诺并跟踪闭环","请客户高层约束其员工的表达方式","暂停与对方的直接沟通，改由商务接口对接"],"answer":1,"exp":"公开抱怨通常意味着诉求未被听见。应先私下弄清具体事实与期望，把可改进项写成承诺与时限并跟踪闭环；对不实部分用事实澄清，而不是公开对辩。","why":["错：群内对辩会把技术分歧升级为关系冲突，团队士气进一步受损。","正确：先弄清事实与诉求，再给出可跟踪的改进承诺，既解决质量问题也修复关系。","错：越级施压会破坏与对接人的合作基础，问题转入地下。","错：切断沟通会让不满继续在群里发酵，且失去澄清机会。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE6","kp":"PE6-6","tag":"治理层汇报","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE6","stem":"指导委员会要求用一页纸说明项目健康状况。项目经理应重点呈现：","options":["团队近期完成的全部任务清单与工时明细","目标达成度、关键风险与需要决策的事项","详尽的成本科目、资源占用与结余情况","各成员的绩效表现与团队内部排名对比"],"answer":1,"exp":"治理层关注的是「目标是否达成、有什么风险、需要我决定什么」。一页纸应围绕这三件事组织，明细放在附录或按需提供。","why":["错：任务清单是执行层信息，占满篇幅会挤掉真正需要决策的内容。","正确：目标达成度、关键风险与待决策事项，正是治理层的作用点。","错：成本明细适合作为附录，单独呈现无法回答「项目是否健康」。","错：成员绩效属于人事信息，与治理决策无关，且可能引发合规问题。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE7","kp":"PE7-6","tag":"知识沉淀","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE7","stem":"项目结束，团队积累了大量排障经验与自动化脚本，目前分散在个人电脑里。项目经理应：","options":["让成员自行保存，需要时再互相索取","打包压缩后存入项目共享盘，不再整理","整理为可复用的模板与知识条目，纳入组织过程资产","只在项目总结会上口头分享一次"],"answer":2,"exp":"经验只有被结构化并进入组织过程资产才可复用：把脚本、排障步骤、判断依据整理成模板与条目，标注适用条件与责任人，后续项目才能直接取用。","why":["错：分散在个人设备上的知识会随人员流动而丢失。","错：只打包不整理，后人仍需从头摸索，等于没有沉淀。","正确：结构化整理并纳入组织资产，才能从「个人经验」变成「组织能力」。","错：口头分享留存率低，且无法检索与复用。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR1","kp":"PR1-6","tag":"收益实现","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR1","stem":"系统按期上线，合同功能全部交付，但半年后业务指标没有改善。最可能的原因是：","options":["上线时间与业务旺季错位，首月业务量偏低","只关注交付产出，未定义并跟踪收益实现的责任与指标","测试覆盖不足，功能缺陷较多影响使用体验","团队规模不足，缺少上线后的运营与推广人力"],"answer":1,"exp":"交付产出（可交付物）不等于收益（业务结果）。若在商业论证中没有定义收益指标、责任人与跟踪机制，项目很容易「按期交付、如期无效」。","why":["错：上线时点影响短期效果，但半年无改善更可能是收益路径本身未设计。","正确：收益未被定义与跟踪，是「交付成功但业务无感」的典型根因。","错：缺陷多会表现为故障与返工，而不是指标完全不改善。","错：规模不足影响运营支撑，但不会让已交付功能完全无效。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR3","kp":"PR3-6","tag":"发布规划与节奏","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR3","stem":"团队每两周发布一次，但市场活动按季度规划，频繁发布导致宣传与培训跟不上。产品负责人应：","options":["改为每季度发布一次，减少与市场部门的协调成本","在路线图中对齐发布节奏与市场节点，同时保留内部迭代频率","让市场部门自行跟进每一次对外发布并安排培训","暂停对外发布，只做内部交付，等市场准备好再恢复"],"answer":1,"exp":"发布节奏是产品决策：内部可以按迭代持续交付，对外发布则要与市场、培训、支持能力对齐。路线图应显式标注对外发布节点，而不是把两者混为一谈。","why":["错：把迭代也拉长到季度，会牺牲反馈速度与调整能力。","正确：对外发布对齐市场节点，内部迭代频率不变，兼顾交付与运营准备。","错：让市场自行跟进频繁发布，培训与宣传必然滞后，用户体验受损。","错：停止对外发布等于放弃价值交付，交付物无法产生业务结果。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"PR4","kp":"PR4-5","tag":"资源获取与租赁","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR4","stem":"项目需要两台专用测试台，其中一台被另一个项目长期占用，测试排队已超过三周。项目经理应：","options":["要求团队加班，靠提高现有测试台利用率消化排队","直接申请购买第三台测试台，把排队问题一次性消除","与资源所有者协商排期，评估租用或外协，并纳入资源日历","调整测试顺序先做不受限的工作，把排队视为正常等待"],"answer":2,"exp":"实物资源与人力资源一样要纳入资源管理与排期：先协商优先级与时段，再评估租用、外协等替代方案，并把结论写入资源日历，避免隐性排队继续消耗工期。","why":["错：加班受设备物理产能限制，排队不会因加班而缩短。","错：直接采购涉及预算与审批，在排队三周的情况下不一定最快。","正确：协商排期、评估替代方案并写入资源日历，是把设备当作受管资源处理。","错：把排队当正常等待，会让关键路径上的延误继续累积。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR9","kp":"PR9-4","tag":"状态审计","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR9","stem":"项目连续两个季度进度报告显示正常，但里程碑实际已三次延期。项目经理应：","options":["继续按报告口径汇报，避免引起不必要的关注","只在下一次里程碑评审时再说明情况","开展独立的状态审计，核对报告口径与实际进展的偏差","更换进度报告的编制人员，要求重新统计"],"answer":2,"exp":"报告与实际背离时，应先做健康检查：核对进度测量口径（是否按里程碑达成、是否把未完成算作完成）、交叉验证数据来源，找出偏差是口径问题还是执行问题。","why":["错：继续按旧口径汇报会让偏差继续放大，治理层失去干预窗口。","错：拖到下一次评审才说明，等于放弃了本可以纠偏的时间。","正确：独立审计能定位是测量口径失真还是实际执行偏差，为纠正提供依据。","错：换人只是换执行者，口径与机制问题依旧存在。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR10","kp":"PR10-5","tag":"提前终止与收尾","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR10","stem":"项目进行到一半，商业论证中的收益假设已被市场变化推翻，继续投入难以收回。项目经理应：","options":["继续执行到完成，避免已投入成本被浪费","自行决定立即停止全部工作，控制损失","提交终止建议与影响分析，由治理层决策并有序收尾","缩小范围，把剩余预算转投其他功能"],"answer":2,"exp":"是否终止属于治理决策：项目经理的职责是提供终止建议与影响分析（合同责任、资源释放、知识留存、相关方沟通），由治理层决定，并按收尾流程有序退出。","why":["错：已投入成本属于沉没成本，不应成为继续投入的理由。","错：单方面停工可能构成违约，且缺少资源释放与移交安排。","正确：提供分析、由治理层决策、按流程收尾，职责边界清晰且风险可控。","错：擅自改变投资用途超出授权，也未解决收益假设失效的根本问题。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE1","kp":"BE1-6","tag":"敏捷治理","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE1","stem":"组织要求敏捷团队每季度提交详细的项目计划与基线，团队认为这与迭代规划冲突。项目经理应：","options":["要求团队按季度计划执行，暂停迭代规划与评审","支持团队直接拒绝该要求，说明敏捷不需要任何基线","与治理方协商裁剪：用路线图与迭代承诺替代基线，保留关键关口","让团队同时维护季度计划与迭代计划，双方各取所需"],"answer":2,"exp":"治理与敏捷可以对齐：治理需要的是可预测的承诺与可审计的关口，而不是详细的甘特图。用路线图、迭代承诺与成果指标满足治理诉求，同时保留迭代的适应能力。","why":["错：暂停迭代规划等于放弃敏捷的核心机制，交付节奏会失控。","错：拒绝治理要求会让团队失去组织支持，也难以获得资源。","正确：用路线图与迭代承诺替代详细基线，既满足治理诉求又不牺牲适应性。","错：两套计划并行会形成双份维护成本与口径冲突。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"BE4","kp":"BE4-6","tag":"风险触发与危机响应","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE4","stem":"生产环境发生数据泄露事故，客户业务受影响，媒体已开始询问。项目经理首先应：","options":["立即对外发布完整事故说明，抢占舆论主动","启动事故响应：控制影响、保全证据并按预案上报","先内部查明责任人，再统一对外沟通","等待法务给出统一口径后再采取任何行动"],"answer":1,"exp":"危机响应的第一优先是控制影响与止损：隔离受影响系统、保全日志与证据、按预案通知合规与法务并上报，之后再按统一口径对外沟通。","why":["错：事实未明时对外发布完整说明，容易造成二次错误与法律风险。","正确：先控制影响、保全证据并按预案上报，是事故响应的标准次序。","错：先追责会延误止损，且证据可能被破坏。","错：等待法务期间影响仍在扩大，且可能错过监管上报时限。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE6","kp":"BE6-3","tag":"组织过程资产（OPA）更新","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE6","stem":"项目采用的估算模板明显优于组织现有模板，但项目结束后无人更新组织资产库。项目经理应：","options":["只在项目内部继续使用该模板，不对外扩散","把改进后的模板提交组织评审，纳入组织过程资产","私下发给熟悉的几位项目经理使用","等项目全部收尾工作结束后再考虑整理"],"answer":1,"exp":"改进只有回流到组织过程资产才能被复用。应把模板连同适用条件、效果数据提交评审，由组织更新资产库并配套培训，避免改进随项目结束而消失。","why":["错：只在项目内使用，随项目结束而失效，组织重复投入。","正确：提交评审并纳入组织资产，是让局部改进变成组织能力的路径。","错：私下流转缺少版本管理与评审，容易形成多个不一致的版本。","错：收尾事项一拖再拖，改进往往就此遗失。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE6","kp":"BE6-5","tag":"审计驱动改进","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE6","stem":"内部审计发现同一类问题在三个项目中重复出现。最有效的改进方式是：","options":["要求三个项目分别提交整改报告并验收","对相关责任人问责，形成警示效应","分析共性问题根因，修订组织级流程与检查点","提高审计频次，确保问题更早被发现"],"answer":2,"exp":"同类问题跨项目重复出现，通常说明组织级流程或检查点缺失。应做根因分析，修订流程、模板与关口检查，把「靠人盯」变成「靠机制防」。","why":["错：分别整改只能消除个案，同类问题会在下一个项目重现。","错：问责会促使问题被隐藏，反而降低发现率。","正确：跨项目重复问题指向系统性缺陷，修订组织级流程才能根治。","错：提高频次能更早发现，但不改变产生问题的条件。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE7","kp":"BE7-2","tag":"变革个人模型 ADKAR","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE7","stem":"新流程上线后，员工都能正确操作，但普遍缺乏使用的意愿，实际使用率很低。按 ADKAR 模型，当前最需要补的是：","options":["知识（Knowledge）","能力（Ability）","意愿（Desire）","巩固（Reinforcement）"],"answer":2,"exp":"ADKAR 的顺序是认知（Awareness）→意愿（Desire）→知识（Knowledge）→能力（Ability）→巩固（Reinforcement）。会操作说明知识与能力已具备，使用率低说明卡在「意愿」这一环。","why":["错：能正确操作说明知识已具备，再培训不会提升使用率。","错：能力同样已通过正确操作得到证明，不是当前瓶颈。","正确：会做但不愿用，说明卡在意愿环节，需要针对个人收益与顾虑做工作。","错：巩固是最后一环，在意愿未解决前谈巩固为时过早。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE7","kp":"BE7-3","tag":"变革框架","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE7","stem":"组织变革推进到中期，阻力主要集中在中层管理者，他们担心失去对资源的控制权。最贴合该情境的变革框架是：","options":["只用 ADKAR 个人变革模型，聚焦个体的意愿与能力建设","Kotter 八步法：建立紧迫感、组建联盟、清除障碍、巩固成果","用 SWOT 分析外部环境、竞争格局与自身优劣势组合","用 PDCA 循环对现有流程做持续改进并跟踪优化效果"],"answer":1,"exp":"中层因权力与资源再分配而抵制，属于组织级变革的政治与结构问题。Kotter 八步法强调建立联盟、清除障碍、创造短期成效与巩固成果，正对应这类阻力。","why":["错：ADKAR 聚焦个体转变，难以处理中层之间的权力与利益博弈。","正确：Kotter 八步法针对组织级变革的政治与结构阻力，包含联盟与清障。","错：SWOT 是环境分析工具，不解决变革推进中的阻力。","错：PDCA 适合流程持续改进，不是推动组织变革的框架。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE7","kp":"BE7-6","tag":"变革采用度","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE7","stem":"新系统上线三个月，员工登录率达到 90%，但关键功能使用率不足 20%，业务流程仍靠线下表格。项目经理应：","options":["继续以登录率作为采用度指标，宣布变革已经成功","要求各部门强制使用关键功能，并把使用率纳入考核","重新定义采用度指标（功能使用率、流程替代率）并调整推广","停止统计与干预，等待用户自然熟悉后使用率会上升"],"answer":2,"exp":"采用度要度量真实的行为改变，而不是访问量。应把关键功能使用率、线下流程替代率、闭环完成率作为指标，据此定位障碍（可用性、培训、激励）并调整推广策略。","why":["错：登录率只反映访问，不反映使用深度，宣布成功属于自欺。","错：强制使用可能带来表面数据，线下表格依旧存在，收益不会实现。","正确：改用行为指标才能反映变革是否真的发生，并指导后续动作。","错：被动等待通常不会发生，缺少推动的采用曲线会长期停留在低位。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE8","kp":"BE8-6","tag":"外部环境变化","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE8","stem":"外部监管政策突然收紧，项目原有方案不再可行。项目经理应遵循的处理顺序是：","options":["先执行方案调整，再补变更记录，最后通知客户","先评估影响，再提交变更与治理决策，获批后执行并同步相关方","先通知客户延期，再内部评估可行方案","先暂停全部工作，等待政策细则明确后再启动"],"answer":1,"exp":"外部约束变化的响应顺序是：评估影响 → 提交变更并走治理决策 → 获批后执行 → 同步相关方。先执行后补记录会造成既成事实，先承诺延期则可能做出无法兑现的承诺。","why":["错：先执行再补记录属于既成事实，治理与合规都无法追溯。","正确：评估—决策—执行—同步，既守住变更控制，也保证相关方知情。","错：在方案未明前承诺延期，容易二次违约。","错：全面暂停会损失交付窗口，且政策细则可能长期不明。"],"life":"predictive","lifeSource":"authored","ver":1}
+];
+NEW_QUESTIONS_C.forEach(function(q){
+  q.domain = ECO_TASKS[q.eco].d;
+  q.legacyDomain = q.domain;
+  q.ecoStatus = 'confirmed';
+  q.ecoTask = q.eco;
+  QUESTIONS.push(q);
+});
+/* ==NEW_C_END== */
+
 /* ==== 题库装配完成，此处才确定总数（此前的静态题只有 540 道） ==== */
 TOTAL = QUESTIONS.length;
-if(QUESTIONS.length !== 816){
+if(QUESTIONS.length !== 841){
   /* 防御：题量变化时给出明确提示，避免静默错位（错题池、标记、进度都依赖索引） */
-  console.warn('[题库] 实际题量 ' + QUESTIONS.length + ' 与预期 816 不一致，请检查增量块。');
+  console.warn('[题库] 实际题量 ' + QUESTIONS.length + ' 与预期 841 不一致，请检查增量块。');
 }
 
 /* ==WHY_ORDER_FIX_START== 修正 why 与选项顺序错位 == */
@@ -6296,12 +6410,13 @@ QUESTIONS.forEach(function(q){
 
 /* ---------------- 试卷与组卷 ---------------- */
 const PAPERS = [
-  {id:'A', name:'A 卷', desc:'独立题库 · 第 1 套'},
-  {id:'B', name:'B 卷', desc:'独立题库 · 第 2 套'},
-  {id:'C', name:'C 卷', desc:'独立题库 · 第 3 套'},
-  {id:'D', name:'D 卷', desc:'混合组卷 · 优先未做题'},
-  {id:'E', name:'E 卷', desc:'混合组卷 · 优先未做题'},
-  {id:'R', name:'随机组卷', desc:'每次重新抽题'}
+  {id:'A', name:'A 卷', desc:'独立标准卷 · 第 1 套', kind:'independent'},
+  {id:'B', name:'B 卷', desc:'独立标准卷 · 第 2 套', kind:'independent'},
+  {id:'C', name:'C 卷', desc:'独立标准卷 · 第 3 套', kind:'independent'},
+  {id:'D', name:'D 卷', desc:'混合卷 · 固定抽题，题目复用 A–C', kind:'mixed'},
+  {id:'E', name:'E 卷', desc:'混合卷 · 固定抽题，题目复用 A–C', kind:'mixed'},
+  {id:'F', name:'F 卷', desc:'混合卷 · 固定抽题，题目复用 A–C', kind:'mixed'},
+  {id:'R', name:'随机组卷', desc:'随机加练 · 每次重抽，不是独立新卷', kind:'random'}
 ];
 const QUOTA = {people:59, process:74, business:47};   // 2026 版：约 33% / 41% / 26%
 
@@ -6388,11 +6503,12 @@ function paperState(id){
   if(r.lastAnswered < r.lastTotal) t += '（最近一次只做 '+r.lastAnswered+' 题）';
   return {cls:'ok', text:t};
 }
-function paperLogRowHtml(id, tag){
+function paperLogRowHtml(id, kind){
   const r = paperLogGet(id), st = paperState(id);
   const done = !!(r && r.full);
+  const tag = kind === 'independent' ? '独立卷' : '混合卷';
   return '<div class="plog-row" data-paper="'+id+'">'+
-    '<span class="pl-name">'+id+' 卷'+(tag?'<i>真题</i>':'')+'</span>'+
+    '<span class="pl-name">'+id+' 卷<i class="'+(kind==='independent'?'k-ind':'k-mix')+'">'+tag+'</i></span>'+
     '<span class="pl-state '+st.cls+'">'+st.text+'</span>'+
     '<span class="pl-num pl-hide-sm">'+(done?'最近 <b>'+r.fullPct+'%</b>':'最近 <b>—</b>')+'</span>'+
     '<span class="pl-num pl-hide-sm">'+(done?'最佳 <b>'+r.bestPct+'%</b>':'最佳 <b>—</b>')+'</span>'+
@@ -6402,21 +6518,17 @@ function paperLogRowHtml(id, tag){
 function paperLogHtml(){
   const all = paperLogAll();
   const trio = ['A','B','C'].filter(function(id){ return all[id] && all[id].full; }).length;
-  const mix  = ['D','E'].filter(function(id){ return all[id] && all[id].runs; });
-  let h = '<div class="plog-hd"><span>📋 三套真题完成情况</span>'+
-    '<span class="pl-sum">已完整做完 <b'+(trio?' class="full"':'')+'>'+trio+'</b> / 3 套'+
+  const mixAll = ['D','E','F'];
+  const mixDone = mixAll.filter(function(id){ return all[id] && all[id].full; }).length;
+  let h = '<div class="plog-hd"><span>📋 六套整卷完成情况</span>'+
+    '<span class="pl-sum">独立标准卷 <b'+(trio?' class="full"':'')+'>'+trio+'</b> / 3　·　混合卷 <b>'+mixDone+'</b> / 3'+
     '<span style="font-weight:400">（180 题全部作答并交卷才算一遍）</span></span>'+
     '<span class="pl-hd-sp"></span>'+
     '<button class="plog-reset" id="plogReset">重置完成记录</button></div>';
-  ['A','B','C'].forEach(function(id){ h += paperLogRowHtml(id, true); });
-  if(mix.length){
-    h += '<div class="plog-note">D、E 混合卷：' + mix.map(function(id){
-      const r = all[id];
-      return id+' 卷 '+paperState(id).text + (r.full ? '（最近 '+r.fullPct+'% · '+fmtLogTime(r.fullAt)+'）' : '');
-    }).join('　·　') + '</div>';
-  }else{
-    h += '<div class="plog-note">D、E 为混合组卷（可与 A/B/C 复用题目），整卷完成记录同样保存；随机卷与专项加练不计入套卷记录。</div>';
-  }
+  ['A','B','C'].forEach(function(id){ h += paperLogRowHtml(id, 'independent'); });
+  h += '<div class="plog-note" style="margin-top:10px">以下三套为<b>混合卷</b>：题目从 A–C 三套独立卷中固定抽取并重新配比，<b>与独立卷存在复用</b>，不构成新的独立题量；完成记录同样保存。</div>';
+  mixAll.forEach(function(id){ h += paperLogRowHtml(id, 'mixed'); });
+  h += '<div class="plog-note">随机卷（R）每次重新抽题、专项加练按知识点临时组卷，二者<b>不计入整卷完成记录</b>。</div>';
   return h;
 }
 function renderPaperLog(){
@@ -6425,9 +6537,82 @@ function renderPaperLog(){
   box.innerHTML = paperLogHtml();
   const btn = $('plogReset');
   if(btn) btn.onclick = function(){
-    if(!confirm('确定重置三套真题（含 D/E 混合卷）的完成记录？\n只清记录，不影响答题进度、错题池与标记。')) return;
+    if(!confirm('确定重置六套整卷（A–F）的完成记录？\n只清记录，不影响答题进度、错题池与标记。')) return;
     clearPaperLog(); renderPaperLog(); renderPapers();
   };
+}
+
+/* ---------------- 作答历史：首答 / 重复练习 / 独立模考 三套口径 ----------------
+   同一道题多次作答时，「首答正确率」只认第一次，避免刷题把数字抬高；
+   重复练习单独统计，独立模考只看整卷模考。三个数不能混在一起解读。 */
+const HIST_KEY = KEY + '_hist';
+function histAll(){
+  try{
+    const m = JSON.parse(localStorage.getItem(HIST_KEY)||'{}');
+    return (m && typeof m==='object' && !Array.isArray(m)) ? m : {};
+  }catch(e){ return {}; }
+}
+function histSave(m){ try{ localStorage.setItem(HIST_KEY, JSON.stringify(m||{})); }catch(e){} }
+function histRecord(idx, right, isMock){
+  const m = histAll();
+  const r = m[idx] || {n:0,c:0,first:-1,firstMock:-1,rep:{n:0,c:0},mock:{n:0,c:0},prac:{n:0,c:0}};
+  if(!r.rep) r.rep = {n:0,c:0};
+  if(!r.mock) r.mock = {n:0,c:0};
+  if(!r.prac) r.prac = {n:0,c:0};
+  if(r.first === -1){ r.first = right?1:0; r.firstMock = isMock?1:0; }
+  if(r.n > 0){ r.rep.n++; if(right) r.rep.c++; }   /* 第 2 次及以后算重复练习 */
+  r.n++; if(right) r.c++;
+  const b = isMock ? r.mock : r.prac;
+  b.n++; if(right) b.c++;
+  m[idx] = r; histSave(m);
+}
+function histRecordList(list, isMock){
+  (list||[]).forEach(function(i){
+    if(!isAnswered(state.answers[i])) return;
+    histRecord(i, isRight(QUESTIONS[i], state.answers[i]), !!isMock);
+  });
+}
+function histStat(){
+  const m = histAll();
+  const ids = Object.keys(m);
+  let fN=0,fC=0,rN=0,rC=0,mN=0,mC=0,pN=0,pC=0;
+  ids.forEach(function(k){
+    const r = m[k];
+    if(r.first >= 0){ fN++; if(r.first===1) fC++; }
+    rN += (r.rep&&r.rep.n)||0; rC += (r.rep&&r.rep.c)||0;
+    mN += (r.mock&&r.mock.n)||0; mC += (r.mock&&r.mock.c)||0;
+    pN += (r.prac&&r.prac.n)||0; pC += (r.prac&&r.prac.c)||0;
+  });
+  const pct = (a,b) => b ? Math.round(a/b*100) : null;
+  return {
+    touched: ids.length, coverage: pct(ids.length, TOTAL||QUESTIONS.length),
+    first:{n:fN,c:fC,pct:pct(fC,fN)},
+    rep:{n:rN,c:rC,pct:pct(rC,rN)},
+    mock:{n:mN,c:mC,pct:pct(mC,mN)},
+    prac:{n:pN,c:pC,pct:pct(pC,pN)}
+  };
+}
+function renderStats(){
+  const box = $('statsBox');
+  if(!box) return;
+  const s = histStat();
+  if(!s.touched){
+    box.innerHTML = '<div class="st-empty">还没有作答记录。完成任意一套卷或一次练习后，这里会分别给出<b>首答正确率</b>、<b>重复练习正确率</b>与<b>独立模考正确率</b>——三个数字口径不同，不能互相替代。</div>';
+    return;
+  }
+  const cell = (label, o, note) =>
+    '<div class="st-cell"><div class="st-lb">'+label+'</div>'+
+    '<div class="st-v">'+(o.pct===null?'—':o.pct+'<i>%</i>')+'</div>'+
+    '<div class="st-n">'+(o.n?o.c+' / '+o.n+' 题次':'暂无数据')+'</div>'+
+    '<div class="st-note">'+note+'</div></div>';
+  let h = '<div class="st-head"><b>学习诊断（三套口径分离）</b><span>已作答覆盖 '+s.touched+' / '+(TOTAL||QUESTIONS.length)+' 题（'+s.coverage+'%）</span></div>';
+  h += '<div class="st-grid">';
+  h += cell('首答正确率', s.first, '每题只计第一次作答，最能反映真实水平');
+  h += cell('重复练习正确率', s.rep, '同一题第 2 次起，含记忆效应，通常偏高');
+  h += cell('独立模考正确率', s.mock, '只统计 A–F 整卷模考，未做完的题按错计');
+  h += '</div>';
+  h += '<div class="st-foot">⚠️ 平台内部参考值：<b>70% 仅为练习目标</b>，PMI 不公布及格线，任何第三方模拟分数都不能预测官方考试结果。</div>';
+  box.innerHTML = h;
 }
 
 /* ---------------- 错题池与诊断 ---------------- */
@@ -6448,16 +6633,28 @@ function addWrong(list){
 function mainTag(t){
   return String(t || '其他').split('·')[0].split('（')[0].trim() || '其他';
 }
+/* 知识点节点：把题目落到 ECO 任务下的具体知识点（Enabler 级），用于诊断分组与覆盖举证 */
+function kpIdOf(q){ return (q && q.qid && KP_OF[q.qid]) || ''; }
+function kpNodeOf(q){
+  const id = kpIdOf(q); if(!id) return null;
+  const p = id.split('-'), t = p[0], k = (+p[1]) - 1;
+  const s = (typeof SYL !== 'undefined') ? SYL[t] : null;
+  if(!s || !s.kps || !s.kps[k]) return null;
+  return {id:id, task:t, taskName:(ECO_TASKS[t]||{}).n||t, kp:s.kps[k]};
+}
+function diagKeyOf(q){ const n = kpNodeOf(q); return n ? n.id : mainTag(q.tag); }
+function diagLabelOf(q){ const n = kpNodeOf(q); return n ? n.kp.n : mainTag(q.tag); }
+
 function wrongStats(){
   const m = wrongMap();
   const byTag = {}, byDomain = {people:0, process:0, business:0};
   Object.keys(m).forEach(k=>{
     const i = +k, q = QUESTIONS[i];
     if(!q) return;
-    const t = mainTag(q.tag);
-    if(!byTag[t]) byTag[t] = {tag:t, count:0, domain:q.domain, idx:[]};
-    byTag[t].count += m[k];
-    byTag[t].idx.push(i);
+    const key = diagKeyOf(q), label = diagLabelOf(q);
+    if(!byTag[key]) byTag[key] = {tag:label, key:key, count:0, domain:q.domain, idx:[]};
+    byTag[key].count += m[k];
+    byTag[key].idx.push(i);
     byDomain[q.domain] = (byDomain[q.domain]||0) + m[k];
   });
   const tags = Object.keys(byTag).map(t=>byTag[t]).sort((a,b)=>b.count-a.count);
@@ -6469,6 +6666,26 @@ function shuffleIdx(list, seed){
   const a = list.slice();
   for(let i=a.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const t=a[i]; a[i]=a[j]; a[j]=t; }
   return a;
+}
+/* 同一套练习里不重复抽到「同逻辑变式题」（仅换背景、解法相同），避免练习正确率虚高 */
+function dedupeSimilar(list, fillPool){
+  const seen = {}, out = [];
+  (list||[]).forEach(function(i){
+    const q = QUESTIONS[i]; if(!q) return;
+    const g = (typeof SIM_OF !== 'undefined' && SIM_OF[q.qid]) || [];
+    if(g.some(function(id){ return seen[id]; })) return;
+    seen[q.qid] = 1; out.push(i);
+  });
+  if(fillPool && out.length < list.length){
+    for(let k=0;k<fillPool.length && out.length<list.length;k++){
+      const j = fillPool[k];
+      if(out.indexOf(j) >= 0) continue;
+      const q = QUESTIONS[j]; const g = SIM_OF[q.qid] || [];
+      if(g.some(function(id){ return seen[id]; })) continue;
+      seen[q.qid] = 1; out.push(j);
+    }
+  }
+  return out;
 }
 function paperIdx(id){
   const all = QUESTIONS.map((q,i)=>i);
@@ -6516,6 +6733,23 @@ function qhash(str){
   });
 })();
 
+
+
+
+
+
+
+
+
+
+/* ==KP_SIM_START== 知识点映射（qid → 任务-知识点序号）与同逻辑相似题分组。
+   映射由「任务内候选 + 名称/工具/标签短语相似度」生成，低置信项已人工复核；
+   相似题指同一考点、同一解题逻辑，仅更换项目背景，专项练习与组卷不会在同一套里同时抽到。 */
+const KP_OF = {"Q124vs23":"PE2-2","Qdg0dqq":"PE8-1","Qsjxx2n":"PE8-5","Q1q2u2ji":"PE3-7","Q16nroc8":"PE4-5","Q1v2ww82":"PE3-5","Q10e97ix":"PE3-1","Q19bh6q9":"PE3-7","Qqqcn9l":"PE3-8","Qljxopm":"PE3-1","Q6bncwx":"BE4-3","Qpx4eyu":"PE3-3","Q1aao0ru":"PE8-1","Q19mv2po":"PE3-4","Qvkh9gs":"PE3-6","Qzzgeuq":"PE3-8","Qshswn9":"BE6-2","Qjnc0uh":"PE3-4","Qe9af4i":"PE3-7","Qxwohtn":"PE6-3","Q1cvx07h":"PE3-4","Q1e0gq9m":"PE7-3","Qw0msb1":"BE3-1","Qjwedyy":"PR6-3","Qgbzozv":"PR6-3","Q7l9n1z":"PR8-4","Qgq8fnh":"PR8-3","Q18azrcr":"BE5-1","Q1q138rs":"BE5-6","Q18lkxjq":"BE5-6","Q1xcrje":"PR2-7","Qbnjp9z":"PR1-2","Q1suz56y":"PR7-1","Qh24xzm":"PR7-4","Q1kt1hs7":"PR5-5","Qlukbt2":"PR2-6","Qy5jyfl":"PR2-3","Q2fewbf":"PR2-5","Qwemc76":"PR10-3","Q1uj1kg":"PR3-3","Qu50m8u":"PR3-2","Qjji96x":"PR3-2","Qznh12h":"PR9-5","Q1qvwqxi":"PR8-1","Qde53pj":"PR1-3","Q1fi1nk6":"BE3-3","Q1x2l8n0":"PR9-5","Qg187wh":"PR2-3","Q1rnmbyo":"PR8-2","Q18ivvo9":"PR4-4","Q1ftjg9z":"PR9-6","Q1oh9dwc":"BE4-2","Q1qxd0x9":"PR3-2","Qsc8vap":"BE2-3","Qqeaiiy":"BE7-5","Q9bsk1i":"BE8-3","Q10ncr01":"PR3-1","Q1luoiqn":"BE2-1","Q1f6egpm":"PE2-2","Q1yaxdix":"PE2-2","Q1u53qp4":"PE2-2","Qdmk7pe":"PE8-2","Q1vrekzf":"PE8-3","Q1j658wl":"PE4-1","Qz4x412":"PE4-2","Qpt2q2e":"PE4-3","Q1fv0cze":"PE3-8","Q1ek9b64":"PE3-8","Q11w171n":"PE3-8","Ql1c3pq":"PE3-1","Qvdug65":"PE3-3","Qejd79h":"PE3-7","Q1lewk4y":"PE3-6","Q950ydb":"PE3-1","Qlv1iih":"PE8-1","Q7dxh8i":"PE8-7","Qfpkygj":"PE3-5","Q17zbj94":"PE3-5","Qory59":"PE3-2","Q1m9dkkw":"PE3-4","Q19g175s":"PE3-8","Qqytiag":"PE3-7","Qmxk1lc":"PE3-6","Qrr26t3":"PE3-8","Q1qqo3q4":"PR4-6","Qj77em4":"PR4-3","Q1xhiuwx":"PE3-6","Qmf7ih1":"PR4-6","Ql7s447":"PE3-6","Qb7mu1k":"PE3-4","Qgiuzw2":"PE3-1","Q1o9ci5j":"PE3-3","Qlgitni":"PE3-6","Q1ujebv9":"PE8-6","Q265i4g":"PE3-7","Q1u8m0q":"PE3-4","Q1hp214n":"PE8-1","Q10w6h6c":"PE8-4","Qgvinym":"PE3-1","Q1r1bzws":"BE4-1","Qp9ru35":"PE3-2","Qcq14y6":"PR7-1","Qlnj0kj":"PE2-1","Q1m3hhs8":"PE8-1","Q1qqzg5p":"PE3-1","Qj370v8":"PE3-1","Q1ounobv":"PE3-8","Q88sd57":"PE3-8","Q17a5lug":"PE3-3","Q1wvspcq":"PE5-3","Qey17d3":"PE7-3","Qck26uu":"BE6-2","Qkdig9v":"PR8-3","Qqf5w3q":"PR6-3","Q1p1c6ra":"PR6-2","Q1le8cjf":"PR6-2","Que6lrh":"BE5-8","Q83vkvs":"BE5-7","Qee98ey":"BE5-1","Q1fjlsdt":"BE5-1","Qtiw4om":"BE5-8","Qfkqaxr":"BE5-1","Q1wfc7wd":"BE5-3","Q1vzmfve":"BE5-1","Q1hs5cya":"BE5-8","Q12muoc0":"PR7-1","Q1ybx1gx":"PR7-2","Q1c7hgjt":"PR7-5","Q1sew7sk":"PR7-6","Qbnzv21":"PR7-4","Q1kbviu3":"PR7-1","Qnl91z1":"PR7-4","Q2q84s3":"PR7-3","Q42oa90":"PR5-3","Q1jqus3n":"PR5-2","Q1x2yab0":"PR5-2","Qsk647e":"PR5-1","Qeqokop":"PR5-4","Qg6yhub":"PR5-6","Qyrnzeb":"PR5-3","Qw12778":"PR5-3","Q1tvdch3":"PR5-2","Q1sdyeim":"BE5-1","Q1il8o4q":"PR2-1","Qjtekrf":"PR2-7","Qvbfzn1":"PR2-7","Qxh4n0s":"PR2-7","Qawyqhm":"PR3-5","Q12f9zl":"PR8-7","Qito1gp":"PR8-7","Q1ki4y43":"PR1-5","Qw2wdwl":"PR3-1","Q16e7ao1":"PR8-3","Qaqvlhx":"PR8-7","Q16sjkgz":"PR1-4","Q1j151t3":"BE3-2","Qrdi2y5":"BE3-6","Qljx8a1":"PR1-7","Ql4vf5q":"PR7-2","Q7lwks":"PR7-2","Qko3h2q":"PR7-2","Q7aztu0":"PR2-7","Q1a5krr9":"PR2-2","Q1tjoa9o":"PR9-6","Qzumqog":"PR6-6","Qz3t8g3":"PR6-1","Qzkvfip":"PR1-2","Qybpvg2":"PR10-1","Qboexvl":"PE7-2","Qqv7myl":"PR8-1","Qz3or2z":"PR1-3","Q1v29gdz":"BE1-1","Q1r6cqtk":"BE1-5","Q1ncgpdz":"BE8-2","Qp5va9e":"BE2-2","Q6agv34":"BE2-4","Qq25lxh":"BE2-5","Qzulsfz":"BE2-6","Q188xs4t":"BE2-6","Qr1qm64":"BE2-6","Q1iw95ng":"PE2-1","Qup6ixa":"PE3-1","Q1yn7wmy":"PE3-3","Q1wyql9p":"PE8-4","Qoui070":"PE3-1","Q12v1zr7":"PE3-8","Q1dlfw1i":"PE4-5","Q15oow7":"PE3-8","Q1tpid6k":"PE3-6","Q16ldwnq":"PE3-4","Qq4y5dz":"PE3-7","Qfvmpyq":"PE3-1","Qx9texb":"PE8-1","Q17c794o":"PE8-4","Q8icl6e":"PE3-6","Q1f59jod":"PE3-4","Qzgc8gt":"PE3-6","Qd2jxaf":"PE8-6","Q1vfi8yq":"PR4-6","Q2tkjsr":"PE3-7","Q14lr31s":"PE3-6","Qhljaby":"PE5-3","Qgl4ctr":"PE2-4","Q1dfy5k7":"PE7-3","Qhwfkkc":"PE7-4","Qfntk1g":"PE3-1","Q12u5w6n":"PE3-6","Q1lykrfo":"PE8-7","Q1gpau57":"PE3-1","Q9ehwnf":"PE3-1","Q1jc38yl":"PE3-1","Q5zbomz":"PE3-4","Qbrym2k":"PE7-4","Qi9xe7x":"PE5-3","Q1dwn2qh":"PE3-8","Qyxoex2":"PR4-6","Q1dh56s9":"PE3-1","Q1qo6qnu":"PE3-7","Q11209re":"PE4-1","Q1pwkbkx":"PE3-6","Ql0izsn":"PE3-1","Q1wbj4kn":"PE3-4","Q15haco5":"PE3-6","Q1k0b48g":"BE2-2","Qh17sxt":"PE3-6","Qxcyx5m":"PE1-1","Q105s5lc":"PE8-1","Qdbvpmn":"PE5-1","Ql8f3ri":"PE3-7","Q18lagva":"PE3-6","Q197m3bl":"PE3-3","Qwmxt9m":"PE3-8","Q1ximpnu":"BE8-1","Q1wkbhme":"BE5-4","Q1jb6p7e":"PE3-1","Q14939r0":"BE6-1","Q1vaf93g":"PE3-1","Q9ooxks":"BE8-1","Qpvsh2v":"PE3-1","Qrcwlf0":"PE3-6","Q1kroskb":"PE3-6","Qx7bjia":"PE2-3","Q38t6hh":"PE3-3","Qc1x40b":"PE7-3","Q1ovhpmn":"PR8-3","Q186zisx":"PE3-6","Qy2dpxt":"PE8-7","Qek2k1p":"PE3-6","Q1drr51e":"PE6-1","Q1d6zc95":"PE3-4","Q1czxvyx":"PR4-2","Q1tpvf7f":"PE3-6","Qgdpake":"PE8-7","Q12kuo68":"PE3-8","Quozjvx":"PE3-8","Q1a18p0h":"BE6-6","Qfx4i57":"BE3-1","Q14tp2yr":"BE3-2","Q5ba0ez":"BE3-3","Q8fr1e1":"PR2-1","Q1ywe6vf":"BE5-4","Qk9glxs":"BE5-4","Qp624vy":"BE5-5","Q70zd9a":"BE5-1","Q138ycmy":"PR7-2","Q1mtai90":"PR7-5","Q1uaqydu":"PR7-1","Q1aquyu8":"PR5-6","Q1i6fnlz":"PR8-4","Q1k7q1q6":"PR6-1","Qkdenas":"PR6-1","Qhkvf1b":"PR7-1","Q1opzk55":"PE8-2","Qcekcdn":"PE8-1","Q10kb5vf":"PE4-5","Qzbhpq0":"PE4-1","Q198x726":"BE5-1","Q1merdh":"BE5-6","Qdefyi":"BE5-8","Q1n56ll5":"BE5-1","Qxdp0kd":"PR8-3","Q1jwlwe2":"PR8-5","Q1q6p4v9":"PR6-2","Q1nz1en9":"PR6-1","Qaze7pz":"PR5-1","Q1h7p96s":"PR5-5","Q1207rur":"PR1-7","Qv1krds":"PR2-7","Qgmjrrb":"PR2-3","Q1fgoqhi":"PR2-7","Q10xumcc":"PR9-5","Q1p8xnzw":"PR1-1","Q19s2rf7":"PR1-3","Q1wzrjfh":"PR3-3","Q7ofey8":"PR9-1","Q6w71xe":"PE8-1","Q9n0fnv":"PR8-1","Q13krsid":"PR8-7","Q1a1miq1":"PR5-5","Qadbs7q":"PR2-3","Qocmuu2":"PR7-1","Qy4zu33":"PR1-3","Q198ngso":"PR1-3","Qjgl79s":"PR9-2","Q4sb58j":"BE3-2","Qal3ywe":"PR10-6","Qoznby9":"PR2-4","Quhtuxy":"PR2-1","Qanniew":"PR3-2","Qyztut8":"PR8-6","Qk48xjn":"BE3-1","Q1c32mif":"PR7-1","Qjlykyb":"PR7-1","Qcdu6ty":"PE8-4","Q1s4a5fk":"BE5-1","Qvqqlr0":"PR5-3","Q7glln7":"PR9-1","Qczypid":"PR9-6","Q1s50xhj":"PR6-1","Qopw94z":"PR4-1","Q1dgdk0u":"PR7-7","Q1m8ixq3":"PR3-2","Q18lwsm0":"PR7-2","Q1o88llr":"PR7-1","Q1frugeb":"PR5-5","Q1aqyghe":"BE7-1","Q1bise0d":"BE1-3","Q1ylli23":"PR3-1","Q1f1xuwl":"PR9-2","Q1f3eu1z":"PR5-1","Qh7ubbt":"PR5-1","Qym49ki":"PR2-6","Qhv4fll":"PR3-1","Qmhu1a1":"BE5-1","Qrr1hxq":"PR7-2","Qp8zqac":"PE8-1","Qdi6qul":"PR8-7","Qjf7oae":"PR6-5","Q111p2ds":"BE1-1","Q1yottam":"PR10-1","Q1bp5erv":"PR4-3","Q22poiv":"PR3-1","Qce7ljv":"PR10-2","Quh7ea0":"PR1-3","Q1fj6788":"PR8-4","Q9gdmrw":"BE5-1","Qw31fnl":"BE8-5","Q146vvo1":"BE1-1","Qrl8lna":"BE2-1","Q1d8xmrs":"BE2-3","Q12z8nyo":"BE2-2","Q1mktaah":"BE2-3","Qlxid1n":"BE7-1","Q1a5bwew":"BE2-5","Q1s2itoh":"PR3-1","Qcpxkd8":"BE8-2","Q1f15gj":"BE2-6","Q18y2owb":"BE2-3","Q1u85ll8":"BE2-2","Q1cpimpz":"BE8-2","Q1iobkw6":"BE7-5","Q1i8q0t2":"BE2-2","Q1l5tfl7":"BE1-2","Q1rs8fd":"BE7-5","Qg8hhiu":"PE3-1","Q1dymqi6":"PE3-6","Qzrvuuf":"PE2-1","Qddpqg2":"PE4-4","Qsltosl":"PE8-6","Q1kk27cz":"PE3-7","Q1ld58m7":"BE2-1","Qhtt71n":"PE2-1","Qa52ppt":"PR7-1","Q1qepnba":"PE4-2","Q10bsele":"PE5-3","Q1tja9mu":"BE2-3","Q1qu34le":"PR8-3","Q145lbwp":"PE3-4","Q19psvi4":"PE3-7","Q15uuc2k":"PE3-7","Qmo1zkt":"BE7-5","Q1ad5lbs":"PE3-6","Q13b0924":"PE8-7","Q1apzj1l":"PE3-3","Qdegek3":"PE3-1","Qzw9t8e":"BE2-1","Q4n0mx5":"PE3-6","Q8vmbl9":"BE1-4","Q1jp7rjk":"PE3-6","Qvjjgde":"PE8-1","Q14ryoc4":"PE2-1","Q9ix2r7":"PE6-1","Q13rvcx5":"PE7-3","Qtd6v8l":"PE3-4","Qemzg8w":"PE8-1","Qn3556b":"PE3-6","Qhj7f3m":"PE2-1","Qzfweqx":"BE7-5","Qnpjiux":"BE7-5","Qnwnsls":"PE8-1","Q145u77x":"PE3-3","Q1kgqizr":"PR4-3","Q1eiy2hy":"BE7-1","Q1ue6us8":"PE3-6","Q9efnr4":"PE3-4","Qxbdygb":"PE8-4","Q1dbox50":"PE3-6","Q1gnz6pu":"PE7-5","Q1vcpfv8":"BE8-5","Q1xbyfj5":"PE1-1","Qhld8rs":"PE3-6","Q1us2xji":"PE3-6","Q1frr40w":"PE3-7","Q1fcfrbc":"PE3-6","Q12hm46j":"PE8-1","Q10biu7g":"PR4-6","Qbd7pcf":"PE5-3","Qi6b2az":"PE3-4","Q1t6xxn2":"PE7-4","Q17hrd8v":"PE2-2","Q8q83gf":"PE3-1","Q1dwq8ir":"PE3-1","Qsqox2g":"BE2-3","Q3kctxs":"PE3-6","Qwwkfje":"PE2-2","Q1ppfu5j":"PE7-3","Q1isubpu":"BE4-2","Q1m9wll":"PE3-7","Q1n4amfx":"PE8-6","Qzqmbj1":"PE3-6","Qs6oye5":"PE6-1","Qyxihm2":"PE7-5","Qzaathw":"BE4-5","Q3slggb":"BE6-2","Q3stax4":"PE4-1","Q1u8gqr2":"PE3-6","Q150z5xd":"PR3-3","Qsp087g":"PR2-5","Q1wa90db":"BE3-5","Qfz2vtn":"PR2-2","Qlzym8o":"PR2-3","Qtocpg6":"PR8-3","Qdcp66i":"PR8-1","Qkeaf74":"PR4-4","Q13amu6p":"PR8-4","Q1nijd0u":"PE8-2","Q117m6nc":"PE8-3","Qgw0us0":"PE8-1","Q1i0cgvj":"PE8-5","Qjcg52d":"PR2-1","Q1ayfidd":"PE4-3","Q1yegeqb":"PE8-1","Qz6fmdj":"PE8-7","Q1dzf4su":"PR7-2","Q183o9ru":"PR7-1","Q5ov5d3":"PR7-1","Qgdh0vm":"PR7-2","Qud9orv":"PR7-2","Q1v7p97u":"PR7-5","Q10gh3f2":"PR7-6","Qnbcso3":"PR7-1","Q1fec44j":"PR6-1","Q1ewcnqs":"PR6-2","Q16s2e7":"PR6-5","Q1wnuezg":"PR6-4","Q1byr54s":"PR8-6","Q1dvmv6d":"BE5-2","Q4vvfkq":"BE5-1","Q4n2u8k":"BE5-6","Q1d87pnw":"BE5-8","Qgkti0a":"BE5-1","Q1sjimmo":"BE4-2","Qbvuuur":"PR5-2","Qh6mkxu":"PR5-3","Q7ldr5y":"PR5-4","Q15m5wx3":"PR5-5","Qtj5ajo":"PR5-5","Q16i0zgm":"PR5-6","Q1xozrlg":"PR6-6","Quej31c":"PE4-5","Q1qzx3vl":"PE4-3","Qz50hpi":"PR2-6","Q1u59lhh":"PR1-3","Qadc80m":"PR1-1","Qkhsguj":"BE3-2","Q1nytupz":"BE3-2","Q19j7ofw":"BE1-3","Qr3yz9o":"PE7-3","Q1iji1sz":"PR9-3","Qeb4lh3":"PR10-2","Q9syrc4":"PR1-5","Q1u1ytqz":"PE3-1","Q1kluora":"PR3-1","Qbtm072":"BE6-2","Q1j8r0p2":"PR9-5","Q1al9foy":"PR9-3","Q14mfxoq":"BE5-1","Q1paj172":"PE7-5","Qdhajmn":"PR3-1","Q1qzsa8u":"PR7-7","Qvofqiu":"PR7-1","Q7ow24u":"PR7-7","Q1or36s2":"PR3-1","Q1o1mc1f":"PR9-2","Qm2ettw":"PR1-2","Qjymija":"PR5-3","Q1r9aiom":"PR3-1","Q1j9dvhz":"PE3-4","Q1cowsc7":"PR1-3","Qt7cwde":"PR1-1","Q6z96p0":"PR1-3","Q1hdrga9":"PR1-2","Q1n49h2a":"PR1-7","Qmz1fes":"BE4-1","Q16xzic":"PE3-4","Qxg7bpa":"PE8-1","Q1ajpdy4":"PR3-3","Q1o32efp":"BE5-4","Q31zmdt":"PR9-2","Q1anbnjp":"PR10-1","Q1f9qsk5":"BE1-3","Q9zlzgq":"BE3-3","Q4564vm":"PR1-3","Q1wtf7tf":"PR9-1","Q1r28osy":"PR1-1","Qrvlpz8":"BE4-1","Qr2elvn":"BE8-5","Q1go00x6":"BE1-1","Qunr8hb":"BE2-1","Qticbjc":"BE2-3","Q1oelfx":"BE8-3","Qg2q92x":"BE8-5","Qjxito5":"BE8-4","Qg0j482":"BE8-3","Q14q6745":"BE8-5","Q2tjpu4":"BE2-4","Q10604al":"BE8-3","Q1d2yrzp":"PR3-4","Qsbo9c5":"BE7-5","Q1m05mpf":"BE2-6","Q1qq2qwm":"BE4-2","Qsu7qum":"BE4-1","Qzcs8in":"BE6-4","Q8yxpqk":"BE6-6","Q8swuhd":"BE2-6","Q1nseaq0":"BE2-3","Quxqa5t":"BE7-5","Q1vxal75":"BE8-3","Q1ula70y":"BE8-3","Q186hhga":"BE3-1","Q1smlcxd":"PR1-5","Qdfcn4q":"PR1-2","Q15neeve":"PR2-7","Q1in6h20":"PR3-4","Qo7w89j":"PR3-2","Q1adcm37":"PR4-6","Q1v6e490":"PR5-6","Q1exkwvy":"PR6-1","Qjaa7hf":"PR7-1","Q1u7sd58":"PR8-6","Q1ydm8yc":"PR9-5","Q5srp27":"PR9-5","Q1sqae7a":"PR10-1","Quy7591":"PR1-3","Quk9ooc":"BE1-4","Qf3zzw2":"BE3-1","Q13g06vc":"BE3-3","Q6qn1bm":"BE4-4","Qherzn9":"BE6-2","Qpf8zdq":"BE7-5","Q45j70o":"PE1-1","Qn89uxk":"BE2-3","Q1o8sw8t":"BE8-5","Qum45ih":"BE3-1","Qnq59tf":"BE3-4","Q15xqv0s":"BE1-3","Qyfzyei":"BE6-2","Qhi5op3":"BE6-1","Q1r1l29q":"BE6-1","Q1wmymki":"BE2-6","Q1jxqfka":"PE1-1","Qbj3sfs":"PE1-4","Q11oyxmk":"PE1-4","Q3cq8hl":"PE1-2","Q17tnml0":"PE1-1","Q19fggpc":"PE1-1","Q1incvm2":"PE1-1","Q12nvm01":"PE1-1","Qd25vdm":"PE1-1","Q1gzk3sr":"PE1-2","Q4go4gk":"PE2-1","Q56iqt7":"PE2-1","Q1l8p1xo":"PE2-1","Ql02i9q":"PE2-1","Qb3ma3r":"PE2-1","Qj8mulk":"PE2-6","Qk543eb":"PE2-3","Q1ourahe":"PE2-3","Q15sqp0m":"PE2-3","Q11366b6":"PE2-4","Q1xuwgo7":"PE3-4","Q1qgacxw":"PE3-4","Q1gvat6p":"PE3-6","Q1lmz91e":"PE3-1","Q1dqkveg":"PE3-4","Qtog0at":"PE3-8","Qbtljym":"PE3-1","Q11tv43q":"PE3-8","Q178uf15":"PE3-1","Qcf819m":"PE3-6","Qh2d6jc":"PE4-4","Q1dljk5c":"PE4-3","Q17flllj":"PE4-4","Q6q4kr9":"PE4-1","Q1vyomd1":"PE4-2","Q1eq94qi":"PE4-1","Q1iwbev5":"PE4-4","Qei56k1":"PE4-3","Qtsz8pp":"PE4-3","Q1f6ktyk":"PE4-1","Q1599cm8":"PE5-3","Qn55y6y":"PE5-1","Q1nvhxr8":"PE5-1","Qe812l0":"PE5-3","Qwify5c":"PE5-1","Q10nbw11":"PE5-3","Qrr4nwo":"PE5-1","Qo4qpxy":"PE5-1","Qlsv5i2":"PE5-6","Q1sg8ny4":"PE5-1","Q1tssukq":"PE6-3","Q99iobk":"PE6-4","Q1adwv2v":"PE6-3","Qfihoqb":"PE6-4","Q1vzd1a":"PE6-3","Q1xbmgca":"PE6-4","Q12kxlw9":"PE6-3","Q1bghbgs":"PE6-1","Q1l0x3b9":"PE6-1","Qebcx2f":"PE6-1","Qyoc2ql":"PE7-4","Qx4q7hm":"PE7-3","Q178z4hp":"PE7-5","Q1dbft5o":"PE7-1","Qjjug9w":"PE7-1","Qq6djq1":"PE7-3","Quc3ngo":"PE7-3","Q16606rb":"PE7-3","Q1e15cp8":"PE7-3","Q1tkpbbm":"PE7-3","Qo6gibc":"PE8-5","Qmn44qj":"PE8-7","Q12j89i0":"PE8-7","Qqsfo6n":"PE8-5","Q1k15lx3":"PE8-4","Qdz6qkb":"PE8-4","Q1ysu4m7":"PE8-1","Q1rj4rax":"PE8-6","Q16f64ym":"PR1-3","Qdaj397":"PR1-5","Q1nlt9jq":"PR1-7","Q1ovl3r8":"PR1-3","Q1mfek3r":"PR1-3","Qacuonc":"PR1-7","Q80yl0i":"PR1-3","Q1e4uvs7":"PR1-3","Q4dr8ha":"PR2-7","Qasgawl":"PR2-6","Qvw9smi":"PR2-7","Qkig6lr":"PR2-5","Qxhrrns":"PR2-1","Qkrqm1d":"PR2-1","Q3peb7x":"PR2-6","Qrhzm03":"PR2-7","Q1oiv0t1":"PR3-2","Q9nbe28":"PR3-1","Q1u7xijr":"PR3-1","Q9fggya":"PR3-1","Q52qjne":"PR3-1","Qmhysrc":"PR3-1","Qjhfo7":"PR3-1","Qzrwnqx":"PR3-3","Q1vatqu9":"PR3-1","Qimexq7":"PR4-2","Qrq8q71":"PR4-1","Quv6ei":"PR4-2","Qriup8o":"PR4-2","Qpkkx33":"PR4-6","Q17toqad":"PR4-6","Qluz23t":"PR4-2","Q1tezpmw":"PR4-1","Q1rt7mzt":"PR5-6","Q1x00bqv":"PR5-6","Qr0bga7":"PR5-1","Q1rm9a3j":"PR5-2","Q7s09ln":"PR5-5","Qxtayuj":"PR5-5","Qbgzb59":"PR5-1","Q1mm90wv":"PR5-1","Qqiujks":"PR6-1","Q1v4aab3":"PR6-1","Q86h6vm":"PR6-1","Qlho0yu":"PR6-2","Q1yullgt":"PR6-5","Qhqw4f6":"PR6-1","Q19bw7os":"PR6-1","Qj2ynde":"PR6-1","Qb1c5yi":"PR7-1","Q137u0c0":"PR7-1","Qhcw9c9":"PR7-1","Q1nkia3t":"PR7-2","Q1rsk24w":"PR7-1","Qyzkxym":"PR7-1","Q1bwi244":"PR7-1","Qclnwir":"PR7-2","Qkd4hf2":"PR8-7","Q1gjxt32":"PR8-7","Qdgnami":"PR8-7","Qu7q07x":"PR8-4","Q1qlkxi5":"PR8-1","Q52qg21":"PR8-4","Qxup3l5":"PR8-7","Qkfbo8n":"PR8-1","Qei7zzf":"PR9-5","Qwaysck":"PR9-2","Q2uva55":"PR9-5","Qkwrtap":"PR9-2","Qcumt5b":"PR9-5","Qyhrfg9":"PR9-5","Q67mshe":"PR9-3","Qzk4ds5":"PR9-3","Q15r0lgj":"PR10-1","Q1wfiyp5":"PR10-2","Qfpjeej":"PR10-3","Q1o6vn78":"PR10-6","Qehed0b":"PR10-1","Q1ax9naw":"PR10-1","Q1wqtlfk":"PR10-4","Q1u7j2xp":"BE1-1","Qtfhi32":"BE1-3","Qse8jfy":"BE1-4","Q1jalbb1":"BE1-1","Qybq4yt":"BE1-1","Qklg7b9":"BE1-1","Q18c489y":"BE1-3","Q1uuc75w":"BE1-1","Qo2l484":"BE2-3","Q7rrjrg":"BE2-5","Qz3xyb4":"BE2-1","Q1u2eo6g":"BE2-3","Q10pi4c":"BE2-5","Qv9avb3":"BE2-3","Qe2aggk":"BE2-6","Qtu92tj":"BE2-5","Qdxsvm2":"BE3-1","Q1snab55":"BE3-2","Qd22ext":"BE3-2","Qj4xcc0":"BE3-3","Q1m83wx1":"BE3-4","Q9zj6i9":"BE3-2","Q4qicoy":"BE3-2","Qb3pb9l":"BE3-1","Q16d1lcp":"BE4-4","Q1iuv763":"BE4-1","Q6t7bw2":"BE4-1","Q5dthvp":"BE4-1","Q1mjd8rb":"BE4-4","Q14m6o8g":"BE4-1","Qr5e3e9":"BE4-1","Q89p1fa":"BE4-4","Qyqklm3":"BE5-1","Q13iorcu":"BE5-1","Qiks4pv":"BE5-1","Qtv9kdf":"BE5-1","Q14lf6zn":"BE5-1","Q2yze1l":"BE5-1","Qy2fpq":"BE5-1","Q1tih6m9":"BE5-1","Qpzurkb":"BE6-2","Qbcma9b":"BE6-4","Q1vnrd52":"BE6-2","Q5a43s0":"BE6-6","Q1f7rhii":"BE6-1","Q13vc5vm":"BE6-1","Q1lexk0c":"BE6-1","Q1q3huix":"BE6-1","Q1ttsfjh":"BE7-1","Q1o0l7jg":"BE7-4","Qsuj0qx":"BE7-1","Qa11pxs":"BE7-1","Q72k33o":"BE7-5","Q1f63sxl":"BE7-1","Q1u6e6g4":"BE7-5","Q18isbcf":"BE8-4","Qknhu2k":"BE8-3","Q6y4zot":"BE8-2","Q1xfqo6y":"BE8-3","Qnsvygb":"BE8-3","Q1y14twz":"BE8-5","Q31rn6z":"PR2-1","Q1solxp7":"PR4-2","Qgkb5c1":"BE2-1","Q1h7k4h9":"PR7-1","Qvtjpvs":"PE5-1","Q6wkjfb":"PE1-5","Q1d5lsim":"PR9-1","Q1230jyp":"BE6-6","Qlsmfkg":"PR5-5","Q121z6fg":"PR8-3","Qzjet6o":"BE3-1","Q19kwqoq":"PR9-5","Qd9k9zt":"BE5-1","Quhmnkt":"PR1-3","Q7canxn":"BE6-1","Q1tqsqx1":"PR9-5","Q1cecjwt":"PR6-3","Qm04ykb":"PE1-3","Qgcmuhg":"PE1-6","Q2vkpqm":"PE2-5","Qfkfiyo":"PE3-9","Q10vcgqd":"PE4-6","Qv5x98m":"PE5-2","Q1pjno9c":"PE5-4","Qilxm20":"PE5-5","Qv7qurq":"PE6-2","Qtz53m7":"PE6-5","Q1dtds6e":"PE6-6","Qgnwhg0":"PE7-6","Qedtu8m":"PR1-6","Q42lea8":"PR3-6","Q5omnce":"PR4-5","Q4yad5g":"PR9-4","Qbv87r0":"PR10-5","Qhpkc45":"BE1-6","Qr24wuu":"BE4-6","Qv9zo9w":"BE6-3","Qvt8n7z":"BE6-5","Q138g2k4":"BE7-2","Qssoxqd":"BE7-3","Q13d62e3":"BE7-6","Q5ldlw6":"BE8-6"};
+const SIM_GROUPS = [["Q9bsk1i","Qw31fnl"],["Qkdig9v","Qtocpg6"],["Q1ovhpmn","Q1qu34le"],["Qei7zzf","Q1tqsqx1"]];
+const SIM_OF = (function(){ const m={}; SIM_GROUPS.forEach(function(g){ g.forEach(function(id){ m[id]=g.filter(function(x){return x!==id;}); }); }); return m; })();
+/* ==KP_SIM_END== */
+
 /* ==ANS_POS_BALANCE_START== 存储层答案位置均衡 ==
    存量题正确项原本 65% 集中在 B（阅读源码即可看出规律）。展示层已有每卷独立洗牌，
    此处再做一次“存储层”均衡：按最小占用槽位贪心把正确项摊到 A/B/C/D 各约 1/4，
@@ -6548,6 +6782,37 @@ function qhash(str){
 })();
 /* ==ANS_POS_BALANCE_END== */
 
+/* ==FIXES_START== 内容整改：逐题修复（按 qid 定位，不受索引漂移影响）。
+   来源见 tools/audit/fixes.json；每条都在 reports/审校/02-错误修复清单.csv 有对应行。
+   本块必须在 ANS_POS_BALANCE 之前执行：选项/答案/why 的修改要重新纳入答案位置均衡统计。 */
+const QFIX = {"Q1yn7wmy":{"optionAt":{"2":"与其面谈留任条件，同步安排设计交底与副手接班"},"whyAt":{"2":"正确。留任与知识转移要并行推进：谈条件的同时把关键设计与决策交给接班人。"}},"Q8fr1e1":{"optionAt":{"0":"立即替换当前迭代中的一项任务","1":"让团队自行决定是否接受这个新需求","2":"拒绝任何迭代中期提出的新需求","3":"写入待办比较价值，下一迭代再替换"},"whyAt":{"3":"正确。价值比较发生在待办层面，替换动作放到下一迭代，避免打断当前承诺。"}},"Q1o88llr":{"optionAt":{"3":"先修缺陷，把等量的低优先级功能移出本迭代"},"whyAt":{"3":"正确。缺陷威胁迭代目标时优先修复，用等量范围置换保持承诺可信。"}},"Qhv4fll":{"optionAt":{"0":"按新政策重排待办顺序，不打断当前迭代承诺","1":"直接插入当前迭代立即开发，不再排序","2":"拒绝调整，理由是迭代计划已经确定"},"whyAt":{"0":"正确。优先级在待办层面重排，当前迭代承诺不变，下一迭代自然先做高价值项。"}},"Q1u85ll8":{"optionAt":{"2":"并行比较自行取证、联合有资质方、改方案三条路径"},"whyAt":{"2":"正确。资质是硬约束，只能在取证、合作、改方案三条路径中按周期与成本择优。"}},"Q1rs8fd":{"optionAt":{"0":"强调这是公司战略，要求各部门无条件执行","1":"暂缓项目，直至人员与岗位调整全部完成","2":"绕过班组长，直接进入车间推进数据采集与培训","3":"与其逐个谈岗位去向，请班组长参与试点并共设转型路径"},"whyAt":{"3":"正确。把抵制者变成共同设计者，比说服或绕开更能解决数据采集的配合问题。"}},"Qdegek3":{"optionAt":{"0":"与其排出三个月内可远程承担的任务，并约定同步节点","1":"直接拒绝，理由是项目关键期需要全员到岗协作","2":"同意申请，但不调整任何工作安排与节点","3":"让其转为兼职，以降低这块的人力成本"},"whyAt":{"0":"正确。弹性方案要落到任务与节点上，既保住关键产出，也回应照护需求。"}},"Qyxihm2":{"optionAt":{"0":"拒绝放人，理由是关键期项目离不开他","1":"立即同意转岗，但不做任何交接与文档移交","2":"拖延转岗审批，先把关键期拖过去再说","3":"与其谈转岗时点，约定交接清单与副手培养后再放行"},"whyAt":{"3":"正确。放人不等于放手：交接清单与接班人到位后再转岗，技能缺口才可控。"}},"Q1yegeqb":{"optionAt":{"0":"沟通不会产生任何实际成本与代价","1":"只需计算会议场地与差旅的直接费用","2":"沟通越多越好，有利于团队透明","3":"沟通占用工时与注意力，需权衡频率与形式"},"whyAt":{"3":"正确。沟通成本体现为工时与注意力消耗，规划时要按受众与目的选择频率和形式。"}},"Q1dzf4su":{"optionAt":{"0":"记录为待办，上线前再统一评估","1":"修改设计满足并发指标，并补压测验证","2":"适当降低并发指标，以适配现有设计","3":"由开发团队自行判断是否需要处理"},"whyAt":{"1":"正确。非功能需求同样是验收条件，改设计后必须用压测数据证明达标。"}},"Qunr8hb":{"optionAt":{"0":"提变更调整设计以符合新排放标准","1":"按原设计完成，到验收时再处理","2":"要求政府延后执行该新标准","3":"把合规责任整体转移给供应商"},"whyAt":{"0":"正确。强制标准变化属于范围与设计变更，须走变更流程并更新验收依据。"}},"Q1oelfx":{"optionAt":{"0":"继续执行，等超支后再申请追加预算","1":"降低质量要求，以抵消增加的成本","2":"重算成本基线，评估替代料源与关税规避","3":"立即停止项目，以控制成本"},"whyAt":{"2":"正确。关税改变成本基线，需同步评估替代料源与合规的规避路径。"}},"Qg0j482":{"optionAt":{"0":"立即改用更先进的技术路线","1":"比较成熟度与迁移成本后再建议","2":"忽略新技术，按原方案继续推进","3":"停止项目以规避技术路线风险"},"whyAt":{"1":"正确。技术替代要看成熟度与迁移代价，用比较结论支撑建议，而不是直接切换。"}},"Qsu7qum":{"optionAt":{"1":"启用备选货源保交付，同时按合同条款启动索赔与保险"},"whyAt":{"1":"正确。交付连续性与合同权利并行处理：先保供应，再依合同主张索赔。"}},"Q1nseaq0":{"optionAt":{"1":"设计境内存储迁移方案，走变更流程并重排上线计划"},"whyAt":{"1":"正确。合规要求改变架构约束，须以变更请求调整范围与进度，而非事后补救。"}},"Q1vxal75":{"optionAt":{"3":"锁定替代料源与用量，重估成本并更新风险登记册"},"whyAt":{"3":"正确。涨价与断供是两类风险，需同时处理料源与成本基线，并回写风险登记册。"}},"Q1ula70y":{"optionAt":{"0":"按新标准做差距分析，走变更并更新验收准则"},"whyAt":{"0":"正确。强制标准变更须先量化差距，再走变更流程，并同步更新验收准则。"}},"Qn89uxk":{"optionAt":{"1":"确认适用的数据保护法规并留存合规证据"},"whyAt":{"1":"正确。先确认适用法规并留存证据，才能在审计或检查时证明合规。"}},"Qum45ih":{"optionAt":{"1":"测算改造范围与合规时限，提变更请求并重排迭代"},"whyAt":{"1":"正确。监管变化先量化范围与时限，再以变更驱动架构改造与迭代重排。"}},"Q3cq8hl":{"optionAt":{"3":"比对战略变更与合同里程碑，走变更后再重排待办"},"whyAt":{"3":"正确。合同里程碑不能单方面改动：先量化影响、走变更，再重排待办。"}},"Qtsz8pp":{"optionAt":{"0":"减少该部门的参与环节，以降低对它的依赖","1":"把情况上报，由其上级代为督促与施压","2":"约其当面了解态度转变的原因，再重估参与度与策略","3":"在其缺席时按原计划推进，避免项目整体延误"},"whyAt":{"2":"正确。参与度下降先查原因（资源、风险、内部压力），再调整参与策略。"}},"Qrr4nwo":{"optionAt":{"0":"全部接受定制，优先保证客户满意度","1":"全部拒绝定制，坚守产品标准化与复用方向","2":"按价值与维护成本把定制分成标准、配置、专项三层","3":"把定制需求转给合作伙伴单独开发交付"},"whyAt":{"2":"正确。分层能同时守住标准产品与客户价值，避免全接或全拒的极端。"}},"Q1tezpmw":{"optionAt":{"0":"把测试工作推迟到项目后段集中进行排队","2":"比较扩容与外协成本，同时按风险高低排测试队列"},"whyAt":{"2":"正确。产能瓶颈要么增加产能、要么降低占用，两条路都要算成本并按风险排序。"}},"Q1rm9a3j":{"optionAt":{"2":"开发第二来源或替代设计，同时备好安全库存"},"whyAt":{"2":"正确。单一来源的应对是降低集中度：第二来源、替代设计与缓冲库存并用。"}},"Q1ax9naw":{"optionAt":{"0":"把未修缺陷列成移交清单，写明影响、责任人与时限"},"whyAt":{"0":"正确。收尾不等于清零，遗留项要可追踪：影响、责任人、时限三要素齐全。"}},"Q1u2eo6g":{"optionAt":{"1":"改为境内处理或脱敏传输，并留存合规评估依据"},"whyAt":{"1":"正确。数据不出境是硬约束，只能在本地化处理与脱敏传输两条合规路径中选择。"}},"Q2yze1l":{"optionAt":{"3":"核查合同的服务连续条款，同步启动备选来源验证"},"whyAt":{"3":"正确。先看合同能主张什么，再准备备选来源，避免供应中断时无牌可打。"}},"Q18isbcf":{"optionAt":{"1":"先判断目标客户是否需要，用最小增量验证再定投入"},"whyAt":{"1":"正确。竞争压力要用价值判断过滤：先验证客户是否在意，再决定投入规模。"}},"Qgkb5c1":{"optionAt":{"1":"测算安全改造范围与注册时限，走变更并更新验收标准"},"whyAt":{"1":"正确。安全要求属于合规约束，需量化范围与时限后走变更流程。"}},"Q5ldlw6":{"optionAt":{"0":"量化影响后提变更，由治理层决策，获批再执行并同步相关方","1":"先执行方案调整，再补变更记录，最后统一通知客户方"},"whyAt":{"0":"正确。顺序是先量化影响、再走变更与治理决策，获批后才执行并同步相关方。"}},"Q124vs23":{"optionAt":{"2":"直接指定采用其中一种方案，避免继续浪费时间讨论"}},"Q1exkwvy":{"optionAt":{"0":"只按迭代编制预算，忽略阶段拨款与审批要求"}},"Qnq59tf":{"optionAt":{"1":"立即插入当前迭代，优先交付这个高价值功能"}},"Q1r1l29q":{"optionAt":{"0":"继续加大评审投入，观察更长周期的效果变化"}},"Ql02i9q":{"optionAt":{"2":"要求团队通过加班满足业务方全部要求"}},"Qj8mulk":{"optionAt":{"0":"要求所有异议必须在会上当场提出并说明理由"}},"Q15sqp0m":{"optionAt":{"0":"要求全体成员统一加班，以保持行动一致"}},"Q11366b6":{"optionAt":{"1":"把决策改为投票，用多数票解决分歧并结束讨论"}},"Q1dqkveg":{"optionAt":{"1":"明确拒绝该要求，坚持敏捷原则不做任何让步"}},"Qe812l0":{"optionAt":{"2":"接受要求，通过加班与压缩测试来保证交付"}},"Q1bghbgs":{"optionAt":{"0":"解释软件必然有缺陷，直接拒绝该零缺陷要求"}},"Qacuonc":{"optionAt":{"1":"把迭代延长到一个月，与统一的发布窗口对齐"}},"Q80yl0i":{"optionAt":{"1":"把假设错误归因于需求方提供的信息不完整"}},"Qklg7b9":{"optionAt":{"0":"增加审查会议频次，同时缩短单次会议的时长"}},"Q5dthvp":{"optionAt":{"0":"直接向供应商高层投诉，要求其加快响应速度"}},"Qyqklm3":{"optionAt":{"3":"统一放在风险登记册，由项目经理逐项跟踪处理"}},"Q14lf6zn":{"optionAt":{"1":"通过团队投票决定，按少数服从多数的方式推进"}},"Qpzurkb":{"optionAt":{"1":"延长回顾会的时间，以便更充分地讨论改进措施"}},"Q5a43s0":{"optionAt":{"2":"下发统一流程文件，要求各团队按期照此执行"}},"Q72k33o":{"optionAt":{"3":"到期强制关闭旧工具的访问权限与所有账号"}},"Q6y4zot":{"optionAt":{"2":"增加功能数量，以覆盖更多业务场景与用户"}},"Q1h7k4h9":{"optionAt":{"1":"继续赶节点，把缺陷留到注册完成后再修复"}},"Q2vkpqm":{"optionAt":{"0":"每次争执都亲自主持调解，以确保快速平息冲突"}},"Qgnwhg0":{"optionAt":{"1":"打包压缩后存入项目共享盘，不再做分类整理"}},"Qhpkc45":{"optionAt":{"2":"支持团队直接拒绝该要求，并说明敏捷不需要任何基线"}}};
+Object.keys(QFIX).forEach(function(id){
+  var f = QFIX[id], q = null;
+  for(var i=0;i<QUESTIONS.length;i++){ if(QUESTIONS[i].qid===id){ q=QUESTIONS[i]; break; } }
+  if(!q){ return; }
+  if(f.stem) q.stem = f.stem;
+  if(f.options){ q.options = f.options.slice(); }
+  if(f.optionAt){ Object.keys(f.optionAt).forEach(function(k){ q.options[+k] = f.optionAt[k]; }); }
+  if(f.answer !== undefined) q.answer = f.answer;
+  if(f.answers) q.answers = f.answers.slice();
+  if(f.why) q.why = f.why.slice();
+  if(f.whyAt){ Object.keys(f.whyAt).forEach(function(k){ q.why[+k] = f.whyAt[k]; }); }
+  if(f.exp) q.exp = f.exp;
+  if(f.tag) q.tag = f.tag;
+});
+/* ==FIXES_END== */
+
+
+
+
+
+
+
+
+
+
+
+
 /* 判分：单选 / 多选（多选要求完全匹配） */
 function isRight(q, picked){
   if(q.type==='multi'){
@@ -6557,9 +6822,53 @@ function isRight(q, picked){
   }
   return typeof picked==='number' && picked===q.answer;
 }
-function answerLetter(q){
-  if(q.type==='multi') return (q.answers||[]).map(function(i){return 'ABCD'[i];}).join('、');
-  return 'ABCD'[q.answer];
+/* 标准答案的「界面字母」：必须传入题目的展示排列，缺省才退回存储顺序。
+   注意：成绩页、逐项解析、错题重练、专项练习、打印导出都必须走这里或等价的 perm 映射，
+   直接写 'ABCD'[q.answer] 会把「存储索引」当「界面字母」，属于已修复的缺陷。 */
+function answerLetter(q, idx){
+  const perm = (idx === undefined) ? [0,1,2,3] : permOf(idx);
+  const pos = o => perm.indexOf(o);
+  if(q.type==='multi') return (q.answers||[]).slice().sort().map(function(o){ return 'ABCD'.charAt(pos(o)); }).join('、');
+  return 'ABCD'.charAt(pos(q.answer));
+}
+
+/* 卷内难度配比修复：在「同领域、不破坏任务唯一覆盖」的前提下等量替换，
+   让 D/E/F 与随机卷也落在 36 / 90 / 54（20% / 50% / 30%）。 */
+function repairDifficulty(list, spare){
+  const want = {basic:36, mid:90, hard:54};
+  const cnt = {basic:0, mid:0, hard:0};
+  list.forEach(function(i){ cnt[QUESTIONS[i].difficulty] = (cnt[QUESTIONS[i].difficulty]||0)+1; });
+  const inList = {};
+  list.forEach(function(i){ inList[i]=1; });
+  const taskCnt = function(t){ return list.filter(function(i){ return QUESTIONS[i].eco===t; }).length; };
+  let guard = 0;
+  while(guard++ < 400){
+    let from = null, to = null;
+    Object.keys(want).forEach(function(d){
+      if(!from && cnt[d] > want[d]) from = d;
+    });
+    Object.keys(want).forEach(function(d){
+      if(!to && cnt[d] < want[d]) to = d;
+    });
+    if(!from || !to) break;
+    let done = false;
+    const lifeOf = function(i){ return QUESTIONS[i].life === 'predictive' ? 'p' : 'a'; };
+    for(let vi=0; vi<list.length && !done; vi++){
+      const q = QUESTIONS[list[vi]];
+      if(q.difficulty !== from) continue;
+      if(taskCnt(q.eco) <= 1) continue;            /* 保住任务唯一覆盖 */
+      for(let ci=0; ci<QUESTIONS.length; ci++){
+        if(inList[ci]) continue;
+        const c = QUESTIONS[ci];
+        if(c.difficulty !== to || c.domain !== q.domain) continue;
+        if(lifeOf(ci) !== lifeOf(list[vi])) continue;   /* 同时保住 40/60 的方法配比 */
+        delete inList[list[vi]]; inList[ci] = 1; list[vi] = ci;
+        cnt[from]--; cnt[to]++; done = true; break;
+      }
+    }
+    if(!done) break;
+  }
+  return cnt;
 }
 
 /* 卷内任务覆盖修复：只在该卷所在领域的“备用余量”中替换，绝不跨卷借题 */
@@ -6710,7 +7019,7 @@ function buildPaper(id){
     if(!PAPER_CACHE) PAPER_CACHE = splitPapers();
     return PAPER_CACHE[id].slice();
   }
-  const seed = id==='D'?2202 : id==='E'?3303 : (Date.now()>>>0);
+  const seed = id==='D'?2202 : id==='E'?3303 : id==='F'?4404 : (Date.now()>>>0);
   const rnd = packRnd(seed);
   const done = doneSet();
   const out = [];
@@ -6752,6 +7061,7 @@ function buildPaper(id){
   });
   for(let i=out.length-1;i>0;i--){ const j=Math.floor(rnd()*(i+1)); const t=out[i]; out[i]=out[j]; out[j]=t; }
   PAPER_GAPS[id] = repairTaskCoverage(out, []);
+  repairDifficulty(out, []);
   return out;
 }
 
@@ -6819,17 +7129,19 @@ let state = {
   marked:{},
   topicOpen:{},      // 题目索引 -> 知识点面板是否展开（用户手动切换）
   current:0,
-  left:EXAM_SECONDS,
+  left:EXAM_SECONDS(),
   submitted:false,
   startedAt:0,
   brk:{},            // 已用过的休息点
   revealed:{},      // 练习模式下已点“查看解析”的题目
-  paper:'A',         // 当前试卷 A/B/C/D/E/R
+  paper:'A',         // 当前试卷 A–F / P 练习 / R 随机
   drill:false,       // 是否为专项练习（自定义题目集）
   practiceSubmitted:false,  // 练习模式是否已提交过（用于避免重复提示覆盖）
   set:null,          // 当前试卷的题目索引数组
   opts:null,         // 题目索引 -> 选项展示顺序（原索引数组），实现答案位置随机化
   endsAt:0,          // 计时结束时间戳（避免 setInterval 累计误差）
+  sec:0,             // 严格模式当前分节（0/1/2）
+  secDone:{},        // 已提交的分节（提交后该节锁定、不可返回）
   reviewSet:null     // 错题重做时的题目索引数组
 };
 
@@ -6856,7 +7168,8 @@ function save(){
   try{localStorage.setItem(KEY,JSON.stringify({
     mode:state.mode,answers:state.answers,marked:state.marked,current:state.current,
     left:state.left,submitted:state.submitted,started:state.startedAt,reviewSet:state.reviewSet,brk:state.brk,revealed:state.revealed,
-    paper:state.paper,set:state.set,drill:state.drill,opts:state.opts,endsAt:state.endsAt,topicOpen:state.topicOpen
+    paper:state.paper,set:state.set,drill:state.drill,opts:state.opts,endsAt:state.endsAt,topicOpen:state.topicOpen,
+    sec:state.sec,secDone:state.secDone
   }));}catch(e){}
 }
 function load(){
@@ -6897,13 +7210,14 @@ function beginExam(mode, resume, paper, custom){
     if(s){ state=Object.assign(state,s); }
   }else{
     state.mode=mode; state.answers={}; state.marked=marksMap(); state.revealed={}; state.current=0;
-    state.left=EXAM_SECONDS; state.submitted=false; state.startedAt=Date.now(); state.reviewSet=null;
+    state.left=EXAM_SECONDS(); state.submitted=false; state.startedAt=Date.now(); state.reviewSet=null;
     state.paper = paper || 'A';
     state.drill = !!custom && paper !== 'P';
     state.practiceSubmitted = false;
     state.brk = {};                 /* 修复：新卷必须重置休息点 */
+    state.sec = 0; state.secDone = {};  /* 新卷从第 1 节开始，分节锁清空 */
     state.opts = {};                /* 新卷重新生成选项排列 */
-    state.endsAt = Date.now() + EXAM_SECONDS*1000;
+    state.endsAt = Date.now() + EXAM_SECONDS()*1000;
     state.set = custom ? custom.slice() : buildPaper(state.paper);
     save();
   }
@@ -6922,6 +7236,12 @@ function beginExam(mode, resume, paper, custom){
   ensureOpts(activeList);
   if(!state.endsAt) state.endsAt = Date.now() + state.left*1000;
   if(state.current>=activeList.length) state.current=0;
+  /* 恢复时把当前题号校正回本节范围，避免落在已锁定分节 */
+  if(!state.secDone) state.secDone = {};
+  if(state.mode==='exam' && activeList.length===180 && !state.submitted){
+    state.sec = Math.min(2, Math.max(0, state.sec||0));
+    if(state.current < secStartOf(state.sec) || state.current >= secEndOf(state.sec)) state.current = secStartOf(state.sec);
+  }
   showScreen('scQuiz');
   if(!state.submitted) startTimer(); else { stopTimer(); $('clock').textContent='已交卷'; }
   render();
@@ -7058,7 +7378,7 @@ function render(){
       }else{
         state.answers[idx]=orig;
       }
-      save(); render(); checkBreak();
+      save(); render();
     };
     ul.appendChild(li);
   });
@@ -7083,16 +7403,20 @@ function render(){
     revealBtn.textContent = isRevealed(idx) ? '已显示解析' : '查看解析';
   }
 
-  const submitLabel = (state.mode==='practice') ? '提交并查看已完成解析' : '交卷并查看成绩';
+  const submitLabel = (state.mode==='practice') ? '提交并查看已完成解析'
+    : (secEnabled() ? ((state.sec||0) < secCount()-1 ? '提交第 '+((state.sec||0)+1)+' 节（'+secEndOf(state.sec||0)+' 题）并休息' : '提交第 '+(secCount())+' 节并交卷')
+    : '交卷并查看成绩');
   $('btnSubmit').textContent = submitLabel;
   $('btnSubmitTop').textContent = submitLabel;
 
-  $('btnPrev').disabled = state.current===0;
-  $('btnNext').disabled = state.current===activeList.length-1;
+  const range = navRange();
+  $('btnPrev').disabled = state.current <= range[0];
+  $('btnNext').disabled = state.current >= range[1];
   const paperName = state.drill ? '专项练习'
     : (state.paper==='P' ? '练习卷'
     : (state.paper==='R' ? '随机卷' : (state.paper||'A')+' 卷'));
-  $('pillProgress').textContent = paperName+' · '+answeredCount()+' / '+activeList.length;
+  const secTxt = secEnabled() ? ' · <b>第 ' + ((state.sec||0)+1) + ' 节</b>（'+ (secStartOf(state.sec||0)+1) +'–'+ secEndOf(state.sec||0) +'）' : '';
+  $('pillProgress').innerHTML = paperName + secTxt + ' · ' + answeredCount() + ' / ' + activeList.length;
   $('introProg').style.width = (answeredCount()/activeList.length*100)+'%';
   renderPalette();
 }
@@ -7104,6 +7428,8 @@ function renderPalette(){
   activeList.forEach((idx,n)=>{
     const b=document.createElement('button');
     let cls='pal';
+    const sec = secOf(n);
+    const lockedSec = secEnabled() && sec !== (state.sec||0);
     if(isAnswered(state.answers[idx])) cls+=' answered';
     if(state.marked[idx]) cls+=' marked';
     if(state.submitted){
@@ -7111,32 +7437,90 @@ function renderPalette(){
       else cls+=' wrong';
     }
     if(n===state.current) cls+=' cur';
+    if(lockedSec) cls+=' lock';
     b.className=cls; b.textContent=n+1;
-    b.onclick=()=>{state.current=n;save();render();};
+    if(lockedSec && secLocked(sec)){
+      b.title='第 '+(sec+1)+' 节已提交，不能返回';
+      b.onclick=()=>alert('第 '+(sec+1)+' 节已提交并锁定，不能返回修改。\n（官方考试同样规定：分节提交后不可返回。）');
+    }else if(lockedSec){
+      b.title='尚未进入第 '+(sec+1)+' 节';
+      b.onclick=()=>alert('请先完成并提交第 '+((state.sec||0)+1)+' 节。');
+    }else{
+      b.onclick=()=>{state.current=n;save();render();};
+    }
     p.appendChild(b);
   });
   $('resultLegend').style.display = state.submitted?'flex':'none';
 }
 
 function go(delta){
-  const n=state.current+delta;
-  if(n<0||n>=activeList.length) return;
+  const range = navRange();
+  const n = Math.min(range[1], Math.max(range[0], state.current + delta));
+  if(n===state.current) return;
   state.current=n; save(); render(); window.scrollTo({top:0,behavior:'smooth'});
-  checkBreak();
 }
 
-/* 平台练习分段（非官方强制规则）：第 60、120 题提示休息，休息期间计时暂停 */
-function checkBreak(){
-  if(state.mode!=='exam'||state.submitted||activeList.length<150) return;
-  const n=answeredCount();
-  for(const t of BREAK_AT){
-    if(n>=t && !state.brk[t]){
-      state.brk[t]=true; save(); stopTimer();
-      alert('已完成 '+t+' 题 —— 平台练习分段提示（非官方强制规则）。\n休息期间计时已暂停，当前剩余 '+fmt(state.left)+'。\n点击确定后继续答题。');
-      startTimer();
-      break;
-    }
-  }
+/* ---------------- 分节模型（对齐官方考试投递方式） ----------------
+   官方：180 题分为 3 个分节（1–60 / 61–120 / 121–180），每节提交后
+   不能返回修改；分节之间可有 10 分钟休息，休息期间计时停止。
+   本平台严格模式按同一模型实现；练习模式不分节、可自由跳题。 */
+const SEC_SIZE = 60, SEC_BREAK_SEC = 10 * 60;
+function secEnabled(){
+  return state.mode === 'exam' && !state.submitted && activeList && activeList.length === 180;
+}
+function secCount(){ return activeList && activeList.length === 180 ? 3 : 1; }
+function secOf(n){ return Math.min(secCount() - 1, Math.floor(n / SEC_SIZE)); }
+function secStartOf(s){ return s * SEC_SIZE; }
+function secEndOf(s){ return Math.min(activeList.length, (s + 1) * SEC_SIZE); }
+function secLocked(s){ return !!(state.secDone && state.secDone[s]); }
+/* 当前可导航范围：严格模式被限制在本节内 */
+function navRange(){
+  if(!secEnabled()) return [0, activeList.length - 1];
+  const s = state.sec || 0;
+  return [secStartOf(s), secEndOf(s) - 1];
+}
+
+function submitSection(){
+  if(!secEnabled()){ doSubmit(false); return; }
+  const s = state.sec || 0;
+  const [a, b] = [secStartOf(s), secEndOf(s)];
+  const blank = activeList.slice(a, b).filter(i => !isAnswered(state.answers[i])).length;
+  const msg = '提交第 ' + (s + 1) + ' 分节（第 ' + (a + 1) + '–' + b + ' 题）？\n' +
+    (blank ? '本节还有 ' + blank + ' 题未作答。\n' : '本节已全部作答。\n') +
+    '提交后本节将被锁定，不能返回修改。';
+  if(!confirm(msg)) return;
+  if(!state.secDone) state.secDone = {};
+  state.secDone[s] = true;
+  if(s >= secCount() - 1){ doSubmit(false); return; }
+  state.sec = s + 1;
+  state.current = secStartOf(state.sec);
+  save();
+  showBreak(s + 1);
+}
+
+/* 分节之间的休息：计时暂停，倒计时结束或点「继续」后恢复 */
+function showBreak(nextSec){
+  stopTimer();
+  const box = $('brkMask');
+  if(!box){ render(); return; }
+  let left = SEC_BREAK_SEC;
+  box.style.display = 'flex';
+  const tick = () => {
+    const m = Math.floor(left / 60), ss = left % 60;
+    $('brkTime').textContent = m + ':' + (ss < 10 ? '0' + ss : ss);
+    if(left <= 0) endBreak();
+    else left--;
+  };
+  const endBreak = () => {
+    clearInterval(iv);
+    box.style.display = 'none';
+    startTimer(); render();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  let iv = setInterval(tick, 1000);
+  tick();
+  $('brkGo').onclick = endBreak;
+  $('brkSkip').onclick = endBreak;
 }
 
 function doSubmit(auto){
@@ -7148,8 +7532,9 @@ function doSubmit(auto){
     activeList.forEach(i=>{ if(isAnswered(state.answers[i])) state.revealed[i]=true; });
     markDone(activeList.filter(i=>isAnswered(state.answers[i])));
     addWrong(activeList);
+    histRecordList(activeList, false);
     state.practiceSubmitted = true;
-    save(); renderResult(); showScreen('scResult');
+    save(); renderResult(); renderStats(); showScreen('scResult');
     window.scrollTo({top:0,behavior:'smooth'});
     return;
   }
@@ -7159,13 +7544,14 @@ function doSubmit(auto){
   state.submitted=true; stopTimer();
   markDone(activeList.filter(i=>isAnswered(state.answers[i])));   /* 未作答不计入“已完成” */
   addWrong(activeList);
+  histRecordList(activeList, state.mode==='exam');
   recordCurrentPaper();
   save();
-  renderResult(); showScreen('scResult');
+  renderResult(); renderStats(); showScreen('scResult');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-/* 交卷时登记套卷完成情况（三套真题 / D、E 混合卷；练习卷、随机卷、专项加练不记） */
+/* 交卷时登记套卷完成情况（A–C 独立卷 / D–F 混合卷；练习卷、随机卷、专项加练不记） */
 function recordCurrentPaper(){
   if(state.mode!=='exam') return null;
   if(!paperLogged(state.paper, state.drill)) return null;
@@ -7197,7 +7583,7 @@ function renderResult(){
   const pct = list.length ? Math.round(correct/list.length*100) : 0;
   const el=$('rScore'); el.textContent=pct+'%';
   el.className='big '+(pct>=70?'pass':'fail');
-  const used = state.mode==='exam' ? Math.round((EXAM_SECONDS-state.left)/60) : null;
+  const used = state.mode==='exam' ? Math.round((EXAM_SECONDS()-state.left)/60) : null;
   $('rSub').innerHTML = '答对 '+correct+' / '+list.length+' 题' +
     (practice ? '　·　已完成 '+list.length+' / '+all.length+' 题（仅统计已作答）' : '') +
     (used!==null?'　·　用时约 '+used+' 分钟':'') +
@@ -7361,6 +7747,7 @@ function startDrill(kind){
       const tp = topicOf(t.tag);
       const cand = QUESTIONS.map((q,j)=>j).filter(j=>{
         if(used.has(j)) return false;
+        if(diagKeyOf(QUESTIONS[j]) === t.key) return true;
         if(mainTag(QUESTIONS[j].tag) === t.tag) return true;
         if(tp){ const x = topicOf(QUESTIONS[j].tag); if(x && x.id === tp.id) return true; }
         return false;
@@ -7378,6 +7765,9 @@ function startDrill(kind){
       fresh.concat(rest).slice(0, size - out.length).forEach(j=>{ used.add(j); out.push(j); });
     }
     list = shuffleIdx(out, now % 97);
+    /* 同逻辑变式题不重复抽，缺额用同领域未抽到的题补齐 */
+    const poolAll = QUESTIONS.map((q,j)=>j).filter(j=>list.indexOf(j)<0);
+    list = dedupeSimilar(list, shuffleIdx(poolAll, now % 89));
   }else{
     const quota = kind==='business' ? 20 : 30;
     const pool = QUESTIONS.map((q,i)=>i).filter(i=>QUESTIONS[i].domain===kind);
@@ -8051,7 +8441,13 @@ $('btnDrillPeople').onclick=()=>startDrill('people');
 $('btnDrillProcess').onclick=()=>startDrill('process');
 $('btnDrillBiz').onclick=()=>startDrill('business');
 $('btnResume').onclick=()=>beginExam('exam',true);
-$('btnClearAll').onclick=()=>{ if(confirm('确定清空答题记录？')){clearSave();$('btnResume').style.display='none';$('introProg').style.width='0';} };
+$('btnClearAll').onclick=()=>{
+  if(!confirm('确定清空答题记录与学习诊断（首答/重练/模考统计）？\n不清除⭐标记与六套卷完成记录。')) return;
+  clearSave();
+  try{ localStorage.removeItem(HIST_KEY); }catch(e){}
+  $('btnResume').style.display='none'; $('introProg').style.width='0';
+  renderStats();
+};
 $('btnPrev').onclick=()=>go(-1);
 $('btnNext').onclick=()=>go(1);
 $('btnClear').onclick=()=>{ const i=activeList[state.current]; delete state.answers[i]; if(state.revealed) delete state.revealed[i]; save(); render(); };
@@ -8073,11 +8469,11 @@ $('btnReveal').onclick=()=>{
   if(!state.revealed) state.revealed={};
   state.revealed[i]=true; save(); render();
 };
-$('btnSubmit').onclick=()=>doSubmit(false);
-$('btnSubmitTop').onclick=()=>doSubmit(false);
+$('btnSubmit').onclick=()=>submitSection();
+$('btnSubmitTop').onclick=()=>submitSection();
 $('btnContinue').onclick=()=>{ showScreen('scQuiz'); render(); window.scrollTo({top:0,behavior:'smooth'}); };
 $('btnRestart').onclick=()=>{ clearSave(); location.reload(); };
-$('btnBackHome').onclick=()=>{ stopTimer(); renderPapers(); renderPaperLog(); showScreen('scIntro'); };
+$('btnBackHome').onclick=()=>{ stopTimer(); renderPapers(); renderPaperLog(); renderStats(); showScreen('scIntro'); };
 $('btnPrint').onclick=()=>window.print();
 
 /* ================= 我的标记：统计 / 清单 / 专项 ================= */
@@ -8381,7 +8777,7 @@ $('btnReviewWrong').onclick=()=>{
     return;
   }
   state.reviewSet=wrong; state.current=0; state.submitted=false; state.answers={}; state.marked={}; state.revealed={};
-  state.mode='practice'; state.left=EXAM_SECONDS; save();
+  state.mode='practice'; state.left=EXAM_SECONDS(); save();
   activeList=wrong; showScreen('scQuiz'); startTimer(); render();
 };
 document.addEventListener('keydown',e=>{
@@ -8658,9 +9054,18 @@ function sylCount(code){
   QUESTIONS.forEach(function(q,i){ if(q.eco===code) out.push(i); });
   return out;
 }
-function sylTotalKp(){
-  return Object.keys(SYL).reduce(function(a,k){ return a + SYL[k].kps.length; }, 0);
+/* 该任务下「有题支撑」的知识点数（按 KP_OF 映射统计，用于覆盖举证） */
+function sylKpCovered(code){
+  const s = SYL[code]; if(!s) return {have:0,total:0};
+  const hit = {};
+  QUESTIONS.forEach(function(q){
+    const id = (typeof KP_OF !== 'undefined') && KP_OF[q.qid];
+    if(id && id.indexOf(code + '-') === 0) hit[id] = 1;
+  });
+  return {have:Object.keys(hit).length, total:s.kps.length};
 }
+function sylTotalKp(){
+  return Object.keys(SYL).reduce(function(a,k){ return a + SYL[k].kps.length; }, 0);}
 function sylDoneOf(code){
   const d = doneSet();
   return sylCount(code).filter(function(i){ return d.has(i); }).length;
@@ -8669,6 +9074,10 @@ function sylRefHtml(){
   let h = '<div class="syl-ref"><div class="sr-h">📚 参考依据：PMP 有「官方教材」吗？</div><ul>';
   SYL_REF.forEach(function(r){ h += '<li><b>'+r.n+'</b> — '+acrMark(r.d)+'</li>'; });
   h += '</ul><p class="sr-note"><b>PMI 并不出版一本「官方考试教材」</b>：官方明确说明考试基于 ECO、<b>不与单一出版物绑定</b>。所以备考主线是这份<b>任务清单</b>，PMBOK 用来补概念深度，敏捷实践指南补敏捷情境。本页为按公开考纲整理的备考笔记，非 PMI 官方材料。</p>';
+  h += '<div class="sr-grades"><div class="sr-g-h">依据等级（每个任务右上角标注）</div>' +
+    ['A','B','C','D'].map(function(k){
+      return '<div class="sr-g g-'+k+'"><b>'+GRADE_NAME[k]+'</b><span>'+GRADE_NOTE[k]+'</span></div>';
+    }).join('') + '</div>';
   h += '<div style="margin-top:10px;font-size:12px;color:#4338ca"><b>PMBOK 第八版 6 条原则</b>：' +
        SYL_PRINCIPLES.map(function(p){ return p.n; }).join(' · ') + '</div>';
   h += '<div style="margin-top:4px;font-size:12px;color:#4338ca"><b>7 个绩效域</b>：' + SYL_PDOMAINS.join(' · ') + '</div></div>';
@@ -8693,16 +9102,58 @@ function sylKpHtml(kp, n){
   if(kp.e) h += '<div class="sk-e">🔎 '+acrMark(kp.e)+'</div>';
   return h + '</li>';
 }
+/* 依据等级：区分「官方规定 / 指南建议 / 一般实践 / 情境经验」，
+   避免把培训口诀或经验法则写成 PMI 强制规则。 */
+const GRADE_NAME = { A:'官方规定', B:'指南建议', C:'一般实践', D:'情境经验' };
+const GRADE_NOTE = {
+  A:'来自 ECO 任务表述或 PMI 公开考试规则，属于必须遵守的框架性要求',
+  B:'来自 PMBOK 第八版 / 敏捷实践指南等 PMI 标准的推荐做法，通常有适用范围',
+  C:'行业通行做法，PMI 未作强制规定，需按组织情境裁剪',
+  D:'情境判断与经验法则，用于理解“为什么这样选”，不是硬性规则'
+};
+const SYL_GRADE = {
+  PE1:['B','愿景与目标的共创、可度量属指南建议；具体形式由组织决定'],
+  PE2:['B','五种冲突处理方式出自 PMI 指南，选择取决于情境而非固定顺序'],
+  PE3:['B','领导风格与团队发展阶段的匹配属指南建议'],
+  PE4:['B','相关方参与度评估为指南工具，参与策略需按情境设计'],
+  PE5:['B','期望协调属指南建议，无强制流程'],
+  PE6:['B','期望管理与汇报节奏属指南建议'],
+  PE7:['B','知识转移方式为指南建议，交付物形式因组织而异'],
+  PE8:['B','沟通模型与沟通管理计划为指南建议'],
+  PR1:['B','计划整合为指南建议；计划详略按生命周期裁剪'],
+  PR2:['B','范围管理与 WBS 为指南建议；100% 规则是通用实践'],
+  PR3:['B','价值交付与增量原则属指南建议'],
+  PR4:['B','资源管理为指南建议'],
+  PR5:['B','采购与合同类型选择为指南建议，条款受法律约束'],
+  PR6:['B','EVM 指标与公式由 PMI 指南定义，计算方法确定'],
+  PR7:['B','质量工具与 COQ 属指南建议'],
+  PR8:['B','进度技术与关键路径为指南建议，算法确定'],
+  PR9:['B','状态评估与度量属指南建议'],
+  PR10:['B','收尾与移交属指南建议'],
+  BE1:['A','治理是 ECO 明确任务；治理结构的具体形式由组织规定'],
+  BE2:['A','合规是硬约束：法规要求必须满足，不属可裁剪项'],
+  BE3:['A','变更须经整体变更控制属框架性要求；审批层级由治理规定'],
+  BE4:['B','障碍与问题管理为指南建议'],
+  BE5:['B','风险管理流程与应对策略为指南建议'],
+  BE6:['C','持续改进的方法（回顾、价值流）多为行业实践，PMI 未强制'],
+  BE7:['B','组织变革管理框架（ADKAR/Kotter）为一般实践，非 PMI 强制'],
+  BE8:['A','外部环境变化需评估并触发治理决策；识别方法属一般实践']
+};
+
 function sylTaskHtml(code, open, kpsOverride){
   const t = ECO_TASKS[code], s = SYL[code];
   if(!t || !s) return '';
   const qn = sylCount(code).length, dn = sylDoneOf(code);
   const kps = kpsOverride || s.kps;
+  const g = SYL_GRADE[code] || ['B',''];
+  const kc = sylKpCovered(code);
   let h = '<details class="syl-task" data-syl="'+code+'"'+(open?' open':'')+'>'+
     '<summary><span class="st-code">'+code+'</span><span class="st-name">'+t.n+'</span>'+
-    '<span class="st-meta">题库 '+qn+' 题 · 已做 '+dn+'</span>'+
+    '<span class="st-grade g-'+g[0]+'" title="'+GRADE_NOTE[g[0]]+'：'+g[1]+'">'+GRADE_NAME[g[0]]+'</span>'+
+    '<span class="st-meta">知识点 '+kc.have+'/'+kc.total+' 有题 · 题库 '+qn+' 题 · 已做 '+dn+'</span>'+
     '<span class="st-map">PMBOK 8：'+s.map+'</span></summary>'+
-    '<div class="st-body"><div class="st-goal">🎯 考纲意图：'+acrMark(s.goal)+'</div><ul class="st-kps">';
+    '<div class="st-body"><div class="st-goal">🎯 考纲意图：'+acrMark(s.goal)+'</div>'+
+    '<div class="st-goal" style="background:#f8fafc;border-color:#e2e8f0">🏷️ 依据等级：<b>'+GRADE_NAME[g[0]]+'</b> — '+g[1]+'</div><ul class="st-kps">';
   kps.forEach(function(kp,i){ h += sylKpHtml(kp,i); });
   h += '</ul><div class="st-actions"><button class="btn sm" data-syl-drill="'+code+'">练这个任务（'+Math.min(15,qn)+' 题）</button>'+
        '<span class="syl-tip">按该任务抽题，优先没做过的题；不计入套卷完成记录</span></div></div></details>';
@@ -8816,11 +9267,34 @@ function auditSnapshot(){
 }
 if(typeof window!=='undefined'){ window.PMP_AUDIT = auditSnapshot; }
 
+/* 计时口径切换：默认 240（含缓冲），可切 230（官方） */
+function renderTimeMode(){
+  const mode = examTimeMode();
+  const mins = EXAM_MINUTES[mode];
+  const btn = $('btnExam');
+  if(btn) btn.textContent = '开始考试（' + mins + ' 分钟 · 3 节）';
+  const t = $('sTime'), n = $('sTimeNote'), b = $('btnTimeMode'), nn = $('timeModeNote');
+  if(t) t.textContent = '180 题 / ' + mins + ' 分钟';
+  if(n) n.textContent = mode === 'official'
+    ? '严格对齐官方 230 分钟'
+    : '含 10 分钟缓冲，可切官方 230 分钟';
+  if(b) b.textContent = mode === 'official' ? '切换为练习缓冲时长（240 分钟）' : '切换为严格官方时长（230 分钟）';
+  if(nn) nn.textContent = mode === 'official'
+    ? '当前：官方口径 230 分钟（3 节 × 60 题，节间 10 分钟休息不计时）'
+    : '当前：练习口径 240 分钟（官方为 230 分钟）';
+}
+$('btnTimeMode').onclick=()=>{
+  cfgSet('time', examTimeMode()==='official' ? 'buffer' : 'official');
+  renderTimeMode();
+};
+
 /* 初始化 */
 $('sTotal').textContent=TOTAL;
 $('sylEntryCount').textContent=sylTotalKp();
 renderPapers();
 renderPaperLog();
+renderStats();
+renderTimeMode();
 refreshDrillHint();
 refreshMarkEntry();
 const s=load();
