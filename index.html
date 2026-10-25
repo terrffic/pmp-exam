@@ -107,11 +107,28 @@ ul.notice li{margin:5px 0}
 .kp .kt{color:#374151}
 .kp .kq{margin-top:6px;color:#92400e;background:#fffbeb;border-radius:6px;padding:6px 10px}
 .why-list{list-style:none;margin:10px 0 0;padding:0;font-size:13.5px}
-.why-list li{display:flex;gap:8px;padding:5px 0;border-top:1px dashed #e5e7eb;align-items:flex-start}
+.why-list li{display:flex;gap:8px;padding:5px 0;border-top:1px dashed #e5e7eb;align-items:flex-start;overflow-wrap:break-word;word-break:break-word}
 .why-list li:first-child{border-top:none}
 .why-list .wl{flex:0 0 20px;height:20px;border-radius:50%;background:#e2e8f0;color:#475569;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px}
 .why-list li.ok .wl{background:var(--ok);color:#fff}
 .why-list li.no .wl{background:#cbd5e1;color:#475569}
+/* 解析区：原题回放 + 缩写术语对照 */
+.qref{margin-top:12px;padding:12px 14px;border-radius:8px;background:#eef2ff;border-left:3px solid #6366f1;font-size:13.5px;line-height:1.8;box-sizing:border-box;max-width:100%;overflow-wrap:break-word;word-break:break-word}
+.qref .qref-h{font-weight:700;color:#4338ca;font-size:12px;letter-spacing:.5px;margin-bottom:6px}
+.qref .qref-case{color:#475569;background:#fff;border-radius:6px;padding:6px 10px;margin-bottom:8px}
+.qref .qref-stem{color:#111827;font-weight:600}
+.qref ul{list-style:none;margin:8px 0 0;padding:0}
+.qref li{display:flex;gap:8px;padding:3px 0;color:#374151;overflow-wrap:break-word;word-break:break-word}
+.qref li .ql{flex:0 0 18px;font-weight:700;color:#94a3b8}
+.qref li.on{color:#065f46;font-weight:600}
+.qref li.on .ql{color:#059669}
+.qref .figwrap{margin-top:8px;background:#fff;border-radius:6px;padding:6px}
+.abbr-a{border-bottom:1px dotted #6366f1;cursor:help;font-weight:600;color:#4338ca}
+.gloss{margin-top:10px;padding:10px 12px;border-radius:8px;background:#f8fafc;border:1px dashed #c7d2fe;font-size:12.5px;line-height:1.75;box-sizing:border-box;max-width:100%;overflow-wrap:break-word;word-break:break-word}
+.gloss .gh{font-weight:700;color:#4338ca;display:block;margin-bottom:4px}
+.gloss ul{list-style:none;margin:0;padding:0}
+.gloss li{padding:2px 0;color:#475569}
+.gloss li b{color:#4338ca}
 .fb.good{border-color:#a7f3d0;background:var(--ok-soft)}
 .fb.bad{border-color:#fecaca;background:var(--bad-soft)}
 .fb b{display:block;margin-bottom:4px}
@@ -293,7 +310,7 @@ ul.notice li{margin:5px 0}
   <section id="scIntro" class="screen active">
     <div class="card" style="margin-top:20px">
       <h1>PMP® 标准模拟考试 · 816 题库 / 5 套卷</h1>
-      <p class="sub">每套 180 题 / 240 分钟，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套独立卷</b>，D、E 为混合卷。每题配 4 条逐项解析，四个选项篇幅已做均衡处理，正确项不存在“最长/最短”线索。交卷后输出领域与知识点诊断，并生成针对性加练。</p>
+      <p class="sub">每套 180 题 / 240 分钟，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套独立卷</b>，D、E 为混合卷。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照；四个选项篇幅已做均衡处理，正确项不存在“最长/最短”线索。交卷后输出领域与知识点诊断，并生成针对性加练。</p>
       <div class="grid-info">
         <div class="stat"><b id="sTotal">0</b><span>题库总题量（每卷 180 · 三卷独立）</span></div>
         <div class="stat"><b>5 套 + 随机</b><span>可用试卷</span></div>
@@ -848,12 +865,194 @@ function autoWhy(q){
 }
 function whyFor(q){ return WHY[q.stem.slice(0,12)] || autoWhy(q); }
 
-function detailHtml(q, idx){
+/* ============ 缩写术语表：缩写 → [英文全称, 中文含义] ============ */
+const ACR = {
+  'AC':    ['Actual Cost', '实际成本（挣值管理中实际已发生的费用；也作 Acceptance Criteria 验收标准）'],
+  'AI':    ['Artificial Intelligence', '人工智能'],
+  'AQL':   ['Acceptance Quality Limit', '可接受质量水平'],
+  'API':   ['Application Programming Interface', '应用程序接口'],
+  'BAC':   ['Budget at Completion', '完工预算（项目批准的总预算）'],
+  'BATNA': ['Best Alternative to a Negotiated Agreement', '谈判协议的最佳替代方案（谈不拢时的退路）'],
+  'BCP':   ['Business Continuity Plan', '业务连续性计划'],
+  'BCR':   ['Benefit-Cost Ratio', '效益成本比'],
+  'BDD':   ['Behavior-Driven Development', '行为驱动开发'],
+  'BIA':   ['Business Impact Analysis', '业务影响分析'],
+  'CAPA':  ['Corrective and Preventive Action', '纠正与预防措施'],
+  'CCB':   ['Change Control Board', '变更控制委员会'],
+  'CD':    ['Continuous Delivery / Continuous Deployment', '持续交付／持续部署'],
+  'CEO':   ['Chief Executive Officer', '首席执行官'],
+  'CFD':   ['Cumulative Flow Diagram', '累积流量图（看板中观察在制品与瓶颈）'],
+  'CI':    ['Continuous Integration', '持续集成'],
+  'CMMI':  ['Capability Maturity Model Integration', '能力成熟度模型集成'],
+  'COTS':  ['Commercial Off-the-Shelf', '商用现成品软件'],
+  'COQ':   ['Cost of Quality', '质量成本'],
+  'CPFF':  ['Cost Plus Fixed Fee', '成本加固定费用合同'],
+  'CPI':   ['Cost Performance Index', '成本绩效指数（EV÷AC，大于 1 表示成本节约）'],
+  'CPIF':  ['Cost Plus Incentive Fee', '成本加激励费用合同'],
+  'CTQ':   ['Critical to Quality', '关键质量特性'],
+  'CV':    ['Cost Variance', '成本偏差（EV−AC）'],
+  'DEEP':  ['Detailed appropriately, Emergent, Estimated, Prioritized', '产品待办列表的质量准则：详略得当／持续涌现／已估算／已排序'],
+  'DMAIC': ['Define, Measure, Analyze, Improve, Control', '六西格玛改进五步：定义、测量、分析、改进、控制'],
+  'DoD':   ['Definition of Done', '完成的定义'],
+  'DoR':   ['Definition of Ready', '就绪的定义'],
+  'DORA':  ['DevOps Research and Assessment', 'DevOps 研究与评估（对应部署频率、变更前置时间、变更失败率、恢复时长四项指标）'],
+  'EAC':   ['Estimate at Completion', '完工估算（按当前绩效预测的项目总成本）'],
+  'ECO':   ['Examination Content Outline', '考试内容大纲（PMP 考纲）'],
+  'EEF':   ['Enterprise Environmental Factors', '事业环境因素'],
+  'EF':    ['Early Finish', '最早完成时间'],
+  'EMV':   ['Expected Monetary Value', '预期货币价值（概率×影响，用于定量风险分析）'],
+  'EQ':    ['Emotional Intelligence', '情商（情绪智力）'],
+  'ES':    ['Early Start', '最早开始时间'],
+  'ESG':   ['Environmental, Social and Governance', '环境、社会与治理'],
+  'ESI':   ['Early Supplier Involvement', '供应商早期参与'],
+  'ETC':   ['Estimate to Complete', '完工尚需估算（EAC−AC）'],
+  'EV':    ['Earned Value', '挣值（已完成工作的预算价值）'],
+  'EVM':   ['Earned Value Management', '挣值管理'],
+  'FF':    ['Finish-to-Finish', '完成到完成依赖'],
+  'FFP':   ['Firm Fixed Price', '固定总价合同'],
+  'FMEA':  ['Failure Mode and Effects Analysis', '失效模式与影响分析'],
+  'FPIF':  ['Fixed Price Incentive Fee', '固定总价加激励费用合同'],
+  'FS':    ['Finish-to-Start', '完成到开始依赖（最常用）'],
+  'GROW':  ['Goal, Reality, Options, Will', '教练式对话模型：目标／现状／选择／意愿'],
+  'HR':    ['Human Resources', '人力资源'],
+  'INVEST':['Independent, Negotiable, Valuable, Estimable, Small, Testable', '用户故事质量准则：独立／可协商／有价值／可估算／小／可测试'],
+  'IRR':   ['Internal Rate of Return', '内部收益率'],
+  'IT':    ['Information Technology', '信息技术'],
+  'KPI':   ['Key Performance Indicator', '关键绩效指标'],
+  'LCL':   ['Lower Control Limit', '控制下限'],
+  'LF':    ['Late Finish', '最晚完成时间'],
+  'LLM':   ['Large Language Model', '大语言模型'],
+  'LS':    ['Late Start', '最晚开始时间'],
+  'LSL':   ['Lower Specification Limit', '规格下限'],
+  'MMF':   ['Minimum Marketable Feature', '最小可上市特性'],
+  'MTBF':  ['Mean Time Between Failures', '平均故障间隔时间'],
+  'MTTR':  ['Mean Time to Repair', '平均修复时间'],
+  'MVP':   ['Minimum Viable Product', '最小可行产品'],
+  'NPV':   ['Net Present Value', '净现值'],
+  'NPS':   ['Net Promoter Score', '净推荐值'],
+  'OKR':   ['Objectives and Key Results', '目标与关键成果'],
+  'OPA':   ['Organizational Process Assets', '组织过程资产'],
+  'PBI':   ['Product Backlog Item', '产品待办项'],
+  'PBP':   ['Payback Period', '投资回收期'],
+  'PDCA':  ['Plan-Do-Check-Act', '计划—执行—检查—处理循环'],
+  'PERT':  ['Program Evaluation and Review Technique', '计划评审技术（三点估算）'],
+  'PI':    ['Program Increment', '项目群增量（SAFe 中的固定迭代周期）'],
+  'PMBOK': ['Project Management Body of Knowledge', '项目管理知识体系'],
+  'PMI':   ['Project Management Institute', '项目管理协会'],
+  'PMIS':  ['Project Management Information System', '项目管理信息系统'],
+  'PMO':   ['Project Management Office', '项目管理办公室'],
+  'PO':    ['Product Owner', '产品负责人（Scrum 三角色之一）'],
+  'PMP':   ['Project Management Professional', '项目管理专业人士（PMI 认证）'],
+  'POC':   ['Proof of Concept', '概念验证'],
+  'POS':   ['Point of Sale', '销售终端（收银系统）'],
+  'PV':    ['Planned Value', '计划价值（挣值管理）；也作 Present Value 现值'],
+  'RACI':  ['Responsible, Accountable, Consulted, Informed', '责任分配矩阵：执行／批准／咨询／知会'],
+  'RAM':   ['Responsibility Assignment Matrix', '责任分配矩阵'],
+  'RBS':   ['Risk Breakdown Structure', '风险分解结构；也作 Resource Breakdown Structure 资源分解结构'],
+  'RCA':   ['Root Cause Analysis', '根本原因分析'],
+  'RFI':   ['Request for Information', '信息邀请书'],
+  'RFP':   ['Request for Proposal', '建议邀请书'],
+  'RFQ':   ['Request for Quotation', '报价邀请书'],
+  'ROI':   ['Return on Investment', '投资回报率'],
+  'RPO':   ['Recovery Point Objective', '恢复点目标（可容忍丢失的数据量）'],
+  'RTM':   ['Requirements Traceability Matrix', '需求跟踪矩阵'],
+  'RTO':   ['Recovery Time Objective', '恢复时间目标（可容忍的中断时长）'],
+  'S3':    ['Situational Leadership — Supporting', '情境领导的支持型风格（S3：能力够、意愿不足时用）'],
+  'SAFe':  ['Scaled Agile Framework', '规模化敏捷框架'],
+  'SBI':   ['Situation, Behavior, Impact', '情境—行为—影响反馈模型'],
+  'SDLC':  ['Software Development Life Cycle', '软件开发生命周期'],
+  'SF':    ['Start-to-Finish', '开始到完成依赖'],
+  'SIT':   ['System Integration Testing', '系统集成测试'],
+  'SLA':   ['Service Level Agreement', '服务级别协议'],
+  'SM':    ['Scrum Master', '敏捷教练（ Scrum Master ）'],
+  'SMART': ['Specific, Measurable, Achievable, Relevant, Time-bound', '目标设定准则：具体／可衡量／可实现／相关／有时限'],
+  'SOW':   ['Statement of Work', '工作说明书'],
+  'SPC':   ['Statistical Process Control', '统计过程控制'],
+  'SPI':   ['Schedule Performance Index', '进度绩效指数（EV÷PV，大于 1 表示进度超前）'],
+  'SS':    ['Start-to-Start', '开始到开始依赖'],
+  'SV':    ['Schedule Variance', '进度偏差（EV−PV）'],
+  'SWOT':  ['Strengths, Weaknesses, Opportunities, Threats', '优势／劣势／机会／威胁分析'],
+  'T&M':   ['Time and Materials', '工料合同（按时间与材料计价）'],
+  'TCPI':  ['To-Complete Performance Index', '完工尚需绩效指数'],
+  'TCO':   ['Total Cost of Ownership', '总拥有成本'],
+  'TDD':   ['Test-Driven Development', '测试驱动开发'],
+  'TQM':   ['Total Quality Management', '全面质量管理'],
+  'UAT':   ['User Acceptance Testing', '用户验收测试'],
+  'UCL':   ['Upper Control Limit', '控制上限'],
+  'USL':   ['Upper Specification Limit', '规格上限'],
+  'VAC':   ['Variance at Completion', '完工偏差（BAC−EAC）'],
+  'WBS':   ['Work Breakdown Structure', '工作分解结构'],
+  'WIP':   ['Work in Progress', '在制品（正在进行、尚未完成的工作量）'],
+  'WSJF':  ['Weighted Shortest Job First', '加权最短作业优先'],
+  'XP':    ['Extreme Programming', '极限编程']
+};
+/* 按长度倒序，保证 EVM/EAC 这类长缩写优先于 EV/AC 命中 */
+const ACR_KEYS = Object.keys(ACR).sort(function(a,b){ return b.length-a.length; });
+function acrHitAt(s, i){
+  if(!/[A-Z]/.test(s.charAt(i))) return null;
+  if(i > 0 && /[A-Za-z0-9]/.test(s.charAt(i-1))) return null;
+  for(let k=0;k<ACR_KEYS.length;k++){
+    const key = ACR_KEYS[k];
+    if(s.substr(i, key.length) !== key) continue;
+    const nxt = s.charAt(i + key.length);
+    if(nxt && /[A-Za-z0-9]/.test(nxt)) continue;
+    return key;
+  }
+  return null;
+}
+/* 文本中的缩写加虚线下划线 + 悬浮全称 */
+function acrMark(s){
+  s = String(s==null ? '' : s);
+  let out = '', i = 0;
+  while(i < s.length){
+    const key = acrHitAt(s, i);
+    if(key){
+      const e = ACR[key];
+      out += '<abbr class="abbr-a" title="'+e[0]+'｜'+e[1]+'">'+key+'</abbr>';
+      i += key.length;
+    }else{
+      out += s.charAt(i); i++;
+    }
+  }
+  return out;
+}
+/* 收集一段或多段文本里出现过的缩写（去重，保持出现顺序） */
+function acrUsed(list){
+  const seen = {}, out = [];
+  for(let n=0;n<list.length;n++){
+    const s = String(list[n]==null ? '' : list[n]);
+    for(let i=0;i<s.length;i++){
+      const key = acrHitAt(s, i);
+      if(key){ if(!seen[key]){ seen[key]=1; out.push(key); } i += key.length-1; }
+    }
+  }
+  return out;
+}
+
+function detailHtml(q, idx, withRef){
   let h = '';
+  if(withRef !== false){
+    /* 原题回放：把题干与四个选项一并渲染进解析区，方便对照 A/B/C/D 的逐项辨析 */
+    const perm0 = (idx === undefined) ? [0,1,2,3] : permOf(idx);
+    const isM0 = q.type === 'multi';
+    const caseT = (typeof caseTextOf === 'function') ? caseTextOf(q) : '';
+    h += '<div class="qref"><div class="qref-h">📄 原题回放</div>';
+    if(caseT) h += '<div class="qref-case"><b>案例背景：</b>'+acrMark(caseT)+'</div>';
+    h += '<div class="qref-stem">'+acrMark(q.stem)+'</div><ul>';
+    perm0.forEach(function(orig, pos){
+      const on = isM0 ? (q.answers||[]).indexOf(orig)>=0 : orig===q.answer;
+      h += '<li class="'+(on?'on':'')+'"><span class="ql">'+'ABCD'.charAt(pos)+'</span><span>'+acrMark(q.options[orig])+'</span></li>';
+    });
+    h += '</ul>';
+    if(q.figure && typeof figureSvg === 'function'){
+      h += figureSvg(q.figure);   /* figureSvg 自带 .figwrap 容器 */
+    }
+    h += '</div>';
+  }
   const t = topicOf(q.tag);
   if(t){
-    h += '<div class="kp"><span class="kh">📘 知识点：'+t.id+'</span><div class="kt">'+t.text+'</div>'+
-         '<div class="kq">⚠️ 常见陷阱：'+t.trap+'</div></div>';
+    h += '<div class="kp"><span class="kh">📘 知识点：'+t.id+'</span><div class="kt">'+acrMark(t.text)+'</div>'+
+         '<div class="kq">⚠️ 常见陷阱：'+acrMark(t.trap)+'</div></div>';
   }
   /* 只使用已完成专属撰写的逐项解析；未覆盖的题标记“待审核”，
      不再用关键词规则自动断言错误原因（避免误导考生）。 */
@@ -863,13 +1062,24 @@ function detailHtml(q, idx){
   if(why && why.length === 4){
     h += '<div style="margin-top:12px;font-weight:700;font-size:13px;color:#334155">🔍 逐项辨析</div>'+
       '<ul class="why-list">'+ perm.map((orig, pos)=>{
-        const isAns = orig === q.answer;
-        return '<li class="'+(isAns?'ok':'no')+'"><span class="wl">'+'ABCD'[pos]+'</span><span>'+why[orig]+'</span></li>';
+        const isAns = (q.type === 'multi') ? (q.answers||[]).indexOf(orig)>=0 : orig === q.answer;
+        return '<li class="'+(isAns?'ok':'no')+'"><span class="wl">'+'ABCD'[pos]+'</span><span>'+acrMark(why[orig])+'</span></li>';
       }).join('') + '</ul>';
   }else{
     h += '<div class="kp" style="margin-top:12px;border-style:solid;border-color:#fcd34d;background:#fffbeb">'+
       '<span class="kh" style="color:#92400e">🔍 逐项辨析：待审核</span>'+
       '<div class="kt">该题尚未完成逐项专属解析。为保证准确性，系统不自动生成通用错误原因，请以上方解题要点与知识点讲解为准。</div></div>';
+  }
+  /* 本题出现过的英文缩写 → 英文全称 → 中文含义（覆盖原题、选项、逐项辨析、解析要点与知识点） */
+  const usedAcr = acrUsed([(typeof caseTextOf === 'function' ? caseTextOf(q) : ''), q.stem, q.exp || '',
+                           (topicOf(q.tag) || {}).text || '', (topicOf(q.tag) || {}).trap || '']
+    .concat(q.options || []).concat(why || []));
+  if(usedAcr.length){
+    h += '<div class="gloss"><span class="gh">📖 本题术语对照（缩写 → 英文全称 → 含义）</span><ul>'+
+      usedAcr.map(function(k){
+        return '<li><b>'+k+'</b>　'+ACR[k][0]+'　｜　'+ACR[k][1]+'</li>';
+      }).join('')+
+      '</ul></div>';
   }
   return h;
 }
@@ -5560,7 +5770,7 @@ function render(){
     const ansTxt = isMulti
       ? (q.answers||[]).slice().sort().map(function(o){ return 'ABCD'.charAt(permFb.indexOf(o)); }).join('、')
       : 'ABCD'.charAt(permFb.indexOf(q.answer));
-    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+ansTxt+'</b><div class="why">'+q.exp+'</div>'+detailHtml(q, idx);
+    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+ansTxt+'</b><div class="why">'+acrMark(q.exp)+'</div>'+detailHtml(q, idx, false);
   }else{ fb.className=''; fb.innerHTML=''; }
 
   const revealBtn=$('btnReveal');
@@ -5725,8 +5935,8 @@ function renderResult(){
       '<div class="rline">'+q.stem+'</div>'+
       '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+pickedTxt+'</b></div>'+
       (right?'':'<div class="rline">正确答案：<b class="ok">'+ansTxtR+(isM?'':' . '+q.options[q.answer])+'</b></div>')+
-      '<div class="exp">'+q.exp+'</div>'+
-      '<details class="dwrap"><summary>📘 知识点讲解与逐项辨析</summary>'+detailHtml(q, idx)+'</details>';
+      '<div class="exp"><b>解析要点：</b>'+acrMark(q.exp)+'</div>'+
+      '<details class="dwrap"><summary>📘 原题回放 · 知识点 · 逐项辨析 · 术语对照</summary>'+detailHtml(q, idx)+'</details>';
     rl.appendChild(div);
   });
   $('btnContinue').style.display = practice ? '' : 'none';
