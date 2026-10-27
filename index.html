@@ -117,6 +117,36 @@ ul.notice li{margin:5px 0}
 .diag-row .bar>i{background:var(--bad)}
 @media(max-width:600px){.diag-row{grid-template-columns:110px 1fr}.diag-row .dnum{display:none}}
 .diag-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+/* 错题诊断：每个知识点一行，右侧直接给「讲解」「再练」入口 */
+.diag-row2{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px dashed #eef2f7}
+.diag-row2:last-of-type{border-bottom:none}
+.dr-main{flex:1;min-width:0}
+.dr-name{font-size:13px;font-weight:600;color:#374151;margin-bottom:5px;display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+.dr-task{font-weight:400;font-size:11.5px;color:#94a3b8}
+.dr-main .bar{height:6px;background:#eef2f7;border-radius:4px;overflow:hidden}
+.dr-main .bar>i{display:block;height:100%;background:var(--bad);border-radius:4px}
+.dr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.dr-num{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.dr-btn{font-size:12px;padding:5px 11px;border-radius:8px;border:1px solid #c7d2fe;background:#eef2ff;color:#4338ca;font-weight:600;cursor:pointer}
+.dr-btn.go{background:#4338ca;border-color:#4338ca;color:#fff}
+.dr-btn:active{transform:translateY(1px)}
+@media(max-width:600px){.diag-row2{flex-wrap:wrap;gap:6px}.dr-right{width:100%;justify-content:flex-end}}
+/* 知识点深入讲解面板 */
+.kp-card{background:#fff;border-radius:16px;max-width:720px;width:100%;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(15,23,42,.35)}
+.kp-hd{padding:17px 22px 12px;border-bottom:1px solid #eef2f7}
+.kp-hd b{font-size:16px;color:#0f172a}
+.kp-hd .kp-task{display:block;font-size:12px;color:#64748b;margin-top:4px}
+.kp-src{display:inline-block;font-size:11px;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:2px}
+.kp-src.a{background:#dcfce7;color:#166534}
+.kp-src.b{background:#fef3c7;color:#92400e}
+.kp-bd{padding:14px 22px;overflow:auto;font-size:13.5px;line-height:1.9;color:#334155;-webkit-overflow-scrolling:touch}
+.kp-sec{margin-bottom:15px}
+.kp-sec-h{font-weight:800;color:#4338ca;font-size:13px;margin-bottom:6px}
+.kp-sec-b ol,.kp-sec-b ul{margin:4px 0 0;padding-left:20px}
+.kp-sec-b li{margin:3px 0}
+.kp-sec-b b{color:#0f172a}
+.kp-stat{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;font-size:12.5px;color:#475569;line-height:1.8}
+.kp-ft{padding:12px 22px 16px;border-top:1px solid #eef2f7;display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
 .drill-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
 /* quiz */
 .layout{display:grid;grid-template-columns:1fr 260px;gap:18px;margin-top:18px;align-items:start}
@@ -513,7 +543,7 @@ ul.notice li{margin:5px 0}
   <!-- 首页 -->
   <section id="scIntro" class="screen active">
     <div class="card" style="margin-top:20px">
-      <h1>PMP® 标准模拟考试 · 849 题库 / 6 套整卷</h1>
+      <h1>PMP® 标准模拟考试 · 891 题库 / 6 套整卷</h1>
       <p class="sub">每套 180 题，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套内容互不重复的独立标准卷</b>；<b>D、E、F 为混合卷</b>，题目从三套独立卷中固定抽取并重新配比，<b>存在复用，不构成新的独立题量</b>。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照（手机上直接点缩写即可弹出全称）。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。交卷后输出领域、知识点与三套口径的学习诊断。</p>
       <div class="grid-info">
         <div class="stat"><b id="sTotal">0</b><span>题库总题量（每卷 180 · 三卷独立）</span></div>
@@ -525,7 +555,7 @@ ul.notice li{margin:5px 0}
       <div class="papers" id="papers"></div>
       <div class="plog" id="plog"></div>
       <div class="stats" id="statsBox"></div>
-      <p class="sub" style="margin-top:10px">💡 <b>练习模式</b>每次从 849 题中按考纲比例重新组卷，优先出你没做过的题（其次出做错过的），越练覆盖越全；D/E/F 与随机卷同样优先抽新题。</p>
+      <p class="sub" style="margin-top:10px">💡 <b>练习模式</b>每次从 891 题中按考纲比例重新组卷，优先出你没做过的题（其次出做错过的），越练覆盖越全；D/E/F 与随机卷同样优先抽新题。</p>
 
       <h2 style="margin-top:22px">辅助练习（按错题自动补强）</h2>
       <p class="sub" id="drillHint">完成一套试卷后，这里会按你的错题知识点推荐专项练习。</p>
@@ -708,6 +738,17 @@ ul.notice li{margin:5px 0}
 </div>
 
 <!-- 分节休息 -->
+<!-- 知识点深入讲解 -->
+<div id="kpMask" class="brk-mask" style="display:none">
+  <div class="kp-card" role="dialog" aria-label="知识点深入讲解">
+    <div class="kp-hd">
+      <b id="kpHdTitle"></b><span class="kp-src" id="kpHdSrc"></span>
+      <span class="kp-task" id="kpHdTask"></span>
+    </div>
+    <div class="kp-bd" id="kpBd"></div>
+    <div class="kp-ft" id="kpFt"></div>
+  </div>
+</div>
 <div id="brkMask" class="brk-mask" style="display:none">
   <div class="brk-card">
     <div class="brk-hd">☕ 分节休息</div>
@@ -2280,6 +2321,15 @@ function topicPanelHtml(q, idx, full){
   }
 
   h += '<div class="tp-foot">知识点由本题标签「' + (q.tag || '') + '」匹配。讲解只说明概念与判断方法，<b>不指向本题的正确选项</b>；答案与逐项辨析在作答后显示。</div>';
+  const kid = kpIdOf(q);
+  if(kid){
+    const kn = kpNodeById(kid);
+    if(kn){
+      h += '<div class="tp-foot" style="border-top:none;padding-top:0">' +
+        '<button class="btn" onclick="openKpDeep(\'' + kid + '\')">📘 深入讲解：' + kn.kp.n +
+        (KP_DEEP[kid] ? '（机制 · 步骤 · 错误路径 · 边界）' : '（考纲要素整理）') + '</button></div>';
+    }
+  }
   h += '</div></div>';
   return h;
 }
@@ -6290,7 +6340,7 @@ const ECO_RULES = [
   ['PE3',['领导','授权','自组织','团队','绩效','激励','认可','心理安全','信任','辅导','教练','培训','技能','能力','技能矩阵','流失','转岗','弹性','多代际','驻场','外包团队','部门孤岛','跨团队','情绪','情商','倾听','反馈','SBI','GROW','面子','非语言','多样性','包容','角色','决策','基本规则','工作协议','团队章程','虚拟','远程','跨时区','跨职能','入职','文化融合']],
   ['PR1',['项目管理计划','项目文件','PMIS','渐进明细','计划批准','计划编制','健康检查','阶段评审','假设日志','数据收集','引导式研讨会','决策技术','群体决策','问题解决','问题日志','章程']]
 ];
-/* ---- 逐题 ECO 确认表（人工判定，849 项）----
+/* ---- 逐题 ECO 确认表（人工判定，891 项）----
    设计原则：
    1) 每题以显式任务码保存在 q.eco，ecoStatus 为 confirmed / review；
    2) 关键词规则 ECO_RULES 仅生成“建议值” q.ecoGuess，只用于审计比对，不再决定归属；
@@ -6468,11 +6518,70 @@ NEW_QUESTIONS_D.forEach(function(q){
 });
 /* ==NEW_D_END== */
 
+
+
+
+/* ==NEW_E_START== 补题批次 E：42 道变式题，覆盖 31 个原本只有 1–3 题的 ECO 知识点。
+   目标不是凑题量，而是让「错题→讲解→再练」的再练环节有足够同知识点的变式可用；
+   每题 kp 字段直接锁定目标知识点，问法分布在「首先/下一步/最合适/属于」四类。 */
+const NEW_QUESTIONS_E = [
+{"eco":"PR6","kp":"PR6-4","tag":"成本 · EVM 预测指标","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR6","stem":"项目 BAC 为 ¥800,000，当前 EV ¥300,000、AC ¥360,000。若当前成本绩效预计持续到完工，EAC 应约为：","options":["¥860,000","¥960,000","¥1,040,000","¥1,120,000"],"answer":1,"exp":"CPI = EV ÷ AC = 300,000 ÷ 360,000 ≈ 0.8333。偏差将持续时 EAC = BAC ÷ CPI = 800,000 ÷ 0.8333 ≈ 960,000；用 AC +（BAC − EV）÷ CPI = 360,000 + 500,000 ÷ 0.8333 可得同一结果。","why":["错：860,000 等于 AC +（BAC − EV），相当于假设剩余工作按预算完成，与偏差持续的前提矛盾。","正确：CPI 约 0.8333，EAC = BAC ÷ CPI ≈ 960,000，两种等价算法结果一致。","错：1,040,000 把已发生偏差与剩余预算重复计一次，属于重复计算。","错：1,120,000 把 BAC 与偏差直接相加，没有对应的 EVM 公式。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR6","kp":"PR6-4","tag":"成本 · EVM 预测指标","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR6","stem":"项目发生重大范围变更，原成本估算的前提已不成立，需要重新预测完工总成本。此时 EAC 应采用：","options":["用 BAC 除以 CPI 得到完工估算","用 BAC 减去 AC 得到剩余预算","以 AC 为基数加自下而上重估的 ETC","用 EV 除以 AC 得到当前的绩效指数"],"answer":2,"exp":"EAC 的公式选择取决于原假设是否仍然成立。当前提被范围变更推翻时，历史 CPI 已不能代表未来，只能以实际已发生成本为基数，加上对剩余工作重新自下而上估算的 ETC。","why":["错：BAC ÷ CPI 适用于偏差具代表性并将继续的情形，前提已被变更推翻。","错：BAC − AC 只是剩余预算，既不是预测也不是完工估算。","正确：原假设失效时 EAC = AC 加重估的 ETC，用新的事实重建预测。","错：EV ÷ AC 就是 CPI，是绩效指数而不是完工估算。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR1","kp":"PR1-4","tag":"变更与配置 · 基准变更","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR1","stem":"客户在评审会上要求增加一项报表功能，项目经理初步评估将使工期延长三周。下一步最合适的是：","options":["直接安排团队开发，事后再补一份变更记录","以合同未包含该功能为由当场拒绝客户","让团队先做原型，等到上线前再决定是否纳入","提交变更请求并附影响评估，交变更控制流程决策"],"answer":3,"exp":"触及范围与进度的调整必须先走变更控制：形成书面变更请求、说明原因与对各方面的连锁影响，再交由有相应权限的层级决策。先做后补等于用既成事实逼批，会让基准失去可比性。","why":["错：先执行后补记录把流程倒置，等于用既成事实迫使批准。","错：直接拒绝跳过了评估与协商，可能错失对客户有价值的机会。","错：做原型同样消耗资源并形成预期，仍未解决是否批准的问题。","正确：先量化影响再提交变更请求，由有权层级决定是否纳入并调整基准。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR1","kp":"PR1-4","tag":"变更与配置 · 基准变更","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR1","stem":"一项变更已获变更控制委员会批准批复。项目经理接下来最应该做的是：","options":["更新基准与计划，并同步受影响的相关方","先与客户谈妥合同价款，再更新计划","只更新 WBS，成本与进度保持原样","把该变更记入问题日志即可"],"answer":0,"exp":"变更获批只是决策完成，基准与计划必须同步更新，否则执行依据仍是旧版本；同时要让受影响的相关方知道改了什么、对自己有什么影响，避免各方按不同版本的信息行动。","why":["正确：获批后要更新基准与计划并同步相关方，让执行依据保持一致。","错：合同价款属商务环节，不应成为更新计划的阻塞条件。","错：只改 WBS 会造成范围、成本、进度互相矛盾，基准失去可比性。","错：变更请求记入变更日志，问题日志用于记录已发生的问题。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"BE3","kp":"BE3-5","tag":"变更与配置 · 隐性变更","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE3","stem":"开发过程中团队自行优化了界面布局，功能未变，但工作量增加约 5%。项目经理首先应：","options":["确认该调整是否改变范围与验收标准，如是则按变更处理","表扬团队的主动性，鼓励继续做类似的优化","要求团队立即回退到原设计，恢复原界面","把该情况登记为风险，留待风险会上讨论"],"answer":0,"exp":"隐性变更的判断标准不是有没有表单，而是工作量、交付物或验收标准有没有变。先界定性质，再决定纳入当前范围、替换等量工作还是延后，避免小改动累积成范围蔓延。","why":["正确：先判断是否触及范围与验收标准，触及即按变更处理，防止静默累积。","错：鼓励而未界定性质，会把顺手优化固化成不记录的习惯。","错：直接回退过于武断，该优化可能对用户有价值，应先评估。","错：已发生的调整属于范围问题，不是尚未发生的风险。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"BE3","kp":"BE3-5","tag":"变更与配置 · 隐性变更","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE3","stem":"客户在周会上口头提出一项小改动，团队当天已经开始实施。项目经理应：","options":["默认接受，因为客户已在会上口头确认过","要求团队停止一切改动，并追究相关人员责任","把口头需求转为书面变更请求，评估影响后再决定","先在下一次月度报告中说明，暂不调整范围"],"answer":2,"exp":"口头需求无法作为执行依据，也无法追溯。正确动作是不粗暴打断已投入的工作，同时把需求书面化、评估影响，再决定纳入本迭代、替换等量范围还是排入后续待办。","why":["错：口头确认既无留痕也未评估影响，事后无法界定范围与责任。","错：追责解决不了流程缺口，还会让团队隐瞒后续改动。","正确：转书面变更请求并评估影响，让是否执行由影响数据决定。","错：月度报告是事后告知，无法替代变更控制，期间范围已经改变。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"BE4","kp":"BE4-3","tag":"问题解决与改进 · 升级","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE4","stem":"关键供应商连续两周未按承诺交付，项目经理已与采购和供应商多次沟通无果。下一步应：","options":["继续等待供应商自行恢复其交付能力","整理事实、影响与备选方案，升级至发起人或治理层","立即终止合同并更换为备选供应商","自行修改合同条款以加快对方的交付节奏"],"answer":1,"exp":"升级的前提是已在自己权限内处理过、且确实超出权限。此时应带着事实、影响与可选方案上交给有决策权的层级，而不是空手求助；合同处置涉及商务与法律后果，也不属于项目经理可单方决定的范围。","why":["错：沟通已多次无果，继续等待会让影响持续放大。","正确：带事实与选项升级，让有权限者决策，是超出授权边界时的正确动作。","错：终止合同涉及商务与法律后果，不属于项目层的决定权限。","错：合同条款的修改需要授权，擅自改动会带来法律风险。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE4","kp":"BE4-3","tag":"问题解决与改进 · 升级","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE4","stem":"团队成员反映职能经理不批准其调休，已影响关键任务的投入。项目经理首先应：","options":["先了解情况并与职能经理直接沟通协调","直接上报发起人要求干预","要求该成员先加班完成任务","把该成员从关键任务上调离"],"answer":0,"exp":"升级要有前置条件：先由当事人与项目经理在自身权限内直接沟通，说明任务影响与时间安排，多数问题在这一层即可解决；直接越级会让协作关系恶化，也会削弱后续的沟通空间。","why":["正确：先在最低有效层级直接沟通，说明影响并寻求协调，是升级前的必要动作。","错：越过直接沟通直接上报属于越级，容易破坏与职能经理的协作关系。","错：用加班掩盖资源冲突，问题会以倦怠或离职的形式回来。","错：调离关键任务是回避问题，没有解决资源与排期的根本冲突。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE5","kp":"BE5-3","tag":"风险 · 定性分析","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE5","stem":"风险登记册中有 80 条风险，可用于风险管理的精力有限。项目经理应首先：","options":["对所有风险立即开展蒙特卡洛模拟","按识别时间先后依次处理","依据概率与影响做定性分析并排序","只处理预计金额最大的三条"],"answer":2,"exp":"定性分析的作用是排序，把有限的管理注意力放到最需要的地方。它依赖概率与影响的判断，速度快、成本低，是决定先管哪一个的前置步骤，也是后续定量分析的筛选依据。","why":["错：对 80 条风险全部定量既无数据支撑也来不及，应先排序再决定。","错：识别时间与重要性无关，早期识别不代表最紧急。","正确：用概率与影响做定性排序，先把注意力放到高优先级风险上。","错：只看金额会忽略影响大但极少发生、以及影响小但频繁发生的差异。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE5","kp":"BE5-3","tag":"风险 · 定性分析","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE5","stem":"定性分析后有两个风险同被评定为「高」，需要进一步区分优先级。最合适的依据是：","options":["按风险登记册的编号顺序依次处理","按相关方提出的先后顺序安排处理","两者等级相同，任选其一优先处理即可","临近性与可探测性，必要时对两者做定量分析"],"answer":3,"exp":"概率与影响相同并不等于优先级相同：多久会发生（临近性）、能否提前察觉（可探测性）决定了应对的紧迫程度；若仍难分辨，可对这两个风险做定量分析，用数据替代判断。","why":["错：编号只是登记顺序，不含紧迫性信息。","错：谁先提出与风险何时发生、影响多大没有必然关系。","错：同等级不代表可随意取舍，应对资源有限时必须分出先后。","正确：临近性与可探测性决定紧迫度，仍不确定时用定量分析补充依据。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE5","kp":"BE5-7","tag":"风险 · 机会应对","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE5","stem":"团队判断，只要追加一笔设备投入就能确保提前投产的机会发生，从而抢下市场窗口。这属于机会应对中的：","options":["开拓","分享","提高","接受"],"answer":0,"exp":"机会应对的策略方向与威胁不同：开拓是投入资源确保机会必然发生；提高是提升概率或影响但不保证；分享是与第三方合作共担以提高把握；接受是不主动作为、保留触发条件。","why":["正确：追加资源以确保机会发生，正是开拓的典型动作。","错：分享需要引入第三方共担，题干中没有合作方。","错：提高只改善概率或影响，不保证机会一定落地。","错：接受是不主动投入，与追加设备投入的做法矛盾。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE5","kp":"BE5-7","tag":"风险 · 机会应对","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE5","stem":"企业与一家渠道商联合投标，双方共担投入以提高中标概率。这属于机会应对策略中的：","options":["开拓","提高","转移","分享"],"answer":3,"exp":"分享是把机会的一部分收益与风险转移给合作方，以换取更高的发生概率。题干中联合投标、共担投入是典型特征；注意它与威胁侧的转移不同，方向是争取收益而不是转嫁损失。","why":["错：开拓是独自投入资源确保发生，不需要引入合作方。","错：提高是改善概率或影响，不涉及与第三方共担。","错：转移用于把威胁的后果转给他人，应对的是负面不确定性。","正确：联合投标共担投入、共享收益，提高机会发生概率，属于分享。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"BE1","kp":"BE1-4","tag":"商业环境 · 决策权限","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE1","stem":"一项变更所需预算超出了项目经理的批准额度。项目经理应：","options":["先行批准，事后向上级补报","按治理权限提交相应层级决策","拆分成多笔小额变更以规避审批","直接拒绝该变更"],"answer":1,"exp":"治理的核心是谁在什么额度内可以决定什么。超出授权额度时必须按权限表提交到有决策权的层级，既不能自行批准，也不能通过拆分规避审批——后者属于故意绕开控制，性质更严重。","why":["错：先批后报把决策变成既成事实，破坏了权限控制的意义。","正确：超出额度就按权限路径上交，由有权限的层级决策。","错：拆单规避审批是典型的控制规避行为，比超权更严重。","错：直接拒绝跳过了评估，可能否掉有价值的需求。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE1","kp":"BE1-4","tag":"商业环境 · 决策权限","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE1","stem":"发起人要求跳过阶段关口评审，直接进入下一阶段以节省时间。项目经理应：","options":["直接服从发起人的安排，先进入下一阶段","拒绝该要求并向董事会举报发起人","说明关口目的与风险，按治理流程申请豁免或调整","自行决定一个折中方案并立即执行"],"answer":2,"exp":"阶段关口的作用是在投入加大前确认条件是否具备。发起人有权提出要求，但豁免要走治理流程并留下记录；项目经理的责任是说清风险与后果，让决策在信息充分的情况下做出，而不是简单服从或对抗。","why":["错：简单服从把治理风险转嫁给项目，事后无法追溯。","错：举报跳过正常沟通，关系被破坏而问题仍未解决。","正确：讲清关口目的与风险，按治理流程申请豁免或调整并留痕。","错：自行折中等于在授权之外做处置，既无依据也无记录。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE7","kp":"BE7-2","tag":"变革管理 · ADKAR 个人变革模型","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE7","stem":"新系统上线两个月，培训已全部完成，但使用率仍然很低。访谈发现员工普遍不清楚为什么要换掉旧系统。ADKAR 中缺失的环节是：","options":["认知","知识","能力","强化"],"answer":0,"exp":"ADKAR 的第一级是认知：理解为什么要变、不变会有什么后果。培训解决的是知识，而员工连为什么都不清楚时，培训内容再好也不会转化为使用行为，因此必须先补认知。","why":["正确：不清楚变革原因属于认知缺口，需讲清业务理由与不改变的后果。","错：知识是怎么做，培训已完成，说明这一级已有投入。","错：能力是能不能做到，题干描述的是动机层面的疑问。","错：强化用于防止回退，前提是行为已经发生，当前还没开始使用。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"BE7","kp":"BE7-2","tag":"变革管理 · ADKAR 个人变革模型","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE7","stem":"员工理解变革的原因，也愿意使用新流程，但实际操作频繁出错、效率明显下降。ADKAR 中应优先补强的是：","options":["认知","强化","意愿","能力"],"answer":3,"exp":"愿不愿意与做不做得到是两件事。愿意但频繁出错，说明缺的是能力：需要练习、辅导、工具支持与容错时间，而不是再讲一遍意义或再加考核压力。","why":["错：认知已经具备，员工清楚为什么变。","错：强化用于巩固已形成的行为，当前连稳定操作都还没做到。","错：意愿已具备，题干明确说愿意使用。","正确：会做但做不好属于能力缺口，应通过练习、辅导与工具支持补齐。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE2","kp":"PE2-4","tag":"冲突 · 立场与利益","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE2","stem":"两位部门负责人各自坚持自己的实施方案，会议陷入僵局。项目经理最合适的做法是：","options":["当场组织投票表决，按少数服从多数定案","分别探询方案背后的核心需求，寻找同时满足的方案","请上级领导直接裁决，以节省讨论时间","建议双方各让一半，尽快结束这场争论"],"answer":1,"exp":"立场是我要这个方案，利益是我为什么需要。只比方案只能零和博弈；把讨论拉回需求层面，往往能找到同时满足双方真实利益的第三方案，这比投票、裁决或折中更能解决问题。","why":["错：投票决定的是胜负而不是方案质量，失败方不会真正投入。","正确：先弄清各自需求与目的，基于利益共同设计新方案，属于协作式解决。","错：裁决速度快但根因未解，同类冲突还会再来。","错：各让一半是妥协，双方的核心需求可能都没有被满足。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE2","kp":"PE2-4","tag":"冲突 · 立场与利益","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE2","stem":"两位负责人争抢同一名技术专家，都称自己的任务不可延期。项目经理应：","options":["明确两项任务的优先级与时间窗，探索共享或错峰","把专家的工作时间平均分配给两个任务","让专家自己决定先做哪一个任务","上报发起人，由发起人决定专家的归属"],"answer":0,"exp":"资源稀缺型冲突的根因是排期与优先级，而不是人际对立。应先弄清两项任务的真实优先级与时间窗，再探索错峰、部分投入或替代方案；把决定权丢给专家或直接上交，都没有解决排期问题。","why":["正确：先厘清优先级与时间窗，再用共享或错峰安排化解资源冲突。","错：平均分配往往让两个任务都延期，是典型的折中陷阱。","错：让专家自己选会把矛盾转嫁给个人，且缺少优先级依据。","错：直接上交跳过了项目经理可自行协调的层级，也未必更快。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR7","kp":"PR7-3","tag":"质量 · 质量成本 COQ","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR7","stem":"项目增加了代码评审与开发人员专项培训的投入。按质量成本分类，这些支出属于：","options":["评估成本","内部失败成本","预防成本","外部失败成本"],"answer":2,"exp":"预防成本是为防止缺陷发生而投入的费用，如培训、流程设计、供应商评估、评审机制建设。它与评估成本的区别在于：预防发生在缺陷产生之前，评估是为了发现已经产生的缺陷。","why":["错：评估成本用于检查与测试，目的是发现缺陷而非防止产生。","错：内部失败成本是交付前发现缺陷造成的返工与报废。","正确：培训与评审机制用于防止缺陷产生，属于预防成本。","错：外部失败成本是交付后客户发现问题带来的保修与索赔损失。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR7","kp":"PR7-3","tag":"质量 · 质量成本 COQ","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR7","stem":"产品交付后出现批量缺陷，客户退货并要求索赔。这类支出在质量成本中属于：","options":["预防成本","外部失败成本","评估成本","内部失败成本"],"answer":1,"exp":"外部失败成本发生在交付之后，包括保修、退换、索赔、召回与商誉损失，通常是内部失败成本的数倍。这也是把投入前移的经济理由：越早发现缺陷，总成本越低。","why":["错：预防成本发生在生产之前，用于防止缺陷产生。","正确：交付后由客户发现缺陷导致的退货与索赔，属于外部失败成本。","错：评估成本是交付前的检查与测试投入。","错：内部失败成本限定在交付前发现缺陷造成的返工。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR8","kp":"PR8-2","tag":"进度 · 持续时间估算","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR8","stem":"公司首次进入某海外市场，几乎没有可参考的历史数据，管理层要求一周内给出工期量级。最合适的估算方法是：","options":["自下而上估算","三点估算","类比估算","参数估算"],"answer":2,"exp":"估算方法的选择取决于信息量与所需精度。信息极少又要求快速给量级时，类比估算用相似项目的历史数据做整体推断，成本最低、速度最快；精度要求高且工作包已分解时，才用自下而上。","why":["错：自下而上需要详细分解与大量数据，一周内无法完成且信息不足。","错：三点估算需要乐观、最可能、悲观三个值，缺历史数据时同样难给。","正确：类比估算借助相似项目做整体推断，适合信息少、需快速出量级的场景。","错：参数估算依赖可量化的参数关系，新市场尚无可靠参数。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR8","kp":"PR8-5","tag":"进度 · 资源优化","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR8","stem":"某专家在两个月内被安排了相当于 160% 工作量的任务，但客户要求完工日期不可延后。项目经理应优先考虑：","options":["资源平衡，把相关活动整体后移","直接缩减一部分范围以避免延期","资源平滑，在不改变完工日期的前提下削峰填谷","要求该专家长期加班以消化这些工作量"],"answer":2,"exp":"资源平衡会改变关键路径、通常延长工期，适用于允许调整完工日期的情形；资源平滑利用浮动时间削峰填谷，不改变关键路径与完工日期，正好匹配日期不可延后这一约束。","why":["错：资源平衡往往会延长工期，与不可延后的约束冲突。","错：缩减范围属于变更，需走流程，不能作为排期手段直接使用。","正确：资源平滑用浮动时间调整非关键活动，削峰且不改变完工日期。","错：靠长期加班消化 160% 的负荷不可持续，会带来质量与流失风险。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR2","kp":"PR2-4","tag":"范围与需求 · 范围基准","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR2","stem":"客户提出某功能本来就应该有，团队认为不在本次范围内。最可靠的判断依据是：","options":["双方此前的会议纪要与邮件往来记录","范围基准中的 WBS 与 WBS 词典描述","项目经理个人对需求范围的理解","客户方相关人员在会上给出的口头说明"],"answer":1,"exp":"范围基准由范围说明书、WBS 与 WBS 词典组成，是判断算不算范围内的正式依据。若 WBS 词典对工作包的描述含糊，应先澄清词典，再判断是否需要变更，而不是靠记忆或口头承诺。","why":["错：纪要与邮件是过程记录，可作佐证但不能替代批准的范围基准。","正确：范围基准（含 WBS 词典）是界定是否在范围内的正式依据。","错：个人理解无法作为争议裁决依据。","错：口头说明无法追溯，冲突时难以作为证据。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE3","kp":"BE3-6","tag":"变更与配置 · 范围蔓延","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE3","stem":"迭代进行中，相关方不断提出新需求，团队靠加班勉强承接。项目经理应：","options":["要求团队继续加班，以维持当前的交付节奏","立即冻结全部需求变更，直到迭代结束","建立统一的需求入口，按价值排序后决定纳入或延后","把新需求直接插入当前正在进行的迭代"],"answer":2,"exp":"范围蔓延的破坏力在于绕过了资源约束：每加一点都没有对应补充，最终由加班与质量下降买单。处置要同时做两件事——把当前范围界定清楚止损，以及建立后续需求的统一入口与排序规则拦截。","why":["错：持续加班只是把成本转嫁给团队，蔓延仍在继续。","错：一刀切冻结会挡住真正高价值的需求，也不可持续。","正确：统一入口加价值排序，让需求有序进入，既止损又建立拦截机制。","错：直接插入正在进行的迭代，会破坏团队承诺与节奏。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"BE4","kp":"BE4-5","tag":"问题解决与改进 · 根因分析","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE4","stem":"同一类缺陷在三个迭代中反复出现，每次都被快速修复并关闭。项目经理应：","options":["组织根因分析，找出流程或设计层面的原因","增加测试人力，以便拦截更多同类缺陷","把该缺陷登记到风险登记册中持续跟踪","继续按现有方式快速修复，保证迭代交付"],"answer":0,"exp":"反复出现说明每次只处理了症状。根因分析的价值在于防止复发：用 5 Why、鱼骨图或帕累托定位到流程、设计或环境的系统性原因，再针对原因制定措施并设置验证指标。","why":["正确：反复出现要追根因，针对流程或设计层面的原因制定措施。","错：加人只是提高拦截率，缺陷仍在产生，成本持续上升。","错：缺陷是已发生的不合格，属于问题而非尚未发生的风险。","错：快速修复解决的是这一次，下一次还会以同样方式出现。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"BE5","kp":"BE5-2","tag":"风险 · 风险识别","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE5","stem":"风险识别工作坊中，团队只列出了技术类风险。为减少盲区，最有效的补充做法是：","options":["延长工作坊时间继续头脑风暴","做假设与制约分析，并邀请运营与采购参与","只关注技术风险中优先级最高的几条","等风险实际发生后再补充识别"],"answer":1,"exp":"识别的主要问题不是想不出，而是想不全。换视角比延长时间更有效：假设分析找出默认成立但没验证的前提，运营与采购能带来技术团队看不到的视角；识别本身也应随阶段推进反复进行。","why":["错：同质人群延长讨论，只会把已有视角讲得更细，盲区仍在。","正确：换视角——假设与制约分析找前提，跨职能参与者补视角。","错：收缩到技术风险会放弃其他类别，盲区更大。","错：等发生后再识别，风险已经变成问题，失去应对时机。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"BE5","kp":"BE5-5","tag":"风险 · 定量分析","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE5","stem":"管理层希望了解项目按时完工的概率有多大。最合适的分析方法是：","options":["敏感性分析，找出影响最大的活动","挣值分析，计算当前 SPI","蒙特卡洛模拟，输出完工日期的概率分布","决策树分析，比较各方案期望值"],"answer":2,"exp":"蒙特卡洛模拟通过大量重复抽样，把各风险与活动的不确定性组合成整体结果分布，能够直接回答按期完工的概率是多少、80% 置信度的工期是哪天这类问题，这是其他方法给不出的。","why":["错：敏感性分析回答哪个变量影响最大，不给出整体达成概率。","错：SPI 反映当前进度绩效，不能外推为完工概率。","正确：蒙特卡洛输出结果分布，可直接读出按时完工概率与置信工期。","错：决策树比较的是备选方案的期望值，不输出完工分布。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE1","kp":"BE1-2","tag":"商业环境 · 治理结构","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE1","stem":"在大型项目中，项目治理结构最核心的作用是：","options":["明确决策权限、监督机制与责任归属","替代项目经理完成日常的决策工作","减少项目所需文档的数量与审批环节","加快团队的开发速度与交付频率"],"answer":0,"exp":"治理回答三个问题：谁有权决定什么、如何监督、出了事谁负责。它提供的是决策框架与问责机制，而不是代替管理层做日常决定；治理过细会变成微观管理，过松则会失控。","why":["正确：治理界定决策权限、监督方式与问责归属，是项目可控的基础。","错：日常决策属于管理层职责，治理只管框架与例外。","错：文档多少是方法选择问题，不是治理的核心目的。","错：开发速度取决于团队与方法，治理的作用是可控而非提速。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE1","kp":"BE1-5","tag":"商业环境 · PMO 的类型","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE1","stem":"某 PMO 要求所有项目使用统一模板，并在阶段关口组织合规评审。该 PMO 最可能属于：","options":["支持型","控制型","指令型","服务型"],"answer":1,"exp":"PMO 三型的区别在管到什么程度：支持型提供模板与培训但不介入；控制型要求遵循方法与合规并做关口检查；指令型直接管理项目、项目经理向其汇报。题干强调要求遵循与合规评审，属控制型。","why":["错：支持型只提供支持与建议，不强制统一并做合规检查。","正确：要求统一方法并组织合规评审，说明有控制权但不直接管理项目。","错：指令型会直接管理项目，项目经理向其汇报，题干未体现。","错：服务型不是 PMO 的标准分类，属干扰表述。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"BE1","kp":"BE1-6","tag":"商业环境 · 敏捷治理","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE1","stem":"治理方要求敏捷项目每月提交一次完整的范围基线变更申请。项目经理最合适的做法是：","options":["直接拒绝，说明敏捷不需要任何基线","完全照做，同时继续维护迭代计划与待办","让团队自行决定是否遵守这项治理要求","与治理方协商裁剪，用增量交付与评审记录满足治理目的"],"answer":3,"exp":"治理关注的是可控与可审，而不是用哪种方法。正确动作是弄清治理方真正要的可预测性与留痕，再用等效机制（迭代承诺、评审记录、增量验收）替换与迭代节奏冲突的重复审批，并把共识写入治理文件。","why":["错：直接拒绝既不尊重治理职责，也放弃了协商空间。","错：双轨并行会让团队被两套流程压垮，且两份记录互相矛盾。","错：把合规责任推给团队，团队没有与治理方谈判的权限。","正确：协商裁剪——保留治理目的，替换实现形式，并形成书面约定。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"BE7","kp":"BE7-4","tag":"变革管理 · 阻力识别","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"BE7","stem":"变革推进中，多数员工口头表示支持，但实际仍按旧流程工作。这种情况最可能是：","options":["已达成共识，可以继续推进","隐性阻力，需一对一了解真实顾虑","能力不足，应加强操作培训","认知不足，应加大宣传力度"],"answer":1,"exp":"阻力有显性与隐性两种：显性会明确反对，隐性则表现为沉默、拖延、口头同意但不行动。识别隐性阻力的方法是看行为而非表态，通过一对一沟通找出真实成本（工作量、技能、权力），再把它转成设计输入。","why":["错：口头支持与实际行为背离，恰恰说明共识并未真正达成。","正确：说一套做一套是隐性阻力的典型特征，需要私下沟通找出顾虑。","错：能力不足会表现为做得慢或出错，而不是坚持用旧流程。","错：认知不足会表现为不理解原因，题干中是行为未改变。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE2","kp":"PE2-5","tag":"冲突 · 预防性机制","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE2","stem":"团队连续三个迭代出现同类争执，每次都由项目经理出面调解平息。更有效的做法是：","options":["与团队共同建立基本规则与决策规则","继续由项目经理逐次出面调解","把争执双方分开，避免安排在同一任务","把情况上报职能经理，由其出面处理"],"answer":0,"exp":"反复出现的同类冲突说明缺的是机制而不是调解。团队章程、基本规则、决策规则与清晰的职责边界能在冲突发生前消掉大部分诱因；机制要由团队共同制定，单方下发难以被真正遵守。","why":["正确：同类冲突反复出现时，应补机制而不是继续逐次调解。","错：项目经理持续调解会让团队形成依赖，机制始终建立不起来。","错：分开安排回避了冲突，协作需求仍在，问题会换形式出现。","错：上交把团队自己的规则问题外部化，团队失去成长机会。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"PE2","kp":"PE2-6","tag":"冲突 · 虚拟与跨文化","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE2","stem":"分布在三个时区的团队频繁因信息不同步而返工。项目经理应首先：","options":["要求所有成员改为实时在线协作","建立明确的沟通协议与异步协作规则","减少跨时区的协作任务","增加每日会议次数"],"answer":1,"exp":"分布式团队的冲突与返工多源于默认假设不一致：谁在什么时候看到什么信息、多久必须回复、决策记录放在哪里。显式的沟通协议与异步规则能把这些默认值写清楚，成本远低于反复开会。","why":["错：强制实时在线会牺牲深工作时段，也无法消除信息不同步。","正确：用沟通协议与异步规则把协作方式写明确，从根上减少误解。","错：减少协作只是降低暴露频率，交付本身仍需跨时区配合。","错：会议增多会挤压工作时间，且缺少记录仍会不同步。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE3","kp":"PE3-2","tag":"领导力 · 仆人式领导","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE3","stem":"团队被一项外部审批卡住两周，进度已受影响。项目经理最合适的做法是：","options":["要求团队先做其他任务，暂不处理该审批","把情况记入风险登记册后继续观察","由项目经理出面协调审批方，清除该障碍","要求团队自行想办法推动审批"],"answer":2,"exp":"仆人式领导的核心动作是清障：当阻碍来自团队外部（审批、依赖、资源），应由项目经理出面协调，把团队的注意力还给交付。让团队自己处理外部审批，等于把组织层面的问题压给没有权限的人。","why":["错：绕开只是暂缓，障碍仍在，相关任务迟早还要面对。","错：两周的阻塞已是问题而非潜在风险，登记不能替代处置。","正确：外部障碍由项目经理出面清除，正是赋能团队的核心动作。","错：团队通常没有推动外部审批的权限，这么要求只会造成挫败。"],"life":"agile","lifeSource":"authored","ver":1},
+{"eco":"PE5","kp":"PE5-2","tag":"相关方 · 成功标准","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE5","stem":"项目收尾时，客户与团队对项目是否成功争执不下。最可能的根本原因是：","options":["收尾阶段的沟通与确认安排不足","团队交付成果的质量不达标","客户方关键人员在项目中途发生变动","启动阶段未就成功标准与验收口径达成书面共识"],"answer":3,"exp":"成功标准要回答三件事：衡量什么、怎么量、谁认可。这三件事在启动阶段定下来成本最低，到收尾再补成本最高——此时各方已按各自理解投入了资源，分歧无法靠沟通弥补。","why":["错：收尾沟通不足会加剧分歧，但不是标准缺失的替代原因。","错：质量不达标是交付问题，题干未提示具体缺陷。","错：人员变动会带来理解差异，但根源仍是标准未被书面固定。","正确：成功标准与验收口径未在早期形成书面共识，后期必然各说各话。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE5","kp":"PE5-4","tag":"相关方 · 多方期望冲突","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE5","stem":"两个业务部门对上线优先级提出互相冲突的要求，双方都不肯让步。项目经理应：","options":["按提出时间先后安排上线顺序","把冲突与影响显性化，交由有权限者做取舍","同时满足双方，压缩测试时间","由项目经理自行决定优先级"],"answer":1,"exp":"多方期望冲突时不存在让所有人满意的解。项目经理的职责是把冲突、影响与选项摆清楚，让有决策权的人在信息充分的情况下取舍，然后统一口径沟通并跟踪满意度，而不是代替各方做价值判断。","why":["错：按时间先后与业务价值无关，容易牺牲更重要的目标。","正确：把冲突与影响显性化，交有权限者决策，项目经理负责促成决策。","错：压缩测试换取双满足，会把技术风险转成交付质量问题。","错：优先级取舍涉及业务价值判断，通常超出项目经理的授权。"],"life":"hybrid","lifeSource":"authored","ver":1},
+{"eco":"PE6","kp":"PE6-2","tag":"沟通 · 单一事实来源","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE6","stem":"同一项目的进度状态在邮件、看板与周报中互不一致。项目经理应：","options":["确定唯一权威的信息载体并规定更新责任","增加一次同步会议，让各方口头对齐","以最新发出的一封邮件内容为准","要求各方自行核对后再统一口径"],"answer":0,"exp":"信息不一致的根源通常是存在多个事实来源。解法不是增加沟通渠道，而是指定一个权威载体（项目管理信息系统、共享看板或指定文档），明确谁在什么时点必须更新，对外只引用该载体。","why":["正确：指定唯一权威载体并明确更新责任，才能让所有人看到同一份数据。","错：再加会议只是多了一个渠道，一致性更难保证。","错：以邮件为准只是临时裁定，下次仍会冲突。","错：让各方自行核对没有指定权威来源，结论依旧无法统一。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE6","kp":"PE6-5","tag":"相关方 · 投诉处理","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE6","stem":"客户投诉交付响应慢，情绪激动。项目经理首先应：","options":["先解释合同约定的响应时限","把投诉转交客服部门处理","承诺立即整改以平息情绪","倾听并确认其关切，再核实事实与影响"],"answer":3,"exp":"投诉往往是期望与体验的落差被反复忽视后的爆发。处理顺序是先情绪后事实：让对方感到被听见，再核实情况、判断是个别问题还是系统性问题，最后给出可执行方案与时限并闭环回访。","why":["错：先讲合同条款容易被理解为推责，会让情绪升级。","错：转交等于回避，客户会认为项目方不在意。","错：未经核实就承诺整改，可能承诺了做不到的事。","正确：先倾听确认关切，再核实事实，然后才谈方案，顺序不能颠倒。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE5","kp":"PE5-6","tag":"相关方 · 早期信号","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE5","stem":"月度检查发现某关键相关方的会议出席率由 90% 降到 40%，参与度持续下降。项目经理应：","options":["在其缺席时继续推进，避免延误","把情况上报给其上级要求督促","了解参与度下降的原因，再调整参与策略","减少该相关方的参与环节以降低依赖"],"answer":2,"exp":"参与度下降通常是信号而不是结论：可能是资源被抽调、对项目方向有异议、内部压力或对前期沟通不满。先弄清原因，再决定加强沟通、调整参与方式还是升级处理；直接绕过会埋下验收风险。","why":["错：绕过会让关键相关方在验收阶段行使否决权，风险更大。","错：上报其上级容易被视为施压，反而恶化协作关系。","正确：先查明原因（资源、异议、压力），再针对性调整参与策略。","错：降低依赖只是回避，关键相关方的影响仍然存在。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR4","kp":"PR4-5","tag":"采购 · 实物资源与设备租用","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR4","stem":"项目需要的关键测试设备被其他项目长期占用。项目经理应：","options":["推迟测试工作，直到设备空闲下来","与设备所有者协商排期，并评估租用或外协","要求团队自行想办法协调设备使用","直接申请采购一台新设备专供本项目"],"answer":1,"exp":"实物资源的约束在于可得性窗口与占用成本。正确的处理是协商排期、评估租用或外协等替代方案，并把最终安排写入资源日历与进度计划；被动等待或直接采购，都没有在可得性上做文章。","why":["错：被动等待会把设备约束直接转成进度风险。","正确：先协商排期，同时评估租用与外协，是解决可得性的组合动作。","错：把资源约束推给团队，团队没有调度其他项目设备的权限。","错：直接采购成本高且周期长，应先评估租用与外协的性价比。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PR10","kp":"PR10-4","tag":"收尾与知识管理 · 收益移交","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PR10","stem":"项目已验收关闭，但效益管理计划中的收益尚未实现。项目经理应：","options":["把收益责任、度量口径与跟踪周期移交给接收方","宣布项目成功并结束全部项目工作","继续留在项目团队中长期跟踪收益","把收益跟踪工作整体交给财务部门"],"answer":0,"exp":"项目结束不等于收益实现，收益通常在交付后由运营方在较长周期内逐步产生。收尾时必须把收益的所有权、度量口径与跟踪周期交接清楚，否则项目做完了却没人对收益负责。","why":["正确：移交收益责任与度量口径，让收益在运营阶段有人负责、有据可查。","错：验收关闭不等于收益实现，直接宣布成功会掩盖后续风险。","错：项目经理的职责随项目结束而结束，长期跟踪应由接收方承担。","错：财务只掌握成本与收入数据，收益的业务责任仍在业务侧。"],"life":"predictive","lifeSource":"authored","ver":1},
+{"eco":"PE2","kp":"PE2-6","tag":"冲突 · 虚拟与跨文化","domain":null,"legacyDomain":null,"ecoStatus":"confirmed","ecoTask":"PE2","stem":"跨国团队中，某地成员在会上很少发言，会后却常在其他渠道表达不同意见。项目经理应：","options":["要求该成员必须在会上直接表达","把会议改为异步书面讨论，允许匿名提交意见","认为其已同意，按会议结论推进","在下次会议上点名请其发言以推动参与"],"answer":1,"exp":"沟通习惯受文化影响：有些文化中当面反对被视为失礼，因此异议会转到会后或私下渠道。与其强迫改变表达方式，不如调整机制——用书面、异步、可匿名的渠道让真实意见进入决策。","why":["错：强制当面表达会让该成员更难开口，也可能造成难堪。","正确：调整沟通机制（异步、书面、匿名），让真实意见有表达通道。","错：把沉默当作同意，会让决策建立在错误假设上。","错：点名发言是把压力加到个人身上，没有解决渠道问题。"],"life":"hybrid","lifeSource":"authored","ver":1}
+];
+NEW_QUESTIONS_E.forEach(function(q){
+  q.domain = ECO_TASKS[q.eco].d;
+  q.legacyDomain = q.domain;
+  q.ecoStatus = 'confirmed';
+  q.ecoTask = q.eco;
+  QUESTIONS.push(q);
+});
+/* ==NEW_E_END== */
+
 /* ==== 题库装配完成，此处才确定总数（此前的静态题只有 540 道） ==== */
 TOTAL = QUESTIONS.length;
-if(QUESTIONS.length !== 849){
+if(QUESTIONS.length !== 891){
   /* 防御：题量变化时给出明确提示，避免静默错位（错题池、标记、进度都依赖索引） */
-  console.warn('[题库] 实际题量 ' + QUESTIONS.length + ' 与预期 849 不一致，请检查增量块。');
+  console.warn('[题库] 实际题量 ' + QUESTIONS.length + ' 与预期 891 不一致，请检查增量块。');
 }
 
 /* ==WHY_ORDER_FIX_START== 修正 why 与选项顺序错位 == */
@@ -6775,6 +6884,161 @@ function kpNodeOf(q){
 function diagKeyOf(q){ const n = kpNodeOf(q); return n ? n.id : mainTag(q.tag); }
 function diagLabelOf(q){ const n = kpNodeOf(q); return n ? n.kp.n : mainTag(q.tag); }
 
+/* ---------------- 知识点深度讲解：错题 → 讲解 → 再练 ----------------
+   设计：错题按 ECO 知识点（任务-序号）聚合；每个知识点可展开「深度讲解」，
+   讲机制与判断步骤、列出常见错误路径、划清概念边界，并直接给出该知识点的再练入口。
+   人工撰写的 31 个高风险节点在 KP_DEEP 中；其余节点由考纲要素自动整理，
+   界面上明确标注来源，不把自动整理当作人工撰写。 */
+function kpNodeById(id){
+  if(!id) return null;
+  const p = String(id).split('-'), t = p[0], k = (+p[1]) - 1;
+  const s = (typeof SYL !== 'undefined') ? SYL[t] : null;
+  if(!s || !s.kps || !s.kps[k]) return null;
+  return {id:id, task:t, taskName:(ECO_TASKS[t]||{}).n||t, kp:s.kps[k]};
+}
+let KP_QS = null;
+function kpIdxList(id){
+  if(!KP_QS){
+    KP_QS = {};
+    QUESTIONS.forEach(function(q,i){
+      const k = (typeof KP_OF !== 'undefined') && KP_OF[q.qid];
+      if(k){ (KP_QS[k] = KP_QS[k] || []).push(i); }
+    });
+  }
+  return KP_QS[id] || [];
+}
+function kpDeepOf(id){
+  const n = kpNodeById(id); if(!n) return null;
+  const a = KP_DEEP[id];
+  if(a) return {src:'authored', why:a.why, steps:a.steps||[], errs:a.errs||[], bound:a.bound||'', node:n};
+  const kp = n.kp, s = SYL[n.task] || {};
+  const g = (typeof TK_GUIDE !== 'undefined' && TK_GUIDE[n.task]) || {steps:[], errs:[]};
+  const sib = (s.kps||[]).filter(function(x){ return x !== kp; }).map(function(x){ return x.n; });
+  return {src:'auto', why:kp.d||'', steps:g.steps||[], errs:g.errs||[], taskLevel:true,
+    bound:'同任务下的相邻知识点（容易混用，注意区分）：' + sib.slice(0,4).join('、') + '。',
+    node:n, tool:kp.t||'', signal:kp.e||''};
+}
+/* 某知识点的再练题单：先本知识点（未做过优先），不足则补同任务、再补同领域 */
+function kpDrillPlan(id, need){
+  const n = kpNodeById(id); if(!n) return {list:[], own:0, same:0};
+  const size = Math.max(1, need || 4);
+  const done = doneSet();
+  const used = {}, out = [];
+  const take = function(pool){
+    for(let k=0;k<pool.length && out.length<size;k++){
+      const i = pool[k];
+      if(used[i] || out.indexOf(i)>=0) continue;
+      used[i] = 1; out.push(i);
+    }
+  };
+  const own = kpIdxList(id);
+  take(shuffleIdx(own.filter(function(i){ return !done.has(i); }), 7 + own.length));
+  take(shuffleIdx(own, 11));
+  const ownN = out.length;
+  if(out.length < size){
+    const same = QUESTIONS.map(function(q,i){ return i; })
+      .filter(function(i){ return QUESTIONS[i].eco === n.task && own.indexOf(i) < 0; });
+    take(shuffleIdx(same.filter(function(i){ return !done.has(i); }), 23));
+    take(shuffleIdx(same, 29));
+  }
+  const sameN = out.length - ownN;
+  if(out.length < size){
+    const base = QUESTIONS[own[0]] || QUESTIONS[0];
+    const dom = QUESTIONS.map(function(q,i){ return i; })
+      .filter(function(i){ return QUESTIONS[i].domain === base.domain; });
+    take(shuffleIdx(dom, 31));
+  }
+  const list = dedupeSimilar(out, []);
+  return {list:list, own:Math.min(ownN, list.length), same:Math.min(sameN, Math.max(0, list.length - ownN))};
+}
+function startKpDrill(id, need){
+  if(!confirmOverwrite()) return;
+  const plan = kpDrillPlan(id, need || 4);
+  if(!plan.list.length){ alert('该知识点暂无可用题目。'); return; }
+  closeKpDeep();
+  beginExam('practice', false, 'A', plan.list);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+/* 补强包：把错得最多的若干知识点各抽几题，组成一次针对性练习 */
+function boostPlan(topN, per){
+  const { tags } = wrongStats();
+  const top = tags.slice(0, Math.max(1, topN || 3));
+  const used = {}, list = [];
+  top.forEach(function(t){
+    const plan = kpDrillPlan(t.key, per || 4);
+    plan.list.forEach(function(i){ if(!used[i]){ used[i] = 1; list.push(i); } });
+  });
+  return {kps:top, list:list};
+}
+function startBoost(){
+  if(!confirmOverwrite()) return;
+  const p = boostPlan(3, 4);
+  if(!p.list.length){ alert('还没有错题记录。先完成一套试卷，系统才能按错题生成补强练习。'); return; }
+  beginExam('practice', false, 'A', p.list);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* 知识点深入讲解面板 */
+function closeKpDeep(){
+  const m = $('kpMask'); if(m) m.style.display = 'none';
+}
+function openKpDeep(id){
+  const d = kpDeepOf(id); if(!d) return;
+  const m = wrongMap(), done = doneSet();
+  const qs = kpIdxList(id);
+  const doneN = qs.filter(function(i){ return done.has(i); }).length;
+  const wrongN = qs.filter(function(i){ return m[i]; }).length;
+  const lie = {predictive:'预测型', agile:'敏捷型', hybrid:'混合型'};
+  const both = {};
+  qs.forEach(function(i){ both[QUESTIONS[i].life] = (both[QUESTIONS[i].life]||0)+1; });
+  const lieTxt = Object.keys(both).map(function(k){ return (lie[k]||k) + ' ' + both[k] + ' 题'; }).join(' / ') || '—';
+
+  $('kpHdTitle').textContent = '📘 ' + d.node.kp.n;
+  const src = $('kpHdSrc');
+  src.className = 'kp-src ' + (d.src === 'authored' ? 'a' : 'b');
+  src.textContent = d.src === 'authored' ? '人工撰写' : '考纲要素整理';
+  $('kpHdTask').textContent = '所属任务：' + d.node.taskName + '（' + d.node.task + '） · 知识点 ' + d.node.id;
+
+  let h = '<div class="kp-sec"><div class="kp-sec-h">① 机制与原理（为什么是这样，而不是记住结论）</div>' +
+          '<div class="kp-sec-b">' + acrMark(d.why || '') + '</div></div>';
+  if(d.steps.length){
+    h += '<div class="kp-sec"><div class="kp-sec-h">② 判断步骤' +
+         (d.taskLevel ? '（本任务通用顺序）' : '（遇到这类题按顺序核对）') + '</div><div class="kp-sec-b"><ol>' +
+         d.steps.map(function(s){ return '<li>' + acrMark(s) + '</li>'; }).join('') + '</ol></div></div>';
+  }
+  if(d.errs.length){
+    h += '<div class="kp-sec"><div class="kp-sec-h">③ 常见错误路径' +
+         (d.taskLevel ? '（本任务高频错误）' : '（多数人在这里被带走）') + '</div><div class="kp-sec-b"><ul>' +
+         d.errs.map(function(s){ return '<li>' + acrMark(s) + '</li>'; }).join('') + '</ul></div></div>';
+  }
+  if(d.bound){
+    h += '<div class="kp-sec"><div class="kp-sec-h">④ 概念边界（最容易混为一谈的地方）</div>' +
+         '<div class="kp-sec-b">' + acrMark(d.bound) + '</div></div>';
+  }
+  if(d.src === 'auto'){
+    if(d.tool)   h += '<div class="kp-sec"><div class="kp-sec-h">⑤ 典型工具与做法</div><div class="kp-sec-b">' + acrMark(d.tool) + '</div></div>';
+    if(d.signal) h += '<div class="kp-sec"><div class="kp-sec-h">⑥ 题干信号</div><div class="kp-sec-b">' + acrMark(d.signal) + '</div></div>';
+    h += '<div class="kp-note" style="background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:10px;padding:10px 12px;font-size:12.5px;line-height:1.8">' +
+         '⚠️ 本知识点<b>暂无人工撰写的专属深度讲解</b>：①来自考纲原文，②③是本任务通用的判断顺序与高频错误（<b>不是该知识点独有</b>），' +
+         '④⑤⑥为考纲要素与相邻边界。需要更贴合该知识点的分析，可先做题再看解析区的逐项辨析。</div>';
+  }
+  h += '<div class="kp-sec"><div class="kp-sec-h">' + (d.src === 'auto' ? '⑦' : '⑤') + ' 本知识点的题</div><div class="kp-stat">' +
+       '题库共 <b>' + qs.length + '</b> 题 · 已做 <b>' + doneN + '</b> · 其中做错 <b>' + wrongN + '</b> 题<br>' +
+       '开发方法分布：' + lieTxt + '<br>' +
+       (qs.length >= 4 ? '「再练」会优先抽本知识点里<b>你没做过的题</b>。'
+                       : '本知识点题量偏少（' + qs.length + ' 题），「再练」会用<b>同任务的其他题</b>补足，练完仍建议回到本知识点复述规则。') +
+       '</div></div>';
+
+  $('kpBd').innerHTML = h;
+  const need = Math.max(3, Math.min(6, qs.length + 2));
+  $('kpFt').innerHTML = '<button class="btn" id="kpClose">关闭</button>' +
+    '<button class="btn primary" id="kpDrill">练 ' + (qs.length ? Math.min(need, qs.length) : 3) + ' 题（本知识点优先）</button>';
+  $('kpClose').onclick = closeKpDeep;
+  $('kpDrill').onclick = function(){ startKpDrill(id, need); };
+  $('kpMask').style.display = 'flex';
+  $('kpBd').scrollTop = 0;
+}
+
 function wrongStats(){
   const m = wrongMap();
   const byTag = {}, byDomain = {people:0, process:0, business:0};
@@ -6874,11 +7138,15 @@ function qhash(str){
 
 
 
+
+
+
+
 /* ==KP_SIM_START== 知识点映射（qid → 任务-知识点序号）与同逻辑相似题分组。
    映射由「任务内候选 + 名称/工具/标签短语相似度」生成，低置信项已人工复核；
    相似题指同一考点、同一解题逻辑，仅更换项目背景，专项练习与组卷不会在同一套里同时抽到。 */
-const KP_OF = {"Q124vs23":"PE2-2","Qdg0dqq":"PE8-1","Qsjxx2n":"PE8-5","Q1q2u2ji":"PE3-7","Q16nroc8":"PE4-5","Q1v2ww82":"PE3-5","Q10e97ix":"PE3-1","Q19bh6q9":"PE3-7","Qqqcn9l":"PE3-8","Qljxopm":"PE3-1","Q6bncwx":"BE4-3","Qpx4eyu":"PE3-3","Q1aao0ru":"PE8-1","Q19mv2po":"PE3-4","Qvkh9gs":"PE3-6","Qzzgeuq":"PE3-8","Qshswn9":"BE6-2","Qjnc0uh":"PE3-4","Qe9af4i":"PE3-7","Qxwohtn":"PE6-3","Q1cvx07h":"PE3-4","Q1e0gq9m":"PE7-3","Qw0msb1":"BE3-1","Qjwedyy":"PR6-3","Qgbzozv":"PR6-3","Q7l9n1z":"PR8-4","Qgq8fnh":"PR8-3","Q18azrcr":"BE5-1","Q1q138rs":"BE5-6","Q18lkxjq":"BE5-6","Q1xcrje":"PR2-7","Qbnjp9z":"PR1-2","Q1suz56y":"PR7-1","Qh24xzm":"PR7-4","Q1kt1hs7":"PR5-5","Qlukbt2":"PR2-6","Qy5jyfl":"PR2-3","Q2fewbf":"PR2-5","Qwemc76":"PR10-3","Q1uj1kg":"PR3-3","Qu50m8u":"PR3-2","Qjji96x":"PR3-2","Qznh12h":"PR9-5","Q1qvwqxi":"PR8-1","Qde53pj":"PR1-3","Q1fi1nk6":"BE3-3","Q1x2l8n0":"PR9-5","Qg187wh":"PR2-3","Q1rnmbyo":"PR8-2","Q18ivvo9":"PR4-4","Q1ftjg9z":"PR9-6","Q1oh9dwc":"BE4-2","Q1qxd0x9":"PR3-2","Qsc8vap":"BE2-3","Qqeaiiy":"BE7-5","Q9bsk1i":"BE8-3","Q10ncr01":"PR3-1","Q1luoiqn":"BE2-1","Q1f6egpm":"PE2-2","Q1yaxdix":"PE2-2","Q1u53qp4":"PE2-2","Qdmk7pe":"PE8-2","Q1vrekzf":"PE8-3","Q1j658wl":"PE4-1","Qz4x412":"PE4-2","Qpt2q2e":"PE4-3","Q1fv0cze":"PE3-8","Q1ek9b64":"PE3-8","Q11w171n":"PE3-8","Ql1c3pq":"PE3-1","Qvdug65":"PE3-3","Qejd79h":"PE3-7","Q1lewk4y":"PE3-6","Q950ydb":"PE3-1","Qlv1iih":"PE8-1","Q7dxh8i":"PE8-7","Qfpkygj":"PE3-5","Q17zbj94":"PE3-5","Qory59":"PE3-2","Q1m9dkkw":"PE3-4","Q19g175s":"PE3-8","Qqytiag":"PE3-7","Qmxk1lc":"PE3-6","Qrr26t3":"PE3-8","Q1qqo3q4":"PR4-6","Qj77em4":"PR4-3","Q1xhiuwx":"PE3-6","Qmf7ih1":"PR4-6","Ql7s447":"PE3-6","Qb7mu1k":"PE3-4","Qgiuzw2":"PE3-1","Q1o9ci5j":"PE3-3","Qlgitni":"PE3-6","Q1ujebv9":"PE8-6","Q265i4g":"PE3-7","Q1u8m0q":"PE3-4","Q1hp214n":"PE8-1","Q10w6h6c":"PE8-4","Qgvinym":"PE3-1","Q1r1bzws":"BE4-1","Qp9ru35":"PE3-2","Qcq14y6":"PR7-1","Qlnj0kj":"PE2-1","Q1m3hhs8":"PE8-1","Q1qqzg5p":"PE3-1","Qj370v8":"PE3-1","Q1ounobv":"PE3-8","Q88sd57":"PE3-8","Q17a5lug":"PE3-3","Q1wvspcq":"PE5-3","Qey17d3":"PE7-3","Qck26uu":"BE6-2","Qkdig9v":"PR8-3","Qqf5w3q":"PR6-3","Q1p1c6ra":"PR6-2","Q1le8cjf":"PR6-2","Que6lrh":"BE5-8","Q83vkvs":"BE5-7","Qee98ey":"BE5-1","Q1fjlsdt":"BE5-1","Qtiw4om":"BE5-8","Qfkqaxr":"BE5-1","Q1wfc7wd":"BE5-3","Q1vzmfve":"BE5-1","Q1hs5cya":"BE5-8","Q12muoc0":"PR7-1","Q1ybx1gx":"PR7-2","Q1c7hgjt":"PR7-5","Q1sew7sk":"PR7-6","Qbnzv21":"PR7-4","Q1kbviu3":"PR7-1","Qnl91z1":"PR7-4","Q2q84s3":"PR7-3","Q42oa90":"PR5-3","Q1jqus3n":"PR5-2","Q1x2yab0":"PR5-2","Qsk647e":"PR5-1","Qeqokop":"PR5-4","Qg6yhub":"PR5-6","Qyrnzeb":"PR5-3","Qw12778":"PR5-3","Q1tvdch3":"PR5-2","Q1sdyeim":"BE5-1","Q1il8o4q":"PR2-1","Qjtekrf":"PR2-7","Qvbfzn1":"PR2-7","Qxh4n0s":"PR2-7","Qawyqhm":"PR3-5","Q12f9zl":"PR8-7","Qito1gp":"PR8-7","Q1ki4y43":"PR1-5","Qw2wdwl":"PR3-1","Q16e7ao1":"PR8-3","Qaqvlhx":"PR8-7","Q16sjkgz":"PR1-4","Q1j151t3":"BE3-2","Qrdi2y5":"BE3-6","Qljx8a1":"PR1-7","Ql4vf5q":"PR7-2","Q7lwks":"PR7-2","Qko3h2q":"PR7-2","Q7aztu0":"PR2-7","Q1a5krr9":"PR2-2","Q1tjoa9o":"PR9-6","Qzumqog":"PR6-6","Qz3t8g3":"PR6-1","Qzkvfip":"PR1-2","Qybpvg2":"PR10-1","Qboexvl":"PE7-2","Qqv7myl":"PR8-1","Qz3or2z":"PR1-3","Q1v29gdz":"BE1-1","Q1r6cqtk":"BE1-5","Q1ncgpdz":"BE8-2","Qp5va9e":"BE2-2","Q6agv34":"BE2-4","Qq25lxh":"BE2-5","Qzulsfz":"BE2-6","Q188xs4t":"BE2-6","Qr1qm64":"BE2-6","Q1iw95ng":"PE2-1","Qup6ixa":"PE3-1","Q1yn7wmy":"PE3-3","Q1wyql9p":"PE8-4","Qoui070":"PE3-1","Q12v1zr7":"PE3-8","Q1dlfw1i":"PE4-5","Q15oow7":"PE3-8","Q1tpid6k":"PE3-6","Q16ldwnq":"PE3-4","Qq4y5dz":"PE3-7","Qfvmpyq":"PE3-1","Qx9texb":"PE8-1","Q17c794o":"PE8-4","Q8icl6e":"PE3-6","Q1f59jod":"PE3-4","Qzgc8gt":"PE3-6","Qd2jxaf":"PE8-6","Q1vfi8yq":"PR4-6","Q2tkjsr":"PE3-7","Q14lr31s":"PE3-6","Qhljaby":"PE5-3","Qgl4ctr":"PE2-4","Q1dfy5k7":"PE7-3","Qhwfkkc":"PE7-4","Qfntk1g":"PE3-1","Q12u5w6n":"PE3-6","Q1lykrfo":"PE8-7","Q1gpau57":"PE3-1","Q9ehwnf":"PE3-1","Q1jc38yl":"PE3-1","Q5zbomz":"PE3-4","Qbrym2k":"PE7-4","Qi9xe7x":"PE5-3","Q1dwn2qh":"PE3-8","Qyxoex2":"PR4-6","Q1dh56s9":"PE3-1","Q1qo6qnu":"PE3-7","Q11209re":"PE4-1","Q1pwkbkx":"PE3-6","Ql0izsn":"PE3-1","Q1wbj4kn":"PE3-4","Q15haco5":"PE3-6","Q1k0b48g":"BE2-2","Qh17sxt":"PE3-6","Qxcyx5m":"PE1-1","Q105s5lc":"PE8-1","Qdbvpmn":"PE5-1","Ql8f3ri":"PE3-7","Q18lagva":"PE3-6","Q197m3bl":"PE3-3","Qwmxt9m":"PE3-8","Q1ximpnu":"BE8-1","Q1wkbhme":"BE5-4","Q1jb6p7e":"PE3-1","Q14939r0":"BE6-1","Q1vaf93g":"PE3-1","Q9ooxks":"BE8-1","Qpvsh2v":"PE3-1","Qrcwlf0":"PE3-6","Q1kroskb":"PE3-6","Qx7bjia":"PE2-3","Q38t6hh":"PE3-3","Qc1x40b":"PE7-3","Q1ovhpmn":"PR8-3","Q186zisx":"PE3-6","Qy2dpxt":"PE8-7","Qek2k1p":"PE3-6","Q1drr51e":"PE6-1","Q1d6zc95":"PE3-4","Q1czxvyx":"PR4-2","Q1tpvf7f":"PE3-6","Qgdpake":"PE8-7","Q12kuo68":"PE3-8","Quozjvx":"PE3-8","Q1a18p0h":"BE6-6","Qfx4i57":"BE3-1","Q14tp2yr":"BE3-2","Q5ba0ez":"BE3-3","Q8fr1e1":"PR2-1","Q1ywe6vf":"BE5-4","Qk9glxs":"BE5-4","Qp624vy":"BE5-5","Q70zd9a":"BE5-1","Q138ycmy":"PR7-2","Q1mtai90":"PR7-5","Q1uaqydu":"PR7-1","Q1aquyu8":"PR5-6","Q1i6fnlz":"PR8-4","Q1k7q1q6":"PR6-1","Qkdenas":"PR6-1","Qhkvf1b":"PR7-1","Q1opzk55":"PE8-2","Qcekcdn":"PE8-1","Q10kb5vf":"PE4-5","Qzbhpq0":"PE4-1","Q198x726":"BE5-1","Q1merdh":"BE5-6","Qdefyi":"BE5-8","Q1n56ll5":"BE5-1","Qxdp0kd":"PR8-3","Q1jwlwe2":"PR8-5","Q1q6p4v9":"PR6-2","Q1nz1en9":"PR6-1","Qaze7pz":"PR5-1","Q1h7p96s":"PR5-5","Q1207rur":"PR1-7","Qv1krds":"PR2-7","Qgmjrrb":"PR2-3","Q1fgoqhi":"PR2-7","Q10xumcc":"PR9-5","Q1p8xnzw":"PR1-1","Q19s2rf7":"PR1-3","Q1wzrjfh":"PR3-3","Q7ofey8":"PR9-1","Q6w71xe":"PE8-1","Q9n0fnv":"PR8-1","Q13krsid":"PR8-7","Q1a1miq1":"PR5-5","Qadbs7q":"PR2-3","Qocmuu2":"PR7-1","Qy4zu33":"PR1-3","Q198ngso":"PR1-3","Qjgl79s":"PR9-2","Q4sb58j":"BE3-2","Qal3ywe":"PR10-6","Qoznby9":"PR2-4","Quhtuxy":"PR2-1","Qanniew":"PR3-2","Qyztut8":"PR8-6","Qk48xjn":"BE3-1","Q1c32mif":"PR7-1","Qjlykyb":"PR7-1","Qcdu6ty":"PE8-4","Q1s4a5fk":"BE5-1","Qvqqlr0":"PR5-3","Q7glln7":"PR9-1","Qczypid":"PR9-6","Q1s50xhj":"PR6-1","Qopw94z":"PR4-1","Q1dgdk0u":"PR7-7","Q1m8ixq3":"PR3-2","Q18lwsm0":"PR7-2","Q1o88llr":"PR7-1","Q1frugeb":"PR5-5","Q1aqyghe":"BE7-1","Q1bise0d":"BE1-3","Q1ylli23":"PR3-1","Q1f1xuwl":"PR9-2","Q1f3eu1z":"PR5-1","Qh7ubbt":"PR5-1","Qym49ki":"PR2-6","Qhv4fll":"PR3-1","Qmhu1a1":"BE5-1","Qrr1hxq":"PR7-2","Qp8zqac":"PE8-1","Qdi6qul":"PR8-7","Qjf7oae":"PR6-5","Q111p2ds":"BE1-1","Q1yottam":"PR10-1","Q1bp5erv":"PR4-3","Q22poiv":"PR3-1","Qce7ljv":"PR10-2","Quh7ea0":"PR1-3","Q1fj6788":"PR8-4","Q9gdmrw":"BE5-1","Qw31fnl":"BE8-5","Q146vvo1":"BE1-1","Qrl8lna":"BE2-1","Q1d8xmrs":"BE2-3","Q12z8nyo":"BE2-2","Q1mktaah":"BE2-3","Qlxid1n":"BE7-1","Q1a5bwew":"BE2-5","Q1s2itoh":"PR3-1","Qcpxkd8":"BE8-2","Q1f15gj":"BE2-6","Q18y2owb":"BE2-3","Q1u85ll8":"BE2-2","Q1cpimpz":"BE8-2","Q1iobkw6":"BE7-5","Q1i8q0t2":"BE2-2","Q1l5tfl7":"BE1-2","Q1rs8fd":"BE7-5","Qg8hhiu":"PE3-1","Q1dymqi6":"PE3-6","Qzrvuuf":"PE2-1","Qddpqg2":"PE4-4","Qsltosl":"PE8-6","Q1kk27cz":"PE3-7","Q1ld58m7":"BE2-1","Qhtt71n":"PE2-1","Qa52ppt":"PR7-1","Q1qepnba":"PE4-2","Q10bsele":"PE5-3","Q1tja9mu":"BE2-3","Q1qu34le":"PR8-3","Q145lbwp":"PE3-4","Q19psvi4":"PE3-7","Q15uuc2k":"PE3-7","Qmo1zkt":"BE7-5","Q1ad5lbs":"PE3-6","Q13b0924":"PE8-7","Q1apzj1l":"PE3-3","Qdegek3":"PE3-1","Qzw9t8e":"BE2-1","Q4n0mx5":"PE3-6","Q8vmbl9":"BE1-4","Q1jp7rjk":"PE3-6","Qvjjgde":"PE8-1","Q14ryoc4":"PE2-1","Q9ix2r7":"PE6-1","Q13rvcx5":"PE7-3","Qtd6v8l":"PE3-4","Qemzg8w":"PE8-1","Qn3556b":"PE3-6","Qhj7f3m":"PE2-1","Qzfweqx":"BE7-5","Qnpjiux":"BE7-5","Qnwnsls":"PE8-1","Q145u77x":"PE3-3","Q1kgqizr":"PR4-3","Q1eiy2hy":"BE7-1","Q1ue6us8":"PE3-6","Q9efnr4":"PE3-4","Qxbdygb":"PE8-4","Q1dbox50":"PE3-6","Q1gnz6pu":"PE7-5","Q1vcpfv8":"BE8-5","Q1xbyfj5":"PE1-1","Qhld8rs":"PE3-6","Q1us2xji":"PE3-6","Q1frr40w":"PE3-7","Q1fcfrbc":"PE3-6","Q12hm46j":"PE8-1","Q10biu7g":"PR4-6","Qbd7pcf":"PE5-3","Qi6b2az":"PE3-4","Q1t6xxn2":"PE7-4","Q17hrd8v":"PE2-2","Q8q83gf":"PE3-1","Q1dwq8ir":"PE3-1","Qsqox2g":"BE2-3","Q3kctxs":"PE3-6","Qwwkfje":"PE2-2","Q1ppfu5j":"PE7-3","Q1isubpu":"BE4-2","Q1m9wll":"PE3-7","Q1n4amfx":"PE8-6","Qzqmbj1":"PE3-6","Qs6oye5":"PE6-1","Qyxihm2":"PE7-5","Qzaathw":"BE4-5","Q3slggb":"BE6-2","Q3stax4":"PE4-1","Q1u8gqr2":"PE3-6","Q150z5xd":"PR3-3","Qsp087g":"PR2-5","Q1wa90db":"BE3-5","Qfz2vtn":"PR2-2","Qlzym8o":"PR2-3","Qtocpg6":"PR8-3","Qdcp66i":"PR8-1","Qkeaf74":"PR4-4","Q13amu6p":"PR8-4","Q1nijd0u":"PE8-2","Q117m6nc":"PE8-3","Qgw0us0":"PE8-1","Q1i0cgvj":"PE8-5","Qjcg52d":"PR2-1","Q1ayfidd":"PE4-3","Q1yegeqb":"PE8-1","Qz6fmdj":"PE8-7","Q1dzf4su":"PR7-2","Q183o9ru":"PR7-1","Q5ov5d3":"PR7-1","Qgdh0vm":"PR7-2","Qud9orv":"PR7-2","Q1v7p97u":"PR7-5","Q10gh3f2":"PR7-6","Qnbcso3":"PR7-1","Q1fec44j":"PR6-1","Q1ewcnqs":"PR6-2","Q16s2e7":"PR6-5","Q1wnuezg":"PR6-4","Q1byr54s":"PR8-6","Q1dvmv6d":"BE5-2","Q4vvfkq":"BE5-1","Q4n2u8k":"BE5-6","Q1d87pnw":"BE5-8","Qgkti0a":"BE5-1","Q1sjimmo":"BE4-2","Qbvuuur":"PR5-2","Qh6mkxu":"PR5-3","Q7ldr5y":"PR5-4","Q15m5wx3":"PR5-5","Qtj5ajo":"PR5-5","Q16i0zgm":"PR5-6","Q1xozrlg":"PR6-6","Quej31c":"PE4-5","Q1qzx3vl":"PE4-3","Qz50hpi":"PR2-6","Q1u59lhh":"PR1-3","Qadc80m":"PR1-1","Qkhsguj":"BE3-2","Q1nytupz":"BE3-2","Q19j7ofw":"BE1-3","Qr3yz9o":"PE7-3","Q1iji1sz":"PR9-3","Qeb4lh3":"PR10-2","Q9syrc4":"PR1-5","Q1u1ytqz":"PE3-1","Q1kluora":"PR3-1","Qbtm072":"BE6-2","Q1j8r0p2":"PR9-5","Q1al9foy":"PR9-3","Q14mfxoq":"BE5-1","Q1paj172":"PE7-5","Qdhajmn":"PR3-1","Q1qzsa8u":"PR7-7","Qvofqiu":"PR7-1","Q7ow24u":"PR7-7","Q1or36s2":"PR3-1","Q1o1mc1f":"PR9-2","Qm2ettw":"PR1-2","Qjymija":"PR5-3","Q1r9aiom":"PR3-1","Q1j9dvhz":"PE3-4","Q1cowsc7":"PR1-3","Qt7cwde":"PR1-1","Q6z96p0":"PR1-3","Q1hdrga9":"PR1-2","Q1n49h2a":"PR1-7","Qmz1fes":"BE4-1","Q16xzic":"PE3-4","Qxg7bpa":"PE8-1","Q1ajpdy4":"PR3-3","Q1o32efp":"BE5-4","Q31zmdt":"PR9-2","Q1anbnjp":"PR10-1","Q1f9qsk5":"BE1-3","Q9zlzgq":"BE3-3","Q4564vm":"PR1-3","Q1wtf7tf":"PR9-1","Q1r28osy":"PR1-1","Qrvlpz8":"BE4-1","Qr2elvn":"BE8-5","Q1go00x6":"BE1-1","Qunr8hb":"BE2-1","Qticbjc":"BE2-3","Q1oelfx":"BE8-3","Qg2q92x":"BE8-5","Qjxito5":"BE8-4","Qg0j482":"BE8-3","Q14q6745":"BE8-5","Q2tjpu4":"BE2-4","Q10604al":"BE8-3","Q1d2yrzp":"PR3-4","Qsbo9c5":"BE7-5","Q1m05mpf":"BE2-6","Q1qq2qwm":"BE4-2","Qsu7qum":"BE4-1","Qzcs8in":"BE6-4","Q8yxpqk":"BE6-6","Q8swuhd":"BE2-6","Q1nseaq0":"BE2-3","Quxqa5t":"BE7-5","Q1vxal75":"BE8-3","Q1ula70y":"BE8-3","Q186hhga":"BE3-1","Q1smlcxd":"PR1-5","Qdfcn4q":"PR1-2","Q15neeve":"PR2-7","Q1in6h20":"PR3-4","Qo7w89j":"PR3-2","Q1adcm37":"PR4-6","Q1v6e490":"PR5-6","Q1exkwvy":"PR6-1","Qjaa7hf":"PR7-1","Q1u7sd58":"PR8-6","Q1ydm8yc":"PR9-5","Q5srp27":"PR9-5","Q1sqae7a":"PR10-1","Quy7591":"PR1-3","Quk9ooc":"BE1-4","Qf3zzw2":"BE3-1","Q13g06vc":"BE3-3","Q6qn1bm":"BE4-4","Qherzn9":"BE6-2","Qpf8zdq":"BE7-5","Q45j70o":"PE1-1","Qn89uxk":"BE2-3","Q1o8sw8t":"BE8-5","Qum45ih":"BE3-1","Qnq59tf":"BE3-4","Q15xqv0s":"BE1-3","Qyfzyei":"BE6-2","Qhi5op3":"BE6-1","Q1r1l29q":"BE6-1","Q1wmymki":"BE2-6","Q1jxqfka":"PE1-1","Qbj3sfs":"PE1-4","Q11oyxmk":"PE1-4","Q3cq8hl":"PE1-2","Q17tnml0":"PE1-1","Q19fggpc":"PE1-1","Q1incvm2":"PE1-1","Q12nvm01":"PE1-1","Qd25vdm":"PE1-1","Q1gzk3sr":"PE1-2","Q4go4gk":"PE2-1","Q56iqt7":"PE2-1","Q1l8p1xo":"PE2-1","Ql02i9q":"PE2-1","Qb3ma3r":"PE2-1","Qj8mulk":"PE2-6","Qk543eb":"PE2-3","Q1ourahe":"PE2-3","Q15sqp0m":"PE2-3","Q11366b6":"PE2-4","Q1xuwgo7":"PE3-4","Q1qgacxw":"PE3-4","Q1gvat6p":"PE3-6","Q1lmz91e":"PE3-1","Q1dqkveg":"PE3-4","Qtog0at":"PE3-8","Qbtljym":"PE3-1","Q11tv43q":"PE3-8","Q178uf15":"PE3-1","Qcf819m":"PE3-6","Qh2d6jc":"PE4-4","Q1dljk5c":"PE4-3","Q17flllj":"PE4-4","Q6q4kr9":"PE4-1","Q1vyomd1":"PE4-2","Q1eq94qi":"PE4-1","Q1iwbev5":"PE4-4","Qei56k1":"PE4-3","Qtsz8pp":"PE4-3","Q1f6ktyk":"PE4-1","Q1599cm8":"PE5-3","Qn55y6y":"PE5-1","Q1nvhxr8":"PE5-1","Qe812l0":"PE5-3","Qwify5c":"PE5-1","Q10nbw11":"PE5-3","Qrr4nwo":"PE5-1","Qo4qpxy":"PE5-1","Qlsv5i2":"PE5-6","Q1sg8ny4":"PE5-1","Q1tssukq":"PE6-3","Q99iobk":"PE6-4","Q1adwv2v":"PE6-3","Qfihoqb":"PE6-4","Q1vzd1a":"PE6-3","Q1xbmgca":"PE6-4","Q12kxlw9":"PE6-3","Q1bghbgs":"PE6-1","Q1l0x3b9":"PE6-1","Qebcx2f":"PE6-1","Qyoc2ql":"PE7-4","Qx4q7hm":"PE7-3","Q178z4hp":"PE7-5","Q1dbft5o":"PE7-1","Qjjug9w":"PE7-1","Qq6djq1":"PE7-3","Quc3ngo":"PE7-3","Q16606rb":"PE7-3","Q1e15cp8":"PE7-3","Q1tkpbbm":"PE7-3","Qo6gibc":"PE8-5","Qmn44qj":"PE8-7","Q12j89i0":"PE8-7","Qqsfo6n":"PE8-5","Q1k15lx3":"PE8-4","Qdz6qkb":"PE8-4","Q1ysu4m7":"PE8-1","Q1rj4rax":"PE8-6","Q16f64ym":"PR1-3","Qdaj397":"PR1-5","Q1nlt9jq":"PR1-7","Q1ovl3r8":"PR1-3","Q1mfek3r":"PR1-3","Qacuonc":"PR1-7","Q80yl0i":"PR1-3","Q1e4uvs7":"PR1-3","Q4dr8ha":"PR2-7","Qasgawl":"PR2-6","Qvw9smi":"PR2-7","Qkig6lr":"PR2-5","Qxhrrns":"PR2-1","Qkrqm1d":"PR2-1","Q3peb7x":"PR2-6","Qrhzm03":"PR2-7","Q1oiv0t1":"PR3-2","Q9nbe28":"PR3-1","Q1u7xijr":"PR3-1","Q9fggya":"PR3-1","Q52qjne":"PR3-1","Qmhysrc":"PR3-1","Qjhfo7":"PR3-1","Qzrwnqx":"PR3-3","Q1vatqu9":"PR3-1","Qimexq7":"PR4-2","Qrq8q71":"PR4-1","Quv6ei":"PR4-2","Qriup8o":"PR4-2","Qpkkx33":"PR4-6","Q17toqad":"PR4-6","Qluz23t":"PR4-2","Q1tezpmw":"PR4-1","Q1rt7mzt":"PR5-6","Q1x00bqv":"PR5-6","Qr0bga7":"PR5-1","Q1rm9a3j":"PR5-2","Q7s09ln":"PR5-5","Qxtayuj":"PR5-5","Qbgzb59":"PR5-1","Q1mm90wv":"PR5-1","Qqiujks":"PR6-1","Q1v4aab3":"PR6-1","Q86h6vm":"PR6-1","Qlho0yu":"PR6-2","Q1yullgt":"PR6-5","Qhqw4f6":"PR6-1","Q19bw7os":"PR6-1","Qj2ynde":"PR6-1","Qb1c5yi":"PR7-1","Q137u0c0":"PR7-1","Qhcw9c9":"PR7-1","Q1nkia3t":"PR7-2","Q1rsk24w":"PR7-1","Qyzkxym":"PR7-1","Q1bwi244":"PR7-1","Qclnwir":"PR7-2","Qkd4hf2":"PR8-7","Q1gjxt32":"PR8-7","Qdgnami":"PR8-7","Qu7q07x":"PR8-4","Q1qlkxi5":"PR8-1","Q52qg21":"PR8-4","Qxup3l5":"PR8-7","Qkfbo8n":"PR8-1","Qei7zzf":"PR9-5","Qwaysck":"PR9-2","Q2uva55":"PR9-5","Qkwrtap":"PR9-2","Qcumt5b":"PR9-5","Qyhrfg9":"PR9-5","Q67mshe":"PR9-3","Qzk4ds5":"PR9-3","Q15r0lgj":"PR10-1","Q1wfiyp5":"PR10-2","Qfpjeej":"PR10-3","Q1o6vn78":"PR10-6","Qehed0b":"PR10-1","Q1ax9naw":"PR10-1","Q1wqtlfk":"PR10-4","Q1u7j2xp":"BE1-1","Qtfhi32":"BE1-3","Qse8jfy":"BE1-4","Q1jalbb1":"BE1-1","Qybq4yt":"BE1-1","Qklg7b9":"BE1-1","Q18c489y":"BE1-3","Q1uuc75w":"BE1-1","Qo2l484":"BE2-3","Q7rrjrg":"BE2-5","Qz3xyb4":"BE2-1","Q1u2eo6g":"BE2-3","Q10pi4c":"BE2-5","Qv9avb3":"BE2-3","Qe2aggk":"BE2-6","Qtu92tj":"BE2-5","Qdxsvm2":"BE3-1","Q1snab55":"BE3-2","Qd22ext":"BE3-2","Qj4xcc0":"BE3-3","Q1m83wx1":"BE3-4","Q9zj6i9":"BE3-2","Q4qicoy":"BE3-2","Qb3pb9l":"BE3-1","Q16d1lcp":"BE4-4","Q1iuv763":"BE4-1","Q6t7bw2":"BE4-1","Q5dthvp":"BE4-1","Q1mjd8rb":"BE4-4","Q14m6o8g":"BE4-1","Qr5e3e9":"BE4-1","Q89p1fa":"BE4-4","Qyqklm3":"BE5-1","Q13iorcu":"BE5-1","Qiks4pv":"BE5-1","Qtv9kdf":"BE5-1","Q14lf6zn":"BE5-1","Q2yze1l":"BE5-1","Qy2fpq":"BE5-1","Q1tih6m9":"BE5-1","Qpzurkb":"BE6-2","Qbcma9b":"BE6-4","Q1vnrd52":"BE6-2","Q5a43s0":"BE6-6","Q1f7rhii":"BE6-1","Q13vc5vm":"BE6-1","Q1lexk0c":"BE6-1","Q1q3huix":"BE6-1","Q1ttsfjh":"BE7-1","Q1o0l7jg":"BE7-4","Qsuj0qx":"BE7-1","Qa11pxs":"BE7-1","Q72k33o":"BE7-5","Q1f63sxl":"BE7-1","Q1u6e6g4":"BE7-5","Q18isbcf":"BE8-4","Qknhu2k":"BE8-3","Q6y4zot":"BE8-2","Q1xfqo6y":"BE8-3","Qnsvygb":"BE8-3","Q1y14twz":"BE8-5","Q31rn6z":"PR2-1","Q1solxp7":"PR4-2","Qgkb5c1":"BE2-1","Q1h7k4h9":"PR7-1","Qvtjpvs":"PE5-1","Q6wkjfb":"PE1-5","Q1d5lsim":"PR9-1","Q1230jyp":"BE6-6","Qlsmfkg":"PR5-5","Q121z6fg":"PR8-3","Qzjet6o":"BE3-1","Q19kwqoq":"PR9-5","Qd9k9zt":"BE5-1","Quhmnkt":"PR1-3","Q7canxn":"BE6-1","Q1tqsqx1":"PR9-5","Q1cecjwt":"PR6-3","Qm04ykb":"PE1-3","Qgcmuhg":"PE1-6","Q2vkpqm":"PE2-5","Qfkfiyo":"PE3-9","Q10vcgqd":"PE4-6","Qv5x98m":"PE5-2","Q1pjno9c":"PE5-4","Qilxm20":"PE5-5","Qv7qurq":"PE6-2","Qtz53m7":"PE6-5","Q1dtds6e":"PE6-6","Qgnwhg0":"PE7-6","Qedtu8m":"PR1-6","Q42lea8":"PR3-6","Q5omnce":"PR4-5","Q4yad5g":"PR9-4","Qbv87r0":"PR10-5","Qhpkc45":"BE1-6","Qr24wuu":"BE4-6","Qv9zo9w":"BE6-3","Qvt8n7z":"BE6-5","Q138g2k4":"BE7-2","Qssoxqd":"BE7-3","Q13d62e3":"BE7-6","Q5ldlw6":"BE8-6","Qnqpibw":"PR9-6","Q1qnoawf":"PR6-1","Q1bq7dpv":"PE3-4","Q1mv8s4n":"PR7-1","Q1vlygdn":"PR3-2","Q54egjf":"PE4-5","Q1pwehaq":"BE6-5","Qikgung":"PR10-1"};
-const SIM_GROUPS = [["Q9bsk1i","Qw31fnl"],["Qkdig9v","Qtocpg6"],["Q1ovhpmn","Q1qu34le"],["Qei7zzf","Q1tqsqx1"]];
+const KP_OF = {"Q124vs23":"PE2-2","Qdg0dqq":"PE8-1","Qsjxx2n":"PE8-5","Q1q2u2ji":"PE3-7","Q16nroc8":"PE4-5","Q1v2ww82":"PE3-5","Q10e97ix":"PE3-1","Q19bh6q9":"PE3-7","Qqqcn9l":"PE3-8","Qljxopm":"PE3-1","Q6bncwx":"BE4-3","Qpx4eyu":"PE3-3","Q1aao0ru":"PE8-1","Q19mv2po":"PE3-4","Qvkh9gs":"PE3-6","Qzzgeuq":"PE3-8","Qshswn9":"BE6-2","Qjnc0uh":"PE3-4","Qe9af4i":"PE3-7","Qxwohtn":"PE6-3","Q1cvx07h":"PE3-4","Q1e0gq9m":"PE7-3","Qw0msb1":"BE3-1","Qjwedyy":"PR6-3","Qgbzozv":"PR6-3","Q7l9n1z":"PR8-4","Qgq8fnh":"PR8-3","Q18azrcr":"BE5-1","Q1q138rs":"BE5-6","Q18lkxjq":"BE5-6","Q1xcrje":"PR2-7","Qbnjp9z":"PR1-2","Q1suz56y":"PR7-1","Qh24xzm":"PR7-4","Q1kt1hs7":"PR5-5","Qlukbt2":"PR2-6","Qy5jyfl":"PR2-3","Q2fewbf":"PR2-5","Qwemc76":"PR10-3","Q1uj1kg":"PR3-3","Qu50m8u":"PR3-2","Qjji96x":"PR3-2","Qznh12h":"PR9-5","Q1qvwqxi":"PR8-1","Qde53pj":"PR1-3","Q1fi1nk6":"BE3-3","Q1x2l8n0":"PR9-5","Qg187wh":"PR2-3","Q1rnmbyo":"PR8-2","Q18ivvo9":"PR4-4","Q1ftjg9z":"PR9-6","Q1oh9dwc":"BE4-2","Q1qxd0x9":"PR3-2","Qsc8vap":"BE2-3","Qqeaiiy":"BE7-5","Q9bsk1i":"BE8-3","Q10ncr01":"PR3-1","Q1luoiqn":"BE2-1","Q1f6egpm":"PE2-2","Q1yaxdix":"PE2-2","Q1u53qp4":"PE2-2","Qdmk7pe":"PE8-2","Q1vrekzf":"PE8-3","Q1j658wl":"PE4-1","Qz4x412":"PE4-2","Qpt2q2e":"PE4-3","Q1fv0cze":"PE3-8","Q1ek9b64":"PE3-8","Q11w171n":"PE3-8","Ql1c3pq":"PE3-1","Qvdug65":"PE3-3","Qejd79h":"PE3-7","Q1lewk4y":"PE3-6","Q950ydb":"PE3-1","Qlv1iih":"PE8-1","Q7dxh8i":"PE8-7","Qfpkygj":"PE3-5","Q17zbj94":"PE3-5","Qory59":"PE3-2","Q1m9dkkw":"PE3-4","Q19g175s":"PE3-8","Qqytiag":"PE3-7","Qmxk1lc":"PE3-6","Qrr26t3":"PE3-8","Q1qqo3q4":"PR4-6","Qj77em4":"PR4-3","Q1xhiuwx":"PE3-6","Qmf7ih1":"PR4-6","Ql7s447":"PE3-6","Qb7mu1k":"PE3-4","Qgiuzw2":"PE3-1","Q1o9ci5j":"PE3-3","Qlgitni":"PE3-6","Q1ujebv9":"PE8-6","Q265i4g":"PE3-7","Q1u8m0q":"PE3-4","Q1hp214n":"PE8-1","Q10w6h6c":"PE8-4","Qgvinym":"PE3-1","Q1r1bzws":"BE4-1","Qp9ru35":"PE3-2","Qcq14y6":"PR7-1","Qlnj0kj":"PE2-1","Q1m3hhs8":"PE8-1","Q1qqzg5p":"PE3-1","Qj370v8":"PE3-1","Q1ounobv":"PE3-8","Q88sd57":"PE3-8","Q17a5lug":"PE3-3","Q1wvspcq":"PE5-3","Qey17d3":"PE7-3","Qck26uu":"BE6-2","Qkdig9v":"PR8-3","Qqf5w3q":"PR6-3","Q1p1c6ra":"PR6-2","Q1le8cjf":"PR6-2","Que6lrh":"BE5-8","Q83vkvs":"BE5-7","Qee98ey":"BE5-1","Q1fjlsdt":"BE5-1","Qtiw4om":"BE5-8","Qfkqaxr":"BE5-1","Q1wfc7wd":"BE5-3","Q1vzmfve":"BE5-1","Q1hs5cya":"BE5-8","Q12muoc0":"PR7-1","Q1ybx1gx":"PR7-2","Q1c7hgjt":"PR7-5","Q1sew7sk":"PR7-6","Qbnzv21":"PR7-4","Q1kbviu3":"PR7-1","Qnl91z1":"PR7-4","Q2q84s3":"PR7-3","Q42oa90":"PR5-3","Q1jqus3n":"PR5-2","Q1x2yab0":"PR5-2","Qsk647e":"PR5-1","Qeqokop":"PR5-4","Qg6yhub":"PR5-6","Qyrnzeb":"PR5-3","Qw12778":"PR5-3","Q1tvdch3":"PR5-2","Q1sdyeim":"BE5-1","Q1il8o4q":"PR2-1","Qjtekrf":"PR2-7","Qvbfzn1":"PR2-7","Qxh4n0s":"PR2-7","Qawyqhm":"PR3-5","Q12f9zl":"PR8-7","Qito1gp":"PR8-7","Q1ki4y43":"PR1-5","Qw2wdwl":"PR3-1","Q16e7ao1":"PR8-3","Qaqvlhx":"PR8-7","Q16sjkgz":"PR1-4","Q1j151t3":"BE3-2","Qrdi2y5":"BE3-6","Qljx8a1":"PR1-7","Ql4vf5q":"PR7-2","Q7lwks":"PR7-2","Qko3h2q":"PR7-2","Q7aztu0":"PR2-7","Q1a5krr9":"PR2-2","Q1tjoa9o":"PR9-6","Qzumqog":"PR6-6","Qz3t8g3":"PR6-1","Qzkvfip":"PR1-2","Qybpvg2":"PR10-1","Qboexvl":"PE7-2","Qqv7myl":"PR8-1","Qz3or2z":"PR1-3","Q1v29gdz":"BE1-1","Q1r6cqtk":"BE1-5","Q1ncgpdz":"BE8-2","Qp5va9e":"BE2-2","Q6agv34":"BE2-4","Qq25lxh":"BE2-5","Qzulsfz":"BE2-6","Q188xs4t":"BE2-6","Qr1qm64":"BE2-6","Q1iw95ng":"PE2-1","Qup6ixa":"PE3-1","Q1yn7wmy":"PE3-3","Q1wyql9p":"PE8-4","Qoui070":"PE3-1","Q12v1zr7":"PE3-8","Q1dlfw1i":"PE4-5","Q15oow7":"PE3-8","Q1tpid6k":"PE3-6","Q16ldwnq":"PE3-4","Qq4y5dz":"PE3-7","Qfvmpyq":"PE3-1","Qx9texb":"PE8-1","Q17c794o":"PE8-4","Q8icl6e":"PE3-6","Q1f59jod":"PE3-4","Qzgc8gt":"PE3-6","Qd2jxaf":"PE8-6","Q1vfi8yq":"PR4-6","Q2tkjsr":"PE3-7","Q14lr31s":"PE3-6","Qhljaby":"PE5-3","Qgl4ctr":"PE2-4","Q1dfy5k7":"PE7-3","Qhwfkkc":"PE7-4","Qfntk1g":"PE3-1","Q12u5w6n":"PE3-6","Q1lykrfo":"PE8-7","Q1gpau57":"PE3-1","Q9ehwnf":"PE3-1","Q1jc38yl":"PE3-1","Q5zbomz":"PE3-4","Qbrym2k":"PE7-4","Qi9xe7x":"PE5-3","Q1dwn2qh":"PE3-8","Qyxoex2":"PR4-6","Q1dh56s9":"PE3-1","Q1qo6qnu":"PE3-7","Q11209re":"PE4-1","Q1pwkbkx":"PE3-6","Ql0izsn":"PE3-1","Q1wbj4kn":"PE3-4","Q15haco5":"PE3-6","Q1k0b48g":"BE2-2","Qh17sxt":"PE3-6","Qxcyx5m":"PE1-1","Q105s5lc":"PE8-1","Qdbvpmn":"PE5-1","Ql8f3ri":"PE3-7","Q18lagva":"PE3-6","Q197m3bl":"PE3-3","Qwmxt9m":"PE3-8","Q1ximpnu":"BE8-1","Q1wkbhme":"BE5-4","Q1jb6p7e":"PE3-1","Q14939r0":"BE6-1","Q1vaf93g":"PE3-1","Q9ooxks":"BE8-1","Qpvsh2v":"PE3-1","Qrcwlf0":"PE3-6","Q1kroskb":"PE3-6","Qx7bjia":"PE2-3","Q38t6hh":"PE3-3","Qc1x40b":"PE7-3","Q1ovhpmn":"PR8-3","Q186zisx":"PE3-6","Qy2dpxt":"PE8-7","Qek2k1p":"PE3-6","Q1drr51e":"PE6-1","Q1d6zc95":"PE3-4","Q1czxvyx":"PR4-2","Q1tpvf7f":"PE3-6","Qgdpake":"PE8-7","Q12kuo68":"PE3-8","Quozjvx":"PE3-8","Q1a18p0h":"BE6-6","Qfx4i57":"BE3-1","Q14tp2yr":"BE3-2","Q5ba0ez":"BE3-3","Q8fr1e1":"PR2-1","Q1ywe6vf":"BE5-4","Qk9glxs":"BE5-4","Qp624vy":"BE5-5","Q70zd9a":"BE5-1","Q138ycmy":"PR7-2","Q1mtai90":"PR7-5","Q1uaqydu":"PR7-1","Q1aquyu8":"PR5-6","Q1i6fnlz":"PR8-4","Q1k7q1q6":"PR6-1","Qkdenas":"PR6-1","Qhkvf1b":"PR7-1","Q1opzk55":"PE8-2","Qcekcdn":"PE8-1","Q10kb5vf":"PE4-5","Qzbhpq0":"PE4-1","Q198x726":"BE5-1","Q1merdh":"BE5-6","Qdefyi":"BE5-8","Q1n56ll5":"BE5-1","Qxdp0kd":"PR8-3","Q1jwlwe2":"PR8-5","Q1q6p4v9":"PR6-2","Q1nz1en9":"PR6-1","Qaze7pz":"PR5-1","Q1h7p96s":"PR5-5","Q1207rur":"PR1-7","Qv1krds":"PR2-7","Qgmjrrb":"PR2-3","Q1fgoqhi":"PR2-7","Q10xumcc":"PR9-5","Q1p8xnzw":"PR1-1","Q19s2rf7":"PR1-3","Q1wzrjfh":"PR3-3","Q7ofey8":"PR9-1","Q6w71xe":"PE8-1","Q9n0fnv":"PR8-1","Q13krsid":"PR8-7","Q1a1miq1":"PR5-5","Qadbs7q":"PR2-3","Qocmuu2":"PR7-1","Qy4zu33":"PR1-3","Q198ngso":"PR1-3","Qjgl79s":"PR9-2","Q4sb58j":"BE3-2","Qal3ywe":"PR10-6","Qoznby9":"PR2-4","Quhtuxy":"PR2-1","Qanniew":"PR3-2","Qyztut8":"PR8-6","Qk48xjn":"BE3-1","Q1c32mif":"PR7-1","Qjlykyb":"PR7-1","Qcdu6ty":"PE8-4","Q1s4a5fk":"BE5-1","Qvqqlr0":"PR5-3","Q7glln7":"PR9-1","Qczypid":"PR9-6","Q1s50xhj":"PR6-1","Qopw94z":"PR4-1","Q1dgdk0u":"PR7-7","Q1m8ixq3":"PR3-2","Q18lwsm0":"PR7-2","Q1o88llr":"PR7-1","Q1frugeb":"PR5-5","Q1aqyghe":"BE7-1","Q1bise0d":"BE1-3","Q1ylli23":"PR3-1","Q1f1xuwl":"PR9-2","Q1f3eu1z":"PR5-1","Qh7ubbt":"PR5-1","Qym49ki":"PR2-6","Qhv4fll":"PR3-1","Qmhu1a1":"BE5-1","Qrr1hxq":"PR7-2","Qp8zqac":"PE8-1","Qdi6qul":"PR8-7","Qjf7oae":"PR6-5","Q111p2ds":"BE1-1","Q1yottam":"PR10-1","Q1bp5erv":"PR4-3","Q22poiv":"PR3-1","Qce7ljv":"PR10-2","Quh7ea0":"PR1-3","Q1fj6788":"PR8-4","Q9gdmrw":"BE5-1","Qw31fnl":"BE8-5","Q146vvo1":"BE1-1","Qrl8lna":"BE2-1","Q1d8xmrs":"BE2-3","Q12z8nyo":"BE2-2","Q1mktaah":"BE2-3","Qlxid1n":"BE7-1","Q1a5bwew":"BE2-5","Q1s2itoh":"PR3-1","Qcpxkd8":"BE8-2","Q1f15gj":"BE2-6","Q18y2owb":"BE2-3","Q1u85ll8":"BE2-2","Q1cpimpz":"BE8-2","Q1iobkw6":"BE7-5","Q1i8q0t2":"BE2-2","Q1l5tfl7":"BE1-2","Q1rs8fd":"BE7-5","Qg8hhiu":"PE3-1","Q1dymqi6":"PE3-6","Qzrvuuf":"PE2-1","Qddpqg2":"PE4-4","Qsltosl":"PE8-6","Q1kk27cz":"PE3-7","Q1ld58m7":"BE2-1","Qhtt71n":"PE2-1","Qa52ppt":"PR7-1","Q1qepnba":"PE4-2","Q10bsele":"PE5-3","Q1tja9mu":"BE2-3","Q1qu34le":"PR8-3","Q145lbwp":"PE3-4","Q19psvi4":"PE3-7","Q15uuc2k":"PE3-7","Qmo1zkt":"BE7-5","Q1ad5lbs":"PE3-6","Q13b0924":"PE8-7","Q1apzj1l":"PE3-3","Qdegek3":"PE3-1","Qzw9t8e":"BE2-1","Q4n0mx5":"PE3-6","Q8vmbl9":"BE1-4","Q1jp7rjk":"PE3-6","Qvjjgde":"PE8-1","Q14ryoc4":"PE2-1","Q9ix2r7":"PE6-1","Q13rvcx5":"PE7-3","Qtd6v8l":"PE3-4","Qemzg8w":"PE8-1","Qn3556b":"PE3-6","Qhj7f3m":"PE2-1","Qzfweqx":"BE7-5","Qnpjiux":"BE7-5","Qnwnsls":"PE8-1","Q145u77x":"PE3-3","Q1kgqizr":"PR4-3","Q1eiy2hy":"BE7-1","Q1ue6us8":"PE3-6","Q9efnr4":"PE3-4","Qxbdygb":"PE8-4","Q1dbox50":"PE3-6","Q1gnz6pu":"PE7-5","Q1vcpfv8":"BE8-5","Q1xbyfj5":"PE1-1","Qhld8rs":"PE3-6","Q1us2xji":"PE3-6","Q1frr40w":"PE3-7","Q1fcfrbc":"PE3-6","Q12hm46j":"PE8-1","Q10biu7g":"PR4-6","Qbd7pcf":"PE5-3","Qi6b2az":"PE3-4","Q1t6xxn2":"PE7-4","Q17hrd8v":"PE2-2","Q8q83gf":"PE3-1","Q1dwq8ir":"PE3-1","Qsqox2g":"BE2-3","Q3kctxs":"PE3-6","Qwwkfje":"PE2-2","Q1ppfu5j":"PE7-3","Q1isubpu":"BE4-2","Q1m9wll":"PE3-7","Q1n4amfx":"PE8-6","Qzqmbj1":"PE3-6","Qs6oye5":"PE6-1","Qyxihm2":"PE7-5","Qzaathw":"BE4-5","Q3slggb":"BE6-2","Q3stax4":"PE4-1","Q1u8gqr2":"PE3-6","Q150z5xd":"PR3-3","Qsp087g":"PR2-5","Q1wa90db":"BE3-5","Qfz2vtn":"PR2-2","Qlzym8o":"PR2-3","Qtocpg6":"PR8-3","Qdcp66i":"PR8-1","Qkeaf74":"PR4-4","Q13amu6p":"PR8-4","Q1nijd0u":"PE8-2","Q117m6nc":"PE8-3","Qgw0us0":"PE8-1","Q1i0cgvj":"PE8-5","Qjcg52d":"PR2-1","Q1ayfidd":"PE4-3","Q1yegeqb":"PE8-1","Qz6fmdj":"PE8-7","Q1dzf4su":"PR7-2","Q183o9ru":"PR7-1","Q5ov5d3":"PR7-1","Qgdh0vm":"PR7-2","Qud9orv":"PR7-2","Q1v7p97u":"PR7-5","Q10gh3f2":"PR7-6","Qnbcso3":"PR7-1","Q1fec44j":"PR6-1","Q1ewcnqs":"PR6-2","Q16s2e7":"PR6-5","Q1wnuezg":"PR6-4","Q1byr54s":"PR8-6","Q1dvmv6d":"BE5-2","Q4vvfkq":"BE5-1","Q4n2u8k":"BE5-6","Q1d87pnw":"BE5-8","Qgkti0a":"BE5-1","Q1sjimmo":"BE4-2","Qbvuuur":"PR5-2","Qh6mkxu":"PR5-3","Q7ldr5y":"PR5-4","Q15m5wx3":"PR5-5","Qtj5ajo":"PR5-5","Q16i0zgm":"PR5-6","Q1xozrlg":"PR6-6","Quej31c":"PE4-5","Q1qzx3vl":"PE4-3","Qz50hpi":"PR2-6","Q1u59lhh":"PR1-3","Qadc80m":"PR1-1","Qkhsguj":"BE3-2","Q1nytupz":"BE3-2","Q19j7ofw":"BE1-3","Qr3yz9o":"PE7-3","Q1iji1sz":"PR9-3","Qeb4lh3":"PR10-2","Q9syrc4":"PR1-5","Q1u1ytqz":"PE3-1","Q1kluora":"PR3-1","Qbtm072":"BE6-2","Q1j8r0p2":"PR9-5","Q1al9foy":"PR9-3","Q14mfxoq":"BE5-1","Q1paj172":"PE7-5","Qdhajmn":"PR3-1","Q1qzsa8u":"PR7-7","Qvofqiu":"PR7-1","Q7ow24u":"PR7-7","Q1or36s2":"PR3-1","Q1o1mc1f":"PR9-2","Qm2ettw":"PR1-2","Qjymija":"PR5-3","Q1r9aiom":"PR3-1","Q1j9dvhz":"PE3-4","Q1cowsc7":"PR1-3","Qt7cwde":"PR1-1","Q6z96p0":"PR1-3","Q1hdrga9":"PR1-2","Q1n49h2a":"PR1-7","Qmz1fes":"BE4-1","Q16xzic":"PE3-4","Qxg7bpa":"PE8-1","Q1ajpdy4":"PR3-3","Q1o32efp":"BE5-4","Q31zmdt":"PR9-2","Q1anbnjp":"PR10-1","Q1f9qsk5":"BE1-3","Q9zlzgq":"BE3-3","Q4564vm":"PR1-3","Q1wtf7tf":"PR9-1","Q1r28osy":"PR1-1","Qrvlpz8":"BE4-1","Qr2elvn":"BE8-5","Q1go00x6":"BE1-1","Qunr8hb":"BE2-1","Qticbjc":"BE2-3","Q1oelfx":"BE8-3","Qg2q92x":"BE8-5","Qjxito5":"BE8-4","Qg0j482":"BE8-3","Q14q6745":"BE8-5","Q2tjpu4":"BE2-4","Q10604al":"BE8-3","Q1d2yrzp":"PR3-4","Qsbo9c5":"BE7-5","Q1m05mpf":"BE2-6","Q1qq2qwm":"BE4-2","Qsu7qum":"BE4-1","Qzcs8in":"BE6-4","Q8yxpqk":"BE6-6","Q8swuhd":"BE2-6","Q1nseaq0":"BE2-3","Quxqa5t":"BE7-5","Q1vxal75":"BE8-3","Q1ula70y":"BE8-3","Q186hhga":"BE3-1","Q1smlcxd":"PR1-5","Qdfcn4q":"PR1-2","Q15neeve":"PR2-7","Q1in6h20":"PR3-4","Qo7w89j":"PR3-2","Q1adcm37":"PR4-6","Q1v6e490":"PR5-6","Q1exkwvy":"PR6-1","Qjaa7hf":"PR7-1","Q1u7sd58":"PR8-6","Q1ydm8yc":"PR9-5","Q5srp27":"PR9-5","Q1sqae7a":"PR10-1","Quy7591":"PR1-3","Quk9ooc":"BE1-4","Qf3zzw2":"BE3-1","Q13g06vc":"BE3-3","Q6qn1bm":"BE4-4","Qherzn9":"BE6-2","Qpf8zdq":"BE7-5","Q45j70o":"PE1-1","Qn89uxk":"BE2-3","Q1o8sw8t":"BE8-5","Qum45ih":"BE3-1","Qnq59tf":"BE3-4","Q15xqv0s":"BE1-3","Qyfzyei":"BE6-2","Qhi5op3":"BE6-1","Q1r1l29q":"BE6-1","Q1wmymki":"BE2-6","Q1jxqfka":"PE1-1","Qbj3sfs":"PE1-4","Q11oyxmk":"PE1-4","Q3cq8hl":"PE1-2","Q17tnml0":"PE1-1","Q19fggpc":"PE1-1","Q1incvm2":"PE1-1","Q12nvm01":"PE1-1","Qd25vdm":"PE1-1","Q1gzk3sr":"PE1-2","Q4go4gk":"PE2-1","Q56iqt7":"PE2-1","Q1l8p1xo":"PE2-1","Ql02i9q":"PE2-1","Qb3ma3r":"PE2-1","Qj8mulk":"PE2-6","Qk543eb":"PE2-3","Q1ourahe":"PE2-3","Q15sqp0m":"PE2-3","Q11366b6":"PE2-4","Q1xuwgo7":"PE3-4","Q1qgacxw":"PE3-4","Q1gvat6p":"PE3-6","Q1lmz91e":"PE3-1","Q1dqkveg":"PE3-4","Qtog0at":"PE3-8","Qbtljym":"PE3-1","Q11tv43q":"PE3-8","Q178uf15":"PE3-1","Qcf819m":"PE3-6","Qh2d6jc":"PE4-4","Q1dljk5c":"PE4-3","Q17flllj":"PE4-4","Q6q4kr9":"PE4-1","Q1vyomd1":"PE4-2","Q1eq94qi":"PE4-1","Q1iwbev5":"PE4-4","Qei56k1":"PE4-3","Qtsz8pp":"PE4-3","Q1f6ktyk":"PE4-1","Q1599cm8":"PE5-3","Qn55y6y":"PE5-1","Q1nvhxr8":"PE5-1","Qe812l0":"PE5-3","Qwify5c":"PE5-1","Q10nbw11":"PE5-3","Qrr4nwo":"PE5-1","Qo4qpxy":"PE5-1","Qlsv5i2":"PE5-6","Q1sg8ny4":"PE5-1","Q1tssukq":"PE6-3","Q99iobk":"PE6-4","Q1adwv2v":"PE6-3","Qfihoqb":"PE6-4","Q1vzd1a":"PE6-3","Q1xbmgca":"PE6-4","Q12kxlw9":"PE6-3","Q1bghbgs":"PE6-1","Q1l0x3b9":"PE6-1","Qebcx2f":"PE6-1","Qyoc2ql":"PE7-4","Qx4q7hm":"PE7-3","Q178z4hp":"PE7-5","Q1dbft5o":"PE7-1","Qjjug9w":"PE7-1","Qq6djq1":"PE7-3","Quc3ngo":"PE7-3","Q16606rb":"PE7-3","Q1e15cp8":"PE7-3","Q1tkpbbm":"PE7-3","Qo6gibc":"PE8-5","Qmn44qj":"PE8-7","Q12j89i0":"PE8-7","Qqsfo6n":"PE8-5","Q1k15lx3":"PE8-4","Qdz6qkb":"PE8-4","Q1ysu4m7":"PE8-1","Q1rj4rax":"PE8-6","Q16f64ym":"PR1-3","Qdaj397":"PR1-5","Q1nlt9jq":"PR1-7","Q1ovl3r8":"PR1-3","Q1mfek3r":"PR1-3","Qacuonc":"PR1-7","Q80yl0i":"PR1-3","Q1e4uvs7":"PR1-3","Q4dr8ha":"PR2-7","Qasgawl":"PR2-6","Qvw9smi":"PR2-7","Qkig6lr":"PR2-5","Qxhrrns":"PR2-1","Qkrqm1d":"PR2-1","Q3peb7x":"PR2-6","Qrhzm03":"PR2-7","Q1oiv0t1":"PR3-2","Q9nbe28":"PR3-1","Q1u7xijr":"PR3-1","Q9fggya":"PR3-1","Q52qjne":"PR3-1","Qmhysrc":"PR3-1","Qjhfo7":"PR3-1","Qzrwnqx":"PR3-3","Q1vatqu9":"PR3-1","Qimexq7":"PR4-2","Qrq8q71":"PR4-1","Quv6ei":"PR4-2","Qriup8o":"PR4-2","Qpkkx33":"PR4-6","Q17toqad":"PR4-6","Qluz23t":"PR4-2","Q1tezpmw":"PR4-1","Q1rt7mzt":"PR5-6","Q1x00bqv":"PR5-6","Qr0bga7":"PR5-1","Q1rm9a3j":"PR5-2","Q7s09ln":"PR5-5","Qxtayuj":"PR5-5","Qbgzb59":"PR5-1","Q1mm90wv":"PR5-1","Qqiujks":"PR6-1","Q1v4aab3":"PR6-1","Q86h6vm":"PR6-1","Qlho0yu":"PR6-2","Q1yullgt":"PR6-5","Qhqw4f6":"PR6-1","Q19bw7os":"PR6-1","Qj2ynde":"PR6-1","Qb1c5yi":"PR7-1","Q137u0c0":"PR7-1","Qhcw9c9":"PR7-1","Q1nkia3t":"PR7-2","Q1rsk24w":"PR7-1","Qyzkxym":"PR7-1","Q1bwi244":"PR7-1","Qclnwir":"PR7-2","Qkd4hf2":"PR8-7","Q1gjxt32":"PR8-7","Qdgnami":"PR8-7","Qu7q07x":"PR8-4","Q1qlkxi5":"PR8-1","Q52qg21":"PR8-4","Qxup3l5":"PR8-7","Qkfbo8n":"PR8-1","Qei7zzf":"PR9-5","Qwaysck":"PR9-2","Q2uva55":"PR9-5","Qkwrtap":"PR9-2","Qcumt5b":"PR9-5","Qyhrfg9":"PR9-5","Q67mshe":"PR9-3","Qzk4ds5":"PR9-3","Q15r0lgj":"PR10-1","Q1wfiyp5":"PR10-2","Qfpjeej":"PR10-3","Q1o6vn78":"PR10-6","Qehed0b":"PR10-1","Q1ax9naw":"PR10-1","Q1wqtlfk":"PR10-4","Q1u7j2xp":"BE1-1","Qtfhi32":"BE1-3","Qse8jfy":"BE1-4","Q1jalbb1":"BE1-1","Qybq4yt":"BE1-1","Qklg7b9":"BE1-1","Q18c489y":"BE1-3","Q1uuc75w":"BE1-1","Qo2l484":"BE2-3","Q7rrjrg":"BE2-5","Qz3xyb4":"BE2-1","Q1u2eo6g":"BE2-3","Q10pi4c":"BE2-5","Qv9avb3":"BE2-3","Qe2aggk":"BE2-6","Qtu92tj":"BE2-5","Qdxsvm2":"BE3-1","Q1snab55":"BE3-2","Qd22ext":"BE3-2","Qj4xcc0":"BE3-3","Q1m83wx1":"BE3-4","Q9zj6i9":"BE3-2","Q4qicoy":"BE3-2","Qb3pb9l":"BE3-1","Q16d1lcp":"BE4-4","Q1iuv763":"BE4-1","Q6t7bw2":"BE4-1","Q5dthvp":"BE4-1","Q1mjd8rb":"BE4-4","Q14m6o8g":"BE4-1","Qr5e3e9":"BE4-1","Q89p1fa":"BE4-4","Qyqklm3":"BE5-1","Q13iorcu":"BE5-1","Qiks4pv":"BE5-1","Qtv9kdf":"BE5-1","Q14lf6zn":"BE5-1","Q2yze1l":"BE5-1","Qy2fpq":"BE5-1","Q1tih6m9":"BE5-1","Qpzurkb":"BE6-2","Qbcma9b":"BE6-4","Q1vnrd52":"BE6-2","Q5a43s0":"BE6-6","Q1f7rhii":"BE6-1","Q13vc5vm":"BE6-1","Q1lexk0c":"BE6-1","Q1q3huix":"BE6-1","Q1ttsfjh":"BE7-1","Q1o0l7jg":"BE7-4","Qsuj0qx":"BE7-1","Qa11pxs":"BE7-1","Q72k33o":"BE7-5","Q1f63sxl":"BE7-1","Q1u6e6g4":"BE7-5","Q18isbcf":"BE8-4","Qknhu2k":"BE8-3","Q6y4zot":"BE8-2","Q1xfqo6y":"BE8-3","Qnsvygb":"BE8-3","Q1y14twz":"BE8-5","Q31rn6z":"PR2-1","Q1solxp7":"PR4-2","Qgkb5c1":"BE2-1","Q1h7k4h9":"PR7-1","Qvtjpvs":"PE5-1","Q6wkjfb":"PE1-5","Q1d5lsim":"PR9-1","Q1230jyp":"BE6-6","Qlsmfkg":"PR5-5","Q121z6fg":"PR8-3","Qzjet6o":"BE3-1","Q19kwqoq":"PR9-5","Qd9k9zt":"BE5-1","Quhmnkt":"PR1-3","Q7canxn":"BE6-1","Q1tqsqx1":"PR9-5","Q1cecjwt":"PR6-3","Qm04ykb":"PE1-3","Qgcmuhg":"PE1-6","Q2vkpqm":"PE2-5","Qfkfiyo":"PE3-9","Q10vcgqd":"PE4-6","Qv5x98m":"PE5-2","Q1pjno9c":"PE5-4","Qilxm20":"PE5-5","Qv7qurq":"PE6-2","Qtz53m7":"PE6-5","Q1dtds6e":"PE6-6","Qgnwhg0":"PE7-6","Qedtu8m":"PR1-6","Q42lea8":"PR3-6","Q5omnce":"PR4-5","Q4yad5g":"PR9-4","Qbv87r0":"PR10-5","Qhpkc45":"BE1-6","Qr24wuu":"BE4-6","Qv9zo9w":"BE6-3","Qvt8n7z":"BE6-5","Q138g2k4":"BE7-2","Qssoxqd":"BE7-3","Q13d62e3":"BE7-6","Q5ldlw6":"BE8-6","Qnqpibw":"PR9-6","Q1qnoawf":"PR6-1","Q1bq7dpv":"PE3-4","Q1mv8s4n":"PR7-1","Q1vlygdn":"PR3-2","Q54egjf":"PE4-5","Q1pwehaq":"BE6-5","Qikgung":"PR10-1","Q18tp6wf":"PR6-4","Q4sgn75":"PR6-4","Q1r1mpdf":"PR1-4","Qbymsd7":"PR1-4","Qvii7o8":"BE3-5","Qc8r681":"BE3-5","Q1uyqlzj":"BE4-3","Q1s23p57":"BE4-3","Qcsyxmi":"BE5-3","Q28auev":"BE5-3","Qukaxq5":"BE5-7","Q1lrsdqf":"BE5-7","Q17d7uis":"BE1-4","Qbtfe8u":"BE1-4","Qknj2la":"BE7-2","Qzga2wj":"BE7-2","Q1so1nxq":"PE2-4","Qspwu2t":"PE2-4","Q1jyrgry":"PR7-3","Qv7sb38":"PR7-3","Qi72txh":"PR8-2","Q1buipwr":"PR8-5","Q103pv24":"PR2-4","Q138catc":"BE3-6","Q12ueshe":"BE4-5","Qa1t2q":"BE5-2","Q187mozu":"BE5-5","Q11igy1j":"BE1-2","Q1f5r6df":"BE1-5","Q5c61xm":"BE1-6","Qahuhuy":"BE7-4","Q1607gjo":"PE2-5","Q3zszbg":"PE2-6","Q19kxc24":"PE3-2","Qtc9t76":"PE5-2","Qps3vwr":"PE5-4","Q694ty5":"PE6-2","Q1lyjhy4":"PE6-5","Q1h16zfo":"PE5-6","Q4ffkq4":"PR4-5","Q1ddjkmq":"PR10-4","Q2jh9bl":"PE2-6"};
+const SIM_GROUPS = [["Q9bsk1i","Qw31fnl"],["Qkdig9v","Qtocpg6"],["Q1ybx1gx","Qv7sb38"],["Q1ovhpmn","Q1qu34le"],["Qei7zzf","Q1tqsqx1"]];
 const SIM_OF = (function(){ const m={}; SIM_GROUPS.forEach(function(g){ g.forEach(function(id){ m[id]=g.filter(function(x){return x!==id;}); }); }); return m; })();
 /* ==KP_SIM_END== */
 
@@ -7807,35 +8075,50 @@ function renderResult(){
   renderDiag();
 }
 
-/* 错题诊断：按知识点聚合，并给出针对性练习入口 */
+/* 错题诊断：按 ECO 知识点聚合，每行直接给「讲解」与「再练」入口 */
 function renderDiag(){
   const box = $('rDiag'); if(!box) return;
   const { tags, byDomain, total } = wrongStats();
   refreshDrillHint();
   const sum = Object.keys(byDomain).reduce((a,k)=>a+byDomain[k],0);
   if(!tags.length){
-    box.innerHTML = '<h2>错题诊断</h2><p class="sub">还没有错题记录。完成一套试卷后，这里会按知识点汇总薄弱环节，并生成针对性练习。</p>';
+    box.innerHTML = '<h2>错题诊断</h2><p class="sub">还没有错题记录。完成一套试卷后，这里会按知识点汇总薄弱环节，并生成针对性练习。</p>' +
+      '<p class="sub">每个知识点都配有<b>深入讲解</b>（机制与原理 · 判断步骤 · 常见错误路径 · 概念边界）与<b>再练入口</b>；' +
+      '题量不足的知识点会用同任务的其他题补足，并如实标出补了几题。</p>';
     return;
   }
   let html = '<h2>错题诊断：累计 '+sum+' 次错误 · 涉及 '+total+' 道题</h2>';
+  html += '<p class="sub">按 ECO 知识点聚合。点「讲解」看该知识点的机制与判断步骤、常见错误路径与概念边界；点「练 N 题」直接抽该知识点的题，<b>优先抽你没做过的</b>。</p>';
   const top = tags.slice(0,8);
   const max = top[0].count || 1;
-  const weakTop = tags.slice(0,3);
-  const size = drillSize();
-  const weakQuota = allocQuota(weakTop.map(t=>t.count), size);
-  html += top.map((t,i)=>{
-    const idx = weakTop.indexOf(t);
-    const tip = idx>=0 ? ' · 加练 '+weakQuota[idx]+' 题' : '';
-    return '<div class="diag-row"><span class="dname">'+t.tag+'</span>'+
-      '<div class="bar"><i style="width:'+Math.round(t.count/max*100)+'%"></i></div>'+
-      '<span class="dnum">'+t.count+' 次'+(DOMAIN[t.domain]?' · '+DOMAIN[t.domain].name:'')+tip+'</span></div>';
+  html += top.map(function(t){
+    const qs = kpIdxList(t.key);
+    const n = Math.max(3, Math.min(6, qs.length));
+    const node = kpNodeById(t.key);
+    const deep = !!(KP_DEEP[t.key]);
+    return '<div class="diag-row2">' +
+      '<div class="dr-main"><div class="dr-name">'+t.tag+
+        '<span class="dr-task">'+(node?node.taskName:'')+(deep?' · 有深度讲解':'')+'</span></div>' +
+        '<div class="bar"><i style="width:'+Math.round(t.count/max*100)+'%"></i></div></div>' +
+      '<div class="dr-right"><span class="dr-num">'+t.count+' 次 · 题库 '+qs.length+' 题</span>' +
+        '<button class="dr-btn" data-kp="'+t.key+'" data-act="deep">讲解</button>' +
+        '<button class="dr-btn go" data-kp="'+t.key+'" data-act="drill" data-n="'+n+'">练 '+n+' 题</button></div></div>';
   }).join('');
   html += '<div class="diag-row" style="margin-top:12px"><span class="dname" style="color:#6b7280">领域分布</span>'+
     '<div style="font-size:12px;color:#6b7280">'+Object.keys(byDomain).map(k=>DOMAIN[k].name+' '+byDomain[k]+' 次').join('　·　')+'</div><span class="dnum"></span></div>';
   html += '<div class="diag-actions">'+
-    '<button class="btn primary" id="btnDiagWeak">针对最弱 '+Math.min(3,tags.length)+' 个知识点加练（'+size+' 题）</button>'+
+    '<button class="btn primary" id="btnBoost">补强包：错得最多的 3 个知识点各 4 题</button>'+
+    '<button class="btn" id="btnDiagWeak">按薄弱点加练（'+drillSize()+' 题）</button>'+
     '<button class="btn" id="btnDiagWrong">重练全部错题（'+Math.min(total,40)+' 题）</button></div>';
   box.innerHTML = html;
+  box.onclick = function(e){
+    const b = (e.target && e.target.closest) ? e.target.closest('.dr-btn') : null;
+    if(!b) return;
+    const kp = b.getAttribute('data-kp');
+    if(b.getAttribute('data-act') === 'deep') openKpDeep(kp);
+    else startKpDrill(kp, +b.getAttribute('data-n') || 4);
+  };
+  $('btnBoost').onclick = startBoost;
   $('btnDiagWeak').onclick = ()=>startDrill('weak');
   $('btnDiagWrong').onclick = ()=>startDrill('wrong');
 }
@@ -9225,6 +9508,572 @@ BE8:{ map:'治理 + 风险（外部环境）', goal:'外部一变，范围、风
   {n:'应对流程', d:'识别 → 影响评估（范围/进度/成本/风险/合规）→ 选项与建议 → 治理决策 → 更新计划与风险 → 通知相关方。', t:'影响评估 · 治理决策 · 变更', e:'外部剧变先改计划再报备 → 顺序错了。'}
 ]}
 };
+
+
+/* ==KP_DEEP_START== 知识点深度讲解（人工撰写 30 个高风险节点）
+   字段含义：
+     why   机制与原理——为什么这么规定，而不是"记住结论"
+     steps 判断步骤——遇到这类题按顺序核对什么
+     errs  常见错误路径——考生实际会怎么错，以及错在哪
+     bound 概念边界——最容易被混为一谈的相邻概念
+   未收录的节点由 kpDeepOf 用考纲要素自动整理，并在界面明确标注来源。 */
+const KP_DEEP = {
+'PR6-4':{src:'a',
+ why:'EVM 的预测不是"重新算一遍预算"，而是用已经发生的绩效外推未来。CPI 的含义是"每花 1 元挣回多少价值"，只要这个比率稳定，就能把它套到剩余的工作量上。所以 EAC 的公式选择，本质是在问一件事：<b>当前的绩效偏差是偶然波动，还是结构性变化</b>。',
+ steps:['先看题目说偏差"具代表性/将继续"还是"原假设已失效"',
+        '偏差具代表性 → EAC = BAC / CPI',
+        '原假设失效（范围变更、单价重谈、返工）→ EAC = AC + 自下而上重估的 ETC',
+        '同时给出 CPI 与 SPI 且要求计入进度影响 → EAC = AC + (BAC − EV) / (CPI × SPI)',
+        '收尾用 VAC = BAC − EAC 判断完工时是超支还是节约'],
+ errs:['把 EAC 当成"剩余工作还需多少钱"——那是 ETC',
+       '看到 SPI < 1 就直接除以 SPI，忽略了"进度落后但成本正常"时应先用 CPI',
+       '拿 EAC 反推 BAC，把预测值当成了批准基准'],
+ bound:'ETC = EAC − AC（完工尚需估算）；BAC 是批准基准，不随执行变化；VAC = BAC − EAC 才是完工时的预计偏差。'},
+
+'PR1-4':{src:'a',
+ why:'基准是"被批准用来比较的尺子"。尺子本身可以改，但必须由有权改的人批准，并且改完要让所有用这把尺子的人知道。如果执行者可以随手改基准，那么任何偏差都能被"改平"，绩效数据就失去了预警作用——这才是变更流程存在的真正原因，而不是为了增加审批环节。',
+ steps:['先判断改动是否触及基准（范围、进度、成本三条之一）',
+        '触及 → 记录变更请求，说明原因、影响与备选方案',
+        '做影响评估：对范围、进度、成本、质量、风险、相关方的连锁影响',
+        '提交给有权限的层级（CCB 或治理机构）决策，而不是自行批准',
+        '获批后更新基准与计划，并把变更结果同步给受影响的相关方'],
+ errs:['先按新做法执行，再补一张变更单（顺序颠倒，等于既成事实逼批）',
+       '认为"客户口头同意"就可以改基准，缺少书面记录与影响评估',
+       '把变更请求等同于变更批准，记录完就当作已通过'],
+ bound:'配置管理关注"版本与一致性"，变更控制关注"是否批准"；紧急情况可先处置，但事后仍要补变更记录并复盘。'},
+
+'BE3-5':{src:'a',
+ why:'显性变更会走流程，隐性变更不会——它伪装成"优化""微调""顺手改一下"，在没人批准的情况下悄悄改变了范围或验收标准。识别隐性变更的关键不是看有没有表单，而是看<b>工作量与验收条件有没有变</b>：只要两者之一变了，本质就是变更，只是还没被记录。',
+ steps:['判断这次调整是否增加了工作量、改变了交付物或验收标准',
+        '是 → 无论叫"优化"还是"微调"，都按变更处理',
+        '先量化影响，再决定是纳入本迭代、替换等量范围，还是排到后续',
+        '把结论写进变更记录与待办，让后续的人知道发生过什么'],
+ errs:['认为"只是一点点改动"就不必走流程，累积成范围蔓延',
+       '团队自行接受口头需求，项目经理事后才知道',
+       '把范围变更记成"缺陷修复"，掩盖了范围扩张的事实'],
+ bound:'范围蔓延（scope creep）是隐性变更累积的结果；镀金（gold plating）是主动多做了没被要求的内容，方向相反但同样要控制。'},
+
+'BE3-6':{src:'a',
+ why:'范围蔓延的破坏力不在单次改动，而在于它绕过了"时间/成本/质量"的三角约束——每加一点都没有对应的资源补充，最终表现为集体加班、测试被压缩、交付质量下滑。处置蔓延的动作必须同时做两件事：<b>止损（明确当前范围）</b>与<b>建立拦截机制（后续怎么进来）</b>。',
+ steps:['先确认当前获批的范围基线是什么，把"已做但未批准"的部分列出来',
+        '评估这些内容对进度、成本、质量的实际影响',
+        '与相关方一起决定：纳入并调整基准，或移出本版本',
+        '建立后续入口：所有新需求统一进待办池，按价值排序再决定',
+        '在迭代评审/阶段关口复核范围变化，避免再次静默累积'],
+ errs:['只做一次"范围确认"，不建立后续拦截机制，过两周又蔓延',
+       '直接宣布"冻结范围"却不同步调整承诺，导致交付失信',
+       '把蔓延归因为"团队执行不力"，而没看到需求入口没有把关'],
+ bound:'变更请求是"正式的入口"，范围蔓延是"绕过了入口"；敏捷里拥抱变化指的是"通过待办重排接纳变化"，不是"随意插入当前迭代"。'},
+
+'BE4-3':{src:'a',
+ why:'升级不是"把问题丢给上级"，而是"在授权边界之外寻求决策"。它的前提是：这件事我已经在自己的权限内处理过、或确实无权处理，并且我带着事实、影响和备选方案上去。没有评估就升级会被视为推卸责任；该升级却硬扛，则会让问题在小范围内恶化。',
+ steps:['先确认：这个问题是否超出我的授权或能力边界',
+        '在边界内 → 自己解决并记录；超出边界 → 准备升级材料',
+        '材料要含：事实与时间线、已尝试的措施、影响、可选方案与建议',
+        '升级到有权限的层级（职能经理/发起人/治理机构），并约定回复时限',
+        '拿到决策后执行并回告相关方，形成闭环'],
+ errs:['一遇到分歧就上报，跳过了"先直接沟通"这一步',
+       '只说"出问题了"，不给影响与选项，把判断成本全丢给上级',
+       '越级升级，跳过了直接上级，破坏汇报链条'],
+ bound:'升级 vs 上报风险：升级针对"已发生的障碍/问题"，上报风险针对"尚未发生的可能事件"；冲突场景下升级是最后手段，首选面对面协作。'},
+
+'BE4-5':{src:'a',
+ why:'根因分析的价值在于"防止复发"。如果只处理症状，同一个问题会在下一个迭代换个形式再出现。所以判断一道题是不是在考根因，看它是否要求你<b>先解释"为什么会这样"，再决定"做什么"</b>；直接给出补救动作的选项，通常只解决了这一次。',
+ steps:['区分症状与原因：现象是什么，导致现象的条件是什么',
+        '用工具收敛：5 Why 追链条、鱼骨图按人机料法环分类、帕累托找主要贡献项',
+        '验证假设：找到的原因能否解释"为什么是这个时候、这个范围出问题"',
+        '针对根因制定措施，并设置验证指标确认不再复发'],
+ errs:['把"当事人疏忽"当作根因，停在个人层面，不追流程与系统原因',
+       '把补救措施（加班、返工、加人）当成根因分析结论',
+       '同时改多个变量，事后无法判断是哪一项起了作用'],
+ bound:'纠正（corrective action）针对已发生偏差；预防（preventive action）针对潜在原因；缺陷补救（defect repair）针对不合格产品本身。'},
+
+'BE5-2':{src:'a',
+ why:'风险识别的难点不是"想不出风险"，而是"想不全"。单一视角必然有盲区，所以 PMI 强调多来源、多方法、反复做： brainstorm 拉广度、访谈拉深度、假设分析找"我们默认成立但其实没验证"的前提、检查表防遗漏、提示清单防"没想到这一类"。识别是反复进行的，不是开工时做一次。',
+ steps:['先确定识别范围：全生命周期、全参与方、内外环境',
+        '多方法并用：头脑风暴（广度）+ 专家访谈（深度）+ 假设与制约分析（盲区）',
+        '把"原因—事件—影响"写成完整句式，避免只写一句模糊的担心',
+        '归类并登记：类别、触发条件、可能影响、责任人',
+        '在阶段关口、重大变更后重新识别，把新风险补进去'],
+ errs:['只做一次识别，之后只在风险发生时更新登记册',
+       '把问题（已发生）当风险（未发生）登记，或反之',
+       '只识别负面风险，漏掉机会（正面风险）'],
+ bound:'识别（identify）产出清单；分析（qualitative/quantitative）产出优先级与量化；应对（respond）产出策略与责任人。三者顺序不能颠倒。'},
+
+'BE5-3':{src:'a',
+ why:'定性分析解决的是"先管哪一个"。资源永远不够同时应对所有风险，所以用发生概率与影响程度做粗排序，把有限的管理注意力放到最需要的地方。它依赖判断与经验，不追求精确数值——一旦要求"算出具体金额分布"，就进入定量分析了。',
+ steps:['对每个风险评概率与影响（可用高/中/低或 1–5 分）',
+        '按组织给定的矩阵得出优先级（如高/中/低三档）',
+        '叠加临近性（多久会发生）与可探测性，调整排序',
+        '输出优先级清单，作为定量分析与应对规划的依据'],
+ errs:['把定性分析当成"拍脑袋"，跳过它直接做定量',
+       '只按影响排序，忽略概率，把"影响大但几乎不会发生"的风险排在最前',
+       '做完一次就不再更新，风险状态变了优先级没变'],
+ bound:'定性 = 排序（快、粗、靠判断）；定量 = 量化（慢、精、靠数据）。定性是定量的前置筛选，不是它的替代品。'},
+
+'BE5-5':{src:'a',
+ why:'定量分析回答的是"整体上有多大概率达成目标"。单个风险看起来都能承受，叠加起来可能就超出储备。蒙特卡洛通过成千上万次模拟，把各风险的概率分布组合成项目整体的完工/成本分布，从而得出"有 80% 把握的工期"这类结论；敏感性分析则回答"哪个变量对结果影响最大"，用于确定优先监控对象。',
+ steps:['先确认输入：各风险的概率分布（三点估算或历史数据）',
+        '建模：把风险与活动关联，设定模拟次数',
+        '运行模拟，得到结果分布（如完工日期/总成本的累积概率曲线）',
+        '读结论：P80 工期、超出储备的概率、关键驱动因素',
+        '把结论用于设定储备与监控重点'],
+ errs:['把蒙特卡洛当成"算出一个确定日期"，忽略它输出的是概率分布',
+       '在数据极少时强行定量，得出看似精确实则无依据的结论',
+       '混淆敏感性分析与情景分析：前者看单变量影响排序，后者看几组假设下的结果'],
+ bound:'敏感性分析（龙卷风图）回答"谁影响最大"；蒙特卡洛回答"整体达成概率"；决策树/EMV 回答"分支期望值"。'},
+
+'BE5-7':{src:'a',
+ why:'机会也是风险——不确定性向好的一面。既然负面风险要规划应对，正面不确定性同样要主动争取：开拓（确保发生）、分享（找合作方共担以增大把握）、提高（提高概率或影响）、接受（不主动作为）。很多考生的盲区是"只准备坏事"，遇到"如何提高收益机会"就无从下手。',
+ steps:['先判断这是机会（可能带来正面影响）还是威胁',
+        '机会：能否通过资源投入确保它发生 → 开拓',
+        '能否借助第三方提高发生概率或收益 → 分享',
+        '能否提高概率或扩大影响 → 提高',
+        '成本高于收益、或暂无手段 → 接受，并保留触发条件'],
+ errs:['把"接受"当成消极不作为，其实它是经过评估后的理性选择',
+       '把威胁的"减轻"套到机会上，方向搞反（机会对应的是"提高"）',
+       '认为机会不需要登记与责任人，只在威胁登记册里记坏事'],
+ bound:'威胁五策略：规避/转移/减轻/接受/上报；机会五策略：开拓/分享/提高/接受/上报。两组的"接受"含义相同，"上报"都用于超出项目权限的情形。'},
+
+'BE1-4':{src:'a',
+ why:'治理的核心是"谁在什么额度内可以决定什么"。决策权限不清时会出现两种病：一是小事也要层层审批，二是大事被下层默默决定。所以题目里凡是涉及"该由谁批准"，考的都是权限表与升级路径，而不是"谁更有经验"。',
+ steps:['先看这件事触及的层级：项目内部 / 项目集 / 组合 / 组织治理',
+        '查权限表：该额度或该类型变更由谁批准',
+        '在权限内 → 自行决策并留痕；超出 → 按路径升级',
+        '决策后同步受影响方，并把结论写进正式记录'],
+ errs:['以"项目经理经验更丰富"为由代替治理机构决策',
+       '把"发起人支持"当成"已经批准"，缺少正式决议',
+       '越级决策后又补流程，形成既成事实'],
+ bound:'治理（governance）定方向与权限；管理（management）在权限内执行；两者混用会导致"该批的不批、不该批的乱批"。'},
+
+'BE1-5':{src:'a',
+ why:'PMO 的三种类型差别不在规模，而在"管到什么程度"：支持型提供模板、培训与数据，不介入决策；控制型要求项目遵循特定方法、工具与合规要求，并在关口做检查；指令型直接管理项目，项目经理向 PMO 汇报。判断题目考的是哪一类，看它描述的是"提供支持""要求遵循"还是"直接管理"。',
+ steps:['看 PMO 对项目的实际权力：建议、要求、还是指挥',
+        '建议 + 提供资源与模板 → 支持型',
+        '要求遵循方法与合规、做关口评审 → 控制型',
+        '直接管理项目、项目经理向其汇报 → 指令型',
+        '再判断该情境下 PMO 应做什么（建能力 / 保合规 / 直接管控）'],
+ errs:['把"控制型"理解成"直接管人"，混淆了合规检查与直接指挥',
+       '认为 PMO 一定拥有对项目经理的行政权力',
+       '把 PMO 与项目管理办公室的行政职能混为一谈，忽略其价值交付职责'],
+ bound:'PMO 关注组织级方法与合规；项目经理关注单个项目的交付；两者冲突时以治理层确定的权限边界为准。'},
+
+'BE1-6':{src:'a',
+ why:'敏捷不是"不要治理"，而是"换一种治理"：用增量交付与透明信息替代厚文档审批，用迭代评审替代阶段关口，用产品待办的价值排序替代一次性范围承诺。所以当治理方要求"季度基线加月度审批"时，正确的动作不是拒绝也不是照做，而是<b>协商裁剪：保留治理目的，替换实现形式</b>。',
+ steps:['先弄清治理方真正要的是什么（可预测性？合规留痕？成本可控？）',
+        '说明敏捷下的等效机制（迭代承诺、评审记录、燃尽图、增量验收）',
+        '提出裁剪方案：保留关键关口与留痕，去掉与迭代节奏冲突的重复审批',
+        '达成一致后写入项目治理文件，并向团队说明边界'],
+ errs:['直接拒绝治理要求，认为"敏捷不需要基线"',
+       '两套都做：既维护季度基线又跑迭代计划，团队被双重流程压垮',
+       '口头答应裁剪，但没有形成书面约定，审计时无据可依'],
+ bound:'混合型项目常见做法是"外层阶段关口 + 内层迭代节奏"；治理关注"是否可控可审"，不关注"用哪种方法"。'},
+
+'BE7-2':{src:'a',
+ why:'ADKAR 是个人层面的变革模型，五个台阶有严格顺序：先有认知（Awareness）才可能产生意愿（Desire），有意愿才谈得上知识（Knowledge）与能力（Ability），最后才需要强化（Reinforcement）来防止回退。顺序错位是变革失败的常见原因——在没人理解"为什么变"的时候先做培训，效果必然差。',
+ steps:['判断当前卡在哪一级：不知道 / 不愿意 / 不会 / 做不到 / 又退回去',
+        '不知道 → 讲清业务理由与不改变的后果',
+        '不愿意 → 处理个人得失与顾虑，让关键人参与设计',
+        '不会 → 培训与演练；做不到 → 消除障碍、给工具与时间',
+        '最后用认可、度量与制度固化，防止回退'],
+ errs:['把变革当成"发通知 + 培训"，跳过认知与意愿',
+       '把阻力当成"态度问题"，用考核施压代替解决真实顾虑',
+       '只做前三步，缺少强化，一段时间后回到原状'],
+ bound:'ADKAR 是个人改变；Kotter 八步是组织层面的推进节奏；两者可配合使用（Kotter 造势，ADKAR 落地到人）。'},
+
+'BE7-4':{src:'a',
+ why:'阻力不是"不听话"，而是"这次改变对某些人有真实成本"——技能会过时、权力会转移、工作量会增加、过去的投入会被否定。所以识别阻力要看两类信号：显性的（明确反对、提出质疑）与隐性的（拖延、缺席、口头同意但不行动）。准备度评估则回答"现在推还是再等等"。',
+ steps:['识别受影响群体：谁的工作方式变了、谁失去资源或决策权',
+        '区分显性阻力与隐性阻力（沉默、拖延、形式配合）',
+        '评估准备度：认知、能力、资源、时机是否具备',
+        '针对关键阻力者做一对一沟通，把顾虑转为设计输入',
+        '必要时调整推进节奏，先做试点再扩大'],
+ errs:['把沉默当成同意，直到上线才发现没人用',
+       '用行政命令压制阻力，短期服从、长期消极',
+       '只对高层做沟通，忽略一线执行者的实际困难'],
+ bound:'阻力管理属于"人"的维度；采用度度量属于"结果"的维度；前者是手段，后者是验证。'},
+
+'PE2-4':{src:'a',
+ why:'立场是"我要什么方案"，利益是"我为什么需要它"。只谈立场时，双方方案不同就只能零和博弈；转到利益层面，往往能找到同时满足双方真实需求的第三方案。所以题目里出现"双方各坚持一个方案"时，正确方向是<b>先探询需求背后的目的</b>，而不是选边、投票或折中。',
+ steps:['先分别问清：你要的是什么（立场）、为什么需要（利益）',
+        '找共同目标与交集：双方都认可的更高层目标',
+        '基于利益共同设计方案，而不是在两方案间二选一',
+        '把达成的一致写成明确约定，避免事后反悔'],
+ errs:['直接折中（各让一半），成本付出了但需求都没满足',
+       '用投票或上级裁决结束分歧，关系与根因都留着',
+       '只听立场就下结论，认定对方"不讲理"'],
+ bound:'妥协（compromise）是双方各让一步；协作（collaborate）是找到满足双方利益的新方案。PMI 情境题通常优先协作。'},
+
+'PE2-5':{src:'a',
+ why:'冲突的成本主要在事后处理，而预防的成本极低。团队章程、基本规则、决策规则、清晰的角色职责，能在冲突发生前消掉大部分诱因——它们把"靠默契"变成"靠约定"。这类措施的特点是：<b>看起来不解决眼前这件事，但减少了以后同类事情的发生</b>。',
+ steps:['判断这是"已发生的冲突"还是"反复发生的同类冲突"',
+        '反复发生 → 优先补机制：章程、基本规则、决策规则、职责边界',
+        '机制要与团队共同制定，单方下发难以被遵守',
+        '机制建立后在回顾会复核有效性，必要时修订'],
+ errs:['每次冲突都亲自调解，成为团队的唯一出口，机制始终没建立',
+       '把基本规则当作形式文件，写完就挂墙上',
+       '用"加强沟通"这类空话代替具体的决策规则与职责划分'],
+ bound:'预防性机制属于"建环境"；冲突处理（TKI）属于"解当下"；震荡期的冲突属正常现象，需要引导而非压制。'},
+
+'PE3-2':{src:'a',
+ why:'仆人式领导的判断标准不是"态度温和"，而是<b>把注意力放在移除障碍、提供资源、保护专注上</b>。团队受阻时，领导的产出是"让团队能继续工作"，而不是"给出技术方案"。这也是为什么这类题的正确项通常落在"清障、授权、促成自组织"上，而不是"更细的监控"。',
+ steps:['先看团队是被什么卡住的：资源、权限、信息、外部依赖、内部冲突',
+        '属于外部障碍 → 由领导出面清除（协调、升级、谈判）',
+        '属于能力问题 → 提供培训、结对、教练，而不是替他做',
+        '属于意愿问题 → 了解原因、调整任务或激励方式',
+        '清障后把决策权交回团队，避免长期代劳'],
+ errs:['替团队做技术决策，短期快、长期削弱自主性',
+       '用每日更细的进度检查代替清障，把管理成本转给团队',
+       '把所有问题都往上交，团队失去对环境的掌控感'],
+ bound:'服务型领导（servant leadership）是姿态；教练式（coaching）是方法；两者都指向"提升团队能力"，而非"代替团队决策"。'},
+
+'PE5-2':{src:'a',
+ why:'"成功"如果没在开始前定义清楚，结束时必然争吵——因为每个人心里的标准不同。成功标准要解决三件事：<b>衡量什么（指标）、怎么量（口径）、谁认可（验收人）</b>。这三件事在项目早期定下来的成本最低，在收尾时补的成本最高。',
+ steps:['识别关键相关方各自理解的"成功"是什么',
+        '把它们转成可度量的指标（含口径、时点、责任人）',
+        '在启动阶段就形成书面共识，写入章程或效益管理计划',
+        '过程中定期复核：标准是否因环境变化需要调整（调整要走变更）'],
+ errs:['只定义交付物完成，不定义业务收益与验收口径',
+       '把"客户满意"当作成功标准，却没有可衡量的指标',
+       '收尾时才讨论验收标准，导致反复返工'],
+ bound:'交付成果（output）是做出来的东西；成果（outcome）是使用后产生的行为改变；收益（benefit）是量化后的价值。成功标准应至少覆盖 outcome 与 benefit。'},
+
+'PE5-4':{src:'a',
+ why:'多方期望冲突时，不存在"让所有人都满意"的解。可行的做法是把冲突显性化：谁要什么、优先级如何、取舍的依据是什么，然后<b>由有权做取舍的人（通常是发起人或治理层）在充分信息下决策</b>。项目经理的角色是促成这个决策，而不是自己替各方做价值判断。',
+ steps:['把各方的期望与背后的利益列清楚，找出真正的冲突点',
+        '评估每种取舍对进度、成本、收益、关系的影响',
+        '把选项与影响提交给有决策权的人（发起人/治理层）',
+        '决策后统一口径向各方沟通，说明取舍理由与补偿安排',
+        '把结论写入相关方登记册与计划，后续跟踪满意度'],
+ errs:['试图同时满足所有要求，结果范围膨胀、交付延期',
+       '由项目经理自行决定牺牲哪一方，越过了决策权限',
+       '只做口头安抚，没有形成书面结论，冲突反复'],
+ bound:'协调期望（manage expectations）不等于满足所有期望；相关方参与（engage）是过程，满意度（satisfaction）是结果。'},
+
+'PE6-2':{src:'a',
+ why:'信息不一致的根源通常不是"有人撒谎"，而是<b>存在多个事实来源</b>：口头传达、邮件、群聊、私下承诺各成一套。单一事实来源（single source of truth）的作用是把"谁说的算"变成"系统里写的算"，从而让所有人看到同一份数据、同一个版本、同一个状态。',
+ steps:['找出当前存在几个信息渠道、各自的最新版本是什么',
+        '确定唯一权威载体（项目管理信息系统、共享文档、看板）',
+        '规定更新责任与节奏：谁在什么时点必须更新',
+        '对外发布只引用该载体，避免二次加工失真',
+        '定期核对一致性，发现偏差就修正载体而不是另开渠道'],
+ errs:['增加更多会议来"对齐信息"，渠道变多、一致性更差',
+       '口头同步关键决策，事后无记录可查',
+       '多个系统并行且都被当作权威，冲突时无法判定'],
+ bound:'信息发射源（radiator）是可视化的载体；沟通管理计划规定"谁需要什么信息、何时、以何形式"；两者共同保证一致性。'},
+
+'PE6-5':{src:'a',
+ why:'投诉往往不是"无理取闹"，而是<b>期望与体验之间的落差</b>被反复忽视后的爆发。处理的关键顺序是：先让对方感到被听见（情绪层面），再弄清事实（信息层面），最后才谈方案（解决层面）。跳过前两步直接解释或辩护，通常会让冲突升级。',
+ steps:['先倾听并确认理解对方的关切，不急于解释',
+        '弄清事实：何时、何事、影响范围、期望是什么',
+        '判断这是个别问题还是系统性问题的信号',
+        '给出可执行的方案与时限，明确责任人',
+        '跟踪闭环并回访，把共性问题反馈到流程改进'],
+ errs:['先辩解"我们按合同做的"，把技术正确当成沟通有效',
+       '把投诉压下或转给他人，失去修复关系的机会',
+       '只处理这一次，不追是否是系统性问题'],
+ bound:'投诉处理属于"管理期望"；问题解决属于"消除障碍"；若投诉涉及合同违约，还需走索赔/争议解决程序。'},
+
+'PR7-3':{src:'a',
+ why:'质量成本把"质量"翻译成钱：预防与评估是主动投入，内部与外部失败是被动损失。规律是<b>投入越靠前，总成本越低</b>——因为外部失败的代价（返工、索赔、声誉）通常是内部失败的数倍。考这类题时，判断点在于这项支出属于哪一类，以及它应该被提前还是推后。',
+ steps:['判断支出发生在什么时候、为了什么',
+        '为防止缺陷发生 → 预防成本（培训、流程设计、供应商评估）',
+        '为发现缺陷 → 评估成本（测试、检查、审计）',
+        '交付前发现 → 内部失败成本（返工、报废）',
+        '交付后发现 → 外部失败成本（保修、索赔、召回、商誉损失）',
+        '决策原则：优先增加预防与评估投入，压降失败成本'],
+ errs:['把测试当成"额外成本"而削减，导致外部失败成本上升',
+       '把返工算作预防成本，分类错了结论就反了',
+       '认为"质量越高成本越高"，忽略了一致性成本与失败成本的方向相反'],
+ bound:'质量成本（COQ）是财务视角；质量保证（QA）关注过程预防；质量控制（QC）关注结果检验。三者对应不同成本类别。'},
+
+'PR8-2':{src:'a',
+ why:'持续时间估算不是"拍一个数"，而是把不确定性显性化。三点估算用乐观、最可能、悲观三个值把风险纳入，得到期望值；类比与参数估算依赖历史数据，速度快但精度取决于可比性；自下而上最准但成本最高。选哪种方法，取决于<b>信息充分程度与所需精度</b>。',
+ steps:['先看有多少可用信息：历史数据、相似项目、详细分解',
+        '信息少且需快速 → 类比估算（自上而下）',
+        '有可量化的参数关系 → 参数估算',
+        '有详细工作包且需高精度 → 自下而上汇总',
+        '存在明显不确定性 → 三点估算：期望值 = (O + 4M + P) / 6',
+        '最后叠加储备（应急储备应对已知未知）'],
+ errs:['把三点估算的期望值当成"一定会实现"的日期，忽略它仍是概率中心',
+       '在信息极少时用自下而上，产出看似精细实则无依据',
+       '忘记叠加储备，把估算值直接当承诺工期'],
+ bound:'估算（estimate）是"大概多少"；承诺（commitment）是"我保证交付"；两者之间要留储备，不能直接等价。'},
+
+'PR8-5':{src:'a',
+ why:'资源优化的两种手段方向不同：资源平衡（leveling）为了<可控>——把超负荷的人削下来，代价通常是工期延长；资源平滑（smoothing）为了<好看>——在不延长工期的前提下削峰填谷，用掉浮动时间。判断题目考哪一个，看它是否允许改变关键路径/完工日期。',
+ steps:['先看是否存在资源超配（某人某时段被安排了超过可用工时）',
+        '若允许延后完工 → 资源平衡，削掉峰值、可能延长工期',
+        '若必须保持完工日期 → 资源平滑，用浮动时间调整非关键活动',
+        '若关键路径上资源不足且不可延后 → 考虑赶工、替换资源或缩小范围',
+        '调整后更新进度基准与资源日历'],
+ errs:['把资源平滑当成能解决关键路径资源不足（它不改变关键路径）',
+       '以为资源平衡不会影响工期（削峰通常要延后某些活动）',
+       '用加班解决超配，掩盖了估算或排期本身的问题'],
+ bound:'资源平衡可能改变关键路径；资源平滑不改变关键路径与完工日期；赶工（crash）用成本换时间，快速跟进（fast tracking）用并行换时间但增加风险。'},
+
+'PR2-4':{src:'a',
+ why:'范围基准由三部分组成：范围说明书、WBS、WBS 词典。它不是"文档合集"，而是<b>判断"这算不算范围内"的唯一依据</b>。没有基准时，任何需求都可以被说成"本来就要做的"；有了基准，超出部分就必须走变更。',
+ steps:['确认基准三件套是否齐全：范围说明书（含验收标准与除外责任）、WBS、WBS 词典',
+        '判断争议内容是否在 WBS 的工作包层级有对应条目',
+        '没有对应条目 → 属于新增范围，走变更',
+        '有条目但描述含糊 → 先澄清 WBS 词典，再判断是否变更',
+        '基准变更获批后同步更新三件套，保持版本一致'],
+ errs:['只有 WBS 图，没有 WBS 词典，边界仍然说不清',
+       '把"客户口头提过"当作已在范围内',
+       '更新了 WBS 却没有更新范围说明书，三者互相矛盾'],
+ bound:'范围基准 ≠ 需求文件：需求文件记录所有需求（含未纳入本版本的），范围基准只含已承诺交付的部分。'},
+
+'PR4-5':{src:'a',
+ why:'实物资源（设备、场地、材料）与人力资源的管理逻辑不同：实物资源有<b>可得性窗口与占用成本</b>，一旦排期冲突就会阻塞多条工作流。所以这类题的判断点是"能不能拿到、什么时候拿到、拿不到怎么办"，动作通常落在协商排期、租用替代、调整顺序上。',
+ steps:['先确认约束：需要什么、需要多久、什么时候必须到位',
+        '查资源日历：可得性与已有占用情况',
+        '冲突 → 与资源所有者协商排期，或评估租用/外协',
+        '仍不可得 → 调整活动顺序，先做不受限的工作',
+        '把最终安排写入资源日历与进度计划，并跟踪到货/进场'],
+ errs:['直接采购新设备而不评估租用与外协的成本',
+       '把排队等待当作"正常现象"，不纳入进度影响分析',
+       '只跟供应商催货，不调整内部计划，风险全压在一个点上'],
+ bound:'实物资源管理关注可得性与占用；采购管理关注合同与供应商履约；资源日历是两者的共同输入。'},
+
+'PR10-4':{src:'a',
+ why:'项目结束不等于收益实现。收益通常在项目交付后、由运营方在较长时间里逐步实现，因此收尾时必须把<b>收益的所有权、度量口径、跟踪周期</b>交接清楚。没有移交，项目"做完了"但没人对收益负责，这也是很多项目被质疑"没价值"的原因。',
+ steps:['确认效益管理计划中的收益指标与目标值',
+        '指定接收方与责任人（运营部门/产品团队/收益负责人）',
+        '移交度量口径、数据来源、跟踪节奏与报告路径',
+        '安排过渡期支持（hypercare）与问题响应机制',
+        '约定复盘时点，评估实际收益与预期的差异'],
+ errs:['只移交文档与系统，不移交收益责任与指标',
+       '认为"验收通过"就等于收益实现，不再跟踪',
+       '把收益跟踪推给财务，缺少业务侧的责任人'],
+ bound:'移交（transition）是交付物与责任的转移；收尾（closure）是项目正式结束；收益实现常在项目结束后持续数年。'},
+
+'PR10-5':{src:'a',
+ why:'提前终止时，最容易出错的是"直接停工"。正确的收尾要同时完成三件事：<b>有序停止工作、保全已完成的资产与记录、对相关方与合同做出交代</b>。因为终止本身也是项目的一个阶段关口，需要治理层决策、需要留下可复用的组织过程资产。',
+ steps:['确认终止决策的来源与范围（全部终止还是部分终止）',
+        '停止新工作，评估在途工作的处置：完成、暂停还是取消',
+        '处理合同：结算、索赔、违约条款、供应商通知',
+        '清点并移交已完成的可交付物、文档与经验教训',
+        '正式通知相关方，释放资源，更新组织过程资产'],
+ errs:['直接宣布解散，导致在途工作、合同与资产无人处理',
+       '只做内部收尾，忽略合同结算与供应商责任',
+       '不做经验教训总结，同样的失败在下一个项目重演'],
+ bound:'提前终止（termination）≠ 失败收尾：终止可能是战略调整的结果；无论原因，收尾流程与行政收尾的要求一致。'},
+
+'PR3-5':{src:'a',
+ why:'项目思维问"这次交付什么、按期按预算完成没有"，产品思维问"这个东西在生命周期里持续创造什么价值"。两者不是对立，而是层级不同：项目是产品的阶段性投入方式。判断题目考哪一个，看它关注的是<b>一次性交付的完成度</b>还是<b>长期价值与持续迭代</b>。',
+ steps:['看题干关注的是"这次交付"还是"持续使用与演进"',
+        '关注交付完成 → 项目视角：范围、进度、成本、验收',
+        '关注长期价值 → 产品视角：用户、路线图、生命周期收益',
+        '两者冲突时，通常以产品价值为上位目标，项目目标服务于它',
+        '用路线图与待办把两者衔接：项目交付增量，产品持续运营'],
+ errs:['把"按期上线"当作成功，忽略上线后无人使用',
+       '用项目 KPI 考核产品团队，导致只求交付不求价值',
+       '认为产品思维等于"不做计划"，忽视阶段性承诺'],
+ bound:'项目（project）是临时性努力；产品（product）是持续存在的价值载体；项目集/组合则在更高层做投资取舍。'},
+
+'PR9-4':{src:'a',
+ why:'审计与健康检查都是"外部视角看项目"，但目的不同：审计验证<b>是否符合要求</b>（合规、流程、标准），健康检查评估<b>是否健康</b>（进度、风险、团队、相关方）。审计的结论通常要求整改与跟踪，健康检查的结论用于调整管理策略。',
+ steps:['先判断这次检查的目的：合规验证还是状态评估',
+        '合规验证 → 对照标准/合同/法规逐项取证，结论是符合/不符合',
+        '状态评估 → 多维度打分（范围、进度、成本、质量、风险、团队、相关方）',
+        '输出发现项，区分必须整改与建议改进',
+        '跟踪整改闭环，并把共性问题反馈到组织过程资产'],
+ errs:['把审计当成"挑错"，团队隐瞒问题，结论失真',
+       '只出报告不跟踪整改，同样的问题反复出现',
+       '用审计结论直接评价个人绩效，破坏后续配合意愿'],
+ bound:'审计（audit）针对合规与过程；质量审计针对质量活动与标准；健康检查（health check）针对项目整体状态。'}
+};
+
+/* 任务级判断指南：为 26 个 ECO 任务各写一套「判断顺序」与「高频错误」。
+   没有人工撰写的知识点，会把本任务的指南与其考纲描述合并展示，
+   标注为「任务级通用」——它不是该知识点独有的机制分析，因此界面必须区分。 */
+const TK_GUIDE = {
+PE1:{steps:['先确认目标是否被关键相关方共同理解：各人复述的「成功」是否一致',
+            '不一致 → 先做共创与校准，再把结论写成可度量的指标（指标、口径、时点、责任人）',
+            '目标需要变更时，先做影响评估并走治理流程，而不是私下调整',
+            '把愿景转化为可视化路线图，在每次评审与回顾中重复引用'],
+    errs:['单向宣贯后要求团队承诺，出现「理解但不认账」',
+          '目标写成口号（尽快、大幅提升），没有可验收的口径',
+          '环境变化后私自改目标，既无评估也无记录']},
+PE2:{steps:['先分层：是事实/数据分歧、目标与优先级分歧，还是关系与价值观冲突',
+            '资源与排期类 → 改机制：优先级、时间窗、职责边界',
+            '立场类 → 先面对面探询利益，寻找同时满足双方需求的方案',
+            '只有紧急或安全底线才强制；升级前必须有直接沟通'],
+    errs:['一有分歧就上报或强制裁决，跳过当事人直接沟通',
+          '用投票或各让一半收场，双方核心需求都没被满足',
+          '反复出现的同类冲突当个案处理，不补基本规则']},
+PE3:{steps:['先判断团队被什么卡住：资源、权限、信息、外部依赖、内部冲突、能力',
+            '外部障碍 → 由项目经理出面清除；能力不足 → 培训、结对、教练',
+            '按成熟度调整领导方式：低能力高意愿给指导，高能力低意愿给支持与授权',
+            '授权下放任务与决策，但不转移问责；避免用更细的监控代替清障'],
+    errs:['替团队做技术决策，短期快、长期削弱自主性',
+          '把每日检查当成管理动作，管理成本转嫁给团队',
+          '所有问题都往上交，团队失去对环境的掌控感']},
+PE4:{steps:['先识别：谁受影响、影响多大、权力与利益如何分布',
+            '按象限定策略：高权力高利益重点管理，低权力高利益保持告知',
+            '让关键相关方在早期参与设计与决策，而不只是接收结果',
+            '参与度变化时更新登记册并调整策略，而不是沿用旧判断'],
+    errs:['只盯着出钱或签字的人，忽略实际使用方与监管方',
+          '把「已通知」当成「已参与」，关键人直到验收才第一次看到方案',
+          '登记册写完就归档，参与度变化无人跟踪']},
+PE5:{steps:['先弄清各方对「成功」的具体期望与背后利益',
+            '把冲突显性化：谁要什么、影响多大、取舍依据是什么',
+            '把选项与影响提交给有决策权的人取舍，项目经理负责促成而非代替决策',
+            '决策后统一口径沟通，说明取舍理由与补偿安排'],
+    errs:['试图同时满足所有期望，导致范围膨胀与延期',
+          '自行决定牺牲哪一方，越过了决策权限',
+          '只做口头安抚，不留书面结论，冲突反复']},
+PE6:{steps:['确定唯一权威的信息载体，并规定谁在什么时点必须更新',
+            '对外发布只引用该载体，避免二次加工造成版本分裂',
+            '投诉与不满先倾听确认，再核实事实，最后给方案与时限',
+            '面向治理层汇报讲结论、偏差、风险与需要的决策，而不是过程流水'],
+    errs:['靠增加会议来「对齐信息」，渠道越多一致性越差',
+          '口头同步关键决策，事后无记录可查',
+          '面对投诉先辩解技术正确，忽略对方的感受与关系']},
+PE7:{steps:['先判断知识类型：显性（文档、流程）还是隐性（经验、判断）',
+            '隐性知识靠人带人：结对、轮岗、复盘、社区实践，而不是写文档',
+            '在过程中沉淀经验教训，而不是等到收尾一次性回忆',
+            '识别单点依赖，指定备份责任人并安排交接验证'],
+    errs:['以为写进文档就等于完成知识转移',
+          '关键人离职前才开始交接，接收方没有验证机会',
+          '经验教训只归档不引用，同类问题再次发生']},
+PE8:{steps:['先分析受众：需要什么信息、以什么形式、什么频率',
+            '按正式/非正式、书面/口头、内部/外部选择沟通方法',
+            '建立沟通协议：响应时限、记录位置、升级路径',
+            '检查信息是否被真正理解（反馈、复述），而不只是已发送'],
+    errs:['只保证「已发送」，不确认「已理解」',
+          '对所有受众用同一种沟通方式与详略程度',
+          '渠道数量与复杂度成正比，沟通成本失控']},
+PR1:{steps:['先确认整合计划的三条基线是否齐备：范围、进度、成本',
+            '任何触及基线的调整都必须走变更请求与影响评估',
+            '识别依赖关系与关键路径，把计划做成可执行的节奏而非文档堆叠',
+            '用阶段关口检查条件是否具备，再决定是否继续投入'],
+    errs:['先执行后补变更记录，用既成事实逼批',
+          '只更新 WBS 而不同步成本与进度，基准互相矛盾',
+          '把计划当成一次性交付物，执行中不再维护']},
+PR2:{steps:['先确认范围基准三件套：范围说明书、WBS、WBS 词典',
+            '判断争议内容能否对应到 WBS 的工作包层级',
+            '无对应条目 → 属于新增范围，走变更；有但描述含糊 → 先澄清词典',
+            '交付前先做确认范围（客户验收），与控制质量区分开'],
+    errs:['只有 WBS 图没有词典，边界仍然说不清',
+          '把「客户口头提过」当作已在范围内',
+          '把确认范围与控制质量混为一谈']},
+PR3:{steps:['先问这件事对谁产生什么价值，而不只是「按计划交付了没有」',
+            '把交付成果、成果（outcome）与收益区分开，逐层定义度量',
+            '按价值排序待办，先做高价值小切片，尽早获得反馈',
+            '在阶段或迭代结束时核对价值假设是否仍成立'],
+    errs:['以按期上线为唯一成功标准，忽略上线后无人使用',
+          '把产出（功能上线）当成收益（业务指标改善）',
+          '价值判断只由内部团队做，不与业务方核对']},
+PR4:{steps:['先明确需要什么资源、需要多久、什么时候必须到位',
+            '查资源日历确认可得性，识别冲突窗口',
+            '冲突 → 协商排期、租用外协或调整顺序；关键路径资源不足再考虑赶工',
+            '把最终安排写入资源日历与进度计划，并跟踪实际投入'],
+    errs:['用长期加班消化超配，掩盖估算与排期问题',
+          '资源平滑与资源平衡混用，误以为平滑能解决关键路径资源不足',
+          '只跟供应商催货，不调整内部计划']},
+PR5:{steps:['先判断采购类型：固定总价、成本补偿还是工料合同，取决于需求清晰度',
+            '需求清晰、范围稳定 → 倾向固定总价；需求不确定 → 成本补偿或工料',
+            '评标看的不只是价格，还有技术能力、履约记录与风险分担',
+            '合同履行中跟踪里程碑与验收，变更按合同条款处理'],
+    errs:['需求模糊却签固定总价，后期争议不断',
+          '只比价格，忽略能力与履约风险',
+          '把合同签完当成采购结束，缺少履约跟踪']},
+PR6:{steps:['先区分基准与预测：BAC 是批准基准，EAC 是按绩效的预测',
+            '计算偏差与指数：CV=EV−AC、SV=EV−PV、CPI=EV/AC、SPI=EV/PV',
+            '按假设是否成立选 EAC 公式：偏差持续用 BAC/CPI，原假设失效用 AC+重估 ETC',
+            '用 VAC=BAC−EAC 与 TCPI 判断完工压力，并评估储备是否足够'],
+    errs:['把 EAC 与 ETC 混为一谈',
+          '看到 SPI<1 就直接除 SPI，忽略进度与成本的耦合条件',
+          '用预测值反推基准，基准失去可比性']},
+PR7:{steps:['先分清质量保证（过程）与质量控制（结果）',
+            '判断缺陷发生在哪个环节，再决定补预防还是补检验',
+            '用质量成本排序投入：优先增加预防与评估，压降失败成本',
+            '数据判读看趋势与受控状态，而不是单点是否达标'],
+    errs:['把测试当成额外成本而削减，外部失败成本反而上升',
+          '只做最终检验，不做过程保证',
+          '只看单点数值超限，忽略连续趋势与失控信号']},
+PR8:{steps:['先确认进度基准与关键路径，识别浮动时间分布',
+            '估算方法按信息量选择：类比、参数、自下而上、三点',
+            '资源冲突 → 先平滑（不改完工日期），允许延期才做平衡',
+            '需要压缩时：赶工用成本换时间，快速跟进用并行换时间但增加风险'],
+    errs:['把估算值直接当承诺工期，不留储备',
+          '关键路径未识别就压缩非关键活动，进度没有改善',
+          '只看整体 SPI，掩盖关键路径延误']},
+PR9:{steps:['先看数据是否可信：口径一致、采集完整、更新及时',
+            '对比基准看偏差，区分偶然波动与系统性趋势',
+            '用挣值、燃尽、累计流图等不同视角交叉验证',
+            '审计与健康检查区分目的：合规验证还是状态评估'],
+    errs:['用单一指标下结论，忽略口径与数据质量',
+          '只报偏差不报原因与对策',
+          '把审计当成挑错，团队隐瞒真实状态']},
+PR10:{steps:['先确认收尾类型：正常完成、提前终止还是阶段收尾',
+            '核对交付物验收、合同结算与行政收尾三件事是否完成',
+            '移交收益责任、度量口径与跟踪周期给接收方',
+            '沉淀经验教训并更新组织过程资产，再释放资源'],
+    errs:['验收通过就宣布结束，遗留项与合同未结清',
+          '把项目收尾等同于收益实现，不再跟踪',
+          '不做经验教训总结，同类问题在下一个项目重演']},
+BE1:{steps:['先判断这件事属于哪个治理层级：项目、项目集、组合还是组织',
+            '查权限表确认谁有权批准，超出额度按路径升级',
+            'PMO 类型决定其角色：支持（提供方法）、控制（要求合规）、指令（直接管理）',
+            '敏捷情境下与治理方协商裁剪：保留治理目的，替换实现形式'],
+    errs:['以经验或资历代替授权做决策',
+          '把发起人的口头支持当成正式批准',
+          '把治理当成审批负担，而不是决策与问责框架']},
+BE2:{steps:['先识别适用的法规、标准与合同条款，确认适用范围与时点',
+            '做差距分析：现状与要求差在哪、影响多大、何时必须达标',
+            '通过变更请求调整范围与计划以满足合规，并保留合规证据',
+            '把合规要求纳入日常检查与审计，而不是临检前突击'],
+    errs:['等检查前才补材料，缺少过程证据',
+          '把合规责任整体转给供应商，主体责任仍在',
+          '强制标准变化后未走变更，直接按旧方案交付']},
+BE3:{steps:['先判断是否触及基准（范围、进度、成本）或验收标准',
+            '触及 → 形成书面变更请求，量化对各方面的连锁影响',
+            '提交有权限的层级决策，获批后更新基准与计划并同步相关方',
+            '警惕隐性变更：工作量或验收条件变了，本质就是变更'],
+    errs:['先做后补，用既成事实逼批',
+          '拆分成小额变更规避审批',
+          '把范围扩张记成缺陷修复，掩盖真实变化']},
+BE4:{steps:['先确认问题性质：已发生的障碍还是尚未发生的风险',
+            '能在自己权限内解决 → 直接处理并记录；超出 → 准备升级材料',
+            '升级要带事实、影响、已尝试措施与备选方案，并约定回复时限',
+            '同类问题反复出现 → 做根因分析，针对流程或设计改进'],
+    errs:['一遇分歧就上报，跳过直接沟通',
+          '只说问题不给影响与选项，把判断成本丢给上级',
+          '只做补救不追根因，问题周期性复发']},
+BE5:{steps:['先区分风险（未发生）与问题（已发生）',
+            '识别要多视角多方法，把「原因—事件—影响」写完整',
+            '定性分析排序（概率×影响，再看临近性与可探测性）',
+            '需要量化时用蒙特卡洛/决策树，产出概率与储备依据',
+            '按威胁与机会分别选策略，并指定责任人与触发条件'],
+    errs:['只识别负面风险，漏掉机会',
+          '把问题当风险登记，或把风险当问题处理',
+          '策略与类型错配：给机会用「减轻」，给威胁用「提高」']},
+BE6:{steps:['先用数据确认改进对象：缺陷率、周期时间、返工率等',
+            '找根因再定措施，避免只处理表面现象',
+            '小步试点验证效果，再推广并固化为标准',
+            '把改进结果写回组织过程资产，避免知识随人流失'],
+    errs:['凭感觉选改进项，缺少基线数据',
+          '一次改太多变量，事后无法判断哪项有效',
+          '改进只停留在会议结论，没有落地与验证']},
+BE7:{steps:['先判断变革处于哪个阶段：认知、意愿、知识、能力、强化',
+            '个人层面用 ADKAR 定位缺口，组织层面用紧迫感与联盟推动',
+            '识别受影响群体与阻力类型（显性/隐性），评估准备度',
+            '把关键阻力者转为共同设计者，用试点降低风险'],
+    errs:['把变革当成发通知加培训，跳过认知与意愿',
+          '用考核施压代替解决真实顾虑',
+          '只做推广不做强化，一段时间后回到原状']},
+BE8:{steps:['先扫描外部变化：政策、市场、技术、竞争、供应链',
+            '评估对项目目标与商业论证的影响，区分机会与威胁',
+            '形成选项与建议，提交治理层决策，而不是先改计划再报备',
+            '获批后更新计划、风险与相关方沟通'],
+    errs:['外部剧变先改计划再报备，顺序颠倒',
+          '只关注直接影响，忽略合规与声誉的连锁后果',
+          '把环境变化当成一次性事件，缺少持续扫描机制']}
+};
+/* ==KP_DEEP_END== */
 
 /* ===== 考点大纲：渲染与交互 ===== */
 function sylCount(code){
