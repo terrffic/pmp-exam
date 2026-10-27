@@ -7031,8 +7031,11 @@ function openKpDeep(id){
 
   $('kpBd').innerHTML = h;
   const need = Math.max(3, Math.min(6, qs.length + 2));
+  const plan = kpDrillPlan(id, need);
+  const btnTxt = '练 ' + plan.list.length + ' 题（本知识点 ' + plan.own + ' 题' +
+    (plan.same ? ' + 同任务 ' + plan.same + ' 题' : '') + '）';
   $('kpFt').innerHTML = '<button class="btn" id="kpClose">关闭</button>' +
-    '<button class="btn primary" id="kpDrill">练 ' + (qs.length ? Math.min(need, qs.length) : 3) + ' 题（本知识点优先）</button>';
+    '<button class="btn primary" id="kpDrill">' + btnTxt + '</button>';
   $('kpClose').onclick = closeKpDeep;
   $('kpDrill').onclick = function(){ startKpDrill(id, need); };
   $('kpMask').style.display = 'flex';
