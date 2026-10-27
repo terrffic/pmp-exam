@@ -171,7 +171,20 @@ ul.notice li{margin:5px 0}
 .qref li.on{color:#065f46;font-weight:600}
 .qref li.on .ql{color:#059669}
 .qref .figwrap{margin-top:8px;background:#fff;border-radius:6px;padding:6px}
-.abbr-a{border-bottom:1px dotted #6366f1;cursor:help;font-weight:600;color:#4338ca}
+.abbr-a{border-bottom:1px dotted #6366f1;cursor:help;font-weight:600;color:#4338ca;-webkit-tap-highlight-color:transparent}
+.abbr-a:focus{outline:2px solid #a5b4fc;outline-offset:2px;border-radius:2px}
+/* 缩写气泡：手机没有 hover，靠点击触发；定位用 fixed，避免被容器裁剪 */
+.abbr-tip{position:fixed;z-index:9800;max-width:min(340px,86vw);background:#1e293b;color:#f8fafc;
+ border-radius:9px;padding:9px 11px;font-size:12.5px;line-height:1.6;box-shadow:0 10px 30px rgba(15,23,42,.3);
+ pointer-events:none;overflow-wrap:break-word;word-break:break-word}
+.abbr-tip[hidden]{display:none}
+.abbr-tip .ae{display:block;font-weight:700;color:#fde68a;font-size:13px;margin-bottom:3px}
+/* 打印/导出：无法交互，直接把英文全称展开在缩写后面 */
+@media print{
+  .abbr-a{border-bottom:0;color:inherit}
+  .abbr-a::after{content:"(" attr(data-en) ")";font-size:.86em;font-weight:400;color:#444}
+  .abbr-tip{display:none!important}
+}
 .gloss{margin-top:10px;padding:10px 12px;border-radius:8px;background:#f8fafc;border:1px dashed #c7d2fe;font-size:12.5px;line-height:1.75;box-sizing:border-box;max-width:100%;overflow-wrap:break-word;word-break:break-word}
 .gloss .gh{font-weight:700;color:#4338ca;display:block;margin-bottom:4px}
 .gloss ul{list-style:none;margin:0;padding:0}
@@ -358,7 +371,15 @@ ul.notice li{margin:5px 0}
 .tqopt.no{border-color:var(--bad);background:var(--bad-soft)}
 .tqexp{font-size:13px;color:#374151;background:#f8fafc;border-left:3px solid var(--brand);padding:7px 10px;border-radius:0 6px 6px 0;margin-top:4px;display:none}
 .tqexp.show{display:block}
-@media(max-width:600px){.thead .tfull{display:none}.titem .tsec p{font-size:13.5px}}
+/* 手机端不再隐藏英文全称：让全称独占一行显示在缩写下面（原先 display:none 会让手机上只剩缩写） */
+@media(max-width:600px){
+  .thead{padding:10px 12px;gap:6px 8px}
+  .thead b{order:1}
+  .thead .tcn{order:2}
+  .thead .tcat{order:3}
+  .thead .tfull{display:block;flex-basis:100%;order:9;margin-top:1px;font-size:11.5px;line-height:1.45;color:#94a3b8;letter-spacing:.2px}
+  .titem .tsec p{font-size:13.5px}
+}
 .casebox{background:#f1f5f9;border-left:3px solid #64748b;border-radius:0 8px 8px 0;padding:10px 12px;margin:0 0 12px;font-size:13.5px;color:#334155;line-height:1.7}
 .casebox b{color:#0f172a}
 .tlabel{display:inline-block;margin-left:8px;font-size:11.5px;font-weight:700;color:#7c3aed;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:20px;padding:1px 8px;vertical-align:middle}
@@ -493,7 +514,7 @@ ul.notice li{margin:5px 0}
   <section id="scIntro" class="screen active">
     <div class="card" style="margin-top:20px">
       <h1>PMP® 标准模拟考试 · 849 题库 / 6 套整卷</h1>
-      <p class="sub">每套 180 题，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套内容互不重复的独立标准卷</b>；<b>D、E、F 为混合卷</b>，题目从三套独立卷中固定抽取并重新配比，<b>存在复用，不构成新的独立题量</b>。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。交卷后输出领域、知识点与三套口径的学习诊断。</p>
+      <p class="sub">每套 180 题，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套内容互不重复的独立标准卷</b>；<b>D、E、F 为混合卷</b>，题目从三套独立卷中固定抽取并重新配比，<b>存在复用，不构成新的独立题量</b>。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照（手机上直接点缩写即可弹出全称）。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。交卷后输出领域、知识点与三套口径的学习诊断。</p>
       <div class="grid-info">
         <div class="stat"><b id="sTotal">0</b><span>题库总题量（每卷 180 · 三卷独立）</span></div>
         <div class="stat"><b>6 套 + 随机</b><span>整卷 · 其中 3 套独立</span></div>
@@ -531,7 +552,7 @@ ul.notice li{margin:5px 0}
       </div>
       <div class="entry-card" id="btnTermsEntry">
         <div class="ec-ico">📚</div>
-        <div class="ec-main"><b>缩写与术语速查（137 个高频）</b><span>EVM / CPI / WBS / DoD / SBI / GROW…：释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
+        <div class="ec-main"><b>缩写与术语速查（42 个高频术语）</b><span>EVM / BAC / EAC / VAC / CPI / WBS / DoD / SBI / GROW…：英文全称 · 释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
@@ -675,7 +696,7 @@ ul.notice li{margin:5px 0}
         <span style="flex:1"></span>
         <button class="btn sm" id="btnTermsBack">返回首页</button>
       </div>
-      <p class="sub">高频英文缩写与专有词汇：缩写全称、释义、计算逻辑（如有）、考试要点，每个词配 2 道典型考察题。点卡片展开。</p>
+      <p class="sub">高频英文缩写与专有词汇：英文全称、中文释义、计算逻辑（如有）、考试要点，每个词配 2 道典型考察题。点卡片展开。<b>题目与解析里出现的 137 个缩写，手机上点一下该缩写即可看到英文全称与含义</b>（桌面悬停亦可）。</p>
       <input id="termSearch" class="tsearch" placeholder="搜索：CPI、挣值、WBS、DoD、SBI…">
       <div class="tchips" id="termChips"></div>
       <div class="tlist" id="termList"></div>
@@ -703,6 +724,9 @@ ul.notice li{margin:5px 0}
 <div id="lookupTip" class="lookup-tip">🔍 查词</div>
 <div id="lookupBackdrop" class="lookup-backdrop"></div>
 <div id="lookupPanel" class="lookup-panel" role="dialog" aria-label="术语解释"></div>
+
+<!-- 缩写全称气泡：手机点一下缩写即可看到英文全称 -->
+<div id="abbrTip" class="abbr-tip" hidden></div>
 
 <script>
 const DOMAIN = {
@@ -1904,7 +1928,7 @@ const ACR = {
   'AI':    ['Artificial Intelligence', '人工智能'],
   'AQL':   ['Acceptance Quality Limit', '可接受质量水平'],
   'API':   ['Application Programming Interface', '应用程序接口'],
-  'BAC':   ['Budget at Completion', '完工预算（项目批准的总预算）'],
+  'BAC':   ['Budget at Completion', '完工预算：项目获批的预算总额，是 EVM 全部偏差与预测的基准总额（VAC = BAC − EAC）'],
   'BATNA': ['Best Alternative to a Negotiated Agreement', '谈判协议的最佳替代方案（谈不拢时的退路）'],
   'BCP':   ['Business Continuity Plan', '业务连续性计划'],
   'BCR':   ['Benefit-Cost Ratio', '效益成本比'],
@@ -1929,7 +1953,7 @@ const ACR = {
   'DoD':   ['Definition of Done', '完成的定义'],
   'DoR':   ['Definition of Ready', '就绪的定义'],
   'DORA':  ['DevOps Research and Assessment', 'DevOps 研究与评估（对应部署频率、变更前置时间、变更失败率、恢复时长四项指标）'],
-  'EAC':   ['Estimate at Completion', '完工估算（按当前绩效预测的项目总成本）'],
+  'EAC':   ['Estimate at Completion', '完工估算：按当前绩效重新预测的完工总成本（EAC = BAC ÷ CPI；原假设失效时 EAC = AC + 重新估算的 ETC）'],
   'ECO':   ['Examination Content Outline', '考试内容大纲（PMP 考纲）'],
   'EEF':   ['Enterprise Environmental Factors', '事业环境因素'],
   'EF':    ['Early Finish', '最早完成时间'],
@@ -2013,7 +2037,7 @@ const ACR = {
   'UAT':   ['User Acceptance Testing', '用户验收测试'],
   'UCL':   ['Upper Control Limit', '控制上限'],
   'USL':   ['Upper Specification Limit', '规格上限'],
-  'VAC':   ['Variance at Completion', '完工偏差（BAC−EAC）'],
+  'VAC':   ['Variance at Completion', '完工偏差：预算总额与完工估算之差（VAC = BAC − EAC，为负表示预计超支，为正表示预计结余）'],
   'WBS':   ['Work Breakdown Structure', '工作分解结构'],
   'WIP':   ['Work in Progress', '在制品（正在进行、尚未完成的工作量）'],
   'WSJF':  ['Weighted Shortest Job First', '加权最短作业优先'],
@@ -2054,7 +2078,13 @@ function acrHitAt(s, i){
   }
   return null;
 }
-/* 文本中的缩写加虚线下划线 + 悬浮全称 */
+/* 文本中的缩写加虚线下划线；桌面悬停、手机/平板点击都会弹出英文全称与中文释义。
+   英文全称同时写进 data-en，打印与导出（无法交互）时由 CSS 直接展开。 */
+function acrAttr(s){
+  return String(s==null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+    .replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
 function acrMark(s){
   s = String(s==null ? '' : s);
   let out = '', i = 0;
@@ -2062,7 +2092,8 @@ function acrMark(s){
     const key = acrHitAt(s, i);
     if(key){
       const e = ACR[key];
-      out += '<abbr class="abbr-a" title="'+e[0]+'｜'+e[1]+'">'+key+'</abbr>';
+      out += '<abbr class="abbr-a" data-en="'+acrAttr(e[0])+'" data-cn="'+acrAttr(e[1])+
+             '" role="button" tabindex="0" aria-label="'+acrAttr(key)+'：'+acrAttr(e[0])+'">'+key+'</abbr>';
       i += key.length;
     }else{
       out += s.charAt(i); i++;
@@ -2082,6 +2113,80 @@ function acrUsed(list){
   }
   return out;
 }
+
+/* 缩写全称气泡：桌面悬停即显，手机/平板点一下缩写即显（不依赖 hover）。
+   点击空白处、滚动、按 Esc 都收起。 */
+(function(){
+  const tip = document.getElementById('abbrTip');
+  if(!tip) return;
+  let activeEl = null;
+  function place(el){
+    const r = el.getBoundingClientRect();
+    const w = tip.offsetWidth || 220, h = tip.offsetHeight || 60;
+    const vw = (typeof window !== 'undefined' && window.innerWidth) ? window.innerWidth : 360;
+    const vh = (typeof window !== 'undefined' && window.innerHeight) ? window.innerHeight : 640;
+    let left = r.left + r.width / 2 - w / 2;
+    left = Math.max(8, Math.min(left, vw - w - 8));
+    let top = r.bottom + 8;
+    if(top + h > vh - 8) top = Math.max(8, r.top - h - 8);
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+  function show(el){
+    const en = el.getAttribute('data-en') || '';
+    if(!en) return;
+    const cn = el.getAttribute('data-cn') || '';
+    tip.innerHTML = '<span class="ae">' + en + '</span>' + cn;
+    tip.hidden = false;          /* 先显示，才能量到宽高再定位 */
+    activeEl = el;
+    place(el);
+  }
+  function hide(){ tip.hidden = true; activeEl = null; }
+  function hit(e){
+    const t = e && e.target;
+    return (t && t.closest) ? t.closest('.abbr-a') : null;
+  }
+  document.addEventListener('click', function(e){
+    const el = hit(e);
+    if(el){ e.preventDefault(); e.stopPropagation(); show(el); return; }
+    hide();
+  }, true);
+  /* 触摸设备只用点击控制：Chrome 在 tap 之后会补发 mouseover/mouseout，
+     若同时监听 hover，气泡刚出现就会被 mouseout 关掉。 */
+  const isTouch = (typeof window !== 'undefined') && (
+    ('ontouchstart' in window) ||
+    (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0));
+  let hoverTimer = 0;
+  if(!isTouch){
+    document.addEventListener('mouseover', function(e){
+      const el = hit(e); if(!el) return;
+      clearTimeout(hoverTimer); show(el);
+    });
+    document.addEventListener('mouseout', function(e){
+      const el = hit(e); if(!el) return;
+      clearTimeout(hoverTimer);
+      hoverTimer = setTimeout(hide, 150);
+    });
+  }
+  document.addEventListener('keydown', function(e){
+    if(e && e.key === 'Escape') hide();
+  });
+  if(typeof window !== 'undefined' && window.addEventListener){
+    /* 滚动时跟随；只有缩写完全离开视口才收起（原先贴到底部就关掉，手机上很容易误关） */
+    window.addEventListener('scroll', function(){
+      if(!activeEl || tip.hidden) return;
+      const r = activeEl.getBoundingClientRect();
+      const vh = window.innerHeight || 640;
+      if(r.bottom <= 0 || r.top >= vh){ hide(); return; }
+      place(activeEl);
+    }, true);
+    window.addEventListener('resize', function(){
+      if(activeEl && !tip.hidden) place(activeEl);
+    });
+  }
+  window.__abbrTipShow = show;
+  window.__abbrTipHide = hide;
+})();
 
 /* 知识点讲解面板：只讲知识点与判断方法，不指向本题正确选项。
    full=true 时为“完整讲解”（标记题默认展开）：概念 + 机制 + 判断线索 + 易混淆 + 常见问法 + 关联；
@@ -7879,6 +7984,14 @@ const TERMS = [
   {q:'某项目 EV=¥500,000，AC=¥550,000。下列判断正确的是：',o:['成本节约 ¥50,000','成本超支 ¥50,000','进度落后 ¥50,000','无法判断'],a:1,e:'CV = EV−AC = −50,000，负值表示成本超支 50,000。'},
   {q:'计算 AC 时最需要注意的是：',o:['只统计直接人工','口径要与 EV 的预算口径一致','只统计已付款项','必须包含管理储备'],a:1,e:'AC 与 EV 必须同口径比较（是否含间接费、税、分摊），否则 CV/CPI 会失真。'}
  ]},
+{abbr:'BAC', full:'Budget at Completion', cn:'完工预算', cat:'成本',
+ def:'项目获批的预算总额，即各工作包成本估算与应急储备加总后的成本基准。它是 EVM 的“总量基准”：PV 由 0 累加到 BAC，EAC 越接近 BAC 说明完工预测越贴合原预算。',
+ calc:'BAC = 各工作包成本估算之和 + 应急储备（一般不含管理储备）。派生关系：VAC = BAC − EAC；按原预算完工时 TCPI =（BAC − EV）/（BAC − AC）。',
+ exam:'BAC 是“批准的基准”，不是“现在的估算”。题目给“批准的预算总额”就是 BAC，给“最新预测的总成本”则是 EAC。注意管理储备通常不在 BAC 之内。',
+ quiz:[
+  {q:'项目批准预算总额 ¥2,000,000，其中管理储备 ¥100,000。EVM 计算中的 BAC 应为：',o:['¥2,000,000','¥1,900,000','¥2,100,000','¥1,800,000'],a:1,e:'BAC 是成本基准，含应急储备但不含管理储备：2,000,000 − 100,000 = 1,900,000。'},
+  {q:'关于 BAC 与 EAC 的区别，正确的说法是：',o:['两者始终相等','BAC 是批准的基准总额，EAC 是按当前绩效的完工预测','EAC 是基准，BAC 是预测值','BAC 要到项目结束时才能确定'],a:1,e:'BAC 在基准确定后不随执行变化；EAC 随绩效滚动更新，两者之差就是 VAC。'}
+ ]},
 {abbr:'CV', full:'Cost Variance', cn:'成本偏差', cat:'成本',
  def:'已完成工作的预算价值与实际成本之间的差额，衡量成本绩效。',
  calc:'CV = EV − AC。CV > 0 成本节约；CV < 0 成本超支；CV = 0 符合预算。',
@@ -7911,7 +8024,7 @@ const TERMS = [
   {q:'EV=¥400,000，PV=¥500,000，SPI 为：',o:['1.25','0.8','0.2','−0.2'],a:1,e:'SPI = 400,000 / 500,000 = 0.8，表示只完成计划的 80%，进度落后。'},
   {q:'项目 SPI=1.05，但关键路径已延误 5 天，最合理的解释是：',o:['数据一定算错了','SPI 被非关键路径的提前完成拉高，关键路径延误仍会威胁完工日期','项目一定提前完工','关键路径不影响完工'],a:1,e:'SPI 是整体加权值，会掩盖关键路径问题；进度控制必须同时看关键路径、里程碑与浮动消耗。'}
  ]},
-{abbr:'EAC', full:'Estimate At Completion', cn:'完工估算', cat:'成本',
+{abbr:'EAC', full:'Estimate at Completion', cn:'完工估算', cat:'成本',
  def:'在当前绩效与已知条件下，项目全部完成时的预计总成本。',
  calc:'① 偏差具代表性：EAC = BAC / CPI；② 按原预算继续：EAC = AC + (BAC − EV)；③ 原估算失效：EAC = AC + 自下而上的完工尚需估算。',
  exam:'先看题目是否说明“按当前绩效继续”或“原假设已失效”，据此选公式；不要默认用 BAC/CPI。',
@@ -7919,13 +8032,21 @@ const TERMS = [
   {q:'BAC=¥1,000,000，EV=¥250,000，AC=¥300,000，剩余工作按当前成本绩效继续，EAC 约为：',o:['¥1,050,000','¥1,200,000','¥1,000,000','¥900,000'],a:1,e:'CPI = 250,000/300,000 ≈ 0.833；EAC = 1,000,000 / 0.833 ≈ 1,200,000。'},
   {q:'当原估算假设已完全失效时，最合适的 EAC 算法是：',o:['BAC/CPI','AC + 重新自下而上估算的剩余工作成本','BAC−EV','PV/CPI'],a:1,e:'原假设失效时不能按历史绩效外推，应重新估算剩余工作：EAC = AC + 新的 ETC。'}
  ]},
-{abbr:'ETC', full:'Estimate To Complete', cn:'完工尚需估算', cat:'成本',
+{abbr:'ETC', full:'Estimate to Complete', cn:'完工尚需估算', cat:'成本',
  def:'从当前时点到项目完成，还需要投入多少成本。',
  calc:'ETC = EAC − AC。若按原预算完成，ETC = BAC − EV。',
  exam:'EAC 是“总数”，ETC 是“还要多少”，两者差一个 AC。题目问“还需多少预算”通常要 ETC。',
  quiz:[
   {q:'EAC=¥1,250,000，AC=¥500,000，则 ETC 为：',o:['¥750,000','¥1,250,000','¥500,000','¥1,750,000'],a:0,e:'ETC = EAC − AC = 1,250,000 − 500,000 = 750,000，即完成剩余工作还需 75 万。'},
   {q:'ETC 与 EAC 的关系是：',o:['ETC = EAC + AC','EAC = AC + ETC','ETC = BAC − EAC','两者无关'],a:1,e:'完工估算 = 已花成本 + 尚需成本，即 EAC = AC + ETC。'}
+ ]},
+{abbr:'VAC', full:'Variance at Completion', cn:'完工偏差', cat:'成本',
+ def:'按当前预测完工时，预算总额与完工估算之间的差额，表示项目最终预计超支或结余多少。它是“面向终点”的偏差，而 CV 只是“到此刻为止”的偏差。',
+ calc:'VAC = BAC − EAC。VAC < 0 预计超支，VAC > 0 预计结余。若采用 EAC = BAC ÷ CPI，则超支额近似为 BAC ×（1 − 1/CPI）。',
+ exam:'题目问“完工时预计超支多少”，要算的是 VAC 而不是 CV。VAC 为负并不等于现在就要追加预算，但通常应触发偏差评审、变更请求或动用管理储备。',
+ quiz:[
+  {q:'BAC=¥800,000，EAC=¥900,000，则 VAC 为：',o:['−¥100,000，预计超支','+¥100,000，预计结余','−¥100,000，当前已超支','+¥100,000，进度提前'],a:0,e:'VAC = BAC − EAC = 800,000 − 900,000 = −100,000，负值表示完工时预计超支 10 万。'},
+  {q:'VAC 与 CV 的关系是：',o:['两者含义完全相同','CV 看当前的成本偏差，VAC 看完工时的预计偏差','VAC 衡量的是进度','CV 只能在收尾阶段计算'],a:1,e:'CV = EV − AC 反映检查点上的成本偏差；VAC = BAC − EAC 反映完工时的预计偏差，是向前看的预测值。'}
  ]},
 {abbr:'TCPI', full:'To-Complete Performance Index', cn:'完工尚需绩效指数', cat:'成本',
  def:'为在既定预算（或既定 EAC）内完成剩余工作，剩余部分必须达到的成本效率。',
