@@ -552,7 +552,7 @@ ul.notice li{margin:5px 0}
       </div>
       <div class="entry-card" id="btnTermsEntry">
         <div class="ec-ico">📚</div>
-        <div class="ec-main"><b>缩写与术语速查（42 个高频术语）</b><span>EVM / BAC / EAC / VAC / CPI / WBS / DoD / SBI / GROW…：英文全称 · 释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
+        <div class="ec-main"><b>缩写与术语速查（45 个高频术语）</b><span>EVM / PV / EV / AC / BCWS / BAC / EAC / VAC / CPI / WBS / DoD / SBI / GROW…：英文全称 · 释义 · 计算逻辑 · 考试要点 · 典型考察题</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
@@ -1925,6 +1925,9 @@ function whyFor(q){ return WHY[q.stem.slice(0,12)] || autoWhy(q); }
 /* ============ 缩写术语表：缩写 → [英文全称, 中文含义] ============ */
 const ACR = {
   'AC':    ['Actual Cost', '实际成本（挣值管理中实际已发生的费用；也作 Acceptance Criteria 验收标准）'],
+  'BCWS':  ['Budgeted Cost of Work Scheduled', '计划工作预算成本（PV 的旧称，两者等价）'],
+  'BCWP':  ['Budgeted Cost of Work Performed', '已完成工作预算成本（EV 的旧称，两者等价）'],
+  'ACWP':  ['Actual Cost of Work Performed', '已完成工作实际成本（AC 的旧称，两者等价）'],
   'AI':    ['Artificial Intelligence', '人工智能'],
   'AQL':   ['Acceptance Quality Limit', '可接受质量水平'],
   'API':   ['Application Programming Interface', '应用程序接口'],
@@ -7977,12 +7980,36 @@ const TERMS = [
   {q:'EV 与 AC 的关系可用于判断：',o:['进度是否提前','成本是否节约或超支','质量是否达标','范围是否蔓延'],a:1,e:'EV−AC 为成本偏差 CV，EV/AC 为成本绩效指数 CPI，两者都衡量成本绩效；进度要看 EV 与 PV。'}
  ]},
 {abbr:'AC', full:'Actual Cost', cn:'实际成本', cat:'成本',
- def:'截止某时点，为完成已完成工作而实际发生的全部费用，包括人工、材料、设备、采购以及按规则分摊的间接成本。',
+ def:'截止某时点，为完成已完成工作而实际发生的全部费用，包括人工、材料、设备、采购以及按规则分摊的间接成本。早期版本称 ACWP（Actual Cost of Work Performed），与 AC 等价。',
  calc:'AC 由财务与工时系统归集，是“真金白银”的支出；注意口径要与 EV 的预算口径一致（含不含间接费、税、管理费）。',
  exam:'AC 不能用来判断进度；AC 大于 EV 说明超支。若题目给“已支付”“已发生费用”，通常就是 AC。',
  quiz:[
   {q:'某项目 EV=¥500,000，AC=¥550,000。下列判断正确的是：',o:['成本节约 ¥50,000','成本超支 ¥50,000','进度落后 ¥50,000','无法判断'],a:1,e:'CV = EV−AC = −50,000，负值表示成本超支 50,000。'},
   {q:'计算 AC 时最需要注意的是：',o:['只统计直接人工','口径要与 EV 的预算口径一致','只统计已付款项','必须包含管理储备'],a:1,e:'AC 与 EV 必须同口径比较（是否含间接费、税、分摊），否则 CV/CPI 会失真。'}
+ ]},
+{abbr:'BCWS', full:'Budgeted Cost of Work Scheduled', cn:'计划工作预算成本（PV 旧称）', cat:'成本',
+ def:'PMBOK 早期版本对 PV 的称呼，字面意思是“计划工作的预算成本”：到某检查点时，按计划应该完成的那部分工作，折算成预算金额是多少。PMBOK 第 6 版起统一改称 PV（Planned Value），两者含义完全等价，可互换使用。累计起来就是 S 曲线上的“计划线”。',
+ calc:'BCWS = 计划完成比例 × 该工作的预算（BAC 的一部分）= PV。派生关系沿用旧称写法：SV = BCWP − BCWS，SPI = BCWP / BCWS。',
+ exam:'老题、老教材写 BCWS，新题写 PV，不要当成两个不同的量分别计算。看到 BCWS 一律按 PV 处理：只随计划推移而累积，不受实际进度与花费影响。易混点：BCWS 是“计划该完成多少价值”，不是“预算总额（BAC）”。',
+ quiz:[
+  {q:'某检查点 BCWS = ¥120,000，BCWP = ¥100,000。此时的进度偏差与状态是：',o:['SV = −¥20,000，进度落后','SV = +¥20,000，进度提前','SV = −¥20,000，成本超支','SV = ¥220,000，无法判断'],a:0,e:'SV = BCWP − BCWS = 100,000 − 120,000 = −20,000，负值表示实际完成的预算价值少于计划，即进度落后。'},
+  {q:'BCWS 与下列哪个术语含义完全等价？',o:['EV（挣值）','AC（实际成本）','PV（计划价值）','BAC（完工预算）'],a:2,e:'BCWS 是 PV 的旧称（Budgeted Cost of Work Scheduled ≡ Planned Value），都表示“按计划应完成工作的预算价值”；EV、AC、BAC 分别对应 BCWP、ACWP 与完工预算。'}
+ ]},
+{abbr:'BCWP', full:'Budgeted Cost of Work Performed', cn:'已完成工作预算成本（EV 旧称）', cat:'成本',
+ def:'早期版本对 EV 的称呼：实际已经完成的工作，按“预算单价”折算出的价值。它衡量产出而不是花费，与 EV（Earned Value）完全等价。',
+ calc:'BCWP = 实际完成比例 × 该工作的预算 = EV。用旧称表示的三个基本公式：CV = BCWP − ACWP，SV = BCWP − BCWS，CPI = BCWP / ACWP。',
+ exam:'看到 “BCWP − ACWP” 要立刻读成 “EV − AC” 即成本偏差；看到 “BCWP − BCWS” 读成 “EV − PV” 即进度偏差。注意 BCWP 用预算单价折算，实际花了多少不影响它。',
+ quiz:[
+  {q:'用旧称表示的成本偏差（CV）公式是：',o:['BCWP − BCWS','BCWP − ACWP','BCWS − ACWP','ACWP − BCWP'],a:1,e:'CV 比较的是“完成工作的预算价值”与“完成工作的实际花费”，即 BCWP − ACWP（= EV − AC）。BCWP − BCWS 是进度偏差 SV。'},
+  {q:'某工作包预算 ¥100,000，实际完成 30%，已花费 ¥40,000。BCWP 为：',o:['¥30,000','¥40,000','¥70,000','¥100,000'],a:0,e:'BCWP = 实际完成比例 × 预算 = 30% × 100,000 = 30,000。40,000 是 ACWP（实际花费），70,000 是剩余预算。'}
+ ]},
+{abbr:'ACWP', full:'Actual Cost of Work Performed', cn:'已完成工作实际成本（AC 旧称）', cat:'成本',
+ def:'早期版本对 AC 的称呼：为完成那些已完成的工作，实际发生的全部费用，含人工、材料、设备、采购与分摊的间接成本。与 AC（Actual Cost）完全等价。',
+ calc:'ACWP 由财务与工时系统归集 = AC。它与 BCWP 必须同口径（是否含间接费、税、分摊），否则 CPI = BCWP / ACWP 会失真。',
+ exam:'老题写 ACWP、新题写 AC，直接互换即可。三者成对记忆：BCWS→PV、BCWP→EV、ACWP→AC。ACWP 大于 BCWP 说明超支。',
+ quiz:[
+  {q:'下列“旧称 → 新称”的对应，完全正确的一组是：',o:['BCWS→EV、BCWP→AC、ACWP→PV','BCWS→PV、BCWP→EV、ACWP→AC','BCWS→AC、BCWP→PV、ACWP→EV','BCWS→PV、BCWP→AC、ACWP→EV'],a:1,e:'Scheduled 对计划（PV）、Performed 对挣值（EV）、Actual 对实际成本（AC）：BCWS→PV、BCWP→EV、ACWP→AC。'},
+  {q:'某项目 BCWP = ¥80,000，ACWP = ¥100,000。成本绩效指数与状态是：',o:['CPI = 0.8，成本超支','CPI = 1.25，成本节约','CPI = 1.0，符合预算','CPI = −¥20,000，无法判断'],a:0,e:'CPI = BCWP / ACWP = 80,000 / 100,000 = 0.8 < 1，每花 1 元只挣回 0.8 元价值，成本超支。'}
  ]},
 {abbr:'BAC', full:'Budget at Completion', cn:'完工预算', cat:'成本',
  def:'项目获批的预算总额，即各工作包成本估算与应急储备加总后的成本基准。它是 EVM 的“总量基准”：PV 由 0 累加到 BAC，EAC 越接近 BAC 说明完工预测越贴合原预算。',
