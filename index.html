@@ -617,7 +617,7 @@ body.is-paused #btnSubmitTop{display:none!important}
 .mka-prog{font-size:10.8px;border-radius:999px;padding:1px 7px;background:#f1f5f9;color:#64748b;white-space:nowrap}
 .mka-prog.ok{background:#f0fdf4;color:#15803d}
 .ec-sub{font-size:11.5px;font-weight:400;color:#64748b}
-.mk-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:9999;max-width:min(92vw,560px);background:#1e293b;color:#f8fafc;font-size:13px;line-height:1.7;padding:10px 16px;border-radius:10px;box-shadow:0 8px 26px rgba(15,23,42,.28);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.mk-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:10061;max-width:min(92vw,560px);background:#1e293b;color:#f8fafc;font-size:13px;line-height:1.7;padding:10px 16px;border-radius:10px;box-shadow:0 8px 26px rgba(15,23,42,.28);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .mk-toast.on{opacity:1;transform:translate(-50%,0)}
 @media(max-width:600px){
   .mka{padding:12px}
@@ -984,7 +984,9 @@ body.is-paused #btnSubmitTop{display:none!important}
 }
 @media print{.rt-zoom{display:none!important}}
 /* ---- 划词提问浮层 ---- */
-.ai-sel{position:fixed;z-index:10002;display:none;align-items:center;gap:4px;padding:5px 6px;
+/* 工具条必须浮在「看原题解析」抽屉(10011)与图片放大层(10050)之上，
+   否则在抽屉里划词时按钮被盖住，看起来就像没有「收藏」功能 */
+.ai-sel{position:fixed;z-index:10060;display:none;align-items:center;gap:4px;padding:5px 6px;
   background:#0f172a;border-radius:10px;box-shadow:0 8px 26px rgba(15,23,42,.34);
   font-size:12px;white-space:nowrap;max-width:calc(100vw - 16px)}
 .ai-sel.on{display:flex}
@@ -994,7 +996,7 @@ body.is-paused #btnSubmitTop{display:none!important}
 .ai-sel button.pri{background:#2563eb;font-weight:700}
 .ai-sel button.pri:hover{background:#1d4ed8}
 .ai-sel button[hidden]{display:none!important}
-.ai-toast{position:fixed;z-index:10003;left:50%;bottom:96px;transform:translateX(-50%);
+.ai-toast{position:fixed;z-index:10061;left:50%;bottom:96px;transform:translateX(-50%);
   max-width:min(420px,90vw);background:#0f172a;color:#f8fafc;border-radius:10px;
   padding:9px 14px;font-size:12.5px;line-height:1.6;box-shadow:0 10px 30px rgba(15,23,42,.3);
   opacity:0;pointer-events:none;transition:opacity .18s;text-align:center}
@@ -1235,6 +1237,53 @@ body.guest .ai-fab{bottom:64px}
   .kp-item{padding:10px 11px}
 }
 @media print{.kp-view-mask,.kp-view{display:none!important}}
+/* ===== 全题讲解：任意题目的「三段式讲解 + 配套练习」弹层 =====
+   层级刻意低于划词工具条(10060)与提示(10061)，高于原题回放抽屉(10011)，
+   这样在讲解里划词收藏时按钮不会被弹层压住。 */
+.qexp-btn{margin:7px 0 2px}
+.qexp-mask{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10020}
+.qexp-mask[hidden]{display:none}
+.qexp-box{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(920px,94vw);
+  max-height:min(88vh,900px);display:flex;flex-direction:column;background:#fff;border-radius:14px;
+  box-shadow:0 22px 60px rgba(15,23,42,.28);z-index:10021;overflow:hidden}
+.qexp-box[hidden]{display:none}
+.qexp-hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;
+  border-bottom:1px solid #e2e8f0;background:linear-gradient(180deg,#fbfcff,#f3f7ff)}
+.qexp-hd b{font-size:15.5px;color:#0f172a}
+.qexp-id{font-size:12.5px;color:#4338ca;background:#eef2ff;border:1px solid #c7d2fe;
+  border-radius:999px;padding:2px 9px;font-weight:700}
+.qexp-sub{padding:9px 16px;font-size:13.2px;line-height:1.75;color:#475569;
+  background:#f8fafc;border-bottom:1px solid #eef2f6;max-height:92px;overflow:auto}
+.qexp-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:9px 16px;
+  border-bottom:1px solid #e2e8f0;background:#fff}
+.qexp-badge{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px;
+  background:#ecfdf5;color:#047857;border:1px solid #a7f3d0}
+.qexp-badge.local{background:#fffbeb;color:#b45309;border-color:#fcd34d}
+.qexp-badge.busy{background:#eef2ff;color:#4338ca;border-color:#c7d2fe}
+.qexp-bd{flex:1;min-height:0;overflow:auto;padding:16px 18px 28px;overscroll-behavior:contain}
+.qexp-note{font-size:12.8px;color:#64748b;line-height:1.75;padding:9px 16px;
+  background:#fffbeb;border-top:1px solid #fde68a}
+/* 批量生成工具条（AI 讲解存档页） */
+.qb-bar{margin:11px 0 6px;padding:11px 12px;border:1px solid #dbeafe;border-radius:10px;
+  background:linear-gradient(180deg,#f8fbff,#f2f7ff)}
+.qb-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.qb-row label{font-size:13px;color:#334155;font-weight:700}
+.qb-sel,.qb-num{font:inherit;font-size:13px;padding:5px 8px;border:1px solid #cbd5e1;
+  border-radius:7px;background:#fff;color:#1e293b}
+.qb-num{width:96px}
+.qb-prog{flex:1;min-width:140px;height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden}
+.qb-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#6366f1,#06b6d4);
+  transition:width .2s}
+.qb-count{font-size:12.8px;font-weight:700;color:#4338ca;font-variant-numeric:tabular-nums;white-space:nowrap}
+.qb-txt{font-size:12.8px;color:#475569;line-height:1.75;margin-top:8px}
+.qb-txt b{color:#0f172a}
+.qb-warn{color:#b45309}
+@media(max-width:600px){
+  .qexp-box{width:100vw;height:100vh;max-height:100vh;border-radius:0;top:0;left:0;transform:none}
+  .qexp-bd{padding:12px 13px 26px}
+  .qb-prog{min-width:100px}
+}
+@media print{.qexp-mask,.qexp-box,.qb-bar{display:none!important}}
 </style>
 <meta name="theme-color" content="#2563eb">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -1403,7 +1452,7 @@ try{
   <section id="scIntro" class="screen active">
     <div class="card" style="margin-top:20px">
       <h1>PMP® 标准模拟考试 · 1,611 题库 / 10 套整卷</h1>
-      <p class="sub">每套 180 题，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套内容互不重复的独立标准卷</b>；<b>G、H、I、J 为资料卷</b>，题源为你提供的 12 套 PMP 学习资料（10 套模拟/模考 + 2 套敏捷专项，共 2,152 题），四套之间及与 A–C 之间<b>全部零重复</b>，每套同样落在 59 / 74 / 47 与敏捷+混合 60%；<b>D、E、F 为混合卷</b>，题目从三套独立卷中固定抽取并重新配比，<b>存在复用，不构成新的独立题量</b>。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照（手机上直接点缩写即可弹出全称）。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。交卷后输出领域、知识点与三套口径的学习诊断。</p>
+      <p class="sub">每套 180 题，按 2026 版 ECO 配比（人员 33% / 过程 41% / 业务环境 26%）组卷，敏捷与混合型题目约占 60%。<b>A、B、C 为三套内容互不重复的独立标准卷</b>；<b>G、H、I、J 为资料卷</b>，题源为你提供的 12 套 PMP 学习资料（10 套模拟/模考 + 2 套敏捷专项，共 2,152 题），四套之间及与 A–C 之间<b>全部零重复</b>，每套同样落在 59 / 74 / 47 与敏捷+混合 60%；<b>D、E、F 为混合卷</b>，题目从三套独立卷中固定抽取并重新配比，<b>存在复用，不构成新的独立题量</b>。每题配 4 条逐项解析，解析区自带<b>原题回放</b>（题干＋四选项＋图表），并为题中出现的英文缩写附<b>全称与中文含义</b>对照（手机上直接点缩写即可弹出全称）。答题时题目下方可随时点<b>「📘 知识点讲解」</b>查看本题知识点与判断线索（不揭示答案）；<b>标记过的题会永久保存并自动展开完整讲解</b>。<b>不只标记题</b>：任意题目都能点<b>「✨ AI 讲解 + 配套练习」</b>，先看本地三段式讲解与同考点练习，登录后还能让 AI 深度讲解并存入存档（考试中交卷前不开放，避免提前揭示答案）。交卷后输出领域、知识点与三套口径的学习诊断。</p>
       <div class="grid-info">
         <div class="stat"><b id="sTotal">0</b><span>题库总题量（每卷 180 · 七套独立）</span></div>
         <div class="stat"><b>10 套 + 随机</b><span>整卷 · 其中 7 套独立</span></div>
@@ -1473,14 +1522,14 @@ try{
       <h2 style="margin-top:22px">AI 讲解存档</h2>
       <div class="entry-card" id="btnAiEntry">
         <div class="ec-ico">📚</div>
-        <div class="ec-main"><b>AI 生成的知识点与题目（<span id="aiEntryCount">0</span> 条 <span id="aiEntrySeen" class="ec-sub"></span>）</b><span>标记题生成的<b>知识点讲解、选项辨析和配套练习题</b>全部单独存成一份<b>存档</b>：<b>取消标记也不会删掉</b>，刷新、换卷、离线都还在，还能<b>按知识点归类</b>回看，配套题目可以<b>反复重做</b>（判分一并保留）。<b>每条的「看没看过、练习做了几道、对了几道」都会记下来</b>，可以只看「没看过」「练习没做完」的，一条一条往下接着看。换设备时随「导出记录」一起带走，也能<b>导出 Markdown</b> 存进笔记软件。</span></div>
+        <div class="ec-main"><b>AI 生成的知识点与题目（<span id="aiEntryCount">0</span> 条 <span id="aiEntrySeen" class="ec-sub"></span>）</b><span><b>任意题目</b>生成的<b>知识点讲解、选项辨析和配套练习题</b>全部单独存成一份<b>存档</b>（标记题自动生成，其它题点「✨ AI 讲解 + 配套练习」）：<b>取消标记也不会删掉</b>，刷新、换卷、离线都还在，还能<b>按知识点归类</b>回看，配套题目可以<b>反复重做</b>（判分一并保留）。<b>每条的「看没看过、练习做了几道、对了几道」都会记下来</b>，可以只看「没看过」「练习没做完」的，一条一条往下接着看。换设备时随「导出记录」一起带走，也能<b>导出 Markdown</b> 存进笔记软件。</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
       <h2 style="margin-top:22px">核心知识点清单</h2>
       <div class="entry-card" id="btnKpEntry">
         <div class="ec-ico">📌</div>
-        <div class="ec-main"><b>核心知识点清单（<span id="kpEntryCount">0</span> 条）</b><span><b>凡是出现知识点讲解的地方</b>都能划词收藏——选项、答题页的解析要点 / 逐项辨析 / 知识点讲解、<b>成绩页与阶段报告</b>的逐题解析、<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>。选中一句话点「🖍 收藏」，它会自动汇进这份清单：<b>按知识点归类</b>（也可切按来源 / 按题目）、保留原句上下文与题目出处、可写自己的记忆钩子、可标重点，还能<b>逐条翻卡复习</b>并导出 Markdown。<b>永久保存在本机</b>，取消收藏即同步移除。</span></div>
+        <div class="ec-main"><b>核心知识点清单（<span id="kpEntryCount">0</span> 条）</b><span><b>凡是出现知识点讲解的地方</b>都能划词收藏——选项、答题页的解析要点 / 逐项辨析 / 知识点讲解、<b>成绩页与阶段报告</b>的逐题解析、<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>，以及<b>核心知识点清单本身</b>（含翻卡复习、看原题解析抽屉）。选中一句话点「🖍 收藏」，它会自动汇进这份清单：<b>按知识点归类</b>（也可切按来源 / 按题目）、保留原句上下文与题目出处、可写自己的记忆钩子、可标重点，还能<b>逐条翻卡复习</b>并导出 Markdown。<b>永久保存在本机</b>，取消收藏即同步移除。</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
@@ -1520,12 +1569,13 @@ try{
         <li>题型包含<b>单选、多选（明确选出几项）、案例组（同一背景连续多问）、图表分析（挣值曲线、燃尽图等内联图像）</b>，以及计算与综合判断题。全部考察“先判断情境、再选最合适行动”的判断力。</li>
         <li>每题解析包含：<b>正确答案 + 解题要点 + 📄 原题回放 + 📘 知识点讲解（概念/判断要点/常见陷阱）+ 🔍 逐项辨析（<b>错项优先</b>：先把每个错项为什么错讲清，最后再说正确项）+ 🧮 考点方法详解 + 📖 术语对照</b>。其中<b>考点方法详解</b>会把这个考点相关的一串方法一次讲全——例如风险定量分析不只讲 EMV，还会讲决策树、蒙特卡洛、敏感性分析，各自给出<b>含义、计算过程与适用场景</b>。题目按<b>预测型 / 敏捷型 / 混合型</b>与<b>基础 / 中等 / 较难</b>标注，交卷后按领域、开发方法、题型分别统计正确率。</li>
         <li><b>标记与知识点讲解</b>：答题时点「标记待定」把题存进首页的<b>「我的标记」</b>，标记永久保存在本机（重开试卷、切换套卷、刷新都不丢）；<b>标记题在练习时自动展开完整知识点讲解</b>（概念 · 机制 · 判断线索 · 易混淆 · 常见问法 · 关联知识点）；「我的标记」页会把全部标记题按知识点主题去重、<b>逐条展开扩展讲解</b>，并可按标记题一键组卷专项练习。题目下方的「📘 知识点讲解」按钮随时可点，<b>只讲知识点、不揭示答案</b>；模考未交卷时隐藏，避免影响公平性。</li>
+        <li><b>全部题目都能要「AI 讲解 + 配套练习」</b>：不只标记题。答题页、成绩页、阶段报告、答题反馈里每一题都有<b>「✨ AI 讲解 + 配套练习」</b>按钮，打开就是与标记题同款的<b>知识点讲解 · 选项辨析 · 可作答配套练习</b>；<b>还没有 AI 正文时自动显示本地讲解 + 题库同考点练习</b>（离线可用），登录后点「用 AI 深度讲解」即生成正文并存入「📚 AI 讲解存档」，随时回看、反复重做。<b>考试模式未交卷不开放</b>（会揭示答案），交卷后自动可用。存档页还能<b>按题号打开任意一题</b>，或用<b>批量生成</b>逐题把整套题库交给 AI 讲一遍（串行、可暂停、关页后断点续跑）；本机存储有限，超预算时淘汰最旧讲解，重要内容建议导出 Markdown 留档。</li>
         <li><b>整卷完成记录</b>：只有<b>整卷 180 题全部作答并交卷</b>才算「完整做完一遍」，做到一半的只记录进度、不计遍数。首页「十套整卷完成情况」会按<b>独立卷 / 混合卷</b>分组，显示每套的<b>完成遍数、最近成绩、最佳成绩、最近完成时间</b>，试卷卡片上也会直接标 ✅ / ⏳ / ○。记录只存本机，可在该区块点「重置完成记录」单独清除（不影响答题进度、错题池与标记）。</li>
         <li><b>三套统计口径分开</b>：<b>首答正确率</b>（每题只计第一次）、<b>重复练习正确率</b>（第 2 次起，含记忆效应）、<b>独立模考正确率</b>（只统计整卷模考）分别显示，不混算。平台<b>不公布也不猜测及格线</b>；页面出现的 <b>70% 仅为内部练习参考值</b>，PMI 不公开及格分，任何模拟分数都不能预测官方考试结果。</li>
         <li><b>考点大纲</b>：按 2026 版 ECO 的 <b>26 项任务</b>整理了 <b>166 个知识点</b>（每条含要点、常用工具、判断线索），支持关键词检索与<b>按任务一键专项练习</b>，并附 <b>PMBOK 第八版 6 条原则 / 7 个绩效域</b>对照。提醒：PMI <b>不出版「官方考试教材」</b>，考试以 ECO 为依据，PMBOK 是参考标准而非教材——该页开头有完整说明。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
         <li><b>阶段性提交 / 分段阅卷（模考与练习都可用）</b>：整卷考试做到一半，点顶栏或题目下方的 <b>「📊 阶段提交」</b>，即可只对<b>截止当前进度新作答（或改过答案）的题目</b>生成一份阶段报告——本阶段正确率、错题与逐题解析、领域/开发方法/题型分布，以及累计进度与累计正确率。报告页点<b>「返回继续答题」</b>即可回到原来的题号接着做，<b>所有作答、标记、题号原样保留，不锁定任何题目</b>；查看报告期间<b>倒计时冻结，不扣考试时间</b>。中途可以反复提交，每次都是一份独立快照，<b>历史报告与全部操作记录永久保存在本机</b>，可随时从首页「阶段报告记录」回看。全部做完再点「交卷」，成绩页会给出<b>总错题、总解析、整体正确率</b>，并列出本次各阶段正确率的对照表。提示：阶段报告会揭示已答题的答案，若追求完全拟真的模考体验，建议整卷做完后再统一交卷。</li>
-        <li><b>🖍 划词标记与划词收藏（选项 + 所有知识点讲解）</b>：做题时<b>在选项里选中任意一段文字</b>（例如「立即」「先记录下来」「提交变更请求」），浮出的工具条里点 <b>「🖍 标记」</b>，这段文字就会在选项里高亮留存；同一段再点一次即取消。标记<b>按题干保存</b>，换卷、刷新、下次打开都还在；选项文字若被修订，标记会按原文自动重新定位。交卷或点「查看解析」后，题目下方会出现<b>「你划的词 · 按词解析」</b>：逐条给出该词的<b>知识点定义</b>、它所在<b>选项在本题中的作用</b>（为什么可选 / 为什么不能选）、以及<b>措辞线索</b>（绝对化、动作时点、责任主体）；<b>未揭示答案时只给知识点、不判正误</b>。成绩页与阶段报告里同样能看到这份按词解析。工具条里还有「📖 释义」直接查术语定义。<br><b>凡是出现知识点讲解的地方都能「🖍 收藏」</b>：答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>、<b>成绩页与阶段报告</b>的逐题解析（含展开的「原题回放 · 知识点 · 逐项辨析」）、<b>「我的标记」里的 AI 讲解</b>与知识点扩展讲解。选中一句话 → 「🖍 收藏」，划中处标绿，并自动进入「📌 核心知识点清单」按知识点归类；再点一次即取消。</li>
+        <li><b>🖍 划词标记与划词收藏（选项 + 所有知识点讲解）</b>：做题时<b>在选项里选中任意一段文字</b>（例如「立即」「先记录下来」「提交变更请求」），浮出的工具条里点 <b>「🖍 标记」</b>，这段文字就会在选项里高亮留存；同一段再点一次即取消。标记<b>按题干保存</b>，换卷、刷新、下次打开都还在；选项文字若被修订，标记会按原文自动重新定位。交卷或点「查看解析」后，题目下方会出现<b>「你划的词 · 按词解析」</b>：逐条给出该词的<b>知识点定义</b>、它所在<b>选项在本题中的作用</b>（为什么可选 / 为什么不能选）、以及<b>措辞线索</b>（绝对化、动作时点、责任主体）；<b>未揭示答案时只给知识点、不判正误</b>。成绩页与阶段报告里同样能看到这份按词解析。工具条里还有「📖 释义」直接查术语定义。<br><b>凡是出现知识点讲解的地方都能「🖍 收藏」</b>：答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>、<b>成绩页与阶段报告</b>的逐题解析（含展开的「原题回放 · 知识点 · 逐项辨析」）、<b>「我的标记」里的 AI 讲解</b>与知识点扩展讲解。选中一句话 → 「🖍 收藏」，划中处标绿，并自动进入「📌 核心知识点清单」按知识点归类；再点一次即取消。<b>核心知识点清单页本身</b>（含翻卡复习与「看原题解析」抽屉）也能继续划词：选中上下文、题干里的新句子收藏，选中已收藏的原句则直接取消，不必回到原题。</li>
         <li><b>📌 核心知识点清单</b>：首页「核心知识点清单」把所有地方的划词收藏汇总成一份复习材料——<b>按知识点归类</b>（同一考纲知识点下的句子排在一起），也可以切成<b>按来源</b>（选项 / 解析 / 知识点 / AI 讲解）或<b>按题目</b>看。每条保留<b>原句上下文</b>与题目出处，可<b>标重点</b>、写<b>自己的注释</b>（记忆钩子）、标<b>已掌握</b>；支持<b>关键词检索</b>与来源筛选，<b>逐条翻卡复习</b>（先看句子自己复述，再点开原句与完整解析），并能<b>一键导出 Markdown</b> 存进笔记软件。<b>清单不另存正文</b>：它就是你的收藏本身，取消收藏即同步移除，不会出现两份数据不一致；注释与星标单独保存在本机，题库版本更新不丢。</li>
         <li><b>📚 AI 讲解存档</b>：标记题生成的<b>知识点讲解、选项辨析、配套练习题</b>会单独存一份并长期保留——<b>取消标记不会删掉它们</b>，刷新、换卷、离线都还在。首页「AI 讲解存档」可按<b>知识点 / 时间 / 卷</b>归类回看，支持<b>关键词搜索</b>（连讲解正文一起搜）、<b>展开重做配套练习</b>（判分与标记页共用，做过的不会重来）、<b>单条删除</b>与<b>导出 Markdown</b>。正文单独存放，不会因为标记太多被挤掉；本机最多保留 600 条，超出时按生成时间淘汰最旧的，页面顶部会显示当前占用。换设备时随「导出记录」一起带走。</li>
         <li><b>✨ AI 学习助手（2026 年 12 月 PMP 考试知识助手）</b>：右下角悬浮按钮，<b>只在非答题界面出现</b>。首次使用登录一次个人账号（WorkBuddy 账号 / 邮箱验证码 / 手机验证码任选），之后有两种问法：<b>直接提问</b>——在输入框里问考点、计算题思路、情境题判断线索；<b>划词提问</b>——在首页、成绩与逐题解析、阶段报告、术语速查、考点大纲里<b>用鼠标或手指选中一段文字</b>，点浮出的「✨ 问 AI」即可就这段内容追问，也可「✎ 补充后问」或「⧉ 复制」。回答按 2026 版 ECO 与 12 月考期组织，支持流式回答、切换模型与多轮追问。<b>答题界面不允许向 AI 提问</b>（不影响模考公平性），但可点「📌 交卷后问」把看不懂的片段暂存，交卷或阶段提交后会自动填进输入框再问。AI 问答需要联网；<b>题库、答题、暂停、阶段提交与错题解析仍完全离线可用</b>，飞机上断网做题不受影响。账号只用于识别使用者，答题记录不上传。</li>
@@ -1568,7 +1618,7 @@ try{
         <span style="flex:1"></span>
         <button class="btn sm ghost" id="btnKpBack">返回首页</button>
       </div>
-      <p class="sub" id="kpIntro">凡是出现<b>知识点讲解</b>的地方都能划词收藏：做题时在<b>选项</b>里划；答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>；交卷后的<b>成绩页、阶段报告</b>逐题解析（含「原题回放 · 知识点 · 逐项辨析」展开块）；以及<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>。收藏的句子会自动收进这里，<b>按知识点归类</b>，并保留<b>原句上下文</b>与题目出处；可以写自己的记忆钩子、标重点，也能<b>逐条翻卡复习</b>或导出成 Markdown——考前最后一遍，只看这里就够了。<b>收藏按题干保存</b>，刷新、换卷、下次打开都在；取消某条收藏，清单同步减少。</p>
+      <p class="sub" id="kpIntro">凡是出现<b>知识点讲解</b>的地方都能划词收藏：做题时在<b>选项</b>里划；答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>；交卷后的<b>成绩页、阶段报告</b>逐题解析（含「原题回放 · 知识点 · 逐项辨析」展开块）；以及<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>。收藏的句子会自动收进这里，<b>按知识点归类</b>，并保留<b>原句上下文</b>与题目出处；可以写自己的记忆钩子、标重点，也能<b>逐条翻卡复习</b>或导出成 Markdown——考前最后一遍，只看这里就够了。<b>收藏按题干保存</b>，刷新、换卷、下次打开都在；取消某条收藏，清单同步减少。<b>在这份清单里也能继续划词</b>：选中上下文、题干或原句里的新句子点 <b>「🖍 收藏」</b> 会再加一条；选中<b>已收藏的原句</b>则显示 <b>「✖ 取消收藏」</b>，翻卡复习与「看原题解析」抽屉里同样可用。</p>
       <div id="kpStat"></div>
       <div id="kpBody"></div>
     </div>
@@ -1582,8 +1632,30 @@ try{
         <span style="flex:1"></span>
         <button class="btn sm ghost" id="btnAiBack">返回首页</button>
       </div>
-      <p class="sub" id="aiIntro">这里是<b>标记题生成的讲解</b>的长期存档：每条都包含<b>知识点讲解 · 选项辨析 · 配套练习题</b>。它是<b>独立于标记</b>的一份内容——取消标记只是不再把它放进「我的标记」，讲解与题目仍然留在这里，可以随时翻看、反复重做。打开一条就算<b>「已看」</b>，做过的配套题会记下<b>做了几道、对了几道</b>；想接着学下去，点<b>「▶ 接着看」</b>一条条往下走，或切到<b>「没看过」「练习没做完」</b>只看剩下没处理的。存档保存在本机，刷新、换卷、离线都不丢；换设备时随「导出记录」一起带走。</p>
+      <p class="sub" id="aiIntro">这里是<b>任意题目生成的讲解</b>的长期存档（标记题自动收进来，其它题点「✨ AI 讲解 + 配套练习」也能生成）：每条都包含<b>知识点讲解 · 选项辨析 · 配套练习题</b>。它是<b>独立于标记</b>的一份内容——取消标记只是不再把它放进「我的标记」，讲解与题目仍然留在这里，可以随时翻看、反复重做。打开一条就算<b>「已看」</b>，做过的配套题会记下<b>做了几道、对了几道</b>；想接着学下去，点<b>「▶ 接着看」</b>一条条往下走，或切到<b>「没看过」「练习没做完」</b>只看剩下没处理的。存档保存在本机，刷新、换卷、离线都不丢；换设备时随「导出记录」一起带走。<b>下面的「打开任意题目讲解」可以按题号直达 1611 题里的任何一题</b>：还没生成 AI 讲解时会先显示本地三段式讲解与同考点配套练习；「批量生成」可以逐题把整套题库都交给 AI 讲一遍，进度可暂停、可断点续跑。</p>
       <div id="aiStat"></div>
+      <div class="qb-bar" id="qBatchBar">
+        <div class="qb-row">
+          <label for="qbScope">🚀 批量生成 AI 讲解</label>
+          <select class="qb-sel" id="qbScope">
+            <option value="missing">仅还没生成的题</option>
+            <option value="paper">本次作答 / 当前卷</option>
+            <option value="all">全部题目（重新生成）</option>
+          </select>
+          <button class="btn sm primary" id="qbStart" type="button">开始生成</button>
+          <button class="btn sm ghost" id="qbToggle" type="button">暂停</button>
+          <button class="btn sm ghost" id="qbClear" type="button">清空进度</button>
+          <div class="qb-prog"><i id="qbProgI"></i></div>
+          <span class="qb-count" id="qbCount">0 / 0</span>
+        </div>
+        <div class="qb-row" style="margin-top:9px">
+          <label for="qbNum">🔎 打开任意题目讲解</label>
+          <input class="qb-num" id="qbNum" type="number" min="1" max="1611" placeholder="题号">
+          <button class="btn sm ghost" id="qbOpen" type="button">打开讲解</button>
+          <span style="font-size:12.5px;color:#64748b">任意题都能看三段式讲解与配套练习</span>
+        </div>
+        <div class="qb-txt" id="qbTip"></div>
+      </div>
       <div class="ab-tools">
         <input class="ab-kw" id="aiKw" type="search" placeholder="搜题干、知识点或讲解正文…" autocomplete="off">
         <div class="ab-seg" id="aiSeg">
@@ -1632,10 +1704,11 @@ try{
             <button class="btn sm" id="btnMark">标记待定</button>
           </div>
           <div class="stem" id="qStem"></div>
-          <div class="hlhint" id="hlHint">🖍 选中<b>选项</b>或任意<b>知识点讲解</b>里的文字即可收藏；收藏的句子会汇入「📌 核心知识点清单」并按知识点归类</div>
+          <div class="hlhint" id="hlHint">🖍 选中<b>选项</b>、任意<b>知识点讲解</b>或<b>核心知识点清单</b>里的文字即可收藏 / 取消；收藏的句子会汇入「📌 核心知识点清单」并按知识点归类</div>
           <ul class="opts" id="qOpts"></ul>
           <div class="tbtn-row" id="topicBar">
             <button class="btn" id="btnTopic">📘 知识点讲解</button>
+            <button class="btn" id="btnQExp" type="button">✨ AI 讲解 + 配套练习</button>
             <span class="t-hint" id="topicHint">只讲这道题考的知识点，不揭示答案</span>
           </div>
           <div id="qTopic"></div>
@@ -1817,6 +1890,25 @@ try{
     <button class="btn sm ghost" id="kpViewClose">关闭</button>
   </div>
   <div class="kp-view-bd" id="kpViewBody"></div>
+</div>
+
+<!-- 全题讲解：题库里任意一题都能打开「知识点讲解 · 选项辨析 · 配套练习」 -->
+<div id="qExpMask" class="qexp-mask" hidden></div>
+<div id="qExpBox" class="qexp-box" role="dialog" aria-label="本题讲解与配套练习" hidden>
+  <div class="qexp-hd">
+    <b>✨ 本题讲解与配套练习</b>
+    <span class="qexp-id" id="qExpId"></span>
+    <span style="flex:1"></span>
+    <button class="btn sm ghost" id="qExpClose" type="button">关闭</button>
+  </div>
+  <div class="qexp-sub" id="qExpSub"></div>
+  <div class="qexp-tools">
+    <span class="qexp-badge local" id="qExpBadge">本地讲解 · 离线可用</span>
+    <button class="btn sm" id="qExpGen" type="button">✨ 用 AI 深度讲解</button>
+    <button class="btn sm ghost" id="qExpGoBank" type="button">📚 去讲解存档</button>
+  </div>
+  <div class="qexp-bd mka-md" id="qExpBody"></div>
+  <div class="qexp-note" id="qExpNote">和「标记题」用的是同一套讲解与练习：先自己作答、提交后才给答案与解析；判分、对错、已看记录都会留下。没有 AI 讲解时自动显示本地讲解（题库同考点题），离线也能练。</div>
 </div>
 
 <!-- 缩写全称气泡：手机点一下缩写即可看到英文全称 -->
@@ -7473,7 +7565,11 @@ function mkLetters(v){
    ③ 「标记」只是收藏动作，讲解与配套题目是复习资产，取消标记不该连内容一起删。
    所以正文单独一个键、按题单条增删；marklog 只留「生成到哪一步」的元信息。 */
 const AIBANK_KEY = KEY + '_aibank';
-const AIBANK_MAX = 600;              // 最多保留 600 条（标记上限 300，留出取消标记后的留存）
+/* 全题讲解开放后，存档不再只装「标记过的 300 题」：条数上限抬到覆盖整套题库，
+   真正的约束是本机 localStorage 约 5MB（中文按 2 字节/字计），所以再叠一道字数预算。
+   超预算时按生成时间淘汰最旧的，新生成的一条一定保得住。 */
+const AIBANK_MAX = 2000;
+const AIBANK_MAX_CHARS = 1600000;    // 约 3.2MB UTF-16，给进度、划词、练习判分等留出余量
 let aiBankCache = null;
 let aiBankWarned = false;
 
@@ -7487,15 +7583,28 @@ function aiBank(){
   try{ aiBankMigrate(); }catch(e){}
   return o;
 }
-function aiBankSave(){
+function aiBankSave(quiet){
   if(!aiBankCache) return false;
   try{ localStorage.setItem(AIBANK_KEY, JSON.stringify(aiBankCache)); return true; }
   catch(e){
-    if(!aiBankWarned){
+    if(!quiet && !aiBankWarned){
       aiBankWarned = true;
-      try{ mkToast('本机存储已满：这条讲解暂时只在本次打开期间可看。请到「AI 讲解存档」点「导出 Markdown」留档，再删掉一些旧条目。'); }catch(e2){}
+      try{ mkToast('本机存储已满：请到「AI 讲解存档」点「导出 Markdown」留档，再删掉一些旧条目。'); }catch(e2){}
     }
     return false;
+  }
+}
+/* 按「生成时间最旧」淘汰，直到条数与字数都落进预算；protect 是刚生成的那条，绝不淘汰 */
+function aiBankFit(db, protect){
+  const ks = Object.keys(db).filter(function(k){ return String(k) !== String(protect); });
+  ks.sort(function(a, b){ return (+db[a].t || 0) - (+db[b].t || 0); });
+  let chars = 0;
+  Object.keys(db).forEach(function(k){ chars += String((db[k] && db[k].txt) || '').length; });
+  let count = Object.keys(db).length, i = 0;
+  while((count > AIBANK_MAX || chars > AIBANK_MAX_CHARS) && i < ks.length){
+    chars -= String((db[ks[i]] && db[ks[i]].txt) || '').length;
+    delete db[ks[i++]];
+    count--;
   }
 }
 /* 一条存档记录：正文 + 出题所需的题目信息（即使题目从题库移除、标记被取消，也能独立查看） */
@@ -7567,13 +7676,22 @@ function aiBankPut(it, ai){
   if(!txt) return false;
   const rec = aiRecOf(it, txt, ai);
   db[it.idx] = rec;
-  /* 超量按生成时间裁掉最旧的，保证新内容一定写得进 */
-  const ks = Object.keys(db);
-  if(ks.length > AIBANK_MAX){
+  aiBankFit(db, it.idx);
+  /* 浏览器实际配额可能比预算更紧：继续淘汰最旧的再试，
+     绝不静默丢掉刚生成的这条（旧实现会连正文一起清掉）。 */
+  let ok = aiBankSave(true), guard = 0;
+  while(!ok && guard++ < 12){
+    const ks = Object.keys(db).filter(function(k){ return String(k) !== String(it.idx); });
     ks.sort(function(a, b){ return (+db[a].t || 0) - (+db[b].t || 0); });
-    ks.slice(0, ks.length - AIBANK_MAX).forEach(function(k){ delete db[k]; });
+    if(!ks.length) break;
+    for(let j = 0; j < Math.min(50, ks.length); j++) delete db[ks[j]];
+    ok = aiBankSave(true);
   }
-  return aiBankSave();
+  if(!ok && !aiBankWarned){
+    aiBankWarned = true;
+    try{ mkToast('本机存储已满：请到「AI 讲解存档」导出 Markdown 留档，再删掉一些旧条目。'); }catch(e){}
+  }
+  return ok;
 }
 function aiBankDel(idx){
   const db = aiBank();
@@ -7665,7 +7783,8 @@ function aiBankUsage(){
     const db = mkDrillStore();
     Object.keys(db).forEach(function(){ drills++; });
   }catch(e){}
-  return { n: list.length, chars: chars, drills: drills, max: AIBANK_MAX };
+  return { n: list.length, chars: chars, drills: drills,
+           max: AIBANK_MAX, maxChars: AIBANK_MAX_CHARS };
 }
 /* 供自动化测试与「清空站点数据」后复用：缓存与本机存储不一致时手动重置 */
 window.PMPAiBank = {
@@ -9199,10 +9318,13 @@ function aiPageStatRender(){
       '<div class="ab-kpi' + (unseen ? ' hot' : '') + '"><b>' + readN + '<em>/' + all.length + '</em></b><span>已看讲解</span></div>' +
       '<div class="ab-kpi' + (drills && doneN < drills ? ' hot' : '') + '"><b>' + doneN + '<em>/' + drills + '</em></b><span>练习已作答</span></div>' +
       '<div class="ab-kpi"><b>' + okN + '</b><span>其中答对</span></div>' +
+      '<div class="ab-kpi"><b>' + all.length + '<em>/' + (typeof TOTAL !== 'undefined' ? TOTAL : 1611) + '</em></b><span>题库讲解覆盖</span></div>' +
     '</div>' +
     '<div class="ab-hint">约 ' + size + '，涉及 <b>' + Object.keys(tags).length + '</b> 个知识点，标记中 <b>' + markN + '</b> 条。' +
     '「已看」= 你展开读过这条讲解；「练习已作答」= 点过提交或看过答案，判分与对错都记在本机。' +
-    '最多保留 ' + u.max + ' 条（超出时按生成时间淘汰最旧的）。内容只在本机：换电脑 / 换手机时用「⬇ 导出记录」带走，' +
+    '最多保留 ' + u.max + ' 条 / 约 ' + Math.round(u.maxChars / 10000) + ' 万字（超出时按生成时间淘汰最旧的）；' +
+    '<b>任意题目</b>都能用下面的「打开任意题目讲解」先看本地三段式讲解与同考点配套练习。' +
+    '内容只在本机：换电脑 / 换手机时用「⬇ 导出记录」带走，' +
     '也可从这里<b>导出 Markdown</b> 存进笔记软件长期留档。</div>';
   /* 学习进度筛选：直接回答「还有哪些没看、哪些没练完」 */
   const fltEl = $('aiFlt');
@@ -9553,6 +9675,315 @@ function mkAskAfterSubmit(){
     if(todo.length) mkAskQueue(todo, false);
   }catch(e){}
 }
+/* ================= 全题讲解：任意题目的「三段式讲解 + 配套练习」 =================
+   以前只有「标记待定」的题会走 mkAskPrompt → PMPAI.gen → _aibank。
+   这里把同一条链路开放给全部 1611 题：
+   · 有 AI 存档 → 用存档正文（RT 富文本 + 可作答练习卡），和标记题完全同一套渲染；
+   · 没有存档 → 现场按题库算「知识点讲解 · 选项辨析 · 同考点配套练习」，离线也能练；
+   · 任意题可随时点「✨ 用 AI 深度讲解」，结果写进 _aibank，在「AI 讲解存档」长期回看；
+   · 存档页提供串行批量队列（可暂停 / 断点续跑），配额不足淘汰最旧并提示导出留档。
+   考试模式未交卷时不打开（讲解含正确答案），交卷后所有入口自动可用。 */
+const QBATCH_KEY = KEY + '_qbatch';
+let qExpIdx = -1, qExpBusy = false;
+let qBatch = null, qBatchBusy = false, qBatchTimer = null;
+
+function qExpItem(idx){ return mkItemOf(+idx); }
+function qExpHasAi(idx){ return !!aiBankGet(+idx); }
+function qExpHtml(idx){
+  try{ return mkReplyHtml(qExpItem(idx)); }
+  catch(e){ return '<div class="mka-src">讲解渲染失败：' + mkEscHtml((e && e.message) || '') + '</div>'; }
+}
+/* 成绩页 / 阶段报告 / 答题反馈里共用同一个按钮，点开就是那道题的完整讲解 */
+function qExpBtn(idx){
+  return '<button class="btn sm qexp-btn" type="button" data-qexp="' + (+idx) + '">' +
+         '✨ AI 讲解 + 配套练习</button>';
+}
+/* 考试中不能提前揭示答案：完整讲解（含选项辨析、正确答案）只在交卷 / 查看解析后开放 */
+function qExpAllowed(){
+  try{
+    /* 只拦「正在进行中的整卷考试答题页」：首页、存档页、成绩页即使 mode=exam
+       也不是在考试，不该把复习入口一起挡掉。activeList 只在开卷后才有值。 */
+    const sc = $('scQuiz');
+    const inExam = state && state.mode === 'exam' && !state.submitted &&
+                   typeof activeList !== 'undefined' && activeList && activeList.length &&
+                   sc && sc.classList.contains('active');
+    if(inExam){
+      mkToast('考试模式下交卷后才展示含答案解析的完整讲解；现在请用「📘 知识点讲解」（不揭示答案）。');
+      return false;
+    }
+  }catch(e){}
+  return true;
+}
+function qExpOpen(idx){
+  idx = +idx;
+  if(isNaN(idx) || !QUESTIONS[idx]){ mkToast('这道题不在当前题库里。'); return false; }
+  if(!qExpAllowed()) return false;
+  const box = $('qExpBox'), mask = $('qExpMask');
+  if(!box || !mask) return false;
+  qExpIdx = idx;
+  const q = QUESTIONS[idx];
+  $('qExpId').textContent = '第 ' + (idx + 1) + ' 题' +
+    (q.planSet ? ' · ' + q.planSet + ' 卷' : '') + (q.planPos ? ' 第 ' + q.planPos + ' 题' : '');
+  $('qExpSub').textContent = (q.tag ? '【' + q.tag + '】' : '') +
+    mkFlat(mkZhPart(q.stem || '')).slice(0, 170);
+  const bd = $('qExpBody');
+  bd.setAttribute('data-qi', String(idx));   /* 讲解里也能划词收藏，归类到这道题 */
+  bd.innerHTML = qExpHtml(idx);
+  try{ hlPaint(bd, q); }catch(e){}
+  try{ readMark(idx); }catch(e){}
+  qExpPaintTools();
+  mask.hidden = false; box.hidden = false;
+  bd.scrollTop = 0;
+  return true;
+}
+function qExpPaintTools(){
+  const gen = $('qExpGen'), badge = $('qExpBadge');
+  if(!gen || !badge) return;
+  const has = qExpHasAi(qExpIdx);
+  if(qExpBusy){ badge.className = 'qexp-badge busy'; badge.textContent = 'AI 生成中…'; }
+  else if(has){ badge.className = 'qexp-badge'; badge.textContent = '✓ AI 深度讲解 · 已存档'; }
+  else { badge.className = 'qexp-badge local'; badge.textContent = '本地讲解 · 离线可用'; }
+  gen.disabled = qExpBusy || qBatchBusy;
+  gen.textContent = qExpBusy ? '生成中…' : (has ? '↻ 重新用 AI 生成' : '✨ 用 AI 深度讲解');
+}
+function qExpClose(){
+  const box = $('qExpBox'), mask = $('qExpMask');
+  if(box) box.hidden = true;
+  if(mask) mask.hidden = true;
+  try{ const b = document.getElementById('aiSelBar'); if(b) b.classList.remove('on'); }catch(e){}
+}
+function qExpRefreshViews(){
+  try{ refreshMarkEntry(); }catch(e){}
+  try{ mkRenderAll(); }catch(e){}
+  try{
+    const sc = $('scAi');
+    if(sc && sc.classList.contains('active')) renderAiPage();
+  }catch(e){}
+}
+/* 真正调用模型 + 落盘，UI 与批量队列共用这一个入口 */
+function qGenOne(idx){
+  const it = qExpItem(idx);
+  return mkAiGen(mkAskPrompt(it)).then(function(txt){
+    const model = (window.PMPAI && window.PMPAI.modelName && window.PMPAI.modelName()) || '';
+    const ok = aiBankPut(it, { txt: String(txt).trim(), at: Date.now(), src: 'ai', model: model });
+    return { ok: !!ok, txt: String(txt).trim() };
+  }).catch(function(e){
+    return { ok: false, err: (e && e.message) || 'AI 不可用' };
+  });
+}
+function qExpGenerate(idx){
+  idx = +idx;
+  if(qBatchBusy){ mkToast('批量生成正在进行中，完成后再单独生成。'); return Promise.resolve(false); }
+  if(qExpBusy || !QUESTIONS[idx]) return Promise.resolve(false);
+  qExpBusy = true; qExpPaintTools();
+  return qGenOne(idx).then(function(r){
+    qExpBusy = false;
+    if(r.ok){
+      const mbox = $('qExpBox');
+      if(mbox && !mbox.hidden && qExpIdx === idx){
+        const bd = $('qExpBody');
+        bd.innerHTML = qExpHtml(idx);
+        try{ hlPaint(bd, QUESTIONS[idx]); }catch(e){}
+      }
+      qExpPaintTools(); qExpRefreshViews();
+      mkToast('已生成 AI 讲解与配套练习，并存入「📚 AI 讲解存档」。');
+    }else{
+      qExpPaintTools();
+      mkToast('AI 暂不可用（' + (r.err || '未登录或离线') + '）；当前显示本地讲解，登录后可再试。');
+    }
+    return r.ok;
+  });
+}
+/* ---------------- 批量队列：串行、可暂停、刷新后断点续跑 ---------------- */
+function qBatchLoad(){
+  if(qBatch) return qBatch;
+  let o = null;
+  try{ o = JSON.parse(localStorage.getItem(QBATCH_KEY) || 'null'); }catch(e){ o = null; }
+  if(!o || typeof o !== 'object' || !Array.isArray(o.todo)) o = null;
+  else if(o.st === 'run'){
+    /* 页面被关掉时不自动继续烧模型调用，明确交给用户点「继续」 */
+    o.st = 'paused';
+    o.note = '上次页面关闭时中断，已自动停在第 ' + ((+o.pos || 0) + 1) + ' 题；点「继续」接着跑。';
+  }
+  qBatch = o;
+  return o;
+}
+function qBatchSave(){
+  if(!qBatch) return;
+  try{ localStorage.setItem(QBATCH_KEY, JSON.stringify(qBatch)); }catch(e){}
+}
+function qBatchTodo(scope){
+  const out = [];
+  if(scope === 'paper' && typeof activeList !== 'undefined' && activeList && activeList.length){
+    activeList.forEach(function(i){ if(QUESTIONS[i]) out.push(+i); });
+  }
+  if(!out.length){
+    /* 没检测到当前卷时退化成「仅还没生成的题」，别误把整套 1611 题重跑一遍 */
+    const eff = (scope === 'paper') ? 'missing' : scope;
+    const n = (typeof TOTAL !== 'undefined' && TOTAL) || QUESTIONS.length;
+    for(let i = 0; i < n; i++){
+      if(eff === 'missing' && qExpHasAi(i)) continue;
+      out.push(i);
+    }
+  }
+  return out;
+}
+function qBatchStart(scope, list){
+  if(qBatchBusy){ mkToast('批量生成正在进行中。'); return false; }
+  const todo = Array.isArray(list) ? list.map(function(x){ return +x; })
+                                   .filter(function(x){ return !isNaN(x) && !!QUESTIONS[x]; })
+                                   : qBatchTodo(scope);
+  if(!todo.length){ mkToast('没有需要生成的题目：这套范围里都已经有 AI 讲解了。'); return false; }
+  const usedPaper = (scope === 'paper' && typeof activeList !== 'undefined' && activeList && activeList.length);
+  qBatch = { scope: scope, todo: todo, pos: 0, ok: 0, fail: 0, skip: 0, streak: 0,
+             st: 'run', at: Date.now(),
+             note: (usedPaper || Array.isArray(list)) ? '' :
+                   (scope === 'paper' ? '未检测到当前试卷，已按「仅还没生成的题」处理。' : '') };
+  qBatchSave(); qBatchBusy = true; qBatchPaint(); qBatchTick();
+  return true;
+}
+function qBatchPause(){
+  clearTimeout(qBatchTimer);
+  qBatchBusy = false;
+  if(qBatch && qBatch.st === 'run'){
+    qBatch.st = 'paused';
+    qBatch.note = '已暂停在第 ' + (qBatch.pos + 1) + ' 题；进度已保存，点「继续」接着跑。';
+    qBatchSave();
+  }
+  qBatchPaint();
+}
+function qBatchResume(){
+  const s = qBatchLoad();
+  if(!s || s.pos >= s.todo.length){ mkToast('没有待续跑的批量任务，请重新点「开始生成」。'); return false; }
+  if(qBatchBusy) return false;
+  s.st = 'run'; s.streak = 0; s.note = '';
+  qBatchSave(); qBatchBusy = true; qBatchPaint(); qBatchTick();
+  return true;
+}
+function qBatchClear(){
+  clearTimeout(qBatchTimer);
+  qBatchBusy = false; qBatch = null;
+  try{ localStorage.removeItem(QBATCH_KEY); }catch(e){}
+  qBatchPaint();
+  try{ mkToast('批量进度已清空（已生成并存档的讲解不受影响）。'); }catch(e){}
+}
+function qBatchHalt(msg){
+  qBatch.st = 'paused'; qBatch.note = msg;
+  qBatchSave(); qBatchBusy = false; qBatchPaint(); qExpRefreshViews();
+  try{ mkToast(msg); }catch(e){}
+}
+function qBatchTick(){
+  const s = qBatch;
+  if(!s || s.st !== 'run'){ qBatchBusy = false; qBatchPaint(); return; }
+  if(s.pos >= s.todo.length){
+    s.st = 'done';
+    s.note = '完成：新生成 ' + s.ok + ' 条，跳过 ' + s.skip + ' 条，失败 ' + s.fail +
+             ' 条。本机最多留住最近 ' + AIBANK_MAX + ' 条 / 约 ' +
+             Math.round(AIBANK_MAX_CHARS / 10000) + ' 万字，超出的最旧讲解已被淘汰，' +
+             '建议点「⬇ 导出 Markdown」长期留档。';
+    qBatchSave(); qBatchBusy = false; qBatchPaint(); qExpRefreshViews();
+    try{ mkToast('批量生成完成：' + s.ok + ' 条已存入 AI 讲解存档。'); }catch(e){}
+    return;
+  }
+  const idx = +s.todo[s.pos];
+  if(!QUESTIONS[idx] || (s.scope !== 'all' && qExpHasAi(idx))){
+    s.skip++; s.pos++; qBatchSave(); qBatchPaint();
+    qBatchTimer = setTimeout(qBatchTick, 0);
+    return;
+  }
+  qBatchPaint();
+  qGenOne(idx).then(function(r){
+    s.pos++;
+    if(r.ok){ s.ok++; s.streak = 0; } else { s.fail++; s.streak++; }
+    qBatchSave();
+    if(s.streak >= 3){
+      qBatchHalt('连续 3 次生成失败（多半是未登录 AI 或离线），已自动暂停；已生成的 ' +
+                 s.ok + ' 条都保存好了，登录后点「继续」接着跑。');
+      return;
+    }
+    qBatchPaint();
+    qBatchTimer = setTimeout(qBatchTick, 120);
+  });
+}
+function qBatchPaint(){
+  const st = qBatchLoad();
+  const cnt = $('qbCount'), bar = $('qbProgI'), tip = $('qbTip'), toggle = $('qbToggle');
+  const total = st && st.todo ? st.todo.length : 0;
+  const pos = st ? Math.min(+st.pos || 0, total) : 0;
+  if(cnt) cnt.textContent = pos + ' / ' + total;
+  if(bar) bar.style.width = total ? (pos / total * 100).toFixed(1) + '%' : '0%';
+  if(toggle) toggle.textContent = (st && st.st === 'paused' && pos < total) ? '继续' : '暂停';
+  let msg = '给任意题目生成与「标记题」同款的<b>知识点讲解 · 选项辨析 · 3 道配套练习</b>；' +
+    '逐题串行、可暂停，刷新或关掉页面后进度还在。需要<b>已登录 AI 助手且在线</b>；' +
+    '本机约可存 ' + AIBANK_MAX + ' 条 / ' + Math.round(AIBANK_MAX_CHARS / 10000) +
+    ' 万字，超出的最旧讲解会自动淘汰，重要内容记得导出 Markdown。';
+  if(st){
+    const stateTxt = st.st === 'run' ? '<b>生成中</b>' :
+      (st.st === 'done' ? '<b>已完成</b>' : '<b>已暂停</b>');
+    /* 完成态的 note 已经写了统计，别再重复一遍 */
+    msg = st.st === 'done'
+      ? stateTxt + '　' + mkEscHtml(st.note || '')
+      : stateTxt + '　新生成 <b>' + (st.ok || 0) + '</b> 条，跳过 ' + (st.skip || 0) +
+        ' 条，失败 ' + (st.fail || 0) + ' 条。' +
+        (st.todo && st.todo[pos] != null ? '　当前：第 ' + (+st.todo[pos] + 1) + ' 题。' : '') +
+        (st.note ? '<br><span class="qb-warn">' + mkEscHtml(st.note) + '</span>' : '');
+  }
+  if(tip) tip.innerHTML = msg;
+  const box = $('qExpBox');
+  if(box && !box.hidden) qExpPaintTools();
+}
+/* ---------------- 事件绑定 ---------------- */
+document.addEventListener('click', function(e){
+  const t = e.target && e.target.closest ? e.target.closest('[data-qexp]') : null;
+  if(!t) return;
+  e.preventDefault();
+  qExpOpen(+t.getAttribute('data-qexp'));
+}, false);
+(function qExpBind(){
+  const on = function(id, fn){ const el = $(id); if(el) el.onclick = fn; };
+  on('btnQExp', function(){
+    const i = (typeof activeList !== 'undefined' && activeList) ? activeList[state.current] : null;
+    if(i == null){ mkToast('请先进入答题。'); return; }
+    qExpOpen(i);
+  });
+  on('qExpClose', qExpClose);
+  on('qExpMask', qExpClose);
+  on('qExpGen', function(){ if(qExpIdx >= 0) qExpGenerate(qExpIdx); });
+  on('qExpGoBank', function(){ qExpClose(); try{ aiOpenPage(); }catch(e){} });
+  on('qbStart', function(){ const s = $('qbScope'); qBatchStart(s ? s.value : 'missing'); });
+  on('qbToggle', function(){
+    const s = qBatchLoad();
+    if(s && s.st === 'run') qBatchPause();
+    else qBatchResume();
+  });
+  on('qbClear', qBatchClear);
+  const openNum = function(){
+    const el = $('qbNum'); if(!el) return;
+    const n = parseInt(el.value, 10);
+    if(isNaN(n) || n < 1 || n > QUESTIONS.length){
+      mkToast('请输入 1 – ' + QUESTIONS.length + ' 之间的题号。'); return;
+    }
+    /* 题号从 1 开始，数组下标从 0 开始 */
+    qExpOpen(n - 1);
+  };
+  on('qbOpen', openNum);
+  const num = $('qbNum');
+  if(num) num.addEventListener('keydown', function(e){ if(e.key === 'Enter') openNum(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && !$('qExpBox').hidden) qExpClose();
+  });
+  /* 延迟到脚本跑完再画（此时 TOTAL / QUESTIONS 才装配完成） */
+  setTimeout(qBatchPaint, 0);
+})();
+window.PMPQExp = {
+  open: qExpOpen, close: qExpClose, hasAi: qExpHasAi, html: qExpHtml,
+  generate: qExpGenerate, genOne: qGenOne,
+  batchState: function(){ var s = qBatchLoad(); return s ? JSON.parse(JSON.stringify(s)) : null; },
+  start: qBatchStart, pause: qBatchPause, resume: qBatchResume, clear: qBatchClear,
+  paint: qBatchPaint, busy: function(){ return { gen: qExpBusy, batch: qBatchBusy }; },
+  caps: function(){ return { max: AIBANK_MAX, chars: AIBANK_MAX_CHARS }; }
+};
+
 /* 把「本次作答范围内标记过的题」渲染到指定容器（成绩页 / 阶段报告页共用）。
    scope:'paper' 表示每次渲染都按当前 activeList 重新圈定范围——
    交卷后又标记了新题、或取消了几条，序号与卡片会立即跟上。 */
@@ -12449,11 +12880,16 @@ function hlZoneHost(root, z){
   /* 各来源只在各自的容器里落地：知识点讲解放 .tpanel / 主题讲解区，
      解析要点放 .why / .exp，AI 讲解放 .mka-md。找不到就跳过，绝不把标记画到别的段落上。 */
   if(z === 'topic'){
-    if(root.classList && (root.classList.contains('tpanel') || root.classList.contains('mk-tp-b'))) return root;
+    if(root.classList && (root.classList.contains('tpanel') || root.classList.contains('mk-tp-b') || root.classList.contains('kp'))) return root;
     var tp = root.querySelector('.tpanel') || root.querySelector('.mk-tp-b');
     if(tp) return tp;
     /* 知识点深入讲解弹层：正文是 .kp-sec-b 分节，整体就是这一段讲解 */
-    return root.querySelector('.kp-sec-b') ? root : null;
+    if(root.querySelector('.kp-sec-b')) return root;
+    /* 原题回放抽屉 / 成绩页里的知识点正文没有 .tpanel 外壳：退回含知识点的
+       那一块容器，否则在这里新收藏的句子不会出现绿色高亮 */
+    var kb = root.querySelector('.kp .kt, .kp .kh, .gloss li, .gloss .gh');
+    if(kb) return (kb.closest && kb.closest('.kp, .gloss')) || kb;
+    return null;
   }
   if(z === 'exp') return root.querySelector('.why') || root.querySelector('.exp') || root;
   if(z === 'ai'){
@@ -12582,9 +13018,12 @@ function hlSurfOf(el){
     var i = parseInt(node.getAttribute('data-qi'), 10);
     if(!isNaN(i) && typeof QUESTIONS !== 'undefined' && QUESTIONS[i]){
       var z = 'det';
-      if(el.closest('.tpanel, .mk-tp-b, .tp-sec, .tp-sec-b, .kp-sec-b')) z = 'topic';
+      /* 原题回放抽屉里的「知识点」与「术语对照」也是知识点讲解，别一律记成逐项辨析 */
+      if(el.closest('.tpanel, .mk-tp-b, .tp-sec, .tp-sec-b, .kp-sec-b, .kp .kt, .kp .kh, .gloss')) z = 'topic';
       else if(el.closest('.why, .exp')) z = 'exp';
-      return { qi:i, z:z, host: node };
+      /* 上下文只取选区所在的那一小段，别把整份解析的其它标题串进来 */
+      var ctxHost = el.closest('.kp .kt, .kp .kh, .why-list li, .why-grp, .qref-stem, .qref-case, .gloss li, .kp-sec-b, .tpanel, .mk-tp-b, .tp-sec-b, .exp, .why');
+      return { qi:i, z:z, host: ctxHost || node };
     }
   }
   if(typeof activeList === 'undefined' || !activeList) return null;
@@ -12601,6 +13040,40 @@ function hlSurfOf(el){
   if(tp) return { qi:cur, z:'topic', host: tp };
   return null;
 }
+/* ---- 核心知识点清单 / 翻卡复习 / 清单抽屉里的划词 ----
+   清单条目本身就是收藏，以前没带题目索引，选区解析不到归属，工具条里的
+   「🖍 收藏」会被整条隐藏。这里补上：选中已收藏的整句 → 返回与原记录一致的
+   描述（工具条显示「✖ 取消收藏」）；选中上下文 / 题干 / 注释里的新句子 →
+   按同一道题、同一来源新增一条收藏。 */
+function hlSelKp(el, raw){
+  if(!el || !el.closest || typeof kpById !== 'function') return null;
+  var host = el.closest('[data-kpid]');
+  if(!host) return null;
+  if(el.closest('button,input,textarea,select,[contenteditable="true"]')) return null;
+  var it = null;
+  try{ it = kpById(decodeURIComponent(host.getAttribute('data-kpid') || '')); }catch(eD){}
+  if(!it || it.idx == null || typeof QUESTIONS === 'undefined' || !QUESTIONS[it.idx]) return null;
+  var t = String(raw || '').replace(/\s+/g, ' ').trim();
+  if(t.length < 2 || t.length > 160) return null;
+  var qi = it.idx;
+  var origin = String(it.t || '').replace(/\s+/g, ' ').trim();
+  if(t === origin){
+    /* 选项类收藏要还原「选项内偏移」，才能命中原记录执行取消，而不是新增一条重复项 */
+    if(it.kind === 'o'){
+      var recs = (typeof hlDb === 'function') ? (hlDb()[it.qkey] || []) : [];
+      for(var r = 0; r < recs.length; r++){
+        var rec = recs[r];
+        if(rec && rec.i && rec.i === it.i && hlKind(rec) === 'o'){
+          return { k:'o', orig:rec.o, s:rec.s, e:rec.e, t:rec.t, qi:qi };
+        }
+      }
+    }
+    return { k:'e', z:it.z || 'det', t:it.t, ctx:it.ctx || '', qi:qi };
+  }
+  /* 新句子：上下文只取所在那一小块，避免把按钮文字、标签混进「原句上下文」 */
+  var ctxHost = el.closest('.kp-ctx,.kp-item-stem,.kp-note,.kp-txt,.kprev-txt,.kprev-ctx,.kprev-stem,.kprev-note') || host;
+  return { k:'e', z:it.z || 'det', t:t, ctx:hlCtx(ctxHost, t), qi:qi };
+}
 function hlSel(){
   var sel = window.getSelection ? window.getSelection() : null;
   if(!sel || sel.isCollapsed || !sel.rangeCount) return null;
@@ -12610,6 +13083,8 @@ function hlSel(){
   if(!raw.trim()) return null;
   var node = r.commonAncestorContainer;
   var el = node && (node.nodeType === 1 ? node : node.parentElement);
+  var kpSurf = (typeof hlSelKp === 'function') ? hlSelKp(el, raw) : null;
+  if(kpSurf) return kpSurf;
   var box = el && el.closest ? el.closest('#qOpts .otxt') : null;
   if(!box){
     /* 解析 / 知识点 / AI 讲解：只保留可读的原文片段，不做偏移换算 */
@@ -12826,7 +13301,8 @@ function kpAll(){
       if(!m || !m.t) continue;
       out.push({
         id: kpMarkId(k, m), qkey: k, kind: hlKind(m), z: m.z || '', o: m.o,
-        t: String(m.t), ctx: m.ctx || '', ts: m.ts || 0, q: ent.q, idx: ent.i
+        t: String(m.t), ctx: m.ctx || '', ts: m.ts || 0, q: ent.q, idx: ent.i,
+        i: m.i || ''      /* 原标记记录 id：清单页里选中整句时用它精确取消（含选项类标记） */
       });
     }
   }
@@ -12903,7 +13379,8 @@ function kpFiltered(){
 }
 function kpItemHtml(it, meta){
   var src = kpSrcOf(it), mm = meta[it.id] || {}, ctx = kpCtxOf(it), stem = kpStemOf(it);
-  var h = '<div class="kp-item' + (mm.star ? ' hot' : '') + '" id="kpi-' + hlEsc(it.id) + '">';
+  var h = '<div class="kp-item' + (mm.star ? ' hot' : '') + '" id="kpi-' + hlEsc(it.id) + '"' +
+          ' data-qi="' + it.idx + '" data-kpid="' + encodeURIComponent(it.id) + '">';
   h += '<div class="kp-txt"><span class="q">' + hlEsc(it.t) + '</span></div>';
   h += '<div class="kp-meta"><span class="kp-src ' + src.cls + '">' + src.label + '</span>' +
        '<span>' + hlEsc(kpTagOf(it)) + '</span>' +
@@ -13085,9 +13562,12 @@ function kpOpenView(it){
   if(!box || !v || !mask) return;
   var h = '';
   var ctx = kpCtxOf(it);
+  /* 这一段是「已收藏的核心点」本身：带上条目 id，选中整句时才能显示取消收藏 */
+  h += '<div class="kprev-src" data-qi="' + it.idx + '" data-kpid="' + encodeURIComponent(it.id) + '">';
   h += '<div style="font-size:12.5px;color:#64748b;margin-bottom:6px">📌 你要复习的核心点</div>';
   h += '<div class="kprev-txt" style="font-size:17px;margin:2px 0 10px">' + hlEsc(it.t) + '</div>';
   if(ctx) h += '<div class="kprev-ctx" style="margin-bottom:14px">' + hlEsc(ctx) + '</div>';
+  h += '</div>';
   h += '<div style="border-top:1px solid #e2e8f0;margin:6px 0 12px"></div>';
   try{ h += detailHtml(it.q, it.idx, true, true); }catch(e){ h += '<div class="sub">解析渲染失败。</div>'; }
   box.innerHTML = h;
@@ -13121,7 +13601,7 @@ function kpRenderReview(){
   var it = map[kpReview.ids[i]];
   if(!it){ kpReview = null; kpRender(); return; }
   var meta = kpMeta()[it.id] || {}, src = kpSrcOf(it);
-  var h = '<div class="kprev"><div class="kprev-card">';
+  var h = '<div class="kprev"><div class="kprev-card" data-qi="' + it.idx + '" data-kpid="' + encodeURIComponent(it.id) + '">';
   h += '<div class="kprev-badge"><span class="kp-src ' + src.cls + '">' + src.label + '</span>' +
        '<span>' + hlEsc(kpTagOf(it)) + '</span><span style="flex:1"></span><b>' + (i+1) + ' / ' + kpReview.ids.length + '</b></div>';
   h += '<div class="kprev-txt">' + hlEsc(it.t) + '</div>';
@@ -13295,7 +13775,7 @@ function render(){
     const ansTxt = isMulti
       ? (q.answers||[]).slice().sort().map(function(o){ return 'ABCD'.charAt(permFb.indexOf(o)); }).join('、')
       : 'ABCD'.charAt(permFb.indexOf(q.answer));
-    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+ansTxt+'</b><div class="why">'+acrMark(q.exp)+'</div>'+detailHtml(q, idx, false, true);
+    fb.innerHTML='<b>'+(right?'回答正确':'回答错误')+'　正确答案：'+ansTxt+'</b><div class="why">'+acrMark(q.exp)+'</div>'+detailHtml(q, idx, false, true)+qExpBtn(idx);
     try{ hlPaint(fb, q); }catch(eHp2){}
   }else{ fb.className=''; fb.innerHTML=''; }
 
@@ -13621,6 +14101,7 @@ function renderResult(){
       '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+pickedTxt+'</b></div>'+
       (right?'':'<div class="rline">正确答案：<b class="ok">'+ansTxtR+(isM?'':' . '+q.options[q.answer])+'</b></div>')+
       '<div class="exp"><b>解析要点：</b>'+acrMark(q.exp)+'</div>'+
+      qExpBtn(idx)+
       '<details class="dwrap"><summary>📄 原题回放 · 知识点 · 逐项辨析（错项优先） · 考点方法详解 · 术语对照</summary>'+detailHtml(q, idx)+'</details>';
     try{ hlPaint(div, q); }catch(eHp3){}
     rl.appendChild(div);
@@ -14467,13 +14948,24 @@ function hlApplyPending(){
   }else{
     hlFlash(p.k === 'o' ? '已取消该标记' : '已取消这条收藏');
   }
+  /* 清单页的列表 / 翻卡卡面 / KPI 都是静态渲染的：收藏或取消后要就地刷新，
+     否则会出现「点了取消、条目还在」或「新收藏看不见」。滚动位置保持不动。 */
+  try{
+    var scKp = $('scKp');
+    if(scKp && scKp.classList.contains('active')){
+      var sy = window.scrollY || window.pageYOffset || 0;
+      if(typeof kpReview !== 'undefined' && kpReview && kpReview.ids && kpReview.ids.length && typeof kpRenderReview === 'function') kpRenderReview();
+      else if(typeof kpRender === 'function') kpRender();
+      try{ window.scrollTo(0, sy); }catch(eW){}
+    }
+  }catch(eK){}
 }
 function hlFlash(msg){
   let d = $('hlFlash');
   if(!d){
     d = document.createElement('div');
     d.id = 'hlFlash';
-    d.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);z-index:1300;' +
+    d.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);z-index:10062;' +
       'background:#0f172a;color:#f8fafc;border-radius:9px;padding:9px 16px;font-size:13px;' +
       'box-shadow:0 10px 28px rgba(15,23,42,.3);opacity:0;transition:opacity .18s;pointer-events:none';
     document.body.appendChild(d);
@@ -14732,6 +15224,7 @@ function stageItemHtml(it,n){
     '<div class="rline">你的答案：<b class="'+(ok?'ok':'no')+'">'+pickedTxt+'</b></div>'+
     (ok?'':'<div class="rline">正确答案：<b class="ok">'+ansTxtR+(isM?'':' . '+q.options[q.answer])+'</b></div>')+
     '<div class="exp"><b>解析要点：</b>'+acrMark(q.exp)+'</div>'+
+    qExpBtn(i)+
     '<details class="dwrap"><summary>📄 原题回放 · 知识点 · 逐项辨析（错项优先） · 考点方法详解 · 术语对照</summary>'+detailHtml(q,i)+'</details></div>';
 }
 function renderStage(){
@@ -14886,7 +15379,7 @@ refreshStageEntry();
    升级本身只增字段、不改写原有键，所以老用户的进行中考试与历史记录原样保留。 */
 var BUILD_KEY = KEY + '_build';
 var BAK_INDEX = KEY + '_baks';
-var BUILD_ID  = '2026-11-15-rt-typo';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
+var BUILD_ID  = '2026-11-15-all-ai-explain';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
 /* 版本快照覆盖的键：答题进度 / 标记 / 讲解清单 / 练习判分 / 划词收藏 / 清单标注。
    注意：不复制备份 AI 讲解正文（_aibank）——它一份就几千字，6 份快照会直接把本机配额撑爆，
    而升级过程本身不会删这个键，正文照旧保留；需要留档时用「导出记录」或存档页的「导出 Markdown」。 */
@@ -16659,7 +17152,7 @@ if(s && Object.keys(s.answers||{}).length){
   }
   function check(){
     if(!window.caches) return;
-    caches.open('pmp-exam-offline-v21').then(function(c){ return c.match('./index.html'); })
+    caches.open('pmp-exam-offline-v23').then(function(c){ return c.match('./index.html'); })
       .then(function(hit){
         if(hit) setUI('ok','✅ 已可离线','题库已完整缓存到本机。现在开飞行模式刷新本页，也能正常出题、答题、交卷与保存进度。');
         else setUI('warn','⏳ 正在准备','正在缓存题库，请保持联网稍等几秒；若一直不变，请点「保存完整题库到手机」兜底。');
@@ -16670,7 +17163,7 @@ if(s && Object.keys(s.answers||{}).length){
     .then(function(){
       /* 页面自己把当前整页写进缓存：比 SW install 预缓存更可靠（当前 URL 一定能访问） */
       if(window.caches){
-        caches.open('pmp-exam-offline-v21').then(function(c){
+        caches.open('pmp-exam-offline-v23').then(function(c){
           return fetch(location.href,{cache:'no-store'}).then(function(r){
             if(r&&r.ok) return c.put('./index.html', r.clone());
           }).catch(function(){});
@@ -17628,6 +18121,9 @@ if(s && Object.keys(s.answers||{}).length){
   }
   function aiShowSel(){
     if(Date.now()-aiSelLock<450) return aiHideSel();
+    /* 图片全屏放大时不要再浮出划词工具条，否则会压在放大图上 */
+    var zoom = document.getElementById('rtZoom');
+    if(zoom && zoom.classList.contains('on')) return aiHideSel();
     var s=window.getSelection?window.getSelection():null;
     if(!s||s.isCollapsed||!s.rangeCount) return aiHideSel();
     var text=String(s.toString()||'').replace(/\s+/g,' ').trim();
@@ -17663,9 +18159,11 @@ if(s && Object.keys(s.answers||{}).length){
         try{ if(q0) has=hlHas(q0,info); }catch(eH2){}
         hlBtn.hidden=false;
         hlBtn.textContent=has?'✖ 取消收藏':(info.k==='e'?'🖍 收藏':'🖍 标记');
-        hlBtn.title=info.k==='e'
-          ? ('收藏这句到「核心知识点清单」（来源：'+(typeof hlZoneName==='function'?hlZoneName(info.z):'讲解')+'），按知识点归类')
-          : '标记选中的选项文字，交卷后按词给出解析';
+        hlBtn.title=has
+          ? '取消这条收藏：从「核心知识点清单」同步移除'
+          : (info.k==='e'
+            ? ('收藏这句到「核心知识点清单」（来源：'+(typeof hlZoneName==='function'?hlZoneName(info.z):'讲解')+'），按知识点归类')
+            : '标记选中的选项文字，交卷后按词给出解析');
       }else{
         hlBtn.hidden=true;
       }
