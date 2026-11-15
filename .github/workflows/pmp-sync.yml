@@ -1,0 +1,39 @@
+name: Sync PMP exam bank to GitHub Pages
+on:
+  push:
+    paths: ['.github/workflows/pmp-sync.yml']
+  workflow_dispatch:
+  schedule:
+    - cron: '23 */6 * * *'
+permissions:
+  contents: write
+  pages: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch latest from workbuddy host
+        run: |
+          set -euo pipefail
+          curl -fsSL "https://pmp-exam.app.workbuddy.host/?sharecode=BN5ZSCYSC4" -o index.html
+          curl -fsSL "https://pmp-exam.app.workbuddy.host/sw.js?sharecode=BN5ZSCYSC4" -o sw.js
+          test "$(stat -c%s index.html)" -gt 4000000
+          grep -q "BUILD_ID" index.html
+      - name: Commit if changed
+        id: commit
+        run: |
+          set -euo pipefail
+          git config user.name "pmp-sync-bot"
+          git config user.email "pmp-sync-bot@users.noreply.github.com"
+          git add index.html sw.js
+          if git diff --cached --quiet; then echo "changed=false" >> "$GITHUB_OUTPUT"; exit 0; fi
+          git commit -m "Sync $(date -u +%Y-%m-%dT%H:%M:%SZ) from workbuddy host"
+          git push origin main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+      - name: Request Pages rebuild
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          curl -sS -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages/builds"
