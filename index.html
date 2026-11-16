@@ -305,6 +305,24 @@ body.is-paused #btnSubmitTop{display:none!important}
 .rev-item{border:1px solid var(--line);border-radius:10px;padding:14px;margin-bottom:12px}
 .rev-item .rstem{font-weight:600;margin-bottom:8px;white-space:pre-wrap}
 .rev-item .rline{font-size:14px;margin:3px 0}
+/* v24：交卷后每道错题内嵌「AI 讲解 + 配套练习」，与标记题同一套渲染 */
+.rev-ai-bar{border:1px solid #c7d2fe;background:#f8faff;border-radius:10px;padding:11px 13px;margin:12px 0 14px}
+.rev-ai-bar-t{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px;color:#0f172a}
+.rev-ai-bar-t b{font-weight:600}
+.rev-ai-stat{font-size:13px;color:#475569;line-height:1.7}
+.rev-ai-bar-t .btn{padding:4px 10px;font-size:12.5px}
+.rev-ai-prog{height:6px;background:#e0e7ff;border-radius:999px;overflow:hidden;margin-top:9px}
+.rev-ai-prog>i{display:block;height:100%;width:0;background:var(--brand);border-radius:999px;transition:width .25s}
+.rev-ai{margin:12px 0 2px;border:1px solid #c7d2fe;background:#f8faff;border-radius:10px;padding:12px}
+.rev-ai-h{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-weight:600;color:#0f172a;font-size:14px;margin-bottom:9px}
+.rev-ai-chip{font-weight:400;font-size:12px;padding:2px 9px;border-radius:999px;background:#eef2ff;color:#4338ca;border:1px solid #c7d2fe}
+.rev-ai-chip.done{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+.rev-ai-chip.busy{background:#fffbeb;color:#b45309;border-color:#fde68a}
+.rev-ai-chip.local{background:#f1f5f9;color:#475569;border-color:#cbd5e1}
+.rev-ai .mka-reply{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px}
+.rev-ai .mka-md{--rt-fs:15.4px;--rt-lh:1.95;--rt-h:15.8px;--rt-h2:16.8px;--rt-gap:11px}
+.rev-ai-note{margin-top:8px;font-size:13px;color:#475569;line-height:1.75}
+.rev-ai-note .btn{padding:4px 10px;font-size:12.5px}
 .ok{color:var(--ok);font-weight:600}
 .no{color:var(--bad);font-weight:600}
 /* 解析：正式作答页面上的「解析」区块，字号跟正文一级看齐（15px），行高放宽到 1.9；
@@ -357,6 +375,9 @@ body.is-paused #btnSubmitTop{display:none!important}
   .diag-row{grid-template-columns:1fr;gap:2px}
   .diag-row .dnum{text-align:left}
   .rev-item{padding:12px}
+  .rev-ai{padding:10px}
+  .rev-ai .mka-md{--rt-fs:15px;--rt-h:15.4px;--rt-h2:16.4px}
+  .rev-ai-bar-t{font-size:13px}
   .big{font-size:38px}
   body{font-size:14.5px;-webkit-text-size-adjust:100%}
   input,button,select,textarea{font-size:16px}
@@ -617,7 +638,7 @@ body.is-paused #btnSubmitTop{display:none!important}
 .mka-prog{font-size:10.8px;border-radius:999px;padding:1px 7px;background:#f1f5f9;color:#64748b;white-space:nowrap}
 .mka-prog.ok{background:#f0fdf4;color:#15803d}
 .ec-sub{font-size:11.5px;font-weight:400;color:#64748b}
-.mk-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:10061;max-width:min(92vw,560px);background:#1e293b;color:#f8fafc;font-size:13px;line-height:1.7;padding:10px 16px;border-radius:10px;box-shadow:0 8px 26px rgba(15,23,42,.28);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.mk-toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,14px);z-index:10091;max-width:min(92vw,560px);background:#1e293b;color:#f8fafc;font-size:13px;line-height:1.7;padding:10px 16px;border-radius:10px;box-shadow:0 8px 26px rgba(15,23,42,.28);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 .mk-toast.on{opacity:1;transform:translate(-50%,0)}
 @media(max-width:600px){
   .mka{padding:12px}
@@ -756,12 +777,25 @@ body.is-paused #btnSubmitTop{display:none!important}
 .bak-meta{font-size:12px;color:#475569;line-height:1.85;margin-top:6px}
 @media(max-width:600px){.bak-card{padding:16px}.bak-item{padding:10px}.bak-mask{padding:10px}}
 @media print{.bak-mask{display:none!important}}
-/* ===== 悬浮 AI 学习助手（按需加载 SDK，断网时题库主体不受影响） ===== */
+/* ===== 悬浮 AI 学习助手（按需加载 SDK，断网时题库主体不受影响） =====
+   v25 图层约定（低 → 高）：
+     页面内容 20 → 出处抽屉 10010/10011 → 本题讲解弹层 10020/10021 → 图片放大 10050
+     → AI 助手 FAB 10080 / 助手面板 10081 → 划词工具条 10090 → 提示 10091/10092
+   助手必须浮在「AI 生成的讲解与配套练习」之上，两个图层才能同时打开、互不关闭；
+   助手面板是可拖动的浮窗、不带全屏遮罩，因此本体讲解层依旧可滚动、可作答。
+   注意：购买/登录/支付/同步/暂停/知识点弹层等既有遮罩保持原层级，不要抬到助手之上 ——
+   它们靠 display 切换做交互阻断，且部分弹层正文是遮罩的兄弟节点，
+   抬高后会反过来盖住划词工具条、阶段报告按钮和弹层正文。 */
 .ai-fab{position:fixed;right:20px;bottom:20px;width:56px;height:56px;border-radius:50%;
   background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;border:0;cursor:pointer;
-  box-shadow:0 8px 24px rgba(37,99,235,.36);z-index:90;font-size:24px;line-height:1;
+  box-shadow:0 8px 24px rgba(37,99,235,.36);z-index:10080;font-size:24px;line-height:1;
   font-family:inherit;display:flex;align-items:center;justify-content:center;
-  transition:transform .18s,box-shadow .18s}
+  transition:transform .18s,box-shadow .18s;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+/* v26：悬浮球可拖动。拖动中禁用 hover 位移与过渡，避免跟手迟滞 */
+.ai-fab.dragging{transition:none;transform:none;cursor:grabbing;
+  box-shadow:0 14px 34px rgba(37,99,235,.5)}
+body.ai-fab-drag,body.ai-fab-drag *{cursor:grabbing!important;user-select:none!important}
 .ai-fab:hover{transform:translateY(-2px) scale(1.04);box-shadow:0 12px 30px rgba(37,99,235,.45)}
 .ai-fab:active{transform:scale(.96)}
 .ai-fab[hidden]{display:none!important}
@@ -770,11 +804,30 @@ body.is-paused #btnSubmitTop{display:none!important}
 .ai-fab.on .ai-dot{display:block}
 .ai-panel{position:fixed;right:20px;bottom:86px;width:376px;max-width:calc(100vw - 24px);
   height:min(600px,calc(100vh - 120px));background:#fff;border:1px solid var(--line);
-  border-radius:16px;box-shadow:0 24px 64px rgba(15,23,42,.28);z-index:100;
+  border-radius:16px;box-shadow:0 24px 64px rgba(15,23,42,.28);z-index:10081;
   display:none;flex-direction:column;overflow:hidden}
 .ai-panel.open{display:flex}
+/* v26：问答框右下角缩放手柄，可随意拉大缩小；最小化时隐藏 */
+.ai-rs{position:absolute;right:0;bottom:0;width:16px;height:16px;cursor:nwse-resize;
+  touch-action:none;z-index:3;border-bottom-right-radius:14px;opacity:.7;
+  background:
+    linear-gradient(135deg,transparent 46%,#94a3b8 46%,#94a3b8 54%,transparent 54%),
+    linear-gradient(135deg,transparent 68%,#cbd5e1 68%,#cbd5e1 76%,transparent 76%)}
+.ai-rs:hover{opacity:1}
+.ai-panel.resizing{user-select:none;-webkit-user-select:none;transition:none}
+.ai-panel.resizing .ai-rs{opacity:1}
+.ai-panel.mini .ai-rs{display:none}
+/* v25：一键最小化成标题胶囊，把「AI 讲解＋配套练习」本体整个让出来 */
+.ai-panel.mini{height:auto;left:auto;width:min(300px,calc(100vw - 24px))}
+.ai-panel.mini .ai-body{display:none!important}
+.ai-panel.mini .ai-hd{padding:7px 10px;gap:5px;flex-wrap:nowrap}
+.ai-panel.mini .ai-title{font-size:12.5px;flex-wrap:nowrap;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-panel.mini #aiState,.ai-panel.mini #aiLogout{display:none}
 .ai-hd{display:flex;align-items:center;gap:7px;padding:11px 13px;
-  background:linear-gradient(120deg,#1e3a8a,#2563eb);color:#fff;flex:0 0 auto}
+  background:linear-gradient(120deg,#1e3a8a,#2563eb);color:#fff;flex:0 0 auto;
+  cursor:move;user-select:none;-webkit-user-select:none;touch-action:none}
+.ai-hd button{cursor:pointer}
+@media(max-width:600px){.ai-hd{cursor:default;touch-action:auto}}
 .ai-title{font-weight:700;font-size:14px;flex:1;min-width:0;display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .ai-state{font-size:11px;font-weight:500;background:rgba(255,255,255,.18);border-radius:999px;
   padding:2px 9px;white-space:nowrap;max-width:130px;overflow:hidden;text-overflow:ellipsis}
@@ -837,7 +890,8 @@ body.is-paused #btnSubmitTop{display:none!important}
 .ai-q{flex:0 0 auto;border:1px solid #bfdbfe;background:var(--brand-soft);color:#1d4ed8;border-radius:999px;
   font-size:11px;padding:5px 10px;cursor:pointer;line-height:1.5;font-family:inherit;white-space:nowrap}
 .ai-q:hover{background:#dbeafe}
-.ai-foot{border-top:1px solid var(--line);padding:10px 12px;display:flex;gap:8px;
+/* v26：右下角留给缩放手柄，输入区不再贴角，避免「发送」按钮压住手柄 */
+.ai-foot{border-top:1px solid var(--line);padding:10px 18px 18px 12px;display:flex;gap:8px;
   align-items:flex-end;flex:0 0 auto}
 .ai-foot textarea{flex:1;min-width:0;resize:none;height:64px;border:1px solid var(--line);
   border-radius:9px;padding:8px 10px;font-size:13px;font-family:inherit;color:var(--ink);line-height:1.6}
@@ -845,7 +899,10 @@ body.is-paused #btnSubmitTop{display:none!important}
 .ai-foot .ai-btn{height:36px}
 @media(max-width:600px){
   .ai-fab{right:14px;bottom:14px;width:52px;height:52px;font-size:22px}
-  .ai-panel{right:8px;left:8px;bottom:76px;width:auto;max-width:none;height:min(72vh,calc(100vh - 100px))}
+  /* v25：手机端助手改成右下角小窗，不再铺满整屏把讲解与配套练习整层盖住 */
+  .ai-panel{right:8px;left:auto;bottom:76px;width:min(330px,calc(100vw - 16px));
+    max-width:none;height:min(360px,calc(100vh - 120px))}
+  .ai-panel.mini{left:auto;width:min(280px,calc(100vw - 16px))}
   .ai-msg{max-width:94%}
   .ai-bar select{max-width:150px}
 }
@@ -984,9 +1041,10 @@ body.is-paused #btnSubmitTop{display:none!important}
 }
 @media print{.rt-zoom{display:none!important}}
 /* ---- 划词提问浮层 ---- */
-/* 工具条必须浮在「看原题解析」抽屉(10011)与图片放大层(10050)之上，
-   否则在抽屉里划词时按钮被盖住，看起来就像没有「收藏」功能 */
-.ai-sel{position:fixed;z-index:10060;display:none;align-items:center;gap:4px;padding:5px 6px;
+/* v25：工具条与助手同属「最上层」体系，必须浮在出处抽屉(10011)、
+   本题讲解弹层(10021)、图片放大(10050)与助手面板(10081)之上，
+   否则在讲解里划词时按钮被盖住，看起来就像没有「收藏」功能 */
+.ai-sel{position:fixed;z-index:10090;display:none;align-items:center;gap:4px;padding:5px 6px;
   background:#0f172a;border-radius:10px;box-shadow:0 8px 26px rgba(15,23,42,.34);
   font-size:12px;white-space:nowrap;max-width:calc(100vw - 16px)}
 .ai-sel.on{display:flex}
@@ -996,7 +1054,7 @@ body.is-paused #btnSubmitTop{display:none!important}
 .ai-sel button.pri{background:#2563eb;font-weight:700}
 .ai-sel button.pri:hover{background:#1d4ed8}
 .ai-sel button[hidden]{display:none!important}
-.ai-toast{position:fixed;z-index:10061;left:50%;bottom:96px;transform:translateX(-50%);
+.ai-toast{position:fixed;z-index:10091;left:50%;bottom:96px;transform:translateX(-50%);
   max-width:min(420px,90vw);background:#0f172a;color:#f8fafc;border-radius:10px;
   padding:9px 14px;font-size:12.5px;line-height:1.6;box-shadow:0 10px 30px rgba(15,23,42,.3);
   opacity:0;pointer-events:none;transition:opacity .18s;text-align:center}
@@ -1238,8 +1296,9 @@ body.guest .ai-fab{bottom:64px}
 }
 @media print{.kp-view-mask,.kp-view{display:none!important}}
 /* ===== 全题讲解：任意题目的「三段式讲解 + 配套练习」弹层 =====
-   层级刻意低于划词工具条(10060)与提示(10061)，高于原题回放抽屉(10011)，
-   这样在讲解里划词收藏时按钮不会被弹层压住。 */
+   v25：层级低于划词工具条(10090)、提示(10091/10092)与 AI 助手(10080/10081)，
+   高于原题回放抽屉(10011)。助手浮在上层，但它是可拖动的小窗、不带全屏遮罩，
+   所以讲解与配套练习依旧能完整滚动、作答、判分，两个图层互不关闭。 */
 .qexp-btn{margin:7px 0 2px}
 .qexp-mask{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10020}
 .qexp-mask[hidden]{display:none}
@@ -1921,6 +1980,7 @@ try{
     <div class="ai-title">✨ 12月PMP知识助手 <span id="aiState" class="ai-state">未登录</span></div>
     <button id="aiNew" class="ai-mini" type="button" title="清空上下文，开始新对话">新对话</button>
     <button id="aiLogout" class="ai-mini" type="button">退出</button>
+    <button id="aiMini" class="ai-mini" type="button" title="最小化助手，让出讲解区">—</button>
     <button id="aiClose" class="ai-x" type="button" aria-label="收起">×</button>
   </div>
   <div class="ai-body">
@@ -7959,15 +8019,32 @@ function mkAiGen(prompt){
 }
 
 /* ---------- 本地降级讲解（AI 不可用时保底） ---------- */
-function mkLocalDrill(selfIdx, tid){
-  const cand = [];
+/* v24：整卷可能一次渲染上百道错题，逐题遍历全库找同考点会明显卡住成绩页。
+   topicDeepOf 只依赖 tag / domain，按 tag 缓存；同考点候选列表按知识点缓存，
+   首次算一次，之后所有错题直接复用（selfIdx 在使用时再排除，结果与原来等价）。 */
+const TOPIC_DEEP_CACHE = {};
+const LOCAL_DRILL_CAND = {};
+function topicDeepCached(q){
+  const key = (q.tag || '') + '@' + (q.domain || '');
+  let r = TOPIC_DEEP_CACHE[key];
+  if(!r){ r = topicDeepOf(q); TOPIC_DEEP_CACHE[key] = r; }
+  return r;
+}
+function localDrillCand(tid){
+  let cand = LOCAL_DRILL_CAND[tid];
+  if(cand) return cand;
+  cand = [];
   for(let i = 0; i < TOTAL; i++){
-    if(i === selfIdx) continue;
     const q = QUESTIONS[i];
     if(!q || !q.stem || !(q.options || []).length) continue;
-    const t = topicDeepOf(q);
+    const t = topicDeepCached(q);
     if(t && t.t && t.t.id === tid){ cand.push(i); if(cand.length >= 200) break; }
   }
+  LOCAL_DRILL_CAND[tid] = cand;
+  return cand;
+}
+function mkLocalDrill(selfIdx, tid){
+  const cand = localDrillCand(tid).filter(function(i){ return i !== selfIdx; });
   if(!cand.length) return '<p>题库里暂时没有同考点的其他题目；可回「我的标记」做标记题专项练习巩固。</p>';
   const start = Math.abs(selfIdx * 7 + 3) % cand.length;
   const pick = [];
@@ -8669,26 +8746,32 @@ function mkDrillCard(id, d){
 function mkDrillPaint(id, soft){
   const def = MK_DRILLS[id];
   if(!def) return;
-  const el = document.querySelector('[data-drill="' + id + '"]');
-  if(!el) return;
+  /* v24：同一道题的讲解可能同时出现在「标记题卡片」「存档页」「错题内嵌区」「讲解弹层」，
+     判分状态是共享的，所以所有同 id 的练习卡都要同步刷新，不能只更新第一个。 */
+  const els = document.querySelectorAll('[data-drill="' + id + '"]');
+  if(!els.length) return;
   /* 选选项时只改类名与按钮状态，不重建节点：光标、滚动位置和键盘焦点都不跳 */
   if(soft){
     const st = mkDrillState(id);
-    el.querySelectorAll('.mka-opt').forEach(function(b){
-      const k = +b.getAttribute('data-op');
-      const on = st.p.indexOf(k) >= 0;
-      b.classList.toggle('on', on);
-      const box = b.querySelector('.mka-box');
-      if(box) box.textContent = on ? '✓' : '';
+    els.forEach(function(el){
+      el.querySelectorAll('.mka-opt').forEach(function(b){
+        const k = +b.getAttribute('data-op');
+        const on = st.p.indexOf(k) >= 0;
+        b.classList.toggle('on', on);
+        const box = b.querySelector('.mka-box');
+        if(box) box.textContent = on ? '✓' : '';
+      });
+      const sub = el.querySelector('[data-drsub]');
+      if(sub) sub.disabled = !st.p.length;
     });
-    const sub = el.querySelector('[data-drsub]');
-    if(sub) sub.disabled = !st.p.length;
     return;
   }
-  const tmp = document.createElement('div');
-  tmp.innerHTML = mkDrillCard(id, def);
-  const fresh = tmp.firstChild;
-  if(fresh) el.parentNode.replaceChild(fresh, el);
+  els.forEach(function(el){
+    const tmp = document.createElement('div');
+    tmp.innerHTML = mkDrillCard(id, def);
+    const fresh = tmp.firstChild;
+    if(fresh && el.parentNode) el.parentNode.replaceChild(fresh, el);
+  });
 }
 /* 选择 / 提交 / 看答案 / 重做（事件委托，重渲染后依然有效） */
 document.addEventListener('click', function(e){
@@ -9674,6 +9757,8 @@ function mkAskAfterSubmit(){
     const todo = mkLogLoad().filter(function(it){ return inPaper[it.idx]; });
     if(todo.length) mkAskQueue(todo, false);
   }catch(e){}
+  /* v24：交卷后每道错题也自动生成同款 AI 讲解与配套练习（阶段提交不触发） */
+  try{ wrongAiAfterSubmit(); }catch(eW){}
 }
 /* ================= 全题讲解：任意题目的「三段式讲解 + 配套练习」 =================
    以前只有「标记待定」的题会走 mkAskPrompt → PMPAI.gen → _aibank。
@@ -9970,7 +10055,18 @@ document.addEventListener('click', function(e){
   const num = $('qbNum');
   if(num) num.addEventListener('keydown', function(e){ if(e.key === 'Enter') openNum(); });
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape' && !$('qExpBox').hidden) qExpClose();
+    if(e.key !== 'Escape') return;
+    /* v25：按「最上层优先」逐层收起，别因为按 Esc 就把本体讲解层误关掉。
+       顺序：AI 助手面板(10081) → 图片放大(10050) → 本题讲解弹层(10021)。 */
+    var ap = $('aiPanel');
+    if(ap && ap.classList.contains('open')){ ap.classList.remove('open'); return; }
+    var zoom = $('rtZoom');
+    if(zoom && zoom.classList.contains('on')){
+      zoom.classList.remove('on');
+      var zim = zoom.querySelector('img'); if(zim) zim.removeAttribute('src');
+      return;
+    }
+    if(!$('qExpBox').hidden) qExpClose();
   });
   /* 延迟到脚本跑完再画（此时 TOTAL / QUESTIONS 才装配完成） */
   setTimeout(qBatchPaint, 0);
@@ -9982,6 +10078,252 @@ window.PMPQExp = {
   start: qBatchStart, pause: qBatchPause, resume: qBatchResume, clear: qBatchClear,
   paint: qBatchPaint, busy: function(){ return { gen: qExpBusy, batch: qBatchBusy }; },
   caps: function(){ return { max: AIBANK_MAX, chars: AIBANK_MAX_CHARS }; }
+};
+
+/* ================= v24：交卷后每道错题直接内嵌 AI 讲解与配套练习 =================
+   与「标记题」完全同一条链路：mkAskPrompt → PMPAI.gen → aiBankPut → mkReplyHtml，
+   所以正文是同一份、练习判分是同一份、取消标记也不会丢；差别只是：
+   · 展示位置从「标记题卡片」扩展到成绩页每道错题的解析下方，交卷即可直接看到；
+   · 交卷后自动串行补齐真 AI 讲解（只补没有存档的题），不用再逐题点按钮。
+   没有 AI 存档时先给本地三段式讲解 + 可作答练习，生成完就地替换，不留空白；
+   AI 不可用则一直保留本地讲解。队列独立存档、可暂停续跑，刷新后不自动烧模型调用。 */
+const WRONGAUTO_KEY = KEY + '_wrongai';
+let wrongAuto = null, wrongAutoBusy = false, wrongAutoTimer = null, wrongAutoGen = 0;
+
+function wrongAiLoad(){
+  if(wrongAuto) return wrongAuto;
+  let o = null;
+  try{ o = JSON.parse(localStorage.getItem(WRONGAUTO_KEY) || 'null'); }catch(e){ o = null; }
+  if(!o || typeof o !== 'object' || !Array.isArray(o.todo)) o = null;
+  else if(o.st === 'run'){
+    /* 页面关掉时不自动继续发起模型调用，明确交给用户点「继续」 */
+    o.st = 'paused';
+    o.note = '上次页面关闭时中断，已停在第 ' + ((+o.pos || 0) + 1) + ' 题；点「继续」接着生成。';
+    try{ localStorage.setItem(WRONGAUTO_KEY, JSON.stringify(o)); }catch(e){}
+  }
+  wrongAuto = o;
+  return o;
+}
+function wrongAiSave(){
+  if(!wrongAuto) return;
+  try{ localStorage.setItem(WRONGAUTO_KEY, JSON.stringify(wrongAuto)); }catch(e){}
+}
+function wrongAiList(){
+  /* 本次作答范围内判错的题（未作答也算错）；只在最终交卷 / 练习提交后成立 */
+  if(!(state.submitted || state.practiceSubmitted)) return [];
+  if(typeof activeList === 'undefined' || !activeList || !activeList.length) return [];
+  const out = [];
+  /* 练习模式「提交查看」只展示已作答题，未作答的不该排进生成队列 */
+  const practiceOnly = (state.mode === 'practice' && !state.submitted);
+  activeList.forEach(function(i){
+    if(!QUESTIONS[i]) return;
+    if(practiceOnly && !isAnswered(state.answers[i])) return;
+    if(!isRight(QUESTIONS[i], state.answers[i])) out.push(+i);
+  });
+  return out;
+}
+function wrongAiSig(list){
+  return (state.paper || '') + '|' + (activeList ? activeList.length : 0) + '|' + list.join(',');
+}
+function wrongAiStart(list, sig, force){
+  const todo = (list || []).map(function(x){ return +x; })
+    .filter(function(x){ return !isNaN(x) && !!QUESTIONS[x]; });
+  if(!todo.length){ mkToast('本次没有错题，无需生成 AI 讲解。'); return false; }
+  if(wrongAutoBusy){ mkToast('错题讲解正在生成中，请先暂停。'); return false; }
+  wrongAutoGen++;
+  wrongAuto = { scope:'wrong', todo:todo, pos:0, ok:0, fail:0, skip:0, streak:0,
+                force:!!force, st:'run', at:Date.now(), note:'', gen:wrongAutoGen,
+                sig:sig || wrongAiSig(todo) };
+  wrongAiSave(); wrongAutoBusy = true;
+  wrongAiPaintBar(); revAiPaintAll();
+  wrongAiTick();
+  return true;
+}
+function wrongAiPause(){
+  clearTimeout(wrongAutoTimer);
+  wrongAutoGen++;              /* 作废在途请求的回调，避免暂停后又被它推着往下跑 */
+  wrongAutoBusy = false;
+  if(wrongAuto && wrongAuto.st === 'run'){
+    wrongAuto.st = 'paused';
+    wrongAuto.note = '已暂停在第 ' + (wrongAuto.pos + 1) + ' 题；进度已保存，点「继续」接着生成。';
+    wrongAiSave();
+  }
+  wrongAiPaintBar(); revAiPaintAll();
+}
+function wrongAiResume(){
+  const s = wrongAiLoad();
+  if(!s || s.pos >= s.todo.length){ mkToast('没有待续跑的错题任务，请点「生成 / 重新生成」。'); return false; }
+  if(wrongAutoBusy) return false;
+  wrongAutoGen++; s.gen = wrongAutoGen;
+  s.st = 'run'; s.streak = 0; s.note = '';
+  wrongAiSave(); wrongAutoBusy = true;
+  wrongAiPaintBar(); revAiPaintAll(); wrongAiTick();
+  return true;
+}
+function wrongAiClear(){
+  clearTimeout(wrongAutoTimer);
+  wrongAutoGen++;
+  wrongAutoBusy = false; wrongAuto = null;
+  try{ localStorage.removeItem(WRONGAUTO_KEY); }catch(e){}
+  wrongAiPaintBar(); revAiPaintAll();
+  try{ mkToast('错题生成进度已清空（已存档的 AI 讲解不受影响）。'); }catch(e){}
+}
+function wrongAiHalt(msg){
+  wrongAutoGen++;
+  wrongAuto.st = 'paused'; wrongAuto.note = msg;
+  wrongAiSave(); wrongAutoBusy = false;
+  wrongAiPaintBar(); revAiPaintAll();
+  try{ mkToast(msg); }catch(e){}
+}
+function wrongAiTick(){
+  const s = wrongAuto;
+  if(!s || s.st !== 'run'){ wrongAutoBusy = false; wrongAiPaintBar(); return; }
+  if(s.pos >= s.todo.length){
+    s.st = 'done';
+    s.note = '完成：新生成 ' + s.ok + ' 条，已有存档跳过 ' + s.skip + ' 条，失败 ' + s.fail + ' 条。';
+    wrongAiSave(); wrongAutoBusy = false;
+    wrongAiPaintBar(); revAiPaintAll();
+    try{ mkToast('错题 AI 讲解已生成：' + s.ok + ' 条存入讲解存档。'); }catch(e){}
+    return;
+  }
+  const idx = +s.todo[s.pos];
+  if(!QUESTIONS[idx] || (!s.force && qExpHasAi(idx))){
+    s.skip++; s.pos++; wrongAiSave(); wrongAiPaintBar();
+    wrongAutoTimer = setTimeout(wrongAiTick, 0);
+    return;
+  }
+  const gen = s.gen;
+  wrongAiPaintBar(); revAiPaintOne(idx);   /* 先标成「AI 生成中」 */
+  qGenOne(idx).then(function(r){
+    if(gen !== wrongAutoGen) return;       /* 队列已暂停 / 重置，丢弃这次回调，避免双链并跑 */
+    s.pos++;
+    if(r.ok){ s.ok++; s.streak = 0; } else { s.fail++; s.streak++; }
+    wrongAiSave();
+    revAiPaintOne(idx);                   /* 就地换成 AI 正文，不重绘整页 */
+    if(s.streak >= 3){
+      wrongAiHalt('连续 3 次生成失败（多半是未登录 AI 或离线），已自动暂停；当前显示本地讲解，登录后点「继续」接着生成。');
+      return;
+    }
+    wrongAiPaintBar();
+    wrongAutoTimer = setTimeout(wrongAiTick, 120);
+  });
+}
+/* 单道错题内嵌区：有存档直接渲染 AI 正文 + 可作答练习卡；没有则先给本地三段式 + 练习 */
+function revAiHtml(idx){
+  const has = qExpHasAi(idx);
+  const s = wrongAiLoad();
+  const pos = (s && s.todo) ? s.todo.indexOf(+idx) : -1;
+  const running = !!(s && s.st === 'run' && pos >= s.pos);
+  const isCur = !!(s && s.st === 'run' && pos === s.pos);
+  let chip, note = '';
+  if(has){
+    chip = '<span class="rev-ai-chip done">✓ AI 深度讲解 · 已存档</span>';
+  }else if(isCur){
+    chip = '<span class="rev-ai-chip busy">AI 生成中…</span>';
+    note = '<div class="rev-ai-note">正在生成「知识点讲解 · 选项辨析 · 3 道配套练习」，完成后自动替换下面的本地讲解。</div>';
+  }else if(running){
+    chip = '<span class="rev-ai-chip busy">排队中…</span>';
+    note = '<div class="rev-ai-note">前面还有 ' + Math.max(0, pos - s.pos) + ' 道错题在生成，轮到后自动补齐 AI 讲解。</div>';
+  }else{
+    chip = '<span class="rev-ai-chip local">本地讲解 · 离线可用</span>';
+    note = '<div class="rev-ai-note">AI 讲解需要联网并登录 AI 助手；当前已给出同结构的本地三段式讲解与配套练习。' +
+           (s && s.st === 'paused' ? '点顶部「继续」可接着生成。' : '登录后点下面按钮可单独补齐。') +
+           ' <button class="btn sm ghost" type="button" data-rev-retry="' + idx + '">↻ 单独用 AI 生成</button></div>';
+  }
+  let body;
+  try{ body = qExpHtml(idx); }
+  catch(e){ body = '<div class="mka-src">讲解渲染失败，可点「✨ AI 讲解 + 配套练习」查看详情。</div>'; }
+  return '<div class="rev-ai" data-qi="' + idx + '" data-rev-ai="' + idx + '">' +
+    '<div class="rev-ai-h">✨ 错题 AI 讲解与配套练习' + chip + '</div>' +
+    '<div class="mka-reply"><div class="mka-md">' + body + '</div></div>' +
+    note + '</div>';
+}
+function revAiPaintOne(idx){
+  const host = document.querySelector('#rList .rev-ai[data-rev-ai="' + idx + '"]');
+  if(!host || !host.parentNode) return;
+  const tmp = document.createElement('div');
+  tmp.innerHTML = revAiHtml(idx);
+  const fresh = tmp.firstChild;
+  if(!fresh) return;
+  host.parentNode.replaceChild(fresh, host);
+  try{ hlPaint(fresh, QUESTIONS[idx], ['ai']); }catch(e){}
+}
+function revAiPaintAll(){
+  /* 只换各错题的内嵌区，不重建 #rList：滚动、只看错题、原题回放展开状态都保留 */
+  try{
+    Array.prototype.forEach.call(document.querySelectorAll('#rList .rev-ai[data-rev-ai]'), function(el){
+      const i = +el.getAttribute('data-rev-ai');
+      if(QUESTIONS[i]) revAiPaintOne(i);
+    });
+  }catch(e){}
+}
+function revAiBarHtml(list){
+  if(!list || !list.length) return '';
+  return '<div class="rev-ai-bar" id="revAiBar">' +
+    '<div class="rev-ai-bar-t"><b>✨ 错题 AI 讲解与配套练习</b>' +
+    '<span class="rev-ai-stat" id="revAiStat"></span><span style="flex:1"></span>' +
+    '<button class="btn sm ghost" type="button" data-rev-toggle="1" id="revAiToggle">暂停</button>' +
+    '<button class="btn sm ghost" type="button" data-rev-regen="1">生成 / 重新生成</button></div>' +
+    '<div class="rev-ai-prog"><i id="revAiProgI"></i></div></div>';
+}
+function wrongAiPaintBar(){
+  const st = wrongAiLoad();
+  const stat = $('revAiStat'), bar = $('revAiProgI'), toggle = $('revAiToggle');
+  const total = st && st.todo ? st.todo.length : 0;
+  const pos = st ? Math.min(+st.pos || 0, total) : 0;
+  if(bar) bar.style.width = total ? (pos / total * 100).toFixed(1) + '%' : '0%';
+  if(toggle) toggle.textContent = (st && st.st === 'paused' && pos < total) ? '继续' : '暂停';
+  let msg;
+  if(!st){
+    msg = '交卷后自动为每道错题生成；已有讲解直接复用，不重复调用模型。';
+  }else if(st.st === 'done'){
+    msg = '<b>已完成</b>　' + mkEscHtml(st.note || '');
+  }else{
+    msg = (st.st === 'run' ? '<b>生成中</b>' : '<b>已暂停</b>') +
+      '　新生成 <b>' + (st.ok || 0) + '</b> 条，跳过 ' + (st.skip || 0) +
+      ' 条，失败 ' + (st.fail || 0) + ' 条　·　' + pos + '/' + total +
+      (st.note ? '<br>' + mkEscHtml(st.note) : '');
+  }
+  if(stat) stat.innerHTML = msg;
+}
+function wrongAiAfterSubmit(){
+  const list = wrongAiList();
+  if(!list.length) return false;
+  const s = wrongAiLoad(), sig = wrongAiSig(list);
+  /* 同一套卷已经排过队：进行中 / 已完成 / 刷新后暂停，都不重复启动 */
+  if(s && s.sig === sig) return false;
+  /* AI 组件未就绪（离线单文件 / 未登录）：不发起注定失败的调用，直接展示本地讲解 */
+  if(!window.PMPAI || typeof window.PMPAI.gen !== 'function') return false;
+  return wrongAiStart(list, sig, false);
+}
+/* 事件委托：进度条与单题重试按钮 */
+document.addEventListener('click', function(e){
+  const t = e.target && e.target.closest ? e.target.closest('[data-rev-toggle],[data-rev-regen],[data-rev-retry]') : null;
+  if(!t) return;
+  e.preventDefault();
+  if(t.hasAttribute('data-rev-toggle')){
+    const s = wrongAiLoad();
+    if(s && s.st === 'run') wrongAiPause(); else wrongAiResume();
+  }else if(t.hasAttribute('data-rev-regen')){
+    if(wrongAutoBusy){ mkToast('请先暂停当前生成任务。'); return; }
+    const list = wrongAiList();
+    if(!list.length){ mkToast('本次没有错题。'); return; }
+    const s = wrongAiLoad();
+    const force = !!(s && s.st === 'done');
+    wrongAiStart(list, wrongAiSig(list) + (force ? '|force' : ''), force);
+  }else{
+    const idx = +t.getAttribute('data-rev-retry');
+    if(!QUESTIONS[idx]) return;
+    if(wrongAutoBusy){ mkToast('批量生成进行中，完成后再单独生成。'); return; }
+    wrongAiStart([idx], 'single|' + idx, true);
+  }
+}, false);
+window.PMPWrongAI = {
+  list: wrongAiList, html: revAiHtml, paintOne: revAiPaintOne, paintBar: wrongAiPaintBar,
+  afterSubmit: wrongAiAfterSubmit, start: wrongAiStart, pause: wrongAiPause,
+  resume: wrongAiResume, clear: wrongAiClear,
+  state: function(){ const s = wrongAiLoad(); return s ? JSON.parse(JSON.stringify(s)) : null; },
+  busy: function(){ return wrongAutoBusy; }
 };
 
 /* 把「本次作答范围内标记过的题」渲染到指定容器（成绩页 / 阶段报告页共用）。
@@ -12974,7 +13316,9 @@ function hlRepaint(){
       try{ hlPaint(el, QUESTIONS[i], allow); }catch(e3){}
     });
   }
-  scan('#rList [data-qi]', ['exp','det','topic']);
+  scan('#rList [data-qi]:not(.rev-ai)', ['exp','det','topic']);
+  /* v24：错题内嵌的 AI 讲解单独按 ai 来源重画，别让解析要点的高亮串进讲解正文 */
+  scan('#rList .rev-ai[data-qi]', ['ai']);
   scan('#stageList [data-qi]', ['exp','det','topic']);
   scan('#markBody [data-qi]', ['topic']);
   scan('#kpViewBody[data-qi]', ['exp','det','topic']);
@@ -13011,6 +13355,14 @@ function hlSurfOf(el){
     var k = parseInt(card.getAttribute('data-k'), 10);
     if(!isNaN(k) && typeof QUESTIONS !== 'undefined' && QUESTIONS[k]){
       return { qi:k, z:'ai', host: card.querySelector('.mka-md') || card };
+    }
+  }
+  /* v24：成绩页错题内嵌的 AI 讲解同样按「AI 讲解」来源归类，别记成逐项辨析 */
+  var rai = el.closest('.rev-ai[data-qi]');
+  if(rai){
+    var ri = parseInt(rai.getAttribute('data-qi'), 10);
+    if(!isNaN(ri) && typeof QUESTIONS !== 'undefined' && QUESTIONS[ri]){
+      return { qi:ri, z:'ai', host: rai.querySelector('.mka-md') || rai };
     }
   }
   var node = el.closest('[data-qi]');
@@ -14074,11 +14426,13 @@ function renderResult(){
   mkRenderForPaper('rMarkAsk');
 
   const rl=$('rList');
-  const wrongCount = list.filter(i=>!isRight(QUESTIONS[i], state.answers[i])).length;
+  const wrongList = list.filter(i=>!isRight(QUESTIONS[i], state.answers[i]));
+  const wrongCount = wrongList.length;
   const left = all.length - list.length;
   rl.innerHTML = '<h2>'+(practice?'已完成题目解析':'逐题解析')+'</h2>' +
     (practice && left>0 ? '<p class="sub">还有 '+left+' 题未作答，未作答题目不显示答案。可点下方「继续作答」补完后再次提交查看。</p>' : '') +
-    (resultOnlyWrong ? '<p class="sub">当前只显示错题（共 '+wrongCount+' 道，含未作答）；点下方「显示全部题目」可查看全部逐题解析。</p>' : '');
+    (resultOnlyWrong ? '<p class="sub">当前只显示错题（共 '+wrongCount+' 道，含未作答）；点下方「显示全部题目」可查看全部逐题解析。</p>' : '') +
+    revAiBarHtml(wrongList);
   list.forEach((idx,n)=>{
     const q=QUESTIONS[idx]; const picked=state.answers[idx];
     const right = isRight(q, picked);
@@ -14101,6 +14455,7 @@ function renderResult(){
       '<div class="rline">你的答案：<b class="'+(right?'ok':'no')+'">'+pickedTxt+'</b></div>'+
       (right?'':'<div class="rline">正确答案：<b class="ok">'+ansTxtR+(isM?'':' . '+q.options[q.answer])+'</b></div>')+
       '<div class="exp"><b>解析要点：</b>'+acrMark(q.exp)+'</div>'+
+      (right ? '' : revAiHtml(idx))+
       qExpBtn(idx)+
       '<details class="dwrap"><summary>📄 原题回放 · 知识点 · 逐项辨析（错项优先） · 考点方法详解 · 术语对照</summary>'+detailHtml(q, idx)+'</details>';
     try{ hlPaint(div, q); }catch(eHp3){}
@@ -14114,6 +14469,7 @@ function renderResult(){
   }
   renderStageBox(correct, list.length, pct);
   renderDiag();
+  try{ wrongAiPaintBar(); }catch(eWa){}
 }
 
 /* 错题诊断：按 ECO 知识点聚合，每行直接给「讲解」与「再练」入口 */
@@ -14965,7 +15321,7 @@ function hlFlash(msg){
   if(!d){
     d = document.createElement('div');
     d.id = 'hlFlash';
-    d.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);z-index:10062;' +
+    d.style.cssText = 'position:fixed;left:50%;bottom:80px;transform:translateX(-50%);z-index:10092;' +
       'background:#0f172a;color:#f8fafc;border-radius:9px;padding:9px 16px;font-size:13px;' +
       'box-shadow:0 10px 28px rgba(15,23,42,.3);opacity:0;transition:opacity .18s;pointer-events:none';
     document.body.appendChild(d);
@@ -15379,7 +15735,7 @@ refreshStageEntry();
    升级本身只增字段、不改写原有键，所以老用户的进行中考试与历史记录原样保留。 */
 var BUILD_KEY = KEY + '_build';
 var BAK_INDEX = KEY + '_baks';
-var BUILD_ID  = '2026-11-15-all-ai-explain';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
+var BUILD_ID  = '2026-11-16-ai-drag-resize';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
 /* 版本快照覆盖的键：答题进度 / 标记 / 讲解清单 / 练习判分 / 划词收藏 / 清单标注。
    注意：不复制备份 AI 讲解正文（_aibank）——它一份就几千字，6 份快照会直接把本机配额撑爆，
    而升级过程本身不会删这个键，正文照旧保留；需要留档时用「导出记录」或存档页的「导出 Markdown」。 */
@@ -17152,7 +17508,7 @@ if(s && Object.keys(s.answers||{}).length){
   }
   function check(){
     if(!window.caches) return;
-    caches.open('pmp-exam-offline-v23').then(function(c){ return c.match('./index.html'); })
+    caches.open('pmp-exam-offline-v26').then(function(c){ return c.match('./index.html'); })
       .then(function(hit){
         if(hit) setUI('ok','✅ 已可离线','题库已完整缓存到本机。现在开飞行模式刷新本页，也能正常出题、答题、交卷与保存进度。');
         else setUI('warn','⏳ 正在准备','正在缓存题库，请保持联网稍等几秒；若一直不变，请点「保存完整题库到手机」兜底。');
@@ -17163,7 +17519,7 @@ if(s && Object.keys(s.answers||{}).length){
     .then(function(){
       /* 页面自己把当前整页写进缓存：比 SW install 预缓存更可靠（当前 URL 一定能访问） */
       if(window.caches){
-        caches.open('pmp-exam-offline-v23').then(function(c){
+        caches.open('pmp-exam-offline-v26').then(function(c){
           return fetch(location.href,{cache:'no-store'}).then(function(r){
             if(r&&r.ok) return c.put('./index.html', r.clone());
           }).catch(function(){});
@@ -18241,8 +18597,17 @@ if(s && Object.keys(s.answers||{}).length){
     aiScreen=id;
     var quiz=(id==='scQuiz');
     aiHideSel(); aiSelText='';
-    $('aiFab').hidden=quiz;
-    if(quiz) $('aiPanel').classList.remove('open');
+    /* v25：只要有「AI 讲解 / 配套练习」浮层开着，切屏也不收掉助手图层。
+       原先进入答题页就隐藏 FAB 并关闭面板，会把用户刚打开的知识助手图层弄没。 */
+    var docOpen=(function(){
+      var b=$('qExpBox'); if(b && !b.hidden) return true;
+      var k=$('kpView'); if(k && k.classList.contains('on')) return true;
+      var z=$('rtZoom'); if(z && z.classList.contains('on')) return true;
+      return false;
+    })();
+    var hide=quiz && !docOpen;
+    $('aiFab').hidden=hide;
+    if(hide) $('aiPanel').classList.remove('open');
     /* 交卷 / 阶段提交 / 返回首页 = 离开答题页，把暂存片段送进输入框 */
     if(wasQuiz&&!quiz&&aiPendRead()) setTimeout(aiApplyPend,80);
   }
@@ -18317,12 +18682,23 @@ if(s && Object.keys(s.answers||{}).length){
     aiToast('已切到「⚡ 快速」，重新提问即生效');
   });
   $('aiFab').addEventListener('click',function(){
+    /* v26：拖动悬浮球松手后会补发一次 click，这里吞掉，避免"拖完顺手关掉面板" */
+    if(this.getAttribute('data-dragged')==='1'){ this.removeAttribute('data-dragged'); return; }
     var p=$('aiPanel');
     if(p.classList.contains('open')){ p.classList.remove('open'); return; }
     p.classList.add('open');
     aiInit();
   });
   $('aiClose').addEventListener('click',function(){ $('aiPanel').classList.remove('open'); });
+  /* v25：最小化成标题胶囊，让「AI 讲解＋配套练习」本体完整可见；再点一次恢复 */
+  var aiMini=$('aiMini');
+  if(aiMini) aiMini.addEventListener('click',function(){
+    var p=$('aiPanel');
+    var mini=p.classList.toggle('mini');
+    this.textContent = mini ? '▢' : '—';
+    this.title = mini ? '展开助手' : '最小化助手，让出讲解区';
+    if(!mini && window.PMPAIDock) window.PMPAIDock.restore();
+  });
   $('aiNew').addEventListener('click',aiNew);
   $('aiLogout').addEventListener('click',aiLogout);
   $('aiWbLogin').addEventListener('click',aiWbLogin);
@@ -18381,6 +18757,233 @@ if(s && Object.keys(s.answers||{}).length){
       aiInit();
     }
   }catch(e){}
+
+  /* ---- v26：助手完全可自定义 ----
+     ① 悬浮球可拖动：位置记在本机，刷新 / 重开都保持，自动收敛在视口内；
+     ② 问答框右下角手柄可随意拉大缩小：宽高记在本机，最小/最大受视口约束；
+     ③ 标题栏仍可整体拖动让位；手机端同样支持拖动与缩放（clamp 到视口）。
+     统一存 pmp_exam_bank_v3_aidock：{ panel:{left,top}, fab:{left,top}, size:{w,h} }
+     兼容 v25 旧格式 {left,top}（当时只存面板位置）。 */
+  (function(){
+    var KEY='pmp_exam_bank_v3_aidock';
+    var panel=$('aiPanel'), fab=$('aiFab');
+    if(!panel) return;
+    var hd=panel.querySelector('.ai-hd');
+    if(hd) hd.title='按住标题栏拖动，可避开下方讲解内容';
+
+    function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
+    function load(){
+      try{
+        var v=JSON.parse(localStorage.getItem(KEY)||'null');
+        if(!v || typeof v!=='object') return {};
+        if(isFinite(v.left) && isFinite(v.top)) return { panel:{left:+v.left, top:+v.top} };  /* v25 旧格式 */
+        return v;
+      }catch(e){ return {}; }
+    }
+    function patch(obj){
+      var st=load();
+      for(var k in obj){ if(obj.hasOwnProperty(k)) st[k]=obj[k]; }
+      try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){}
+      return st;
+    }
+    function minSize(){ return innerWidth<=600 ? {w:240,h:200} : {w:300,h:300}; }
+    function fitSize(w,h){
+      var m=minSize(), mw=Math.max(m.w, innerWidth-16), mh=Math.max(m.h, innerHeight-16);
+      return { w:Math.round(clamp(w, m.w, mw)), h:Math.round(clamp(h, m.h, mh)) };
+    }
+
+    /* ---------- 悬浮球拖动 ---------- */
+    var fdrag=null;
+    function fabClamp(){
+      if(!fab || !fab.style.left) return;
+      var w=fab.offsetWidth||56, h=fab.offsetHeight||56;
+      fab.style.left=clamp(parseFloat(fab.style.left),6,Math.max(6,innerWidth-w-6))+'px';
+      fab.style.top =clamp(parseFloat(fab.style.top), 6,Math.max(6,innerHeight-h-6))+'px';
+    }
+    if(fab){
+      fab.addEventListener('pointerdown',function(e){
+        if(e.button!==undefined && e.button!==0) return;
+        var r=fab.getBoundingClientRect();
+        fdrag={id:e.pointerId, dx:e.clientX-r.left, dy:e.clientY-r.top,
+               sx:e.clientX, sy:e.clientY, moved:false};
+        try{ fab.setPointerCapture(e.pointerId); }catch(err){}
+      });
+      fab.addEventListener('pointermove',function(e){
+        if(!fdrag || e.pointerId!==fdrag.id) return;
+        if(!fdrag.moved){
+          if(Math.abs(e.clientX-fdrag.sx)+Math.abs(e.clientY-fdrag.sy) < 5) return;  /* 小于 5px 仍算点击 */
+          fdrag.moved=true;
+          fab.classList.add('dragging');
+          document.body.classList.add('ai-fab-drag');
+        }
+        var w=fab.offsetWidth||56, h=fab.offsetHeight||56;
+        fab.style.right='auto'; fab.style.bottom='auto';
+        fab.style.left=Math.round(clamp(e.clientX-fdrag.dx,6,Math.max(6,innerWidth-w-6)))+'px';
+        fab.style.top =Math.round(clamp(e.clientY-fdrag.dy,6,Math.max(6,innerHeight-h-6)))+'px';
+        e.preventDefault();
+      });
+      function fabEnd(e){
+        if(!fdrag) return;
+        if(e && e.pointerId!==undefined && e.pointerId!==fdrag.id) return;
+        var moved=fdrag.moved; fdrag=null;
+        fab.classList.remove('dragging');
+        document.body.classList.remove('ai-fab-drag');
+        if(!moved) return;
+        var r=fab.getBoundingClientRect();
+        patch({ fab:{ left:Math.round(r.left), top:Math.round(r.top) } });
+        fab.setAttribute('data-dragged','1');           /* 让随后的 click 不误开/误关面板 */
+        setTimeout(function(){ fab.removeAttribute('data-dragged'); },700);
+      }
+      fab.addEventListener('pointerup',fabEnd);
+      fab.addEventListener('pointercancel',fabEnd);
+    }
+
+    /* ---------- 恢复位置与尺寸 ---------- */
+    function restore(){
+      var st=load();
+      var fp=st.fab;
+      if(fab && fp && isFinite(fp.left) && isFinite(fp.top)){
+        fab.style.right='auto'; fab.style.bottom='auto';
+        fab.style.left=Math.round(+fp.left)+'px';
+        fab.style.top =Math.round(+fp.top)+'px';
+        fabClamp();
+      }
+      /* 胶囊态：清掉 inline 宽高让 CSS 的紧凑胶囊生效，展开时再套回记忆尺寸 */
+      if(panel.classList.contains('mini')){
+        panel.style.width=''; panel.style.height='';
+        return;
+      }
+      var sz=st.size;
+      if(sz && isFinite(sz.w) && isFinite(sz.h)){
+        var f=fitSize(+sz.w,+sz.h);
+        panel.style.width=f.w+'px';
+        panel.style.height=f.h+'px';
+      }
+      var pp=st.panel;
+      if(!pp || !isFinite(pp.left) || !isFinite(pp.top)) return;
+      /* 尺寸先就位再算边界，否则宽度为 0 会夹错位置 */
+      var pw=panel.offsetWidth||376, ph=panel.offsetHeight||600;
+      panel.style.right='auto'; panel.style.bottom='auto';
+      panel.style.left=Math.round(clamp(+pp.left,8,Math.max(8,innerWidth-pw-8)))+'px';
+      panel.style.top =Math.round(clamp(+pp.top, 8,Math.max(8,innerHeight-ph-8)))+'px';
+    }
+
+    /* ---------- 问答框缩放（右下角手柄） ---------- */
+    var rs=document.createElement('div');
+    rs.className='ai-rs'; rs.id='aiRs';
+    rs.title='拖动可调整问答框大小';
+    rs.setAttribute('role','separator');
+    rs.setAttribute('aria-label','调整问答框大小');
+    panel.appendChild(rs);
+    var rdrag=null;
+    rs.addEventListener('pointerdown',function(e){
+      if(e.button!==undefined && e.button!==0) return;
+      if(panel.classList.contains('mini')) return;
+      var r=panel.getBoundingClientRect();
+      /* 把 right/bottom 定位固化成 left/top，向右下拉伸时面板才不会跳 */
+      panel.style.right='auto'; panel.style.bottom='auto';
+      panel.style.left=Math.round(r.left)+'px';
+      panel.style.top =Math.round(r.top)+'px';
+      panel.style.width=Math.round(r.width)+'px';
+      panel.style.height=Math.round(r.height)+'px';
+      rdrag={id:e.pointerId, sx:e.clientX, sy:e.clientY, w:r.width, h:r.height};
+      try{ rs.setPointerCapture(e.pointerId); }catch(err){}
+      panel.classList.add('resizing');
+      e.preventDefault(); e.stopPropagation();
+    });
+    rs.addEventListener('pointermove',function(e){
+      if(!rdrag || e.pointerId!==rdrag.id) return;
+      var m=minSize();
+      var left=parseFloat(panel.style.left)||0, top=parseFloat(panel.style.top)||0;
+      var maxW=Math.max(m.w, innerWidth-left-8);
+      var maxH=Math.max(m.h, innerHeight-top-8);
+      var w=clamp(rdrag.w+(e.clientX-rdrag.sx), m.w, maxW);
+      var h=clamp(rdrag.h+(e.clientY-rdrag.sy), m.h, maxH);
+      panel.style.width=Math.round(w)+'px';
+      panel.style.height=Math.round(h)+'px';
+      e.preventDefault();
+    });
+    function endResize(e){
+      if(!rdrag) return;
+      if(e && e.pointerId!==undefined && e.pointerId!==rdrag.id) return;
+      rdrag=null;
+      panel.classList.remove('resizing');
+      patch({ size:{ w:Math.round(panel.offsetWidth), h:Math.round(panel.offsetHeight) } });
+    }
+    rs.addEventListener('pointerup',endResize);
+    rs.addEventListener('pointercancel',endResize);
+
+    /* ---------- 标题栏拖动（整体挪窗） ---------- */
+    var drag=null;
+    if(hd){
+      hd.addEventListener('pointerdown',function(e){
+        if(e.target && e.target.closest && e.target.closest('button')) return;  /* 标题栏按钮不触发拖动 */
+        var r=panel.getBoundingClientRect();
+        drag={ id:e.pointerId, dx:e.clientX-r.left, dy:e.clientY-r.top };
+        try{ hd.setPointerCapture(e.pointerId); }catch(err){}
+        hd.style.cursor='grabbing';
+        e.preventDefault();
+      });
+      hd.addEventListener('pointermove',function(e){
+        if(!drag || e.pointerId!==drag.id) return;
+        var l=clamp(e.clientX-drag.dx, 8, Math.max(8, innerWidth-panel.offsetWidth-8));
+        var t=clamp(e.clientY-drag.dy, 8, Math.max(8, innerHeight-panel.offsetHeight-8));
+        panel.style.right='auto'; panel.style.bottom='auto';
+        panel.style.left=Math.round(l)+'px'; panel.style.top=Math.round(t)+'px';
+      });
+      function endDrag(e){
+        if(!drag) return;
+        if(e && e.pointerId!==undefined && e.pointerId!==drag.id) return;
+        drag=null; hd.style.cursor='';
+        var r=panel.getBoundingClientRect();
+        patch({ panel:{ left:Math.round(r.left), top:Math.round(r.top) } });
+      }
+      hd.addEventListener('pointerup',endDrag);
+      hd.addEventListener('pointercancel',endDrag);
+    }
+
+    window.PMPAIDock={
+      restore:restore,
+      clampFab:fabClamp,
+      pos:function(){ var st=load(); return st.panel?{left:st.panel.left,top:st.panel.top}:null; },
+      fabPos:function(){ var st=load(); return st.fab?{left:st.fab.left,top:st.fab.top}:null; },
+      size:function(){ var st=load(); return st.size?{w:st.size.w,h:st.size.h}:null; },
+      setSize:function(w,h){
+        if(panel.classList.contains('mini')){
+          panel.classList.remove('mini');
+          var mb=document.getElementById('aiMini');
+          if(mb){ mb.textContent='—'; mb.title='最小化助手，让出讲解区'; }
+        }
+        var f=fitSize(+w,+h);
+        panel.style.width=f.w+'px';
+        panel.style.height=f.h+'px';
+        patch({ size:{ w:f.w, h:f.h } });
+        return f;
+      },
+      reset:function(){
+        try{ localStorage.removeItem(KEY); }catch(e){}
+        if(fab){ fab.style.left=''; fab.style.top=''; fab.style.right=''; fab.style.bottom=''; }
+        panel.style.left=''; panel.style.top='';
+        panel.style.right=''; panel.style.bottom='';
+        panel.style.width=''; panel.style.height='';
+      }
+    };
+    /* 面板从收起变展开时，把上次的位置 / 尺寸应用回去 */
+    if(window.MutationObserver){
+      var mo=new MutationObserver(function(){
+        if(panel.classList.contains('open')) restore();
+      });
+      mo.observe(panel,{attributes:true,attributeFilter:['class']});
+    }
+    window.addEventListener('resize',function(){
+      fabClamp();
+      /* 视口变小后把位置与尺寸收敛回可见区域；胶囊态交给 CSS */
+      if(panel.classList.contains('open') && !panel.classList.contains('mini')) restore();
+    });
+    /* 首屏就把上次的悬浮球位置 / 问答框尺寸套回去（此时面板可能还没展开，
+       面板位置会在 open 时由 MutationObserver 再精算一次） */
+    try{ restore(); }catch(e){}
+  })();
 })();
 </script>
 

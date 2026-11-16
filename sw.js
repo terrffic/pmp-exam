@@ -3,7 +3,7 @@
    策略：页面请求「网络优先 + 1.5 秒超时 + 缓存兜底」，联网时自动更新，断网时秒开；
          manifest / 图标等小文件走缓存优先。
    ★ 题库内容更新后，请把 CACHE 版本号 +1，并同步改页面里的同名版本号。 */
-const CACHE = 'pmp-exam-offline-v23';
+const CACHE = 'pmp-exam-offline-v26';
 const PAGE_KEY = './index.html';
 
 /* 本站静态文件需要分享码鉴权；注册时把 sharecode 附在 sw.js 后面，这里取出来用于预缓存。
