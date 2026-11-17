@@ -1231,8 +1231,13 @@ body.guest .ai-fab{bottom:64px}
 @media print{.hlbar{display:none!important}}
 
 /* ===== 解析 / 知识点划词（核心点） & 核心知识点清单 ===== */
-.hlt2{background:#a7f3d0;color:inherit;border-radius:3px;padding:0 2px;box-shadow:inset 0 -2px 0 #10b981;cursor:default}
+/* 划词收藏的统一标记：底色 + 下划线双保险，跨行时用 clone 保持每一行都有底与线 */
+.hlt2{background:#a7f3d0;color:#064e3b;border-radius:3px;padding:0 2px;
+  box-shadow:inset 0 -2px 0 #10b981;cursor:default;
+  -webkit-box-decoration-break:clone;box-decoration-break:clone}
 .hlt2:hover{background:#6ee7b7}
+/* 超长收藏只标出开头一段时，用虚线尾巴提示「后面还有」 */
+.hlt2[data-part="1"]{box-shadow:inset 0 -2px 0 #10b981,inset -3px 0 0 #6ee7b7;border-radius:3px 0 0 3px}
 .kpwrap{max-width:1080px}
 .kp-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:10px;margin:14px 0 4px}
 .kp-kpi .k{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;text-align:center}
@@ -1595,7 +1600,7 @@ try{
       <h2 style="margin-top:22px">阶段报告记录</h2>
       <div class="entry-card" id="btnStageEntry">
         <div class="ec-ico">📊</div>
-        <div class="ec-main"><b>阶段提交报告（<span id="stageEntryCount">0</span> 次）</b><span>考试中随时点「📊 阶段提交」即可批改当前进度、看这一段的错题与解析和正确率，再点「返回继续答题」接着做；每次提交都会存成一份不可改写的快照，连同「继续答题 / 交卷」等所有操作一并留痕，全部做完后还能与最终总成绩对照。</span></div>
+        <div class="ec-main"><b>阶段提交报告（<span id="stageEntryCount">0</span> 次）</b><span>考试中随时点「📊 阶段提交」即可批改当前进度、看这一段的错题与解析和正确率，再点「返回继续答题」接着做；每次提交都会存成一份不可改写的快照，连同「继续答题 / 交卷」等所有操作一并留痕，全部做完后还能与最终总成绩对照。只有<b>出现新作答或改过答案</b>时才留新快照，没有任何变动的重复查看会直接显示上一份报告，不会多出重复记录。</span></div>
         <div class="ec-arrow">→</div>
       </div>
 
@@ -1633,7 +1638,7 @@ try{
         <li><b>三套统计口径分开</b>：<b>首答正确率</b>（每题只计第一次）、<b>重复练习正确率</b>（第 2 次起，含记忆效应）、<b>独立模考正确率</b>（只统计整卷模考）分别显示，不混算。平台<b>不公布也不猜测及格线</b>；页面出现的 <b>70% 仅为内部练习参考值</b>，PMI 不公开及格分，任何模拟分数都不能预测官方考试结果。</li>
         <li><b>考点大纲</b>：按 2026 版 ECO 的 <b>26 项任务</b>整理了 <b>166 个知识点</b>（每条含要点、常用工具、判断线索），支持关键词检索与<b>按任务一键专项练习</b>，并附 <b>PMBOK 第八版 6 条原则 / 7 个绩效域</b>对照。提醒：PMI <b>不出版「官方考试教材」</b>，考试以 ECO 为依据，PMBOK 是参考标准而非教材——该页开头有完整说明。</li>
         <li><b>练习模式可随时提交</b>：不必做完，只显示已完成题目的答案与解析，未答题目不揭示；提交后还能继续作答。</li>
-        <li><b>阶段性提交 / 分段阅卷（模考与练习都可用）</b>：整卷考试做到一半，点顶栏或题目下方的 <b>「📊 阶段提交」</b>，即可只对<b>截止当前进度新作答（或改过答案）的题目</b>生成一份阶段报告——本阶段正确率、错题与逐题解析、领域/开发方法/题型分布，以及累计进度与累计正确率。报告页点<b>「返回继续答题」</b>即可回到原来的题号接着做，<b>所有作答、标记、题号原样保留，不锁定任何题目</b>；查看报告期间<b>倒计时冻结，不扣考试时间</b>。中途可以反复提交，每次都是一份独立快照，<b>历史报告与全部操作记录永久保存在本机</b>，可随时从首页「阶段报告记录」回看。全部做完再点「交卷」，成绩页会给出<b>总错题、总解析、整体正确率</b>，并列出本次各阶段正确率的对照表。提示：阶段报告会揭示已答题的答案，若追求完全拟真的模考体验，建议整卷做完后再统一交卷。</li>
+        <li><b>阶段性提交 / 分段阅卷（模考与练习都可用）</b>：整卷考试做到一半，点顶栏或题目下方的 <b>「📊 阶段提交」</b>，即可只对<b>截止当前进度新作答（或改过答案）的题目</b>生成一份阶段报告——本阶段正确率、错题与逐题解析、领域/开发方法/题型分布，以及累计进度与累计正确率。报告页点<b>「返回继续答题」</b>即可回到原来的题号接着做，<b>所有作答、标记、题号原样保留，不锁定任何题目</b>；查看报告期间<b>倒计时冻结，不扣考试时间</b>。中途可以反复提交，每次都是一份独立快照，<b>历史报告与全部操作记录永久保存在本机</b>，可随时从首页「阶段报告记录」回看；<b>没有新作答、也没改过答案时不会生成重复记录</b>，点进去直接显示上一份报告。全部做完再点「交卷」，成绩页会给出<b>总错题、总解析、整体正确率</b>，并列出本次各阶段正确率的对照表。提示：阶段报告会揭示已答题的答案，若追求完全拟真的模考体验，建议整卷做完后再统一交卷。</li>
         <li><b>🖍 划词标记与划词收藏（选项 + 所有知识点讲解）</b>：做题时<b>在选项里选中任意一段文字</b>（例如「立即」「先记录下来」「提交变更请求」），浮出的工具条里点 <b>「🖍 标记」</b>，这段文字就会在选项里高亮留存；同一段再点一次即取消。标记<b>按题干保存</b>，换卷、刷新、下次打开都还在；选项文字若被修订，标记会按原文自动重新定位。交卷或点「查看解析」后，题目下方会出现<b>「你划的词 · 按词解析」</b>：逐条给出该词的<b>知识点定义</b>、它所在<b>选项在本题中的作用</b>（为什么可选 / 为什么不能选）、以及<b>措辞线索</b>（绝对化、动作时点、责任主体）；<b>未揭示答案时只给知识点、不判正误</b>。成绩页与阶段报告里同样能看到这份按词解析。工具条里还有「📖 释义」直接查术语定义。<br><b>凡是出现知识点讲解的地方都能「🖍 收藏」</b>：答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>、<b>成绩页与阶段报告</b>的逐题解析（含展开的「原题回放 · 知识点 · 逐项辨析」）、<b>「我的标记」里的 AI 讲解</b>与知识点扩展讲解。选中一句话 → 「🖍 收藏」，划中处标绿，并自动进入「📌 核心知识点清单」按知识点归类；再点一次即取消。<b>核心知识点清单页本身</b>（含翻卡复习与「看原题解析」抽屉）也能继续划词：选中上下文、题干里的新句子收藏，选中已收藏的原句则直接取消，不必回到原题。</li>
         <li><b>📌 核心知识点清单</b>：首页「核心知识点清单」把所有地方的划词收藏汇总成一份复习材料——<b>按知识点归类</b>（同一考纲知识点下的句子排在一起），也可以切成<b>按来源</b>（选项 / 解析 / 知识点 / AI 讲解）或<b>按题目</b>看。每条保留<b>原句上下文</b>与题目出处，可<b>标重点</b>、写<b>自己的注释</b>（记忆钩子）、标<b>已掌握</b>；支持<b>关键词检索</b>与来源筛选，<b>逐条翻卡复习</b>（先看句子自己复述，再点开原句与完整解析），并能<b>一键导出 Markdown</b> 存进笔记软件。<b>清单不另存正文</b>：它就是你的收藏本身，取消收藏即同步移除，不会出现两份数据不一致；注释与星标单独保存在本机，题库版本更新不丢。</li>
         <li><b>📚 AI 讲解存档</b>：标记题生成的<b>知识点讲解、选项辨析、配套练习题</b>会单独存一份并长期保留——<b>取消标记不会删掉它们</b>，刷新、换卷、离线都还在。首页「AI 讲解存档」可按<b>知识点 / 时间 / 卷</b>归类回看，支持<b>关键词搜索</b>（连讲解正文一起搜）、<b>展开重做配套练习</b>（判分与标记页共用，做过的不会重来）、<b>单条删除</b>与<b>导出 Markdown</b>。正文单独存放，不会因为标记太多被挤掉；本机最多保留 600 条，超出时按生成时间淘汰最旧的，页面顶部会显示当前占用。换设备时随「导出记录」一起带走。</li>
@@ -1677,7 +1682,7 @@ try{
         <span style="flex:1"></span>
         <button class="btn sm ghost" id="btnKpBack">返回首页</button>
       </div>
-      <p class="sub" id="kpIntro">凡是出现<b>知识点讲解</b>的地方都能划词收藏：做题时在<b>选项</b>里划；答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>；交卷后的<b>成绩页、阶段报告</b>逐题解析（含「原题回放 · 知识点 · 逐项辨析」展开块）；以及<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>。收藏的句子会自动收进这里，<b>按知识点归类</b>，并保留<b>原句上下文</b>与题目出处；可以写自己的记忆钩子、标重点，也能<b>逐条翻卡复习</b>或导出成 Markdown——考前最后一遍，只看这里就够了。<b>收藏按题干保存</b>，刷新、换卷、下次打开都在；取消某条收藏，清单同步减少。<b>在这份清单里也能继续划词</b>：选中上下文、题干或原句里的新句子点 <b>「🖍 收藏」</b> 会再加一条；选中<b>已收藏的原句</b>则显示 <b>「✖ 取消收藏」</b>，翻卡复习与「看原题解析」抽屉里同样可用。</p>
+      <p class="sub" id="kpIntro">凡是出现<b>知识点讲解</b>的地方都能划词收藏：做题时在<b>选项</b>里划；答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>；交卷后的<b>成绩页、阶段报告</b>逐题解析（含「原题回放 · 知识点 · 逐项辨析」展开块）；<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>；以及<b>AI 问答助手的回答气泡</b>（收藏后来源标为「AI 问答助手」，这类条目没有原题可回放）。收藏的句子会自动收进这里，<b>按知识点归类</b>，并保留<b>原句上下文</b>与题目出处；可以写自己的记忆钩子、标重点，也能<b>逐条翻卡复习</b>或导出成 Markdown——考前最后一遍，只看这里就够了。<b>收藏按题干保存</b>，刷新、换卷、下次打开都在；取消某条收藏，清单同步减少。<b>在这份清单里也能继续划词</b>：选中上下文、题干或原句里的新句子点 <b>「🖍 收藏」</b> 会再加一条；选中<b>已收藏的原句</b>则显示 <b>「✖ 取消收藏」</b>，翻卡复习与「看原题解析」抽屉里同样可用。</p>
       <div id="kpStat"></div>
       <div id="kpBody"></div>
     </div>
@@ -11524,6 +11529,9 @@ function recordPaperRun(id, answered, total, correct, isExam){
   const m = paperLogAll();
   const r = m[id] || {runs:0, full:0, lastAt:0, lastPct:0, bestPct:0, bestAt:0,
                       fullPct:0, fullAt:0, lastAnswered:0, lastTotal:0, lastCorrect:0, lastMode:''};
+  /* 同一次作答会话、同样的结果再登记一次 → 视为重复，直接返回，不累加遍数 */
+  const sig = state.runId ? (state.runId+'|'+answered+'|'+total+'|'+(correct||0)) : '';
+  if(sig && r.lastSig === sig) return r;
   const pct = Math.round((correct||0)/total*100);
   r.runs = (r.runs||0) + 1;
   r.lastAt = Date.now();
@@ -11532,6 +11540,7 @@ function recordPaperRun(id, answered, total, correct, isExam){
   r.lastTotal = total;
   r.lastAnswered = answered||0;
   r.lastMode = isExam ? 'exam' : 'practice';
+  if(sig) r.lastSig = sig;
   if(answered >= total){                      /* 全部作答并交卷 → 完整做完一遍 */
     r.full = (r.full||0) + 1;
     r.fullAt = r.lastAt;
@@ -11541,6 +11550,41 @@ function recordPaperRun(id, answered, total, correct, isExam){
   m[id] = r;
   paperLogSave(m);
   return r;
+}
+/* ---- 修正历史里被多记的「完成遍数」 ----
+   旧版本没有拦重复交卷：计时归零自动交卷与手动点「交卷」撞在一起时，同一次作答会登记两遍
+   （成绩页出现「已完整做完 2 遍」，其实只做了一遍）。
+   修法：以阶段快照为准——同一次作答会话（runId）里出现多份 final 快照，说明这次交卷被算了多次，
+   把多出来的份数从完成记录里扣掉。只减不增，且跑过一次就打标记，不会反复扣。 */
+var PAPER_FIX_KEY = KEY + '_papers_fix';
+function paperLogRepair(){
+  try{ if(localStorage.getItem(PAPER_FIX_KEY)) return 0; }catch(e){ return 0; }
+  var d=stageDB(), seen={};
+  d.order.forEach(function(id){
+    var r=d.runs[id]; if(!r) return;
+    (r.stages||[]).forEach(function(s){
+      if(!s || !s.final) return;
+      if(s.drill) return;                              /* 专项 / 自组卷不计入整卷完成记录 */
+      var p=s.paper||''; if(!p || p==='P' || p==='R') return;
+      var k=id+'|'+p, o=seen[k]||(seen[k]={n:0,full:0});
+      o.n++;
+      if((s.answered||0)>=(s.total||0)) o.full++;
+    });
+  });
+  var m=paperLogAll(), fixed=0, changed=false;
+  Object.keys(seen).forEach(function(k){
+    var p=k.split('|')[1], o=seen[k];
+    var extra=o.n-1, extraFull=Math.max(0,o.full-1);
+    if(extra<=0 && extraFull<=0) return;
+    var rec=m[p]; if(!rec) return;
+    var hit=false;
+    if(extra>0 && (rec.runs||0)>extra){ rec.runs-=extra; hit=true; }
+    if(extraFull>0 && (rec.full||0)>extraFull){ rec.full-=extraFull; hit=true; }
+    if(hit){ changed=true; fixed++; }
+  });
+  if(changed) paperLogSave(m);
+  try{ localStorage.setItem(PAPER_FIX_KEY, BUILD_ID||'1'); }catch(e){}
+  return fixed;
 }
 function fmtLogTime(ts){
   if(!ts) return '—';
@@ -11619,7 +11663,7 @@ function histAll(){
   }catch(e){ return {}; }
 }
 function histSave(m){ try{ localStorage.setItem(HIST_KEY, JSON.stringify(m||{})); }catch(e){} }
-function histRecord(idx, right, isMock){
+function histRecord(idx, right, isMock, sig, run){
   const m = histAll();
   const qq = QUESTIONS[idx] || {};
   const curV = (typeof qq.ver === 'number') ? qq.ver : 1;
@@ -11646,17 +11690,24 @@ function histRecord(idx, right, isMock){
   if(!r.rep) r.rep = {n:0,c:0};
   if(!r.mock) r.mock = {n:0,c:0};
   if(!r.prac) r.prac = {n:0,c:0};
+  /* 同一次作答会话里这道题的答案没有任何变化 → 不重复计题次
+     （反复点「提交查看 / 阶段报告」不会把重复练习正确率刷高；
+       换一套卷、换一次模考属于新的作答会话，照常计入） */
+  if(sig != null && r.n > 0 && r.sig === sig && r.sigRun === run) return false;
   if(r.first === -1){ r.first = right?1:0; r.firstMock = isMock?1:0; }
   if(r.n > 0){ r.rep.n++; if(right) r.rep.c++; }   /* 第 2 次及以后算重复练习 */
   r.n++; if(right) r.c++;
   const b = isMock ? r.mock : r.prac;
   b.n++; if(right) b.c++;
+  if(sig != null){ r.sig = sig; r.sigRun = run; }
   m[idx] = r; histSave(m);
+  return true;
 }
 function histRecordList(list, isMock){
+  var run = state.runId || '';
   (list||[]).forEach(function(i){
     if(!isAnswered(state.answers[i])) return;
-    histRecord(i, isRight(QUESTIONS[i], state.answers[i]), !!isMock);
+    histRecord(i, isRight(QUESTIONS[i], state.answers[i]), !!isMock, stageAnsKey(state.answers[i]), run);
   });
 }
 function histStat(){
@@ -13094,6 +13145,21 @@ function hlFlush(){
 function hlKeyOf(q){
   try{ return 'h' + qhash(String(q.stem || '')); }catch(e){ return 'h' + (q.qid || ''); }
 }
+/* ---- AI 问答助手里的收藏 ----
+   助手回答不属于任何一道题，但用户想收藏其中一段讲解。这里给它一张「虚拟题卡」：
+   用同一个 key 规则入库，清单里就能和题目收藏并列展示；索引固定为 -1，
+   所有「按索引取题」的地方统一走 hlQOf()，别再去 QUESTIONS[-1] 拿到 undefined。 */
+var AI_CHAT_QI = -1;
+var AI_CHAT_Q = {
+  stem:'〔AI 问答助手〕', tag:'AI 问答助手', options:[], answer:0, exp:'',
+  domain:'people', life:'predictive', type:'single'
+};
+function hlQOf(i){
+  var n = parseInt(i, 10);
+  if(n === AI_CHAT_QI) return AI_CHAT_Q;
+  if(typeof QUESTIONS === 'undefined' || !QUESTIONS) return null;
+  return QUESTIONS[n] || null;
+}
 function hlIdxCount(){
   var n = 0, db = hlDb();
   for(var k in db){ if(Object.prototype.hasOwnProperty.call(db,k)) n += (db[k]||[]).length; }
@@ -13241,63 +13307,190 @@ function hlZoneHost(root, z){
   return root;
 }
 function hlZoneName(z){
-  return z === 'topic' ? '知识点讲解' : z === 'exp' ? '解析要点' : z === 'ai' ? 'AI 讲解' : '逐项辨析';
+  return z === 'topic' ? '知识点讲解' : z === 'exp' ? '解析要点' : z === 'ai' ? 'AI 讲解'
+    : z === 'chat' ? 'AI 问答助手' : '逐项辨析';
+}
+/* ---- 把一段原文包成 <mark>：支持跨文本节点、跨 <strong>/<br>/段落 ----
+   老实现只在「单个文本节点」里 indexOf，选区一旦跨过硬标记、换行或段落，
+   就没有任何一个节点包含整段文字，于是一条收藏明明存了下来却画不出来，
+   表现成「有的有绿色标记、有的没有」。这里先把容器内可标记的文本节点拼成
+   一条规范化串（连续空白折叠成一个空格），在串上定位后按文本节点分段包裹。 */
+var HL_SKIP_SEL = 'mark.hlt2,mark.hlt,script,style,textarea,noscript,.hlt,.hlt2';
+/* 一条收藏最多存多少字：以前卡在 160 字，选得长一点工具条里的「收藏」直接消失，
+   现在放宽到 1200 字（约两三段），超出部分按开头截取，并明确告诉用户截了。 */
+var HL_TXT_MAX = 1200;
+function hlNormNeedle(t){
+  return String(t == null ? '' : t).replace(/[\s\u00a0\u3000]+/g,' ').trim();
+}
+function hlTextIndex(root){
+  var nodes = [], w, n;
+  try{
+    w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function(x){
+        if(!x.nodeValue) return NodeFilter.FILTER_REJECT;
+        var p = x.parentNode;
+        if(p && p.closest && p.closest(HL_SKIP_SEL)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    while((n = w.nextNode())) nodes.push(n);
+  }catch(e){ return null; }
+  if(!nodes.length) return null;
+  var buf = [], map = [], gap = false;
+  for(var i = 0; i < nodes.length; i++){
+    var nd = nodes[i], v = nd.nodeValue;
+    for(var j = 0; j < v.length; j++){
+      var ch = v.charAt(j);
+      if(ch === ' ' || ch === '\n' || ch === '\r' || ch === '\t' || ch === '\u00a0' || ch === '\u3000'){
+        gap = true; continue;
+      }
+      if(gap && buf.length){ buf.push(' '); map.push(null); }  /* 折叠出的空格不单独占位 */
+      gap = false;
+      buf.push(ch); map.push({ n: nd, o: j });
+    }
+  }
+  return { t: buf.join(''), map: map };
+}
+/* 规范串上的区间 → 按文本节点切段（同一节点内的偏移合并，天然包含中间空白） */
+function hlPartsOf(ix, s, e){
+  var out = [], cur = null;
+  for(var i = s; i < e; i++){
+    var m = ix.map[i];
+    if(!m || !m.n || !m.n.parentNode) continue;
+    if(cur && cur.n === m.n){
+      if(m.o < cur.a) cur.a = m.o;
+      if(m.o + 1 > cur.b) cur.b = m.o + 1;
+    }else{
+      cur = { n: m.n, a: m.o, b: m.o + 1 }; out.push(cur);
+    }
+  }
+  return out;
+}
+function hlWrapPart(part, full, partOnly){
+  var n = part.n;
+  if(!n || !n.parentNode || part.b <= part.a) return false;
+  var r = document.createRange();
+  try{ r.setStart(n, part.a); r.setEnd(n, part.b); }catch(e){ return false; }
+  var s = String(full == null ? '' : full);
+  var mk = document.createElement('mark');
+  mk.className = 'hlt2';
+  mk.title = '核心点：' + s.slice(0, 120) + (s.length > 120 ? '…' : '');
+  if(partOnly) mk.setAttribute('data-part','1');
+  try{
+    if(r.surroundContents){ r.surroundContents(mk); return true; }
+  }catch(e1){}
+  try{
+    var frag = r.extractContents(); mk.appendChild(frag); r.insertNode(mk); return true;
+  }catch(e2){ return false; }
+}
+/* 同一容器里一次画完所有收藏：只建一次索引，从后往前包裹，先前记录的偏移不会失效 */
+function hlPaintHost(host, items){
+  if(!host || !items || !items.length) return;
+  var ix = hlTextIndex(host);
+  if(!ix || !ix.t) return;
+  var jobs = [], i, j;
+  for(i = 0; i < items.length; i++){
+    var it = items[i];
+    var t = hlNormNeedle(it.t);
+    if(t.length < 2) continue;
+    var at = ix.t.indexOf(t), len = t.length, partOnly = false;
+    /* 原文被改写、截断或分段渲染时，退一步只标出开头一段，至少让这条收藏看得见 */
+    if(at < 0 && t.length > 24){
+      for(var cut = Math.min(t.length - 1, 32); cut >= 10; cut -= 6){
+        var hit = ix.t.indexOf(t.slice(0, cut));
+        if(hit >= 0){ at = hit; len = Math.min(cut, ix.t.length - hit); partOnly = true; break; }
+      }
+    }
+    if(at < 0) continue;
+    jobs.push({ s: at, e: at + len, t: it.t, part: partOnly });
+  }
+  if(!jobs.length) return;
+  /* 重叠只保留一条（长片段优先），否则会套两层 mark */
+  jobs.sort(function(a,b){ return (a.s - b.s) || ((b.e - b.s) - (a.e - a.s)); });
+  var taken = [], keep = [];
+  for(i = 0; i < jobs.length; i++){
+    var hitOver = false;
+    for(j = 0; j < taken.length; j++){
+      if(jobs[i].s < taken[j][1] && jobs[i].e > taken[j][0]){ hitOver = true; break; }
+    }
+    if(hitOver) continue;
+    taken.push([jobs[i].s, jobs[i].e]); keep.push(jobs[i]);
+  }
+  /* 从后往前包：包裹会让文本节点分裂，靠后的先做，前面记下的偏移仍然有效 */
+  keep.sort(function(a,b){ return b.s - a.s; });
+  for(i = 0; i < keep.length; i++){
+    var parts = hlPartsOf(ix, keep[i].s, keep[i].e);
+    for(j = parts.length - 1; j >= 0; j--) hlWrapPart(parts[j], keep[i].t, keep[i].part);
+  }
 }
 function hlWrapOnce(root, text){
-  if(!root || !text) return false;
-  var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
-    acceptNode: function(n){
-      if(!n.nodeValue || n.nodeValue.indexOf(text) < 0) return NodeFilter.FILTER_REJECT;
-      var p = n.parentNode;
-      if(p && p.closest && p.closest('mark.hlt2,script,style,textarea,.hlt')) return NodeFilter.FILTER_REJECT;
-      return NodeFilter.FILTER_ACCEPT;
-    }
-  });
-  var node = walker.nextNode();
-  if(!node) return false;
-  var at = node.nodeValue.indexOf(text);
+  var t = hlNormNeedle(text);
+  if(!root || t.length < 2) return false;
+  var ix = hlTextIndex(root);
+  if(!ix || !ix.t) return false;
+  var at = ix.t.indexOf(t);
   if(at < 0) return false;
-  var range = document.createRange();
-  try{
-    range.setStart(node, at); range.setEnd(node, at + text.length);
-    var mk = document.createElement('mark');
-    mk.className = 'hlt2';
-    mk.title = '核心点：' + text;
-    if(range.surroundContents) range.surroundContents(mk);
-    else { var frag = range.extractContents(); mk.appendChild(frag); range.insertNode(mk); }
-    return true;
-  }catch(e){
-    try{ var frag2 = range.extractContents(); var mk2 = document.createElement('mark');
-      mk2.className = 'hlt2'; mk2.title = '核心点：' + text; mk2.appendChild(frag2); range.insertNode(mk2); return true;
-    }catch(e2){ return false; }
-  }
+  var parts = hlPartsOf(ix, at, at + t.length), ok = false;
+  for(var i = parts.length - 1; i >= 0; i--){ if(hlWrapPart(parts[i], text)) ok = true; }
+  return ok;
 }
 function hlPaint(root, q, allow){
   if(!root || !q) return;
   var arr = hlMarksE(q);
   if(!arr.length) return;
   /* 长片段优先，避免短词先把长句切断 */
-  arr.slice().sort(function(a,b){ return (b.t||'').length - (a.t||'').length; }).forEach(function(h){
-    var z = h.z || 'det';
-    if(allow && allow.indexOf(z) < 0) return;      /* 只画属于本容器的来源 */
+  arr = arr.slice().sort(function(a,b){ return (String(b.t||'').length) - (String(a.t||'').length); });
+  /* 同一来源的各条共用同一个 host，只建一次文本索引 */
+  var groups = [], i, j;
+  for(i = 0; i < arr.length; i++){
+    var h = arr[i], z = h.z || 'det';
+    if(allow && allow.indexOf(z) < 0) continue;      /* 只画属于本容器的来源 */
     var host = hlZoneHost(root, z);
-    if(host) hlWrapOnce(host, h.t);
-  });
+    if(!host) continue;
+    var g = null;
+    for(j = 0; j < groups.length; j++) if(groups[j].host === host){ g = groups[j]; break; }
+    if(!g){ g = { host: host, items: [] }; groups.push(g); }
+    g.items.push(h);
+  }
+  for(i = 0; i < groups.length; i++) hlPaintHost(groups[i].host, groups[i].items);
 }
 
-/* 取消收藏时把那段绿色高亮拆回去（只拆同文的那一处，不动其它） */
+/* 取消收藏时把那段绿色高亮拆回去。
+   同一条收藏可能同时出现在多个容器里（AI 气泡 + 清单抽屉 + 成绩页），所以要把
+   「所有同文的标记」都拆掉，只拆第一处会留下另一处的绿标；长段收藏会被切成多个
+   <mark>，因此按「连续片段拼接」来认（忽略空白差异，跨块元素时原文可能多出空格）。 */
 function hlUnpaintText(text){
   var t = String(text || '').replace(/\s+/g, ' ').trim();
   if(!t) return;
-  Array.prototype.forEach.call(document.querySelectorAll('mark.hlt2'), function(m){
-    if(String(m.textContent || '').replace(/\s+/g, ' ').trim() !== t) return;
-    var p = m.parentNode; if(!p) return;
+  var squash = function(s){ return String(s == null ? '' : s).replace(/\s+/g, ''); };
+  var want = squash(t);
+  if(!want) return;
+  var marks = Array.prototype.slice.call(document.querySelectorAll('mark.hlt2'));
+  if(!marks.length) return;
+  var hitSet = {}, i, j;
+  for(i = 0; i < marks.length; i++){
+    if(hitSet[i]) continue;
+    if(squash(marks[i].textContent) === want){ hitSet[i] = 1; continue; }
+    var acc = '';
+    for(j = i; j < marks.length; j++){
+      acc += squash(marks[j].textContent);
+      if(acc.length > want.length) break;
+      if(acc === want){ for(var q = i; q <= j; q++) hitSet[q] = 1; break; }
+    }
+  }
+  /* 倒序拆：拆前一段不会影响后一段已经取到的节点引用 */
+  for(i = marks.length - 1; i >= 0; i--){
+    if(!hitSet[i]) continue;
+    var m = marks[i];
+    if(!m || !m.parentNode) continue;
+    var p = m.parentNode;
     while(m.firstChild) p.insertBefore(m.firstChild, m);
     p.removeChild(m);
     try{ p.normalize(); }catch(e){}
-  });
+  }
 }
 /* 收藏后重画所有已渲染的讲解容器（不重建 DOM，滚动位置与展开状态都不动） */
+var hlPaintBusy = 0, hlSchedOn = 0;
 function hlRepaint(){
   var cur = null;
   try{ if(typeof activeList !== 'undefined' && activeList) cur = activeList[state.current]; }catch(e){}
@@ -13312,8 +13505,10 @@ function hlRepaint(){
     try{ nodes = document.querySelectorAll(sel); }catch(e2){ return; }
     Array.prototype.forEach.call(nodes, function(el){
       var i = parseInt(el.getAttribute('data-qi'), 10);
-      if(isNaN(i) || !QUESTIONS[i]) return;
-      try{ hlPaint(el, QUESTIONS[i], allow); }catch(e3){}
+      if(isNaN(i)) return;
+      var qq = hlQOf(i);
+      if(!qq) return;
+      try{ hlPaint(el, qq, allow); }catch(e3){}
     });
   }
   scan('#rList [data-qi]:not(.rev-ai)', ['exp','det','topic']);
@@ -13321,8 +13516,10 @@ function hlRepaint(){
   scan('#rList .rev-ai[data-qi]', ['ai']);
   scan('#stageList [data-qi]', ['exp','det','topic']);
   scan('#markBody [data-qi]', ['topic']);
-  scan('#kpViewBody[data-qi]', ['exp','det','topic']);
+  scan('#kpViewBody[data-qi]', ['exp','det','topic','chat']);
   scan('#kpBd[data-qi]', ['topic']);
+  /* AI 问答助手的回答：整条消息一个容器，按 chat 来源重画 */
+  scan('#aiMsgs .ai-msg[data-qi]', ['chat']);
   var cards;
   try{ cards = document.querySelectorAll('#mkAskBox .mka-card[data-k], #stageMarkAsk .mka-card[data-k]'); }catch(e4){ cards = []; }
   Array.prototype.forEach.call(cards, function(card){
@@ -13332,6 +13529,43 @@ function hlRepaint(){
     if(md) try{ hlPaint(md, QUESTIONS[k], ['ai']); }catch(e5){}
   });
 }
+/* 渲染后重画：页面每次重建解析区（翻题、交卷、换页、展开抽屉）都会把 <mark> 冲掉，
+   以前只在「点了收藏」那一刻画一次，所以看着像「有时有标记、有时没有」。
+   这里统一在一帧内合并补画；绘制期间上锁，避免自己插入的 <mark> 又触发补画。 */
+var hlObsUntil = 0;
+function hlSchedule(){
+  if(hlSchedOn || hlPaintBusy) return;
+  hlSchedOn = 1;
+  var run = function(){
+    hlSchedOn = 0;
+    if(hlPaintBusy) return;
+    hlPaintBusy = 1;
+    hlObsUntil = Date.now() + 360;      /* 自己插的 mark 不要再触发观察器 */
+    try{ hlRepaint(); }catch(e){}
+    hlPaintBusy = 0;
+  };
+  if(window.requestAnimationFrame) requestAnimationFrame(run); else setTimeout(run, 16);
+}
+(function(){
+  if(typeof MutationObserver !== 'function') return;
+  var IDS = ['qFb','qTopic','rList','stageList','kpBd','kpViewBody','markBody','rDiag','mkAskBox','stageMarkAsk'];
+  var timer = 0;
+  var obs = new MutationObserver(function(){
+    if(hlPaintBusy || Date.now() < hlObsUntil) return;
+    clearTimeout(timer);
+    timer = setTimeout(hlSchedule, 140);
+  });
+  function bind(){
+    IDS.forEach(function(id){
+      var el = document.getElementById(id);
+      if(!el) return;
+      try{ obs.observe(el, { childList: true, subtree: true }); }catch(e){}
+    });
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind);
+  else bind();
+  window.addEventListener('load', bind);
+})();
 /* ---- 从当前选区解析出标记位置 ----
    选项：换算成「选项内偏移」，可按原文重定位；
    解析 / 知识点 / AI 讲解：不存偏移（内容随揭示状态与版式变化），只存原文片段 + 上下文。 */
@@ -13350,6 +13584,12 @@ function hlCtx(root, t){
    统一返回「哪道题 + 哪种来源」，收藏后才能正确归类。 */
 function hlSurfOf(el){
   if(!el || !el.closest) return null;
+  /* AI 问答助手的回答：整条消息就是一个「讲解容器」，归属记为虚拟题卡 */
+  var am = el.closest('#aiMsgs .ai-msg');
+  if(am){
+    if(el.closest('.ai-quote,.ai-think,.ai-cursor,button')) return null;  /* 引用块与按钮不算讲解正文 */
+    return { qi:AI_CHAT_QI, z:'chat', host:am };
+  }
   var card = el.closest('.mka-card[data-k]');
   if(card){
     var k = parseInt(card.getAttribute('data-k'), 10);
@@ -13368,10 +13608,12 @@ function hlSurfOf(el){
   var node = el.closest('[data-qi]');
   if(node){
     var i = parseInt(node.getAttribute('data-qi'), 10);
-    if(!isNaN(i) && typeof QUESTIONS !== 'undefined' && QUESTIONS[i]){
+    if(!isNaN(i) && hlQOf(i)){
       var z = 'det';
+      /* 虚拟题卡（AI 问答助手）里的段落统一记成 chat */
+      if(i === AI_CHAT_QI) z = 'chat';
       /* 原题回放抽屉里的「知识点」与「术语对照」也是知识点讲解，别一律记成逐项辨析 */
-      if(el.closest('.tpanel, .mk-tp-b, .tp-sec, .tp-sec-b, .kp-sec-b, .kp .kt, .kp .kh, .gloss')) z = 'topic';
+      else if(el.closest('.tpanel, .mk-tp-b, .tp-sec, .tp-sec-b, .kp-sec-b, .kp .kt, .kp .kh, .gloss')) z = 'topic';
       else if(el.closest('.why, .exp')) z = 'exp';
       /* 上下文只取选区所在的那一小段，别把整份解析的其它标题串进来 */
       var ctxHost = el.closest('.kp .kt, .kp .kh, .why-list li, .why-grp, .qref-stem, .qref-case, .gloss li, .kp-sec-b, .tpanel, .mk-tp-b, .tp-sec-b, .exp, .why');
@@ -13406,7 +13648,9 @@ function hlSelKp(el, raw){
   try{ it = kpById(decodeURIComponent(host.getAttribute('data-kpid') || '')); }catch(eD){}
   if(!it || it.idx == null || typeof QUESTIONS === 'undefined' || !QUESTIONS[it.idx]) return null;
   var t = String(raw || '').replace(/\s+/g, ' ').trim();
-  if(t.length < 2 || t.length > 160) return null;
+  if(t.length < 2) return null;
+  var cut = false;
+  if(t.length > HL_TXT_MAX){ t = t.slice(0, HL_TXT_MAX).trim(); cut = true; }
   var qi = it.idx;
   var origin = String(it.t || '').replace(/\s+/g, ' ').trim();
   if(t === origin){
@@ -13424,7 +13668,7 @@ function hlSelKp(el, raw){
   }
   /* 新句子：上下文只取所在那一小块，避免把按钮文字、标签混进「原句上下文」 */
   var ctxHost = el.closest('.kp-ctx,.kp-item-stem,.kp-note,.kp-txt,.kprev-txt,.kprev-ctx,.kprev-stem,.kprev-note') || host;
-  return { k:'e', z:it.z || 'det', t:t, ctx:hlCtx(ctxHost, t), qi:qi };
+  return { k:'e', z:it.z || 'det', t:t, ctx:hlCtx(ctxHost, t), qi:qi, cut:cut };
 }
 function hlSel(){
   var sel = window.getSelection ? window.getSelection() : null;
@@ -13443,8 +13687,10 @@ function hlSel(){
     var surf = hlSurfOf(el);
     if(!surf) return null;
     var t2 = raw.replace(/\s+/g, ' ').trim();
-    if(t2.length < 2 || t2.length > 160) return null;
-    return { k:'e', z:surf.z, t:t2, ctx:hlCtx(surf.host, t2), qi:surf.qi };
+    if(t2.length < 2) return null;
+    var cut = false;
+    if(t2.length > HL_TXT_MAX){ t2 = t2.slice(0, HL_TXT_MAX).trim(); cut = true; }
+    return { k:'e', z:surf.z, t:t2, ctx:hlCtx(surf.host, t2), qi:surf.qi, cut:cut };
   }
   var orig = parseInt(box.getAttribute('data-o'), 10);
   if(isNaN(orig)) return null;
@@ -13633,6 +13879,8 @@ function kpQIdx(){
     q = QUESTIONS[i];
     try{ m[hlKeyOf(q)] = { q:q, i:i }; }catch(e){}
   }
+  /* AI 问答助手的收藏用虚拟题卡登记：不登记的话清单会按「题目已不在题库」把它们丢掉 */
+  try{ m[hlKeyOf(AI_CHAT_Q)] = { q:AI_CHAT_Q, i:AI_CHAT_QI }; }catch(e2){}
   kpQIdxCache = m;
   return m;
 }
@@ -13667,6 +13915,7 @@ function kpById(id){
 }
 function kpSrcOf(it){
   if(it.kind === 'o') return { cls:'opt', label:'选项' };
+  if(it.z === 'chat') return { cls:'ai', label:'AI 问答助手' };
   if(it.z === 'topic') return { cls:'topic', label:'知识点讲解' };
   if(it.z === 'ai') return { cls:'ai', label:'AI 讲解' };
   if(it.z === 'exp') return { cls:'exp', label:'解析要点' };
@@ -13674,6 +13923,7 @@ function kpSrcOf(it){
 }
 /* 归类口径：知识点 = 题目标签匹配到的考纲主题（topicOf）；匹配不到就用标签本身 */
 function kpTopicOf(it){
+  if(it && it.idx === AI_CHAT_QI) return 'AI 问答助手';
   var tag = kpTagOf(it);
   try{ var t = topicOf(tag); if(t) return t.id; }catch(e){}
   return tag;
@@ -13681,7 +13931,9 @@ function kpTopicOf(it){
 function kpGroupOf(it){
   var mode = kpFilter.group || 'topic';
   if(mode === 'src'){ var s = kpSrcOf(it); return { k:'s:' + s.cls, label:s.label }; }
-  if(mode === 'q') return { k:'q' + it.idx, label:'第 ' + (it.idx + 1) + ' 题 · ' + kpTagOf(it) };
+  if(mode === 'q') return it.idx === AI_CHAT_QI
+    ? { k:'q-1', label:'AI 问答助手 · 对话收藏' }
+    : { k:'q' + it.idx, label:'第 ' + (it.idx + 1) + ' 题 · ' + kpTagOf(it) };
   return { k:'t:' + kpTopicOf(it), label: kpTopicOf(it) };
 }
 function kpCtxOf(it){
@@ -13698,6 +13950,7 @@ function kpCtxOf(it){
 }
 function kpTagOf(it){ return (it.q && it.q.tag) ? it.q.tag : '未标注考点'; }
 function kpStemOf(it){
+  if(it && it.idx === AI_CHAT_QI) return '';   /* AI 对话收藏没有题干，不显示「题目」行 */
   var s = (it.q && it.q.stem) ? String(it.q.stem) : '';
   return s.length > 74 ? s.slice(0,74) + '…' : s;
 }
@@ -13749,7 +14002,7 @@ function kpItemHtml(it, meta){
     h += '<div class="kp-acts">' +
       '<button data-kpact="star" data-id="' + hlEsc(it.id) + '" class="' + (mm.star ? 'on' : '') + '">' + (mm.star ? '★ 已标重点' : '☆ 标为重点') + '</button>' +
       '<button data-kpact="note" data-id="' + hlEsc(it.id) + '">' + (mm.note ? '✎ 改注释' : '✎ 写注释') + '</button>' +
-      '<button data-kpact="view" data-id="' + hlEsc(it.id) + '">📄 看原题解析</button>' +
+      '<button data-kpact="view" data-id="' + hlEsc(it.id) + '">' + (it.idx === AI_CHAT_QI ? '📄 看这段上下文' : '📄 看原题解析') + '</button>' +
       '<button data-kpact="done" data-id="' + hlEsc(it.id) + '" class="' + (mm.done ? 'on' : '') + '">' + (mm.done ? '✓ 已掌握' : '标为已掌握') + '</button>' +
       '<button data-kpact="del" data-id="' + hlEsc(it.id) + '">✕ 移除</button>' +
       '</div>';
@@ -13869,6 +14122,8 @@ function kpRender(){
   Array.prototype.forEach.call(body.querySelectorAll('[data-kpact]'), function(b){
     b.onclick = function(){ kpAct(b.getAttribute('data-kpact'), b.getAttribute('data-id')); };
   });
+  /* 清单每次重渲染都会重建条目文本，收藏标记要跟着补画回来 */
+  try{ hlSchedule(); }catch(eHs){}
 }
 function kpAct(act, id){
   var meta = kpMeta(), m;
@@ -13885,8 +14140,11 @@ function kpAct(act, id){
   if(act === 'done'){ m = meta[id] || (meta[id] = {}); m.done = !m.done; kpMetaSave(); kpRender(); return; }
   if(act === 'view'){ var it = kpById(id); if(it) kpOpenView(it); return; }
   if(act === 'del'){
+    var gone = kpById(id);
     if(!confirm('从清单里移除这条核心点？\n（只删除这一条划词标记，题库与答题记录不受影响）')) return;
     kpDeleteById(id);
+    /* 清单会重渲染，但 AI 助手面板、成绩页这类容器不会重建：手动把这条高亮拆掉 */
+    if(gone) try{ hlUnpaintText(gone.t); }catch(eD){}
     if(kpReview){ kpReview.ids = kpReview.ids.filter(function(x){ return x !== id; }); if(!kpReview.ids.length) kpReview = null; }
     kpRender(); refreshMarkEntry(); return;
   }
@@ -13920,8 +14178,14 @@ function kpOpenView(it){
   h += '<div class="kprev-txt" style="font-size:17px;margin:2px 0 10px">' + hlEsc(it.t) + '</div>';
   if(ctx) h += '<div class="kprev-ctx" style="margin-bottom:14px">' + hlEsc(ctx) + '</div>';
   h += '</div>';
-  h += '<div style="border-top:1px solid #e2e8f0;margin:6px 0 12px"></div>';
-  try{ h += detailHtml(it.q, it.idx, true, true); }catch(e){ h += '<div class="sub">解析渲染失败。</div>'; }
+  if(it.idx === AI_CHAT_QI){
+    /* 对话里的收藏没有原题可回放：说明来源，并给出继续追问的入口 */
+    h += '<div class="sub" style="padding:2px 2px 10px">这条来自「AI 问答助手」的对话，没有对应的题目与逐项辨析。' +
+         '想继续深挖，可在助手面板里对这段内容继续追问。</div>';
+  }else{
+    h += '<div style="border-top:1px solid #e2e8f0;margin:6px 0 12px"></div>';
+    try{ h += detailHtml(it.q, it.idx, true, true); }catch(e){ h += '<div class="sub">解析渲染失败。</div>'; }
+  }
   box.innerHTML = h;
   try{ box.setAttribute('data-qi', it.idx); }catch(e3){}
   try{ hlPaint(box, it.q); }catch(e){}
@@ -13995,6 +14259,7 @@ function kpRenderReview(){
   };
   var ex = $('kpRevExit');
   if(ex) ex.onclick = function(){ kpReview = null; kpRender(); };
+  try{ hlSchedule(); }catch(eHs5){}
 }
 /* 导出：Markdown，按考点分组，可直接粘进笔记软件 */
 function kpExportMd(){
@@ -14178,6 +14443,8 @@ function render(){
   $('pillProgress').innerHTML = paperName + secTxt + ' · ' + answeredCount() + ' / ' + activeList.length;
   $('introProg').style.width = (answeredCount()/activeList.length*100)+'%';
   renderPalette();
+  /* 答题页每题重绘，收藏标记随之补画，翻题回来仍然看得见 */
+  try{ hlSchedule(); }catch(eHs4){}
 }
 function answeredCount(){
   return activeList.filter(i=>isAnswered(state.answers[i])).length;
@@ -14288,6 +14555,9 @@ function showBreak(nextSec){
 }
 
 function doSubmit(auto){
+  /* 已经交过卷：不重复交卷。避免计时归零与手动交卷同时触发时，
+     把同一份答卷登记成两次完成记录、多出一份重复快照。 */
+  if(state.submitted) return;
   /* 从阶段报告页直接交卷：查看报告这段时间同样补回，不吃掉考试时间 */
   if(state.stageAt && state.mode==='exam' && !state.paused){
     state.endsAt = (state.endsAt||Date.now()+state.left*1000) + Math.max(0, Date.now()-state.stageAt);
@@ -14303,7 +14573,8 @@ function doSubmit(auto){
     addWrong(activeList);
     histRecordList(activeList, false);
     state.practiceSubmitted = true;
-    commitStage(false);                    /* 练习模式的「提交查看」也算一次阶段留痕 */
+    var pst=commitStage(false);            /* 练习模式的「提交查看」也算一次阶段留痕 */
+    if(pst && pst.reused){ try{ hlFlash('没有新的作答或改动，本次不新增答题记录'); }catch(eP2){} }
     save(); renderResult(); renderStats(); showScreen('scResult');
     setTimeout(mkAskAfterSubmit, 80);
     window.scrollTo({top:0,behavior:'smooth'});
@@ -14470,6 +14741,8 @@ function renderResult(){
   renderStageBox(correct, list.length, pct);
   renderDiag();
   try{ wrongAiPaintBar(); }catch(eWa){}
+  /* 整页重建后把收藏标记补画回来（AI 讲解内容是随后异步填的，观察器还会再补一次） */
+  try{ hlSchedule(); }catch(eHs3){}
 }
 
 /* 错题诊断：按 ECO 知识点聚合，每行直接给「讲解」与「再练」入口 */
@@ -15280,24 +15553,25 @@ function hlApplyPending(){
   if(!p) return;
   /* 收藏目标以选区所在的那道题为准：成绩页、阶段报告、AI 讲解都不等于“当前题” */
   let qi = (p.qi != null) ? p.qi : null;
-  if(qi == null || !QUESTIONS[qi]) qi = (activeList ? activeList[state.current] : null);
-  if(qi == null || !QUESTIONS[qi]) return;
-  const q = QUESTIONS[qi];
+  if(qi == null || !hlQOf(qi)) qi = (activeList ? activeList[state.current] : null);
+  if(qi == null || !hlQOf(qi)) return;
+  const q = hlQOf(qi);
   const added = hlToggle(q, p);
   let onQuiz = false;
   try{ onQuiz = !!($('scQuiz') && $('scQuiz').classList.contains('active')); }catch(e){}
   if(onQuiz) render();
   if(!added) try{ hlUnpaintText(p.t); }catch(eU){}
-  try{ hlRepaint(); }catch(e2){}
+  try{ hlSchedule(); }catch(e2){}
   refreshMarkEntry();
   if(added){
     var short = p.t.length > 14 ? p.t.slice(0,14) + '…' : p.t;
     var n = 0;
     try{ n = kpAll().length; }catch(e){}
+    var cutTip = p.cut ? '（原文较长，已取前 ' + HL_TXT_MAX + ' 字）' : '';
     if(p.k === 'o'){
       hlFlash('已标记「' + short + (n ? '」（清单共 ' + n + ' 条）' : '」'));
     }else{
-      hlFlash('已收藏「' + short + '」· ' + hlZoneName(p.z) + (n ? '（清单共 ' + n + ' 条）' : ''));
+      hlFlash('已收藏「' + short + '」· ' + hlZoneName(p.z) + cutTip + (n ? '（清单共 ' + n + ' 条）' : ''));
     }
     const box = $('qHl');
     if(box && box.scrollIntoView && p.k === 'o' && onQuiz) setTimeout(function(){ box.scrollIntoView({behavior:'smooth', block:'nearest'}); }, 60);
@@ -15400,6 +15674,34 @@ function findStage(id){
   for(var i=0;i<all.length;i++) if(all[i].snap.id===id) return all[i].snap;
   return null;
 }
+/* 本会话最近一份快照：没有新作答时直接沿用它，不另开一条重复记录 */
+function stageLastOfRun(id){
+  var d=stageDB(), r=id?d.runs[id]:null;
+  if(!r || !r.stages || !r.stages.length) return null;
+  return r.stages[r.stages.length-1];
+}
+/* 旧版本会为「没有任何变动」的重复提交也存一份快照（本阶段 0/0、正确率 0%）。
+   这里把这些纯重复项连同对应的操作记录一次性清理掉；真实提交与交卷快照一律不动。 */
+function stagePrune(){
+  var d=stageDB(), changed=false, removed=0;
+  d.order.forEach(function(id){
+    var r=d.runs[id]; if(!r || !r.stages || !r.stages.length) return;
+    var keep=[], prev=null;
+    r.stages.forEach(function(s){
+      var dup = prev && !s.final && typeof s.pt==='number' && s.pt===0 &&
+                s.answered===prev.answered && s.acount===prev.acount && s.ac===prev.ac;
+      if(dup){ removed++; changed=true; return; }
+      keep.push(s); prev=s;
+    });
+    if(keep.length!==r.stages.length) r.stages=keep;
+    if(r.events && r.events.length){
+      var ev=r.events.filter(function(x){ return !/次阶段提交 · 本阶段 0%（0\/0）/.test(x.text||''); });
+      if(ev.length!==r.events.length){ r.events=ev; changed=true; }
+    }
+  });
+  if(changed) stageSaveDB(d);
+  return removed;
+}
 function refreshStageEntry(){
   var e=$('stageEntryCount'); if(e) e.textContent = stageAllStages().length;
 }
@@ -15442,6 +15744,17 @@ function commitStage(isFinal){
     if(!Object.prototype.hasOwnProperty.call(base,i)) return true;
     return stageAnsKey(base[i])!==stageAnsKey(cur[i]);
   });
+  /* 没有任何新增作答、也没有改过任何答案 → 不生成新记录。
+     直接沿用本会话上一份快照（答案完全相同，再存一份只会让记录里多出一行 0/0 的重复项）。
+     交卷是必须留档的动作，即使本阶段无变动也照常生成 final 快照。 */
+  if(!isFinal && !partIdx.length){
+    var last=stageLastOfRun(state.runId);
+    if(last){
+      last.reused=true;
+      last.reusedAt=Date.now();
+      return last;
+    }
+  }
   var part=stageItems(partIdx,cur), all=stageItems(allIdx,cur);
   var pc=part.filter(function(x){return x[2];}).length;
   var ac=all.filter(function(x){return x[2];}).length;
@@ -15503,7 +15816,12 @@ function submitStage(){
   var answered=activeList.filter(function(i){ return isAnswered(state.answers[i]); }).length;
   if(!answered){ alert('还没有作答任何题目，先做几题再来生成阶段报告吧。'); return; }
   var snap=commitStage(false);
-  stageLogEvent('view','打开第 '+snap.seq+' 次阶段报告（本阶段 '+snap.pt+' 题 / 累计 '+snap.answered+' 题）');
+  if(snap.reused){
+    stageLogEvent('view','查看第 '+snap.seq+' 次阶段报告（无新增作答 / 未改动答案，未新增记录）');
+    try{ hlFlash('没有新的作答或改动，直接显示上一次的报告（未新增记录）'); }catch(eF){}
+  }else{
+    stageLogEvent('view','打开第 '+snap.seq+' 次阶段报告（本阶段 '+snap.pt+' 题 / 累计 '+snap.answered+' 题）');
+  }
   stageView=snap; stageHistoryOnly=false; stageFromHistory=false;
   stageRange=snap.pt?'part':'all'; stageWrongOnly=false;
   freezeStageView();
@@ -15617,9 +15935,14 @@ function renderStage(){
   $('stageScore').className='big '+(pct>=70?'pass':'fail');
   $('stageSub').innerHTML='答对 '+(isAll?s.ac:s.pc)+' / '+(isAll?s.acount:s.pt)+' 题　·　'+stageStamp(s.at)+
     (s.mode==='exam'?'　·　剩余 '+fmt(s.left):'　·　练习模式不限时')+
-    (s.final?'　·　最终交卷':'　·　第 '+s.seq+' 次阶段提交');
-  $('stageNote').innerHTML='<b>本阶段</b>＝自上次提交以来新作答或改过答案的题目（'+s.pt+' 道）；<b>累计全部</b>＝截止本次提交已作答的全部题目（'+s.acount+' 道）。'+
-    '所有作答、标记与当前题号原样保留，<b>不锁定任何题目</b>，可随时返回继续；中途可以反复提交，每次都会单独留档。';
+    (s.final?'　·　最终交卷':'　·　第 '+s.seq+' 次阶段提交')+
+    (s.reused?'　·　沿用上次报告（无变动）':'');
+  $('stageNote').innerHTML=(s.reused
+      ? '<b style="color:#b45309">本次打开时没有任何新增作答、也没有改过答案，直接显示上一次（第 '+s.seq+' 次）的报告，<b>未新增记录</b>。</b><br>'
+      : '')+
+    '<b>本阶段</b>＝自上次提交以来新作答或改过答案的题目（'+s.pt+' 道）；<b>累计全部</b>＝截止本次提交已作答的全部题目（'+s.acount+' 道）。'+
+    '所有作答、标记与当前题号原样保留，<b>不锁定任何题目</b>，可随时返回继续；'+
+    '只有<b>出现新作答或改过答案</b>时才单独留档，没有变动的重复查看不会生成新记录。';
   $('stageFreezeNote').innerHTML=stageFromHistory
     ? '🗂 这是当时提交时固化的历史快照：答案、选项顺序、正确率与解析都按提交那一刻保存，后续改答案不会改写它。'
     : (s.mode==='exam' && !state.submitted
@@ -15651,6 +15974,7 @@ function renderStage(){
     });
   }catch(eHp4){}
   renderStageHistory();
+  try{ hlSchedule(); }catch(eHs2){}
 }
 function renderStageHistory(){
   var d=stageDB(),all=stageAllStages();
@@ -15661,11 +15985,11 @@ function renderStageHistory(){
     h+='<p class="sub">共 '+all.length+' 份报告，按时间倒序。点「查看」回看任意一次提交时的原始答案与解析。</p>';
     h+='<div class="stage-run"><table class="stage-table"><thead><tr><th>时间</th><th>卷 / 阶段</th><th>本阶段</th><th>累计</th><th>正确率</th><th></th></tr></thead><tbody>';
     all.forEach(function(x){
-      var s=x.snap;
+      var s=x.snap, noPart=!s.pt;
       h+='<tr'+(stageView&&stageView.id===s.id?' class="cur"':'')+'><td>'+stageStamp(s.at)+'</td>'+
         '<td>'+s.label+(s.final?' <b>最终交卷</b>':' 第 '+s.seq+' 阶段')+'</td>'+
-        '<td>'+s.pc+'/'+s.pt+'</td><td>'+s.ac+'/'+s.acount+'</td>'+
-        '<td><b class="'+(s.ppct>=70?'ok':'no')+'">'+s.ppct+'%</b>（累计 '+s.apct+'%）</td>'+
+        '<td>'+(noPart?'—':s.pc+'/'+s.pt)+'</td><td>'+s.ac+'/'+s.acount+'</td>'+
+        '<td>'+(noPart?'<b>—</b>':'<b class="'+(s.ppct>=70?'ok':'no')+'">'+s.ppct+'%</b>')+'（累计 '+s.apct+'%）</td>'+
         '<td><button class="stage-view-btn" data-sid="'+s.id+'">查看</button></td></tr>';
     });
     h+='</tbody></table></div>';
@@ -15728,6 +16052,9 @@ $('stageTabPart').onclick=function(){ stageRange='part'; renderStage(); };
 $('stageTabAll').onclick=function(){ stageRange='all'; renderStage(); };
 $('stageTabWrong').onclick=function(){ stageWrongOnly=!stageWrongOnly; renderStage(); };
 $('btnResultFilter').onclick=function(){ resultOnlyWrong=!resultOnlyWrong; renderResult(); window.scrollTo({top:0,behavior:'smooth'}); };
+/* 启动时整理一次旧版遗留的「无变动」重复报告，并修正被多记的完成遍数 */
+try{ stagePrune(); }catch(ePr){}
+try{ paperLogRepair(); }catch(ePx){}
 refreshStageEntry();
 
 /* ================= 版本迭代数据留存 =================
@@ -15735,7 +16062,7 @@ refreshStageEntry();
    升级本身只增字段、不改写原有键，所以老用户的进行中考试与历史记录原样保留。 */
 var BUILD_KEY = KEY + '_build';
 var BAK_INDEX = KEY + '_baks';
-var BUILD_ID  = '2026-11-16-ai-drag-resize';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
+var BUILD_ID  = '2026-11-17-no-dup-records';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
 /* 版本快照覆盖的键：答题进度 / 标记 / 讲解清单 / 练习判分 / 划词收藏 / 清单标注。
    注意：不复制备份 AI 讲解正文（_aibank）——它一份就几千字，6 份快照会直接把本机配额撑爆，
    而升级过程本身不会删这个键，正文照旧保留；需要留档时用「导出记录」或存档页的「导出 Markdown」。 */
@@ -15824,6 +16151,8 @@ function bakRestore(id){
     if(v===null||v===undefined) bakDel(k); else bakSet(k,v);
   });
   bakSet(BUILD_KEY, BUILD_ID);
+  /* 恢复的是旧备份：完成遍数的重复计数修正要按恢复后的数据重新跑一遍 */
+  try{ localStorage.removeItem(KEY+'_papers_fix'); }catch(eRm){}
   closeBackup();
   try{ location.reload(); }catch(e){}
 }
@@ -17508,7 +17837,7 @@ if(s && Object.keys(s.answers||{}).length){
   }
   function check(){
     if(!window.caches) return;
-    caches.open('pmp-exam-offline-v26').then(function(c){ return c.match('./index.html'); })
+    caches.open('pmp-exam-offline-v29').then(function(c){ return c.match('./index.html'); })
       .then(function(hit){
         if(hit) setUI('ok','✅ 已可离线','题库已完整缓存到本机。现在开飞行模式刷新本页，也能正常出题、答题、交卷与保存进度。');
         else setUI('warn','⏳ 正在准备','正在缓存题库，请保持联网稍等几秒；若一直不变，请点「保存完整题库到手机」兜底。');
@@ -17519,7 +17848,7 @@ if(s && Object.keys(s.answers||{}).length){
     .then(function(){
       /* 页面自己把当前整页写进缓存：比 SW install 预缓存更可靠（当前 URL 一定能访问） */
       if(window.caches){
-        caches.open('pmp-exam-offline-v26').then(function(c){
+        caches.open('pmp-exam-offline-v29').then(function(c){
           return fetch(location.href,{cache:'no-store'}).then(function(r){
             if(r&&r.ok) return c.put('./index.html', r.clone());
           }).catch(function(){});
@@ -18261,6 +18590,8 @@ if(s && Object.keys(s.answers||{}).length){
       bot.classList.remove('rich');
       bot.textContent=txt;
     }
+    /* 流式阶段是纯文本、收完才重排成富文本：重排后把这条消息里已有的收藏标记补画回来 */
+    try{ hlSchedule(); }catch(eH){}
   }
   /* 对话里的练习题同样走「先作答、后给答案」的选择框：
      直接把「答案：B / 解析：…」当正文显示，等于把答案白送出去。 */
@@ -18286,6 +18617,8 @@ if(s && Object.keys(s.answers||{}).length){
   function aiAddMsg(role,s,quote){
     var d=document.createElement('div');
     d.className='ai-msg '+(role==='user'?'user':'bot');
+    /* 回答消息带虚拟题号：划词收藏时靠它把这段讲解归到「AI 问答助手」名下 */
+    if(role!=='user'){ try{ d.setAttribute('data-qi', AI_CHAT_QI); }catch(e0){} }
     d.textContent=s;
     if(quote){
       var q=document.createElement('span'); q.className='ai-quote';
@@ -18484,10 +18817,13 @@ if(s && Object.keys(s.answers||{}).length){
     if(!s||s.isCollapsed||!s.rangeCount) return aiHideSel();
     var text=String(s.toString()||'').replace(/\s+/g,' ').trim();
     if(text.length<2) return aiHideSel();
-    if(text.length>600) text=text.slice(0,600)+'…';
+    if(text.length>HL_TXT_MAX) text=text.slice(0,HL_TXT_MAX)+'…';
     var n=s.anchorNode; if(n&&n.nodeType===3) n=n.parentNode;
     if(!n||!n.closest) return aiHideSel();
-    if(n.closest('#aiPanel,#aiSelBar,#aiToast')) return aiHideSel();
+    /* AI 助手的回答区允许划词（收藏 / 追问）；面板其它部位（标题栏、输入框、按钮）不放行 */
+    var inMsg=!!n.closest('.ai-msg');
+    if(n.closest('#aiSelBar,#aiToast')) return aiHideSel();
+    if(n.closest('#aiPanel')&&!inMsg) return aiHideSel();
     var tag=n.tagName?n.tagName.toLowerCase():'';
     if(tag==='input'||tag==='textarea'||tag==='select'||n.isContentEditable) return aiHideSel();
     var scr=n.closest('.screen');
@@ -18496,7 +18832,7 @@ if(s && Object.keys(s.answers||{}).length){
     try{ r=s.getRangeAt(0).getBoundingClientRect(); }catch(e){ return aiHideSel(); }
     if(!r||(!r.width&&!r.height)) return aiHideSel();
     var b=aiSelEl(); if(!b) return;
-    var quiz=(aiScreen==='scQuiz');
+    var quiz=(aiScreen==='scQuiz')&&!inMsg;   /* 在助手回答里划词：要的是追问与收藏，不是选项标记 */
     var ask=b.querySelector('[data-act="ask"]'), edit=b.querySelector('[data-act="edit"]'),
         mark=b.querySelector('[data-act="mark"]');
     if(ask) ask.hidden=quiz;
@@ -18509,8 +18845,8 @@ if(s && Object.keys(s.answers||{}).length){
       try{ info=(typeof hlSel==='function')?hlSel():null; }catch(eH){ info=null; }
       hlPending=info;
       if(info){
-        var qi=(info.qi!=null)?info.qi:((activeList&&activeList.length)?activeList[state.current]:-1);
-        var q0=QUESTIONS[qi];
+        var qi=(info.qi!=null)?info.qi:((activeList&&activeList.length)?activeList[state.current]:null);
+        var q0=(qi==null)?null:hlQOf(qi);
         var has=false;
         try{ if(q0) has=hlHas(q0,info); }catch(eH2){}
         hlBtn.hidden=false;
@@ -18518,7 +18854,8 @@ if(s && Object.keys(s.answers||{}).length){
         hlBtn.title=has
           ? '取消这条收藏：从「核心知识点清单」同步移除'
           : (info.k==='e'
-            ? ('收藏这句到「核心知识点清单」（来源：'+(typeof hlZoneName==='function'?hlZoneName(info.z):'讲解')+'），按知识点归类')
+            ? ('收藏这句到「核心知识点清单」（来源：'+(typeof hlZoneName==='function'?hlZoneName(info.z):'讲解')+'），按知识点归类'
+               +(info.cut?'；原文超过 '+HL_TXT_MAX+' 字，将只取开头部分':''))
             : '标记选中的选项文字，交卷后按词给出解析');
       }else{
         hlBtn.hidden=true;
