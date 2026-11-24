@@ -1277,6 +1277,74 @@ body.guest .ai-fab{bottom:64px}
 .kp-note-edit{width:100%;margin-top:8px;border:1px solid #cbd5e1;border-radius:7px;padding:7px 9px;
   font-size:12.8px;font-family:inherit;line-height:1.6;resize:vertical;min-height:58px;box-sizing:border-box}
 .kp-empty{text-align:center;color:#64748b;padding:34px 14px;font-size:13.5px;line-height:1.95}
+/* ---------- 我的笔记（划词摘录 + 手写笔记） ---------- */
+.nt-quick{display:flex;gap:8px;align-items:center;margin:14px 0 4px}
+.nt-quick-in{flex:1;min-width:150px;border:1px solid #cbd5e1;border-radius:9px;padding:9px 12px;
+  font-size:13.5px;font-family:inherit;color:#0f172a;background:#fff}
+.nt-quick-in:focus{outline:none;border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,.13)}
+.nt-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0}
+.nt-kw{flex:1;min-width:190px;border:1px solid #cbd5e1;border-radius:8px;padding:7px 11px;
+  font-size:13px;font-family:inherit;color:#0f172a;background:#fff}
+.nt-kw:focus{outline:none;border-color:#0d9488;box-shadow:0 0 0 3px rgba(13,148,136,.13)}
+.nt-seg{display:inline-flex;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;background:#fff}
+.nt-seg button{border:0;background:transparent;color:#475569;font-size:12px;padding:7px 11px;
+  cursor:pointer;font-family:inherit;border-right:1px solid #eef2f7;line-height:1.35}
+.nt-seg button:last-child{border-right:0}
+.nt-seg button.on{background:#0f766e;color:#fff}
+.nt-seg button:hover:not(.on){background:#f1f5f9}
+.nt-sel{border:1px solid #cbd5e1;border-radius:8px;padding:7px 9px;font-size:12.5px;
+  font-family:inherit;color:#334155;background:#fff;max-width:240px}
+.nt-compose{background:#f8fafc;border:1px solid #cbd5e1;border-radius:11px;padding:13px;margin:0 0 14px;
+  scroll-margin-top:96px}
+.nt-compose .nt-crow{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.nt-compose input[type=text],.nt-compose textarea,.nt-compose select{
+  border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;
+  color:#0f172a;background:#fff;box-sizing:border-box}
+.nt-compose input[type=text]{flex:1;min-width:150px}
+.nt-compose textarea{width:100%;min-height:96px;line-height:1.75;resize:vertical}
+.nt-compose .nt-cfoot{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:9px}
+.nt-compose .nt-chint{font-size:11.5px;color:#94a3b8;flex:1;min-width:120px}
+.nt-item{background:#fff;border:1px solid #e2e8f0;border-left:3px solid #86efac;border-radius:10px;
+  padding:11px 13px;margin-bottom:9px}
+.nt-item.own{border-left-color:#0d9488}
+.nt-item.hot{border-color:#fbbf24;border-left-color:#f59e0b;background:#fffdf5}
+.nt-item .nt-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:4px}
+.nt-item .nt-title{font-size:14.5px;font-weight:700;color:#0f172a;line-height:1.6;word-break:break-word}
+.nt-item .nt-body{font-size:13.5px;color:#1e293b;line-height:1.85;white-space:pre-wrap;word-break:break-word;margin-top:2px}
+.nt-item .nt-meta{font-size:11.5px;color:#94a3b8;margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.nt-tag{display:inline-block;font-size:10.5px;border-radius:4px;padding:1px 6px;background:#ccfbf1;color:#115e59}
+.nt-tag.own{background:#e0f2fe;color:#075985}
+.nt-tag.clip{background:#dcfce7;color:#166534}
+.nt-item .nt-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.nt-item .nt-acts button{border:1px solid #e2e8f0;background:#f8fafc;color:#475569;font-size:11.5px;
+  border-radius:6px;padding:4px 9px;cursor:pointer;font-family:inherit;line-height:1.5}
+.nt-item .nt-acts button:hover{background:#eef2f7}
+.nt-item .nt-acts button.on{background:#fef3c7;border-color:#fbbf24;color:#92400e}
+.nt-item .nt-acts button.danger:hover{background:#fef2f2;border-color:#fca5a5;color:#b91c1c}
+/* 摘录条目复用清单里 .kp-* 的排版（选择器按 .nt-item 再声明一遍） */
+.nt-item .kp-txt{font-size:14.5px;font-weight:700;color:#065f46;line-height:1.7;word-break:break-word}
+.nt-item .kp-txt .q{background:#dcfce7;border-radius:4px;padding:0 3px}
+.nt-item .kp-ctx{font-size:12.5px;color:#475569;margin-top:7px;line-height:1.78;
+  border-left:3px solid #cbd5e1;padding-left:9px}
+.nt-item .kp-item-stem{font-size:12.3px;color:#64748b;margin-top:6px;line-height:1.7}
+.nt-item .kp-note{font-size:12.5px;color:#7c2d12;background:#fff7ed;border-radius:6px;padding:6px 9px;margin-top:7px;white-space:pre-wrap}
+.nt-item .kp-acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.nt-item .kp-acts button{border:1px solid #e2e8f0;background:#f8fafc;color:#475569;font-size:11.5px;
+  border-radius:6px;padding:4px 9px;cursor:pointer;font-family:inherit;line-height:1.5}
+.nt-item .kp-acts button:hover{background:#eef2f7}
+.nt-item .kp-note-edit{width:100%;margin-top:8px;border:1px solid #cbd5e1;border-radius:7px;padding:7px 9px;
+  font-size:12.8px;font-family:inherit;line-height:1.6;resize:vertical;min-height:74px;box-sizing:border-box}
+.nt-group{font-size:12px;font-weight:700;color:#0f766e;margin:16px 0 7px;padding-left:2px;
+  display:flex;align-items:center;gap:7px}
+.nt-group:first-child{margin-top:2px}
+.nt-group span{font-weight:400;color:#94a3b8;font-size:11.5px}
+.nt-empty{text-align:center;color:#64748b;padding:32px 14px;font-size:13.5px;line-height:1.95}
+@media (max-width:640px){
+  .nt-tools{gap:6px}
+  .nt-kw{min-width:100%;order:-1}
+  .nt-sel{flex:1;max-width:none}
+  .nt-seg button{padding:7px 9px;font-size:11.5px}
+}
 .kprev{max-width:720px;margin:18px auto}
 .kprev-card{border:1px solid #e2e8f0;border-radius:14px;background:#fff;padding:22px 22px 16px;min-height:196px;
   box-shadow:0 6px 20px rgba(15,23,42,.06)}
@@ -1590,7 +1658,14 @@ try{
         <div class="ec-arrow">→</div>
       </div>
 
-      <h2 style="margin-top:22px">核心知识点清单</h2>
+      <h2 style="margin-top:22px">我的笔记</h2>
+      <div class="entry-card" id="btnNoteEntry">
+        <div class="ec-ico">📝</div>
+        <div class="ec-main"><b>笔记（<span id="noteEntryCount">0</span> 条 · 其中手写 <span id="noteEntryOwn">0</span> 条）</b><span><b>一个入口看全部笔记</b>：划词收藏的摘录和<b>自己手写的笔记</b>都在这里，按时间线排好，也能切<b>按知识点</b>分组看。<b>随时手动录入</b>——点「✏️ 新建笔记」写多行正文（含标题、知识点标签），或在快速记录框里写一行回车即存；已有的笔记可以编辑、标重点、加批注、删除。<b>划词摘录</b>来自选项、解析要点、逐项辨析、知识点讲解、成绩页与阶段报告、AI 讲解，以及 AI 问答助手的回答气泡。支持关键词搜索、按来源 / 标重点筛选，<b>导出 Markdown</b> 存进 Obsidian / Notion。全部保存在本机，刷新、换卷、离线都不丢。</span></div>
+        <div class="ec-arrow">→</div>
+      </div>
+
+      <h2 style="margin-top:22px">核心知识点复习</h2>
       <div class="entry-card" id="btnKpEntry">
         <div class="ec-ico">📌</div>
         <div class="ec-main"><b>核心知识点清单（<span id="kpEntryCount">0</span> 条）</b><span><b>凡是出现知识点讲解的地方</b>都能划词收藏——选项、答题页的解析要点 / 逐项辨析 / 知识点讲解、<b>成绩页与阶段报告</b>的逐题解析、<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>，以及<b>核心知识点清单本身</b>（含翻卡复习、看原题解析抽屉）。选中一句话点「🖍 收藏」，它会自动汇进这份清单：<b>按知识点归类</b>（也可切按来源 / 按题目）、保留原句上下文与题目出处、可写自己的记忆钩子、可标重点，还能<b>逐条翻卡复习</b>并导出 Markdown。<b>永久保存在本机</b>，取消收藏即同步移除。</span></div>
@@ -1685,6 +1760,44 @@ try{
       <p class="sub" id="kpIntro">凡是出现<b>知识点讲解</b>的地方都能划词收藏：做题时在<b>选项</b>里划；答题页的<b>解析要点 / 逐项辨析 / 知识点讲解</b>；交卷后的<b>成绩页、阶段报告</b>逐题解析（含「原题回放 · 知识点 · 逐项辨析」展开块）；<b>「我的标记」里的 AI 讲解与知识点扩展讲解</b>；以及<b>AI 问答助手的回答气泡</b>（收藏后来源标为「AI 问答助手」，这类条目没有原题可回放）。收藏的句子会自动收进这里，<b>按知识点归类</b>，并保留<b>原句上下文</b>与题目出处；可以写自己的记忆钩子、标重点，也能<b>逐条翻卡复习</b>或导出成 Markdown——考前最后一遍，只看这里就够了。<b>收藏按题干保存</b>，刷新、换卷、下次打开都在；取消某条收藏，清单同步减少。<b>在这份清单里也能继续划词</b>：选中上下文、题干或原句里的新句子点 <b>「🖍 收藏」</b> 会再加一条；选中<b>已收藏的原句</b>则显示 <b>「✖ 取消收藏」</b>，翻卡复习与「看原题解析」抽屉里同样可用。</p>
       <div id="kpStat"></div>
       <div id="kpBody"></div>
+    </div>
+  </section>
+
+  <!-- 我的笔记（划词摘录 + 手写笔记 的统一入口） -->
+  <section id="scNote" class="screen">
+    <div class="card kpwrap" style="margin-top:20px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <h1 style="font-size:20px;margin:0">📝 我的笔记</h1>
+        <span style="flex:1"></span>
+        <button class="btn sm primary" id="btnNoteNew">✏️ 新建笔记</button>
+        <button class="btn sm ghost" id="btnNoteExp">⬇ 导出 Markdown</button>
+        <button class="btn sm ghost" id="btnNoteBack">返回首页</button>
+      </div>
+      <p class="sub" id="noteIntro">这里是<b>笔记总入口</b>：把<b>划词收藏的摘录</b>和<b>自己手写的笔记</b>放在一起看。划词摘录来自选项、解析要点、逐项辨析、知识点讲解、成绩页与阶段报告、AI 讲解，以及 AI 问答助手的回答气泡——选中一句点「🖍 收藏」就会自动汇进来；手写笔记点右上角<b>「✏️ 新建笔记」</b>，或在下面的快速记录框里写一行回车即存。<b>两类内容都能标重点、写批注、按知识点归类</b>，可按时间线或按知识点查看，也能<b>导出 Markdown</b> 存进 Obsidian / Notion。全部保存在本机，刷新、换卷、离线都不丢。</p>
+      <div id="noteStat"></div>
+
+      <div class="nt-quick">
+        <input class="nt-quick-in" id="noteQuick" type="text" placeholder="快速记一条：写下要点，回车即存（点「新建笔记」可写多行正文）" autocomplete="off">
+        <button class="btn sm primary" id="btnNoteQuick" type="button">记录</button>
+      </div>
+
+      <div class="nt-tools">
+        <input class="nt-kw" id="noteKw" type="search" placeholder="搜标题、正文、摘录原文、上下文或知识点…" autocomplete="off">
+        <div class="nt-seg" id="noteSeg">
+          <button type="button" data-nt-src="all" class="on">全部</button>
+          <button type="button" data-nt-src="own">手写笔记</button>
+          <button type="button" data-nt-src="clip">划词摘录</button>
+          <button type="button" data-nt-src="star">标重点</button>
+        </div>
+        <div class="nt-seg" id="noteSeg2">
+          <button type="button" data-nt-ord="time" class="on">最新在前</button>
+          <button type="button" data-nt-ord="topic">按知识点</button>
+        </div>
+        <select class="nt-sel" id="noteTopic"><option value="">全部知识点</option></select>
+      </div>
+
+      <div id="noteCompose"></div>
+      <div id="noteBody"></div>
     </div>
   </section>
 
@@ -7588,6 +7701,8 @@ function refreshMarkEntry(){
       if(tip) tip.textContent = list.length ? '· 已看 ' + seen + '/' + list.length : '';
     }catch(e){ ae.textContent = '0'; }
   }
+  /* 笔记入口：手写条数 + 摘录条数随增删实时变化 */
+  try{ if(typeof noteRefreshEntry === 'function') noteRefreshEntry(); }catch(e2){}
 }
 
 /* ================= 标记 → 按标记顺序编号 → AI 讲解 + 配套练习 =================
@@ -12757,7 +12872,7 @@ function fmtPauseMs(ms){
 }
 
 function showScreen(id){
-  ['scIntro','scQuiz','scResult','scTerms','scMark','scSyl','scStage','scKp','scAi'].forEach(s=>{
+  ['scIntro','scQuiz','scResult','scTerms','scMark','scSyl','scStage','scKp','scNote','scAi'].forEach(s=>{
     const e=$(s); if(e) e.classList.toggle('active',s===id);
   });
   $('btnSubmitTop').style.display = (id==='scQuiz')?'':'none';
@@ -12860,7 +12975,7 @@ function posWrite(o){ try{ localStorage.setItem(POS_KEY, JSON.stringify(o)); }ca
 function posClear(){ try{ localStorage.removeItem(POS_KEY); }catch(e){} }
 
 function posScr(){
-  const ids = ['scQuiz','scResult','scStage','scMark','scKp','scAi','scTerms','scSyl','scIntro'];
+  const ids = ['scQuiz','scResult','scStage','scMark','scKp','scNote','scAi','scTerms','scSyl','scIntro'];
   for(let i = 0; i < ids.length; i++){
     const e = $(ids[i]);
     if(e && e.classList.contains('active')) return ids[i];
@@ -12901,6 +13016,8 @@ function posSnapNow(){
       p.r = stageRange || 'part'; p.wo = !!stageWrongOnly;
     }else if(scr === 'scKp'){
       p.f = { kw: kpFilter.kw || '', src: kpFilter.src || 'all', star: !!kpFilter.star };
+    }else if(scr === 'scNote'){
+      p.f = { kw: noteView.kw || '', src: noteView.src || 'all', ord: noteView.ord || 'time', topic: noteView.topic || '' };
     }else if(scr === 'scAi'){
       p.f = { kw: aiPageView.kw || '', grp: aiPageView.grp || 'kp', flt: aiPageView.flt || 'all' };
     }
@@ -12947,12 +13064,12 @@ function posRestore(){
   if(!p){ posDone = true; posTrace('skip:nopos'); return false; }
   /* 登录门还开着：等登录完成再恢复，避免在门后偷偷跳屏 */
   if(document.documentElement.classList.contains('needgate')){ posPending = true; posTrace('wait:gate'); return false; }
-  const targets = { scQuiz:1, scResult:1, scStage:1, scKp:1, scMark:1, scAi:1 };
+  const targets = { scQuiz:1, scResult:1, scStage:1, scKp:1, scNote:1, scMark:1, scAi:1 };
   if(!targets[p.scr]){ posDone = true; posTrace('skip:scr=' + p.scr); return false; }
   const s = load();
   const answered = (s && s.answers) ? Object.keys(s.answers).length : 0;
   const hasSession = !!(s && s.set && s.set.length && (s.started || s.startedAt));
-  if(p.scr !== 'scKp' && p.scr !== 'scMark' && p.scr !== 'scAi' && !hasSession){ posDone = true; posTrace('skip:nosession; ans=' + answered); return false; }  /* 没有进行中的作答 */
+  if(p.scr !== 'scKp' && p.scr !== 'scNote' && p.scr !== 'scMark' && p.scr !== 'scAi' && !hasSession){ posDone = true; posTrace('skip:nosession; ans=' + answered); return false; }  /* 没有进行中的作答 */
   if(p.scr === 'scResult' && !answered){ posDone = true; posTrace('skip:noanswer'); return false; }                /* 成绩页没答案没意义 */
   if(p.run && s && s.runId && p.run !== s.runId){ posDone = true; posTrace('skip:run ' + p.run + ' vs ' + s.runId); return false; }   /* 已经是另一套卷 */
   posBusy = true; posUserMoved = false;
@@ -12997,6 +13114,17 @@ function posRestore(){
           kpFilter.star = !!p.f.star;
         }
         kpOpen(); ok = true; label = '核心知识点清单';
+      }
+    }else if(p.scr === 'scNote'){
+      if(noteItems().length){
+        if(p.f){
+          noteView.kw = p.f.kw || '';
+          noteView.src = (p.f.src === 'own' || p.f.src === 'clip' || p.f.src === 'star') ? p.f.src : 'all';
+          noteView.ord = (p.f.ord === 'topic') ? 'topic' : 'time';
+          noteView.topic = p.f.topic || '';
+          noteSyncFilterUI();
+        }
+        noteOpen(); ok = true; label = '我的笔记';
       }
     }else if(p.scr === 'scAi'){
       if(aiBankAll().length){
@@ -13518,6 +13646,8 @@ function hlRepaint(){
   scan('#markBody [data-qi]', ['topic']);
   scan('#kpViewBody[data-qi]', ['exp','det','topic','chat']);
   scan('#kpBd[data-qi]', ['topic']);
+  /* 我的笔记里的摘录条目同样挂着 data-qi，收藏标记要跟着补画 */
+  scan('#noteBody .nt-item[data-qi]', ['exp','det','topic','ai']);
   /* AI 问答助手的回答：整条消息一个容器，按 chat 来源重画 */
   scan('#aiMsgs .ai-msg[data-qi]', ['chat']);
   var cards;
@@ -14303,6 +14433,421 @@ function kpOpen(){
   kpReview = null; kpEditing = null;
   showScreen('scKp');
   kpRender();
+  try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(e){ window.scrollTo(0,0); }
+}
+
+/* ================= 我的笔记 =================
+   笔记页是「划词摘录 + 手写笔记」的统一入口：
+   · 划词摘录直接复用 kpAll()，不另存一份 —— 取消收藏，笔记里同步消失，不存在两份数据打架；
+   · 手写笔记存在独立的 NOTE_KEY 里（字段 id / title / body / tag / star / ts / up），
+     和题库、答题记录、划词标记完全解耦，删题换卷都不影响。
+   两类内容在渲染时统一成 {kind:'clip'|'own'} 的视图条目，共用一个筛选器与列表。 */
+var NOTE_KEY = KEY + '_notes';
+var noteCache = null, noteEditing = null, noteComposeOn = false;
+var noteView = { kw:'', src:'all', ord:'time', topic:'' };
+
+function noteDb(){
+  if(noteCache) return noteCache;
+  try{
+    var d = JSON.parse(localStorage.getItem(NOTE_KEY) || 'null');
+    noteCache = (d && d.arr && d.arr.length) ? d : { arr:[] };
+    if(!noteCache.arr) noteCache.arr = [];
+  }catch(e){ noteCache = { arr:[] }; }
+  return noteCache;
+}
+function noteFlush(){ try{ localStorage.setItem(NOTE_KEY, JSON.stringify(noteDb())); }catch(e){} }
+function noteNewId(){ return 'n' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function noteOwnAll(){ return noteDb().arr.slice(); }
+function noteById(id){
+  var a = noteDb().arr, i;
+  for(i = 0; i < a.length; i++){ if(a[i] && a[i].id === id) return a[i]; }
+  return null;
+}
+function noteAdd(title, body, tag, star){
+  var a = noteDb().arr, now = Date.now();
+  var n = { id:noteNewId(), title:String(title || '').trim(), body:String(body || '').trim(),
+            tag:String(tag || '').trim(), star:star ? 1 : 0, ts:now, up:now };
+  if(!n.title && !n.body) return null;
+  a.unshift(n); noteFlush();
+  return n;
+}
+function noteDeleteById(id){
+  var a = noteDb().arr, i;
+  for(i = 0; i < a.length; i++){
+    if(a[i] && a[i].id === id){ a.splice(i, 1); noteFlush(); return true; }
+  }
+  return false;
+}
+/* 时间显示：今天只显示时分，其余显示月-日 */
+function noteTime(ts){
+  if(!ts) return '';
+  var d = new Date(ts), n = new Date();
+  var hm = ('0'+d.getHours()).slice(-2) + ':' + ('0'+d.getMinutes()).slice(-2);
+  if(d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth() && d.getDate() === n.getDate()) return '今天 ' + hm;
+  var md = (d.getMonth()+1) + '月' + d.getDate() + '日';
+  if(d.getFullYear() !== n.getFullYear()) return d.getFullYear() + '年' + md;
+  return md + ' ' + hm;
+}
+
+/* 统一视图：手写笔记 + 划词摘录 */
+function noteItems(){
+  var out = [], meta = kpMeta();
+  noteOwnAll().forEach(function(n){
+    out.push({
+      kind:'own', id:n.id, title:n.title || '', body:n.body || '',
+      tag:n.tag || '', star:!!n.star, ts:n.ts || 0, up:n.up || n.ts || 0,
+      note:'', src:'', ctx:'', stem:'', q:null, idx:null, it:null
+    });
+  });
+  kpAll().forEach(function(it){
+    var mm = meta[it.id] || {};
+    out.push({
+      kind:'clip', id:it.id, title:'', body:'', tag:kpTopicOf(it),
+      star:!!mm.star, ts:it.ts || 0, up:it.ts || 0, note:mm.note || '',
+      src:kpSrcOf(it).label, ctx:kpCtxOf(it), stem:kpStemOf(it),
+      q:it.q, idx:it.idx, it:it
+    });
+  });
+  return out;
+}
+function noteStats(){
+  var all = noteItems(), own = 0, clip = 0, star = 0, tags = {};
+  all.forEach(function(x){
+    if(x.kind === 'own') own++; else clip++;
+    if(x.star) star++;
+    if(x.tag) tags[x.tag] = 1;
+  });
+  return { n:all.length, own:own, clip:clip, star:star, tag:Object.keys(tags).length };
+}
+function noteTopics(){
+  var m = {}, out = [];
+  noteItems().forEach(function(x){ if(x.tag) m[x.tag] = 1; });
+  Object.keys(m).sort(function(a,b){ return a.localeCompare(b, 'zh'); }).forEach(function(k){ out.push(k); });
+  return out;
+}
+function noteMatch(x, kw){
+  if(!kw) return true;
+  var hay = [x.title, x.body, x.tag, x.note, x.ctx, x.stem, x.it ? x.it.t : ''].join(' ').toLowerCase();
+  return hay.indexOf(kw) >= 0;
+}
+function noteFiltered(){
+  var kw = String(noteView.kw || '').trim().toLowerCase();
+  return noteItems().filter(function(x){
+    if(noteView.src === 'own' && x.kind !== 'own') return false;
+    if(noteView.src === 'clip' && x.kind !== 'clip') return false;
+    if(noteView.src === 'star' && !x.star) return false;
+    if(noteView.topic && x.tag !== noteView.topic) return false;
+    return noteMatch(x, kw);
+  });
+}
+function noteItemHtml(x){
+  var h = '', isOwn = x.kind === 'own';
+  var tsTxt = noteTime(isOwn ? x.ts : x.ts);
+  h += '<div class="nt-item' + (isOwn ? ' own' : '') + (x.star ? ' hot' : '') + '"' + (x.idx != null ? ' data-qi="' + x.idx + '"' : '') + ' data-ntid="' + hlEsc(x.id) + '">';
+  h += '<div class="nt-h">';
+  h += '<span class="nt-tag ' + (isOwn ? 'own' : 'clip') + '">' + (isOwn ? '✍ 手写笔记' : '🖍 ' + hlEsc(x.src || '划词摘录')) + '</span>';
+  if(x.tag) h += '<span class="nt-tag">' + hlEsc(x.tag) + '</span>';
+  if(x.star) h += '<span style="color:#b45309;font-size:11.5px">★ 重点</span>';
+  h += '<span style="flex:1"></span>';
+  if(tsTxt) h += '<span style="font-size:11.5px;color:#94a3b8">' + tsTxt + '</span>';
+  h += '</div>';
+  if(isOwn){
+    if(x.title) h += '<div class="nt-title">' + hlEsc(x.title) + '</div>';
+    if(x.body) h += '<div class="nt-body">' + hlEsc(x.body) + '</div>';
+  }else{
+    h += '<div class="kp-txt" style="font-size:14.5px"><span class="q">' + hlEsc(x.it ? x.it.t : '') + '</span></div>';
+    if(x.ctx) h += '<div class="kp-ctx">' + hlEsc(x.ctx) + '</div>';
+    if(x.stem) h += '<div class="kp-item-stem">题：' + hlEsc(x.stem) + '</div>';
+  }
+  if(x.note && noteEditing !== 'note:' + x.id) h += '<div class="kp-note">✎ ' + hlEsc(x.note) + '</div>';
+  /* 正文编辑（手写笔记） */
+  if(noteEditing === 'edit:' + x.id){
+    h += '<input type="text" class="nt-ed-title" id="noteEdTitle" value="' + hlEsc(x.title) + '" placeholder="标题（可留空）" ' +
+         'style="width:100%;margin-top:8px;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;box-sizing:border-box">';
+    h += '<textarea class="kp-note-edit" id="noteEdBody" placeholder="正文，支持多行">' + hlEsc(x.body) + '</textarea>';
+    h += '<input type="text" class="nt-ed-tag" id="noteEdTag" value="' + hlEsc(x.tag) + '" placeholder="知识点标签（可留空，便于归类）" ' +
+         'style="width:100%;margin-top:7px;border:1px solid #cbd5e1;border-radius:8px;padding:8px 10px;font-size:13px;font-family:inherit;box-sizing:border-box">';
+    h += '<div class="kp-acts"><button data-ntact="save" data-id="' + hlEsc(x.id) + '">保存</button>' +
+         '<button data-ntact="cancel" data-id="' + hlEsc(x.id) + '">取消</button></div>';
+  }
+  /* 批注编辑（两类通用） */
+  if(noteEditing === 'note:' + x.id){
+    h += '<textarea class="kp-note-edit" id="noteNoteBox" placeholder="写一句自己的批注：这个点在什么情境下决定答案？">' + hlEsc(x.note || '') + '</textarea>' +
+         '<div class="kp-acts"><button data-ntact="notesave" data-id="' + hlEsc(x.id) + '">保存批注</button>' +
+         '<button data-ntact="notecancel" data-id="' + hlEsc(x.id) + '">取消</button></div>';
+  }
+  if(noteEditing !== 'edit:' + x.id && noteEditing !== 'note:' + x.id){
+    h += '<div class="nt-acts">';
+    h += '<button data-ntact="star" data-id="' + hlEsc(x.id) + '" class="' + (x.star ? 'on' : '') + '">' + (x.star ? '★ 已标重点' : '☆ 标为重点') + '</button>';
+    if(isOwn){
+      h += '<button data-ntact="edit" data-id="' + hlEsc(x.id) + '">✎ 编辑</button>';
+    }else{
+      h += '<button data-ntact="note" data-id="' + hlEsc(x.id) + '">' + (x.note ? '✎ 改批注' : '✎ 写批注') + '</button>';
+      h += '<button data-ntact="view" data-id="' + hlEsc(x.id) + '">' + (x.idx === AI_CHAT_QI ? '📄 看这段上下文' : '📄 看原题解析') + '</button>';
+    }
+    h += '<button data-ntact="del" data-id="' + hlEsc(x.id) + '" class="danger">' + (isOwn ? '✕ 删除' : '✕ 移除摘录') + '</button>';
+    h += '</div>';
+  }
+  h += '</div>';
+  return h;
+}
+function noteRender(){
+  var body = $('noteBody'); if(!body) return;
+  var S = noteStats();
+  var stat = $('noteStat');
+  if(stat) stat.innerHTML = '<div class="kp-kpi">' +
+    '<div class="k"><b>' + S.n + '</b><span>全部笔记</span></div>' +
+    '<div class="k"><b>' + S.own + '</b><span>手写笔记</span></div>' +
+    '<div class="k"><b>' + S.clip + '</b><span>划词摘录</span></div>' +
+    '<div class="k"><b>' + S.tag + '</b><span>涉及知识点</span></div>' +
+    '<div class="k"><b>' + S.star + '</b><span>标为重点</span></div>' +
+    '</div>';
+  /* 知识点下拉 */
+  var sel = $('noteTopic');
+  if(sel){
+    var tps = noteTopics(), cur = noteView.topic;
+    var opt = '<option value="">全部知识点</option>';
+    tps.forEach(function(t){ opt += '<option value="' + hlEsc(t) + '"' + (t === cur ? ' selected' : '') + '>' + hlEsc(t) + '</option>'; });
+    sel.innerHTML = opt;
+    sel.value = cur || '';
+  }
+  var list = noteFiltered();
+  if(!S.n){
+    body.innerHTML = '<div class="nt-empty">还没有笔记。<br>两种方式开始：<br>' +
+      '① 在上面的<b>快速记录</b>框里写一行、回车即存，或点右上角<b>「✏️ 新建笔记」</b>写多行正文；<br>' +
+      '② 在任何有知识点讲解的地方<b>划词 → 「🖍 收藏」</b>，摘录会自动汇进这里。</div>';
+    return;
+  }
+  if(!list.length){
+    body.innerHTML = '<div class="nt-empty">当前筛选下没有笔记。<br>可以清空搜索词、切回「全部」，或换一个知识点试试。</div>';
+    return;
+  }
+  var h = '';
+  if(noteView.ord === 'topic'){
+    var groups = {}, order = [];
+    list.forEach(function(x){
+      var k = x.tag || '未归类';
+      if(!groups[k]){ groups[k] = []; order.push(k); }
+      groups[k].push(x);
+    });
+    order.sort(function(a, b){
+      if(a === '未归类') return 1;
+      if(b === '未归类') return -1;
+      return a.localeCompare(b, 'zh');
+    });
+    order.forEach(function(k){
+      h += '<div class="nt-group">📎 ' + hlEsc(k) + ' <span>' + groups[k].length + ' 条</span></div>';
+      groups[k].forEach(function(x){ h += noteItemHtml(x); });
+    });
+  }else{
+    list.sort(function(a, b){
+      if((a.ts || 0) !== (b.ts || 0)) return (b.ts || 0) - (a.ts || 0);
+      return String(a.id).localeCompare(String(b.id));
+    });
+    list.forEach(function(x){ h += noteItemHtml(x); });
+  }
+  body.innerHTML = h;
+  Array.prototype.forEach.call(body.querySelectorAll('[data-ntact]'), function(b){
+    b.onclick = function(){ noteAct(b.getAttribute('data-ntact'), b.getAttribute('data-id')); };
+  });
+  try{ hlSchedule(); }catch(eHs){}
+}
+function noteComposeHtml(){
+  if(!noteComposeOn){ $('noteCompose').innerHTML = ''; return; }
+  $('noteCompose').innerHTML =
+    '<div class="nt-compose">' +
+    '<div class="nt-crow"><input type="text" id="noteNewTitle" placeholder="标题（可留空，正文首行会作为标题显示）"></div>' +
+    '<textarea id="noteNewBody" placeholder="正文，支持多行。例如：变更要走 CCB，未经批准的变更即使合理也不能做——考题里常把它包装成「为了项目进度先做，再补流程」。"></textarea>' +
+    '<div class="nt-cfoot">' +
+    '<select id="noteNewTag"><option value="">知识点标签（可留空）</option></select>' +
+    '<label style="font-size:12px;color:#475569;display:inline-flex;align-items:center;gap:5px">' +
+    '<input type="checkbox" id="noteNewStar" style="margin:0"> 标为重点</label>' +
+    '<span class="nt-chint">Ctrl + Enter 保存</span>' +
+    '<button class="btn sm primary" id="btnNoteSave" type="button">保存笔记</button>' +
+    '<button class="btn sm ghost" id="btnNoteCancel" type="button">取消</button>' +
+    '</div></div>';
+  var sel = $('noteNewTag');
+  if(sel){
+    var opt = '<option value="">知识点标签（可留空）</option>';
+    noteTopics().forEach(function(t){ opt += '<option value="' + hlEsc(t) + '">' + hlEsc(t) + '</option>'; });
+    /* 带上考纲主题，方便直接归类 */
+    try{
+      if(typeof TOPICS !== 'undefined' && TOPICS && TOPICS.length){
+        TOPICS.forEach(function(t){
+          var nm = t.id || t.name;
+          if(nm) opt += '<option value="' + hlEsc(nm) + '">' + hlEsc(nm) + '</option>';
+        });
+      }
+    }catch(eT){}
+    sel.innerHTML = opt;
+    if(noteView.topic) sel.value = noteView.topic;
+  }
+  var body = $('noteNewBody');
+  if(body){
+    body.onkeydown = function(ev){
+      if((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter'){ ev.preventDefault(); noteSaveCompose(); }
+    };
+    try{ body.focus(); }catch(e){}
+  }
+  $('btnNoteSave').onclick = noteSaveCompose;
+  $('btnNoteCancel').onclick = function(){ noteComposeOn = false; noteComposeHtml(); };
+}
+function noteSaveCompose(){
+  var ti = $('noteNewTitle'), bd = $('noteNewBody'), tg = $('noteNewTag'), st = $('noteNewStar');
+  var title = ti ? String(ti.value || '').trim() : '';
+  var body = bd ? String(bd.value || '').trim() : '';
+  if(!title && !body){ hlFlash('写点什么再保存'); if(bd) bd.focus(); return; }
+  var tag = tg ? String(tg.value || '').trim() : '';
+  var n = noteAdd(title, body, tag, st && st.checked);
+  noteComposeOn = false; noteEditing = null;
+  noteRender(); noteComposeHtml(); noteRefreshEntry();
+  if(n) hlFlash('已保存笔记');
+}
+function noteQuickAdd(){
+  var el = $('noteQuick'); if(!el) return;
+  var v = String(el.value || '').trim();
+  if(!v){ el.focus(); return; }
+  /* 一行较长时，把首句当标题、其余当正文，列表里更好读；短句整条当正文 */
+  var title = '', body = v;
+  if(v.length > 24){
+    var cut = v.search(/[。！？!?；;，,]/);
+    if(cut >= 5 && cut < v.length - 4){
+      var rest = v.slice(cut + 1).trim();
+      if(rest){
+        title = v.slice(0, cut).trim();
+        body = rest;
+      }
+    }
+  }
+  var n = noteAdd(title, body, noteView.topic || '', false);
+  el.value = '';
+  noteRender(); noteRefreshEntry();
+  if(n) hlFlash('已记录');
+}
+function noteAct(act, id){
+  var meta = kpMeta(), rec = noteById(id), x = null, i;
+  /* 找视图条目（clip 的 id 不落在 notes 数组里） */
+  var items = noteItems();
+  for(i = 0; i < items.length; i++){ if(items[i].id === id){ x = items[i]; break; } }
+  if(act === 'star'){
+    if(rec){ rec.star = rec.star ? 0 : 1; rec.up = Date.now(); noteFlush(); }
+    else{ var m = meta[id] || (meta[id] = {}); m.star = !m.star; kpMetaSave(); }
+    noteRender(); return;
+  }
+  if(act === 'edit'){ noteEditing = 'edit:' + id; noteComposeOn = false; noteComposeHtml(); noteRender(); var b = $('noteEdBody'); if(b && b.focus) b.focus(); return; }
+  if(act === 'cancel'){ noteEditing = null; noteRender(); return; }
+  if(act === 'save'){
+    var r = noteById(id); if(!r) return;
+    var ti = $('noteEdTitle'), bd = $('noteEdBody'), tg = $('noteEdTag');
+    r.title = ti ? String(ti.value || '').trim() : r.title;
+    r.body = bd ? String(bd.value || '').trim() : r.body;
+    r.tag = tg ? String(tg.value || '').trim() : r.tag;
+    if(!r.title && !r.body){ hlFlash('笔记不能为空'); return; }
+    r.up = Date.now(); noteFlush();
+    noteEditing = null; noteRender(); hlFlash('已更新笔记'); return;
+  }
+  if(act === 'note'){ noteEditing = 'note:' + id; noteRender(); var nb = $('noteNoteBox'); if(nb && nb.focus) nb.focus(); return; }
+  if(act === 'notecancel'){ noteEditing = null; noteRender(); return; }
+  if(act === 'notesave'){
+    var box = $('noteNoteBox');
+    var mm = meta[id] || (meta[id] = {});
+    mm.note = box ? String(box.value || '').trim() : '';
+    if(!mm.note) delete mm.note;
+    kpMetaSave(); noteEditing = null; noteRender(); hlFlash('批注已保存'); return;
+  }
+  if(act === 'view'){
+    var it = kpById(id);
+    if(it){ kpOpenView(it); }
+    return;
+  }
+  if(act === 'del'){
+    if(rec){
+      if(!confirm('删除这条手写笔记？\n（只删这一条，题库与答题记录不受影响）')) return;
+      noteDeleteById(id); noteRender(); noteRefreshEntry(); hlFlash('已删除笔记'); return;
+    }
+    var gone = kpById(id);
+    if(!confirm('从笔记里移除这条摘录？\n（只删除这一条划词标记，题库与答题记录不受影响）')) return;
+    kpDeleteById(id);
+    if(gone) try{ hlUnpaintText(gone.t); }catch(eD){}
+    noteRender(); noteRefreshEntry(); hlFlash('已移除摘录'); return;
+  }
+}
+function noteExportMd(){
+  var list = noteFiltered();
+  if(!list.length){ alert('当前没有可导出的笔记。'); return; }
+  var d = new Date(), pad = function(n){ return ('0'+n).slice(-2); };
+  var md = '# 我的笔记（PMP）\n\n';
+  md += '导出时间：' + d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()) +
+        '　·　共 ' + list.length + ' 条\n\n';
+  /* 按知识点分组导出，读起来最像笔记 */
+  var groups = {}, order = [];
+  list.forEach(function(x){
+    var k = x.tag || '未归类';
+    if(!groups[k]){ groups[k] = []; order.push(k); }
+    groups[k].push(x);
+  });
+  order.sort(function(a, b){
+    if(a === '未归类') return 1;
+    if(b === '未归类') return -1;
+    return a.localeCompare(b, 'zh');
+  });
+  order.forEach(function(k){
+    md += '## ' + k + '\n\n';
+    groups[k].forEach(function(x){
+      var isOwn = x.kind === 'own';
+      var mark = x.star ? '⭐ ' : '';
+      if(isOwn){
+        md += '### ' + mark + (x.title || (x.body || '').split('\n')[0].slice(0, 40) || '笔记') + '\n\n';
+        if(x.body) md += x.body + '\n\n';
+      }else{
+        md += '### ' + mark + '摘录 · ' + (x.src || '划词') + '\n\n';
+        md += '> ' + String(x.it ? x.it.t : '').replace(/\n/g, '\n> ') + '\n\n';
+        if(x.ctx) md += '- 原句上下文：' + x.ctx + '\n';
+        if(x.stem) md += '- 题目：' + x.stem + '\n';
+        if(x.ctx || x.stem) md += '\n';
+      }
+      if(x.note) md += '**批注**：' + String(x.note).replace(/\s*\n\s*/g, ' ') + '\n\n';
+      var t = x.ts ? new Date(x.ts) : null;
+      if(t) md += '<sub>' + t.getFullYear() + '-' + pad(t.getMonth()+1) + '-' + pad(t.getDate()) + ' 记录</sub>\n\n';
+    });
+  });
+  var name = 'PMP笔记-' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '.md';
+  try{
+    var blob = new Blob([md], { type:'text/markdown;charset=utf-8' });
+    var url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ try{ document.body.removeChild(a); URL.revokeObjectURL(url); }catch(e){} }, 800);
+    hlFlash('已导出 ' + list.length + ' 条到 ' + name);
+  }catch(e){
+    try{ navigator.clipboard.writeText(md); hlFlash('下载不可用，已把 Markdown 复制到剪贴板'); }
+    catch(e2){ alert(md); }
+  }
+}
+function noteRefreshEntry(){
+  var S = noteStats();
+  var a = $('noteEntryCount'), b = $('noteEntryOwn');
+  if(a) a.textContent = S.n;
+  if(b) b.textContent = S.own;
+}
+/* 把 noteView 的筛选状态同步到控件上（断点续读恢复时用） */
+function noteSyncFilterUI(){
+  var kw = $('noteKw'); if(kw) kw.value = noteView.kw || '';
+  var seg = $('noteSeg');
+  if(seg) seg.querySelectorAll('[data-nt-src]').forEach(function(x){
+    x.classList.toggle('on', x.getAttribute('data-nt-src') === (noteView.src || 'all'));
+  });
+  var seg2 = $('noteSeg2');
+  if(seg2) seg2.querySelectorAll('[data-nt-ord]').forEach(function(x){
+    x.classList.toggle('on', x.getAttribute('data-nt-ord') === (noteView.ord || 'time'));
+  });
+  var sel = $('noteTopic');
+  if(sel) sel.value = noteView.topic || '';
+}
+function noteOpen(){
+  noteEditing = null; noteComposeOn = false;
+  showScreen('scNote');
+  noteRender(); noteComposeHtml();
   try{ window.scrollTo({ top:0, behavior:'smooth' }); }catch(e){ window.scrollTo(0,0); }
 }
 
@@ -16062,7 +16607,7 @@ refreshStageEntry();
    升级本身只增字段、不改写原有键，所以老用户的进行中考试与历史记录原样保留。 */
 var BUILD_KEY = KEY + '_build';
 var BAK_INDEX = KEY + '_baks';
-var BUILD_ID  = '2026-11-17-no-dup-records';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
+var BUILD_ID  = '2026-11-24-notes-entry';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
 /* 版本快照覆盖的键：答题进度 / 标记 / 讲解清单 / 练习判分 / 划词收藏 / 清单标注。
    注意：不复制备份 AI 讲解正文（_aibank）——它一份就几千字，6 份快照会直接把本机配额撑爆，
    而升级过程本身不会删这个键，正文照旧保留；需要留档时用「导出记录」或存档页的「导出 Markdown」。 */
@@ -16567,6 +17112,59 @@ $('btnAiBack').onclick = function(){
       }
     });
   }
+})();
+
+/* 我的笔记：入口、新建、快速记录、筛选、导出 */
+$('btnNoteEntry').onclick = function(){ noteOpen(); };
+$('btnNoteBack').onclick = function(){
+  noteEditing = null; noteComposeOn = false;
+  showScreen('scIntro');
+  window.scrollTo({top:0,behavior:'smooth'});
+};
+$('btnNoteNew').onclick = function(){
+  noteComposeOn = !noteComposeOn;
+  noteEditing = null;
+  noteRender(); noteComposeHtml();
+  if(noteComposeOn){
+    var b = $('noteNewBody');
+    if(b){
+      try{
+        /* 表单本来就在首屏内：别整页滚动，免得把页面标题顶到固定导航下面 */
+        var r = b.getBoundingClientRect();
+        if(r.top < 96 || r.bottom > window.innerHeight - 40) b.scrollIntoView({ block:'nearest', behavior:'smooth' });
+        b.focus({ preventScroll:true });
+      }catch(e){ try{ b.focus(); }catch(e2){} }
+    }
+  }
+};
+$('btnNoteExp').onclick = function(){ noteExportMd(); };
+$('btnNoteQuick').onclick = noteQuickAdd;
+$('noteQuick').onkeydown = function(ev){
+  if(ev.key === 'Enter'){ ev.preventDefault(); noteQuickAdd(); }
+};
+$('noteKw').oninput = function(){
+  noteView.kw = String(this.value || '');
+  noteRender();
+};
+(function(){
+  var seg = $('noteSeg');
+  if(seg) seg.onclick = function(ev){
+    var b = ev.target.closest('[data-nt-src]');
+    if(!b) return;
+    noteView.src = b.getAttribute('data-nt-src');
+    seg.querySelectorAll('[data-nt-src]').forEach(function(x){ x.classList.toggle('on', x === b); });
+    noteRender();
+  };
+  var seg2 = $('noteSeg2');
+  if(seg2) seg2.onclick = function(ev){
+    var b = ev.target.closest('[data-nt-ord]');
+    if(!b) return;
+    noteView.ord = b.getAttribute('data-nt-ord');
+    seg2.querySelectorAll('[data-nt-ord]').forEach(function(x){ x.classList.toggle('on', x === b); });
+    noteRender();
+  };
+  var sel = $('noteTopic');
+  if(sel) sel.onchange = function(){ noteView.topic = String(this.value || ''); noteRender(); };
 })();
 
 /* 核心知识点清单：入口、返回、出处抽屉、复习翻页键盘 */
@@ -17755,6 +18353,7 @@ renderStats();
 renderTimeMode();
 refreshDrillHint();
 refreshMarkEntry();
+try{ noteRefreshEntry(); }catch(eNt){}
 const s=load();
 if(s && Object.keys(s.answers||{}).length){
   $('btnResume').style.display='';
@@ -17837,7 +18436,7 @@ if(s && Object.keys(s.answers||{}).length){
   }
   function check(){
     if(!window.caches) return;
-    caches.open('pmp-exam-offline-v29').then(function(c){ return c.match('./index.html'); })
+    caches.open('pmp-exam-offline-v30').then(function(c){ return c.match('./index.html'); })
       .then(function(hit){
         if(hit) setUI('ok','✅ 已可离线','题库已完整缓存到本机。现在开飞行模式刷新本页，也能正常出题、答题、交卷与保存进度。');
         else setUI('warn','⏳ 正在准备','正在缓存题库，请保持联网稍等几秒；若一直不变，请点「保存完整题库到手机」兜底。');
@@ -17848,7 +18447,7 @@ if(s && Object.keys(s.answers||{}).length){
     .then(function(){
       /* 页面自己把当前整页写进缓存：比 SW install 预缓存更可靠（当前 URL 一定能访问） */
       if(window.caches){
-        caches.open('pmp-exam-offline-v29').then(function(c){
+        caches.open('pmp-exam-offline-v30').then(function(c){
           return fetch(location.href,{cache:'no-store'}).then(function(r){
             if(r&&r.ok) return c.put('./index.html', r.clone());
           }).catch(function(){});
@@ -18751,7 +19350,7 @@ if(s && Object.keys(s.answers||{}).length){
      答题界面：不向 AI 提问，只允许把片段暂存到 sessionStorage；交卷或阶段提交
      离开答题页后自动填进输入框，既满足随时标记、又不影响模考公平性。 */
   var AI_SCREEN_NAME={scIntro:'题库首页',scResult:'成绩与逐题解析',scStage:'阶段报告',
-    scTerms:'缩写与术语速查',scMark:'我的标记',scSyl:'考点大纲',scQuiz:'答题页',scKp:'核心知识点清单'};
+    scTerms:'缩写与术语速查',scMark:'我的标记',scSyl:'考点大纲',scQuiz:'答题页',scKp:'核心知识点清单',scNote:'我的笔记'};
   var PEND_KEY='pmp_exam_bank_v3_ai_pend';
   var aiSelText='', aiSelBar=null, aiPend=null, aiToastT=null, aiSelLock=0;
 
