@@ -705,13 +705,49 @@ body.is-paused #btnSubmitTop{display:none!important}
 .sk-h{font-size:13px;color:#1e293b;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font-weight:700}
 .sk-h .sk-tool{font-size:11px;font-weight:600;color:#7c3aed;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:5px;padding:0 6px;line-height:1.7}
 .sk-d{font-size:12.5px;color:#475569;line-height:1.85;margin-top:3px}
+/* 知识点右侧的「AI 讲解」小按钮：平时淡一点，悬停才显眼，避免抢主体内容的注意力 */
+.sk-ai{margin-left:auto;flex:none;font:inherit;font-size:11px;font-weight:600;line-height:1.75;
+  color:#6d28d9;background:#f5f3ff;border:1px solid #ddd6fe;border-radius:6px;padding:0 7px;
+  cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+.sk-ai:hover{background:#ede9fe;border-color:#c4b5fd;color:#5b21b6}
+.sk-ai:active{transform:translateY(1px)}
 .sk-e{font-size:12px;color:#0f766e;line-height:1.8;margin-top:2px}
+/* —— 知识点下方就地展开的「AI 讲解」——
+   生成后就地占据讲解位：原来那句简短描述自动收起，点「原讲解」随时换回来。
+   这样大纲里同一时刻只有一份讲解，不用在右侧面板和条目之间来回对照。 */
+.sk-aix{margin-top:7px;border:1px solid #ddd6fe;border-left:3px solid #8b5cf6;border-radius:9px;
+  background:linear-gradient(180deg,#fcfbff,#f7f4ff);padding:7px 10px 9px}
+.sk-aix[hidden]{display:none!important}
+.ax-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.ax-t{font-size:11.5px;font-weight:800;color:#6d28d9;letter-spacing:.2px;white-space:nowrap}
+.ax-m{font-size:10.5px;color:#94a3b8;font-variant-numeric:tabular-nums}
+.ax-sp{flex:1 1 auto}
+.ax-b{font:inherit;font-size:10.5px;font-weight:600;line-height:1.75;color:#6d28d9;background:#fff;
+  border:1px solid #e4e0fd;border-radius:5px;padding:0 6px;cursor:pointer;white-space:nowrap}
+.ax-b:hover{background:#f5f3ff;border-color:#c4b5fd}
+.ax-b.on{background:#ede9fe;border-color:#c4b5fd;color:#5b21b6}
+.ax-body{margin-top:5px;font-size:12.5px;color:#334155;line-height:1.9;white-space:pre-wrap;word-break:break-word}
+.ax-body.rich{white-space:normal}
+.ax-body.rich>*:first-child{margin-top:0}
+.ax-body .mka-h{margin-top:9px}
+.ax-tip{font-size:12px;color:#7c3aed;line-height:1.85}
+.sk-aix.folded .ax-body{display:none}
+.sk-aix.gen .ax-body{color:#475569}
+/* 生成成功后原描述让位；点「原讲解」把两边换过来看 */
+li.aix-on>.sk-d,li.aix-on>.sk-e{display:none}
+li.aix-on.show-orig>.sk-d,li.aix-on.show-orig>.sk-e{display:block}
 .st-actions{margin-top:11px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .st-actions .syl-tip{font-size:11.5px;color:#94a3b8}
 .syl-empty{padding:26px 14px;text-align:center;color:#64748b;font-size:13.5px;line-height:1.9}
 @media(max-width:640px){
   .syl-stat{grid-template-columns:1fr}
   .st-map{margin-left:0}
+  /* 窄屏上把按钮做得高一点，手指好点；标题与按钮各占一行也不会挤在一起 */
+  .sk-ai{font-size:11.5px;padding:3px 9px;line-height:1.85}
+  .sk-h{gap:6px}
+  /* 窄屏：时间与模型跟标题同行，操作按钮整体换到下一行，避免挤成两截 */
+  .ax-sp{flex:1 1 100%;height:0}
+  .ax-b{font-size:11px;padding:2px 7px;line-height:1.8}
 }
 @media print{
   header.top,.navrow,.side,.mode-row,.btn{display:none!important}
@@ -1321,6 +1357,14 @@ body.guest .ai-fab{bottom:64px}
 .nt-item .nt-acts button:hover{background:#eef2f7}
 .nt-item .nt-acts button.on{background:#fef3c7;border-color:#fbbf24;color:#92400e}
 .nt-item .nt-acts button.danger:hover{background:#fef2f2;border-color:#fca5a5;color:#b91c1c}
+/* 手写笔记下方就地生成的「AI 批改」卡片：骨架沿用考点大纲的讲解卡（.sk-aix / .ax-*），
+   只补笔记页需要的两处：草稿态的橙色提示、触发按钮的 AI 紫。 */
+.nt-aix{margin-top:10px}
+.nt-aix .ax-body{font-size:13px;line-height:1.92}
+.nt-aix .ax-m.draft{color:#b45309;font-weight:600}
+.nt-item .nt-acts button.ai{background:#f5f3ff;border-color:#ddd6fe;color:#6d28d9}
+.nt-item .nt-acts button.ai:hover{background:#ede9fe;border-color:#c4b5fd}
+.nt-item .nt-acts button.ai.on{background:#ede9fe;border-color:#c4b5fd;color:#5b21b6}
 /* 摘录条目复用清单里 .kp-* 的排版（选择器按 .nt-item 再声明一遍） */
 .nt-item .kp-txt{font-size:14.5px;font-weight:700;color:#065f46;line-height:1.7;word-break:break-word}
 .nt-item .kp-txt .q{background:#dcfce7;border-radius:4px;padding:0 3px}
@@ -1773,7 +1817,7 @@ try{
         <button class="btn sm ghost" id="btnNoteExp">⬇ 导出 Markdown</button>
         <button class="btn sm ghost" id="btnNoteBack">返回首页</button>
       </div>
-      <p class="sub" id="noteIntro">这里是<b>笔记总入口</b>：把<b>划词收藏的摘录</b>和<b>自己手写的笔记</b>放在一起看。划词摘录来自选项、解析要点、逐项辨析、知识点讲解、成绩页与阶段报告、AI 讲解，以及 AI 问答助手的回答气泡——选中一句点「🖍 收藏」就会自动汇进来；手写笔记点右上角<b>「✏️ 新建笔记」</b>，或在下面的快速记录框里写一行回车即存。<b>两类内容都能标重点、写批注、按知识点归类</b>，可按时间线或按知识点查看，也能<b>导出 Markdown</b> 存进 Obsidian / Notion。全部保存在本机，刷新、换卷、离线都不丢。</p>
+      <p class="sub" id="noteIntro">这里是<b>笔记总入口</b>：把<b>划词收藏的摘录</b>和<b>自己手写的笔记</b>放在一起看。划词摘录来自选项、解析要点、逐项辨析、知识点讲解、成绩页与阶段报告、AI 讲解，以及 AI 问答助手的回答气泡——选中一句点「🖍 收藏」就会自动汇进来；手写笔记点右上角<b>「✏️ 新建笔记」</b>，或在下面的快速记录框里写一行回车即存。<b>两类内容都能标重点、写批注、按知识点归类</b>，可按时间线或按知识点查看，也能<b>导出 Markdown</b> 存进 Obsidian / Notion。<b>每条手写笔记下方还有一个「✨ AI 分析」</b>：点一下，AI 就在笔记正文下面就地批改——哪句写对了、漏了哪些前提、考试会怎么考；结果可以<b>保存进这条笔记</b>，之后刷新、导出都带着它。全部保存在本机，刷新、换卷、离线都不丢。</p>
       <div id="noteStat"></div>
 
       <div class="nt-quick">
@@ -1856,7 +1900,7 @@ try{
         <span style="flex:1"></span>
         <button class="btn sm ghost" id="btnSylBack">返回首页</button>
       </div>
-      <p class="sub">按 2026 版 <b>《PMP 考试内容大纲》(ECO)</b> 的三大领域 → <b>26 项任务</b> → 知识点逐条整理：每条给出<b>要点 · 常用工具 · 判断线索</b>；每个任务可一键生成<b>专项练习</b>（优先抽没做过的题）。同一内容配 <b>PMBOK 第八版</b>绩效域对照，方便看书时按图索骥。</p>
+      <p class="sub">按 2026 版 <b>《PMP 考试内容大纲》(ECO)</b> 的三大领域 → <b>26 项任务</b> → 知识点逐条整理：每条给出<b>要点 · 常用工具 · 判断线索</b>；每个任务可一键生成<b>专项练习</b>（优先抽没做过的题）。同一内容配 <b>PMBOK 第八版</b>绩效域对照，方便看书时按图索骥。任何一条知识点右侧都有 <b>✨ AI 讲解</b>，点一下就让 AI 助教讲含义、考点与常见陷阱；任务底部还有 <b>✨ AI 讲解本任务</b>，把这一项任务的知识点整体串讲一遍。</p>
       <div id="sylRef"></div>
       <div class="syl-stat" id="sylStat"></div>
       <div class="syl-tools">
@@ -14496,7 +14540,8 @@ function noteItems(){
     out.push({
       kind:'own', id:n.id, title:n.title || '', body:n.body || '',
       tag:n.tag || '', star:!!n.star, ts:n.ts || 0, up:n.up || n.ts || 0,
-      note:'', src:'', ctx:'', stem:'', q:null, idx:null, it:null
+      note:'', src:'', ctx:'', stem:'', q:null, idx:null, it:null,
+      ai:(n.ai && n.ai.m) ? n.ai : null
     });
   });
   kpAll().forEach(function(it){
@@ -14554,6 +14599,8 @@ function noteItemHtml(x){
   if(isOwn){
     if(x.title) h += '<div class="nt-title">' + hlEsc(x.title) + '</div>';
     if(x.body) h += '<div class="nt-body">' + hlEsc(x.body) + '</div>';
+    /* 手写笔记的 AI 批改：有内容就摆在正文下方，没有则留一个隐藏占位，点了就地展开 */
+    if(noteEditing !== 'edit:' + x.id) h += noteAiCardHtml(x);
   }else{
     h += '<div class="kp-txt" style="font-size:14.5px"><span class="q">' + hlEsc(x.it ? x.it.t : '') + '</span></div>';
     if(x.ctx) h += '<div class="kp-ctx">' + hlEsc(x.ctx) + '</div>';
@@ -14580,6 +14627,8 @@ function noteItemHtml(x){
     h += '<div class="nt-acts">';
     h += '<button data-ntact="star" data-id="' + hlEsc(x.id) + '" class="' + (x.star ? 'on' : '') + '">' + (x.star ? '★ 已标重点' : '☆ 标为重点') + '</button>';
     if(isOwn){
+      h += '<button data-ntact="aian" data-id="' + hlEsc(x.id) + '" class="ai' + (x.ai ? ' on' : '') + '" ' +
+           'title="让 AI 批改这条笔记：哪句对、漏了什么前提、考试怎么考">' + (x.ai ? '✨ 看 AI 分析' : '✨ AI 分析') + '</button>';
       h += '<button data-ntact="edit" data-id="' + hlEsc(x.id) + '">✎ 编辑</button>';
     }else{
       h += '<button data-ntact="note" data-id="' + hlEsc(x.id) + '">' + (x.note ? '✎ 改批注' : '✎ 写批注') + '</button>';
@@ -14590,6 +14639,229 @@ function noteItemHtml(x){
   }
   h += '</div>';
   return h;
+}
+/* ===== 手写笔记的「AI 分析」 =====
+   手写笔记记录的是「自己以为懂了」的那句话，最容易差一点点：前提漏了、边界反了、
+   和另一个概念混了。这里让 AI 就地批改：写对了什么、漏了什么、考试怎么考。
+   结果先落在这条笔记里（草稿态，刷新不丢、但标着「未保存」），点「保存」才正式并入，
+   之后随笔记一起持久化、导出、跟着笔记一起删。 */
+var NOTE_AI_BUSY = {};     /* noteId -> {abort:fn} */
+var NOTE_AI_SYS = '你是 2026 年 12 月 PMP 考试的辅导老师，知识口径为 2026 版 ECO 三大领域与任务、'+
+  'PMBOK 指南（原则与绩效域）、敏捷实践指南，以及预测型/敏捷/混合型方法的取舍。'+
+  '考生把自己复习时写的一条笔记交给你，请你「批改 + 补全」这条笔记，读者是正在复习、准备 12 月考试的人。'+
+  '结构固定：①开头一句话给结论：这条笔记抓住了什么，有没有明显偏差（有偏差就直接指出，不要客套）；'+
+  '②小标题「写对了什么」给 1~2 条；'+
+  '③小标题「容易漏的关键点」给 2~4 条，补上笔记没写、但考试会考的前提、边界与判别条件；'+
+  '④小标题「考试怎么考」给 2~3 条，写成「题干给什么信号 → 该选哪个动作 → 常见错项长什么样」；'+
+  '⑤小标题「一句话记住」给 1 句能在考场直接用来排除选项的口诀。'+
+  '要求：简体中文；总长 300~550 字；先在心里判断这条笔记对应 ECO 的哪个任务，讲解时点到任务名；'+
+  '如果笔记只有几个关键词，就按 PMP 口径把它补成一条完整笔记再批改；如果内容与 PMP 备考无关，用一句话说明并给出可写的方向；'+
+  '不编造 PMI 未公开的及格线、通过率、政策与真题；不写练习题；不使用 HTML 标签。';
+
+function noteAiMd(t){ try{ return mkMd(t); }catch(e){ return '<p>' + mkEscHtml(t) + '</p>'; } }
+function noteAiWhen(ts){
+  var d = new Date(ts || Date.now()), p = function(n){ return (n < 10 ? '0' : '') + n; };
+  return p(d.getMonth()+1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+}
+/* 卡片头部：生成中只留「停止」；生成完是「保存 / 复制 / 追问 / 重新分析 / 收起」 */
+function noteAiHead(ai, gen, folded){
+  if(gen) return '<div class="ax-h"><span class="ax-t">✨ AI 分析</span>'+
+    '<span class="ax-m" data-ntaimeta>正在分析这条笔记…</span><span class="ax-sp"></span>'+
+    '<button type="button" class="ax-b" data-ntai="stop">停止</button></div>';
+  var meta = ai.d
+    ? '<span class="ax-m draft" data-ntaimeta>未保存 · 点「保存」收进这条笔记</span>'
+    : '<span class="ax-m" data-ntaimeta>已保存 · ' + noteAiWhen(ai.ts) + (ai.mdl ? ' · ' + mkEscHtml(ai.mdl) : '') + '</span>';
+  return '<div class="ax-h"><span class="ax-t">✨ AI 分析</span>' + meta + '<span class="ax-sp"></span>'+
+    (ai.d ? '<button type="button" class="ax-b on" data-ntai="save" title="把这段分析存进这条笔记，下次打开还在，也跟着导出">💾 保存</button>' : '')+
+    '<button type="button" class="ax-b" data-ntai="copy" title="复制这段分析的原文">复制</button>'+
+    '<button type="button" class="ax-b" data-ntai="ask" title="带着这条笔记与批改意见去 AI 助手继续问">追问</button>'+
+    '<button type="button" class="ax-b" data-ntai="regen" title="重新分析一遍，会覆盖当前这段">重新分析</button>'+
+    '<button type="button" class="ax-b" data-ntai="fold">' + (folded ? '展开' : '收起') + '</button></div>';
+}
+function noteAiCardHtml(x){
+  var ai = x.ai, id = hlEsc(x.id);
+  if(!ai || !String(ai.m || '').trim()) return '<div class="sk-aix nt-aix" data-ntaix="' + id + '" hidden></div>';
+  /* 有存过的分析：默认收起成一行，列表不至于被长文淹掉 */
+  return '<div class="sk-aix nt-aix has folded" data-ntaix="' + id + '">' + noteAiHead(ai, false, true) +
+    '<div class="ax-body rich">' + noteAiMd(ai.m) + '</div></div>';
+}
+function noteAiBox(id){
+  var box = $('noteBody');
+  if(!box || !box.querySelector) return null;
+  var list = box.querySelectorAll('.nt-aix[data-ntaix]');
+  for(var i = 0; i < list.length; i++){ if(list[i].getAttribute('data-ntaix') === id) return list[i]; }
+  return null;
+}
+function noteAiBtn(id){
+  var box = $('noteBody');
+  if(!box || !box.querySelectorAll) return null;
+  var list = box.querySelectorAll('[data-ntact="aian"]');
+  for(var i = 0; i < list.length; i++){ if(list[i].getAttribute('data-id') === id) return list[i]; }
+  return null;
+}
+/* 把笔记原文整条交给模型：标题、自填标签、正文，并要求先定位到 ECO 任务 */
+function noteAiPrompt(rec){
+  var s = '笔记标题：' + (rec.title || '（无）') + '\n';
+  if(rec.tag) s += '自填知识点：' + rec.tag + '\n';
+  s += '笔记正文：\n' + (rec.body || '');
+  if(!rec.body) s += '\n（这条笔记只有标题，请按标题把它补成一条完整笔记再批改）';
+  s += '\n\n请先判断这条笔记对应 ECO 的哪个领域与任务，再批改。';
+  return s;
+}
+function noteAiRun(id, regen){
+  var rec = noteById(id);
+  if(!rec) return;
+  var box = noteAiBox(id);
+  if(!box){ try{ noteRender(); }catch(e0){} box = noteAiBox(id); }
+  if(!box || NOTE_AI_BUSY[id]) return;
+  var btn = noteAiBtn(id);
+  var old = rec.ai;
+  /* 已分析过、只是想再看一眼：把卡片摊开，不再花一次请求 */
+  if(old && old.m && !regen){
+    box.hidden = false;
+    box.classList.remove('folded');
+    box.classList.add('has');
+    box.innerHTML = noteAiHead(old, false, false) + '<div class="ax-body rich">' + noteAiMd(old.m) + '</div>';
+    if(btn) btn.classList.add('on');
+    return;
+  }
+  box.hidden = false;
+  box.classList.remove('folded');
+  box.classList.add('gen', 'has');
+  box.innerHTML = noteAiHead(null, true) + '<div class="ax-body" data-ntaistream>正在连接 AI 助教…</div>';
+  var body = box.querySelector('[data-ntaistream]'), meta = box.querySelector('[data-ntaimeta]');
+  if(btn) btn.classList.add('on');
+  var t0 = Date.now(), buf = '', alive = true, task = { abort:null };
+  NOTE_AI_BUSY[id] = task;
+  var tick = setInterval(function(){
+    if(!meta || !meta.parentNode) return;
+    meta.textContent = '正在分析 · ' + Math.round((Date.now() - t0) / 1000) + 's · ' + buf.length + ' 字';
+  }, 900);
+  function paint(){ if(alive && body) body.textContent = buf + '▌'; }
+  function done(){
+    alive = false; clearInterval(tick); delete NOTE_AI_BUSY[id];
+    if(btn) btn.classList.remove('on');
+  }
+  function fail(msg, partial){
+    done();
+    if(!document.body.contains(box)) return;
+    box.classList.remove('gen');
+    if(partial && partial.trim()){
+      box.classList.add('has');
+      box.innerHTML = '<div class="ax-h"><span class="ax-t">✨ AI 分析</span>'+
+        '<span class="ax-m">已停止生成</span><span class="ax-sp"></span>'+
+        '<button type="button" class="ax-b" data-ntai="regen">重新分析</button>'+
+        '<button type="button" class="ax-b" data-ntai="fold">收起</button></div>'+
+        '<div class="ax-body rich">' + noteAiMd(partial) + '</div>';
+      return;
+    }
+    box.innerHTML = '<div class="ax-h"><span class="ax-t">✨ AI 分析</span>'+
+      '<span class="ax-m">没有分析成功</span><span class="ax-sp"></span>'+
+      '<button type="button" class="ax-b" data-ntai="ask">打开 AI 助手</button>'+
+      '<button type="button" class="ax-b" data-ntai="regen">重试</button>'+
+      '<button type="button" class="ax-b" data-ntai="fold">收起</button></div>'+
+      '<div class="ax-body"><span class="ax-tip">' + mkEscHtml(msg) + '</span></div>';
+  }
+  var P = window.PMPAI;
+  if(!P || typeof P.stream !== 'function'){ fail('AI 组件还没加载好，请刷新页面后再试。'); return; }
+  if(location.protocol === 'file:'){ fail('离线单文件版不能调用 AI，请用联网的网页版打开；生成并保存一次后，这段分析会留在笔记里。'); return; }
+  var aborted = false;
+  task.abort = function(){ aborted = true; if(task.ctl) try{ task.ctl.abort(); }catch(e1){} };
+  var ready = (typeof P.ensure === 'function') ? Promise.resolve(P.ensure()) : Promise.resolve();
+  ready.then(function(){
+    if(aborted) throw new Error('ABORT');
+    var st = (typeof P.state === 'function') ? P.state() : { logged:true };
+    if(!st.logged) throw new Error('NO_LOGIN');
+    return P.stream(noteAiPrompt(rec), function(delta, all){
+      if(!alive) return;
+      buf = String(all == null ? buf + delta : all);
+      paint();
+    }, NOTE_AI_SYS, task);
+  }).then(function(txt){
+    if(aborted) throw new Error('ABORT');
+    buf = String(txt || buf || '').trim();
+    if(!buf) throw new Error('模型没有返回内容');
+    var model = (P.modelName && P.modelName()) || '';
+    rec.ai = { m:buf.slice(0, 8000), ts:Date.now(), mdl:model, d:1 };  /* d:1 = 还没点保存 */
+    noteFlush();
+    done();
+    /* 生成期间列表被重建（改了筛选、标了重点）：按新状态整块重画，卡片自然回到原位 */
+    if(!document.body.contains(box)){ try{ noteRender(); }catch(e2){} return; }
+    box.classList.remove('gen');
+    box.classList.add('has');
+    box.innerHTML = noteAiHead(rec.ai, false, false) + '<div class="ax-body rich">' + noteAiMd(rec.ai.m) + '</div>';
+    var b3 = noteAiBtn(id);
+    if(b3){ b3.classList.add('on'); b3.textContent = '✨ 看 AI 分析'; }
+    try{ hlSchedule(); }catch(e3){}
+  }).catch(function(e){
+    var msg = (e && e.message) || '分析失败';
+    if(msg === 'ABORT' || (e && e.name === 'AbortError')){ fail('已停止生成。', buf); return; }
+    if(msg === 'NO_LOGIN'){ fail('需要先登录 AI 助教才能分析。登录后回到这条笔记再点一次「✨ AI 分析」。'); return; }
+    fail(msg);
+  });
+}
+/* 把生成结果正式存进这条笔记（草稿态 d 清零），此后刷新、重开、导出都带着它 */
+function noteAiSave(id){
+  var rec = noteById(id);
+  if(!rec || !rec.ai || !rec.ai.m) return;
+  rec.ai.d = 0;
+  rec.ai.ts = rec.ai.ts || Date.now();
+  noteFlush();
+  var box = noteAiBox(id);
+  if(box){
+    var folded = box.classList.contains('folded');
+    box.innerHTML = noteAiHead(rec.ai, false, folded) + '<div class="ax-body rich">' + noteAiMd(rec.ai.m) + '</div>';
+  }
+  hlFlash('已保存到这条笔记');
+}
+function noteAiCopy(id, b){
+  var rec = noteById(id);
+  if(!rec || !rec.ai || !rec.ai.m) return;
+  var txt = rec.ai.m;
+  var flash = function(){ if(!b) return; var old = b.textContent; b.textContent = '已复制'; setTimeout(function(){ b.textContent = old; }, 1400); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(flash, function(){ if(typeof sylAiCopyFallback === 'function') sylAiCopyFallback(txt); flash(); });
+  }else{ if(typeof sylAiCopyFallback === 'function') sylAiCopyFallback(txt); flash(); }
+}
+function noteAiAsk(id){
+  var rec = noteById(id);
+  if(!rec) return;
+  if(!window.PMPAI || typeof window.PMPAI.explain !== 'function'){ alert('AI 助手还没加载好，请刷新页面后再试。'); return; }
+  var ai = rec.ai;
+  var text = '我的笔记：' + (rec.title ? rec.title + '\n' : '') + (rec.body || '');
+  if(ai && ai.m) text += '\n\nAI 批改意见：' + ai.m.slice(0, 1200);
+  window.PMPAI.explain(text, '继续追问这条笔记：' + (rec.title || String(rec.body || '').slice(0, 12)),
+    '笔记追问', '我的笔记');
+}
+/* 卡片按钮走事件委托：列表会整块重建，逐个绑容易漏 */
+function noteAiBind(){
+  var box = $('noteBody');
+  if(!box || box.getAttribute('data-ntai-bound') === '1') return;
+  box.setAttribute('data-ntai-bound', '1');
+  box.addEventListener('click', function(ev){
+    var t = ev.target;
+    if(!t || !t.closest) return;
+    var b = t.closest('[data-ntai]');
+    if(!b) return;
+    var wrap = b.closest('.nt-aix');
+    if(!wrap) return;
+    var id = wrap.getAttribute('data-ntaix');
+    if(ev.preventDefault) ev.preventDefault();
+    if(ev.stopPropagation) ev.stopPropagation();
+    var act = b.getAttribute('data-ntai');
+    if(act === 'stop'){ var bs = NOTE_AI_BUSY[id]; if(bs) bs.abort(); return; }
+    if(act === 'save'){ noteAiSave(id); return; }
+    if(act === 'copy'){ noteAiCopy(id, b); return; }
+    if(act === 'ask'){ noteAiAsk(id); return; }
+    if(act === 'regen'){ noteAiRun(id, true); return; }
+    if(act === 'fold'){
+      /* 失败态的「关闭」也走这里：收起但不丢内容 */
+      var folded = wrap.classList.toggle('folded');
+      b.textContent = folded ? '展开' : '收起';
+      var bb = noteAiBtn(id); if(bb) bb.classList.toggle('on', !folded);
+      return;
+    }
+  });
 }
 function noteRender(){
   var body = $('noteBody'); if(!body) return;
@@ -14650,6 +14922,7 @@ function noteRender(){
   Array.prototype.forEach.call(body.querySelectorAll('[data-ntact]'), function(b){
     b.onclick = function(){ noteAct(b.getAttribute('data-ntact'), b.getAttribute('data-id')); };
   });
+  noteAiBind();
   try{ hlSchedule(); }catch(eHs){}
 }
 function noteComposeHtml(){
@@ -14735,6 +15008,7 @@ function noteAct(act, id){
     noteRender(); return;
   }
   if(act === 'edit'){ noteEditing = 'edit:' + id; noteComposeOn = false; noteComposeHtml(); noteRender(); var b = $('noteEdBody'); if(b && b.focus) b.focus(); return; }
+  if(act === 'aian'){ noteAiRun(id); return; }
   if(act === 'cancel'){ noteEditing = null; noteRender(); return; }
   if(act === 'save'){
     var r = noteById(id); if(!r) return;
@@ -14799,6 +15073,8 @@ function noteExportMd(){
       if(isOwn){
         md += '### ' + mark + (x.title || (x.body || '').split('\n')[0].slice(0, 40) || '笔记') + '\n\n';
         if(x.body) md += x.body + '\n\n';
+        /* 只导出点过「保存」的分析；草稿态的不算笔记的一部分 */
+        if(x.ai && x.ai.m && !x.ai.d) md += '**AI 分析**\n\n' + x.ai.m + '\n\n';
       }else{
         md += '### ' + mark + '摘录 · ' + (x.src || '划词') + '\n\n';
         md += '> ' + String(x.it ? x.it.t : '').replace(/\n/g, '\n> ') + '\n\n';
@@ -16607,7 +16883,7 @@ refreshStageEntry();
    升级本身只增字段、不改写原有键，所以老用户的进行中考试与历史记录原样保留。 */
 var BUILD_KEY = KEY + '_build';
 var BAK_INDEX = KEY + '_baks';
-var BUILD_ID  = '2026-11-24-notes-entry';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
+var BUILD_ID  = '2026-11-28-note-ai';  /* ★ 每次改动页面内容后请更新此标识，升级时自动留一份快照 */
 /* 版本快照覆盖的键：答题进度 / 标记 / 讲解清单 / 练习判分 / 划词收藏 / 清单标注。
    注意：不复制备份 AI 讲解正文（_aibank）——它一份就几千字，6 份快照会直接把本机配额撑爆，
    而升级过程本身不会删这个键，正文照旧保留；需要留档时用「导出记录」或存档页的「导出 Markdown」。 */
@@ -18151,12 +18427,16 @@ function sylStatHtml(){
   });
   return h;
 }
-function sylKpHtml(kp, n){
-  let h = '<li><div class="sk-h"><span>'+(n+1)+'. '+acrMark(kp.n)+'</span>'+
-    (kp.t?'<span class="sk-tool">'+acrMark(kp.t)+'</span>':'')+'</div>';
+function sylKpHtml(kp, n, code, ri){
+  /* ri 是这条知识点在 SYL[code].kps 里的真实下标：搜索过滤后 n 会变，靠 ri 才能回查到同一条 */
+  const d = sylAiGet(code, ri);
+  let h = '<li'+(d?' class="aix-on"':'')+' data-aix-key="'+code+'#'+ri+'"><div class="sk-h"><span>'+(n+1)+'. '+acrMark(kp.n)+'</span>'+
+    (kp.t?'<span class="sk-tool">'+acrMark(kp.t)+'</span>':'')+
+    '<button type="button" class="sk-ai" data-syl-ai="'+code+'" data-syl-kp="'+ri+'" '+
+    'title="让 AI 助教讲解这个知识点：含义、考点、常见陷阱与判断要点">✨ AI 讲解</button></div>';
   h += '<div class="sk-d">'+acrMark(kp.d)+'</div>';
   if(kp.e) h += '<div class="sk-e">🔎 '+acrMark(kp.e)+'</div>';
-  return h + '</li>';
+  return h + sylAiBoxHtml(code, ri) + '</li>';
 }
 /* 依据等级：区分「官方规定 / 指南建议 / 一般实践 / 情境经验」，
    避免把培训口诀或经验法则写成 PMI 强制规则。 */
@@ -18210,8 +18490,11 @@ function sylTaskHtml(code, open, kpsOverride){
     '<span class="st-map">PMBOK 8：'+s.map+'</span></summary>'+
     '<div class="st-body"><div class="st-goal">🎯 考纲意图：'+acrMark(s.goal)+'</div>'+
     '<div class="st-goal" style="background:#f8fafc;border-color:#e2e8f0">🏷️ 依据等级：<b>'+GRADE_NAME[g[0]]+'</b> — '+g[1]+'</div><ul class="st-kps">';
-  kps.forEach(function(kp,i){ h += sylKpHtml(kp,i); });
-  h += '</ul><div class="st-actions"><button class="btn sm" data-syl-drill="'+code+'">练这个任务（'+Math.min(15,qn)+' 题）</button>'+
+  kps.forEach(function(kp,i){ h += sylKpHtml(kp,i,code,s.kps.indexOf(kp)); });
+  h += '</ul>' + sylAiBoxHtml(code, -1) +
+       '<div class="st-actions"><button class="btn sm" data-syl-drill="'+code+'">练这个任务（'+Math.min(15,qn)+' 题）</button>'+
+       '<button class="btn sm ghost" data-syl-ai="'+code+'" data-syl-kp="-1" '+
+       'title="让 AI 助教把这一项任务的核心知识点整体串讲一遍">✨ AI 讲解本任务</button>'+
        '<span class="syl-tip">按该任务抽题，优先没做过的题；不计入套卷完成记录</span></div></div></details>';
   return h;
 }
@@ -18242,14 +18525,320 @@ function sylHtml(kw){
   if(k) h = '<p class="sub" style="margin-top:12px">关键词「'+kw+'」匹配到 <b>'+hits+'</b> 个知识点</p>' + h;
   return h;
 }
+/* ================= 考点大纲「AI 讲解」就地生成 =================
+   不再把内容送到右侧面板：讲解直接铺在知识点（或整项任务）下方，
+   生成中逐字流式输出，完成后按 markdown 重排，并把原来那句简短描述收起来
+   （点「原讲解」可随时换回去看）。结果按知识点缓存在本机，重进大纲不再重复请求。 */
+var SYL_AI_KEY = 'pmp_syl_ai_v1';
+var SYL_AI_BUSY = {};     /* "任务#下标" -> {abort:fn} */
+var sylAiDB = null, sylLastKw = '';
+
+/* 知识点讲解专用系统提示：偏「讲清楚」，不生成练习题，控制在一屏能读完的长度 */
+var SYL_AI_SYS = '你是 2026 年 12 月 PMP 考试的辅导老师，知识口径为 2026 版 ECO 三大领域与任务、'+
+  'PMBOK 指南（原则与绩效域）、敏捷实践指南，以及预测型/敏捷/混合型方法的取舍。'+
+  '任务是给考点大纲里的一个知识点写「讲解」，这段讲解会直接显示在大纲页对应条目下方、替代原来那句简短描述，读者是正在复习、准备 12 月考试的人。'+
+  '结构固定：①开头一句话说清「这是什么、为什么考它」；'+
+  '②用一张 ```flow 图把「情境信号 --> 怎么判断 --> 选哪个动作#」串起来（方括号普通节点、圆括号判断、花括号易混点、!开头为重点、#结尾为终点）；'+
+  '③小标题「考什么」下给 3~5 条要点，落到考试里会怎么出；'+
+  '④小标题「易混与陷阱」给 2~3 条，指明和什么概念容易混、错选长什么样；'+
+  '⑤小标题「判断口诀」给 1~2 句能在考场直接用来排除选项的话。'+
+  '要求：简体中文；总长 350~600 字；具体到「什么信号→怎么判断→选哪个动作」；点明对应的 ECO 任务；'+
+  '不编造 PMI 未公开的及格线、通过率、政策与真题；不写练习题、不写客套话；不使用 HTML 标签；围栏独占起止行，只画一张图。';
+
+function sylAiLoad(){
+  if(sylAiDB) return sylAiDB;
+  var o = null;
+  try{ o = JSON.parse(localStorage.getItem(SYL_AI_KEY) || '{}'); }catch(e){ o = null; }
+  sylAiDB = (o && typeof o === 'object') ? o : {};
+  return sylAiDB;
+}
+function sylAiGet(code, ri){
+  var d = sylAiLoad()[code + '#' + ri];
+  return (d && typeof d.t === 'string' && d.t.trim()) ? d : null;
+}
+function sylAiPut(code, ri, txt, model){
+  var db = sylAiLoad(), key = code + '#' + ri;
+  db[key] = { t: String(txt || ''), ts: Date.now(), m: String(model || '') };
+  /* 讲解正文会一直累加：超过约 1.2MB 就按时间从旧到新淘汰，避免撑爆本机配额 */
+  try{
+    if(JSON.stringify(db).length > 1200000){
+      var ks = Object.keys(db).sort(function(a,b){ return (db[a].ts||0)-(db[b].ts||0); });
+      while(ks.length && JSON.stringify(db).length > 900000){
+        var k = ks.shift(); if(k !== key) delete db[k];
+      }
+    }
+  }catch(e0){}
+  try{ localStorage.setItem(SYL_AI_KEY, JSON.stringify(db)); }
+  catch(e){
+    /* 配额满：先腾掉最旧的一半，再存一次；刚生成的那条优先保住 */
+    var ks2 = Object.keys(db).sort(function(a,b){ return (db[a].ts||0)-(db[b].ts||0); });
+    ks2.slice(0, Math.ceil(ks2.length/2)).forEach(function(k){ if(k !== key) delete db[k]; });
+    try{ localStorage.setItem(SYL_AI_KEY, JSON.stringify(db)); }catch(e2){}
+  }
+}
+function sylAiWhen(ts){
+  var d = new Date(ts || Date.now()), p = function(n){ return (n<10?'0':'')+n; };
+  return p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function sylAiMd(t){
+  try{ return mkMd(t); }catch(e){ return '<p>'+mkEscHtml(t)+'</p>'; }
+}
+/* 讲解卡片的头部：生成中只有「停止」，生成完才是可操作的一组小按钮 */
+function sylAiHead(d, gen){
+  if(gen) return '<div class="ax-h"><span class="ax-t">✨ AI 讲解</span>'+
+    '<span class="ax-m" data-axmeta>正在生成…</span><span class="ax-sp"></span>'+
+    '<button type="button" class="ax-b" data-ax-stop="1">停止</button></div>';
+  return '<div class="ax-h"><span class="ax-t">✨ AI 讲解</span>'+
+    '<span class="ax-m">'+sylAiWhen(d.ts)+(d.m?' · '+mkEscHtml(d.m):'')+'</span><span class="ax-sp"></span>'+
+    '<button type="button" class="ax-b" data-ax-orig="1" title="显示 / 隐藏原来的简短讲解">原讲解</button>'+
+    '<button type="button" class="ax-b" data-ax-copy="1" title="复制这段讲解的原文">复制</button>'+
+    '<button type="button" class="ax-b" data-ax-ask="1" title="带着这个知识点去 AI 助手继续追问">追问</button>'+
+    '<button type="button" class="ax-b" data-ax-regen="1" title="重新生成一份讲解">重新生成</button>'+
+    '<button type="button" class="ax-b" data-ax-fold="1">收起</button></div>';
+}
+/* 预制一个空卡片占位：点「✨ AI 讲解」时就地展开，不跳页、不弹窗 */
+function sylAiBoxHtml(code, ri){
+  var key = code + '#' + ri, d = sylAiGet(code, ri);
+  if(!d) return '<div class="sk-aix" data-aix-for="'+key+'" hidden></div>';
+  return '<div class="sk-aix has on" data-aix-for="'+key+'">'+sylAiHead(d)+
+    '<div class="ax-body rich">'+sylAiMd(d.t)+'</div></div>';
+}
+function sylAiBox(code, ri){
+  var box = $('sylBody');
+  if(!box || !box.querySelector) return null;
+  var list = box.querySelectorAll('.sk-aix[data-aix-for]');
+  for(var i=0;i<list.length;i++){ if(list[i].getAttribute('data-aix-for') === code+'#'+ri) return list[i]; }
+  return null;
+}
+function sylAiBtn(code, ri){
+  var box = $('sylBody');
+  if(!box || !box.querySelectorAll) return null;
+  var list = box.querySelectorAll('[data-syl-ai]');
+  for(var i=0;i<list.length;i++){
+    if(list[i].getAttribute('data-syl-ai') === code &&
+       parseInt(list[i].getAttribute('data-syl-kp'),10) === ri) return list[i];
+  }
+  return null;
+}
+/* 把知识点原文与所属任务一起交给模型，避免只讲概念、落不到考纲任务上 */
+function sylAiPrompt(code, ri){
+  var t = ECO_TASKS[code], s = SYL[code];
+  if(!t || !s) return '';
+  if(ri >= 0 && s.kps[ri]){
+    var kp = s.kps[ri];
+    return '任务：'+code+'「'+t.n+'」\n考纲意图：'+s.goal+'\n知识点：'+kp.n+
+      '\n现有简短描述：'+kp.d+(kp.t?'\n常用工具：'+kp.t:'')+(kp.e?'\n判断线索：'+kp.e:'')+
+      (s.map?'\nPMBOK 8 对应：'+s.map:'');
+  }
+  return '任务：'+code+'「'+t.n+'」\n考纲意图：'+s.goal+
+    '\n请把这项任务的 '+s.kps.length+' 个知识点整体串讲：先讲清它们在同一条工作流里的先后与取舍，再点关键决策点，不要逐条照抄下面的描述。'+
+    '\n知识点清单：'+s.kps.map(function(k){ return k.n; }).join('、')+(s.map?'\nPMBOK 8 对应：'+s.map:'');
+}
+/* 生成 / 重新生成。regen=true 时忽略本机缓存，直接覆盖旧的 */
+function sylAiRun(code, ri, regen){
+  var box = sylAiBox(code, ri), key = code + '#' + ri;
+  if(!box || SYL_AI_BUSY[key]) return;
+  var old = sylAiGet(code, ri);
+  /* 已有缓存（比如上次重新生成失败、或卡片被关掉）：直接把旧讲解摆回来，不再花一次请求 */
+  if(old && !regen){
+    box.hidden = false;
+    box.classList.remove('folded','gen');
+    box.classList.add('has','on');
+    box.innerHTML = sylAiHead(old) + '<div class="ax-body rich">'+sylAiMd(old.t)+'</div>';
+    var liOld = box.closest ? box.closest('li') : null;
+    if(liOld) liOld.classList.add('aix-on');
+    var bOld = sylAiBtn(code, ri); if(bOld) bOld.classList.add('on');
+    return;
+  }
+  box.hidden = false;
+  box.classList.remove('folded');
+  box.classList.add('gen','has','on');
+  box.innerHTML = sylAiHead(null, true) + '<div class="ax-body" data-axstream>正在连接 AI 助教…</div>';
+  var body = box.querySelector('[data-axstream]'), meta = box.querySelector('[data-axmeta]');
+  var btn = sylAiBtn(code, ri); if(btn) btn.classList.add('on');
+  var t0 = Date.now(), buf = '', alive = true;
+  var task = { abort: null };
+  SYL_AI_BUSY[key] = task;
+  var tick = setInterval(function(){
+    if(!meta || !meta.parentNode) return;
+    meta.textContent = '正在生成 · ' + Math.round((Date.now()-t0)/1000) + 's · ' + buf.length + ' 字';
+  }, 900);
+  function paint(){
+    if(!alive || !body) return;
+    body.textContent = buf + '▌';
+  }
+  function done(){
+    alive = false; clearInterval(tick); delete SYL_AI_BUSY[key];
+    if(btn) btn.classList.remove('on');
+  }
+  function fail(msg, partial){
+    done();
+    if(!document.body.contains(box)) return;
+    box.classList.remove('gen','has','on');
+    if(partial && partial.trim()){
+      box.classList.add('has');
+      box.innerHTML = '<div class="ax-h"><span class="ax-t">✨ AI 讲解</span>'+
+        '<span class="ax-m">已停止生成</span><span class="ax-sp"></span>'+
+        '<button type="button" class="ax-b" data-ax-regen="1">重新生成</button>'+
+        '<button type="button" class="ax-b" data-ax-close="1">关闭</button></div>'+
+        '<div class="ax-body rich">'+sylAiMd(partial)+'</div>';
+      return;
+    }
+    box.innerHTML = '<div class="ax-h"><span class="ax-t">✨ AI 讲解</span>'+
+      '<span class="ax-m">没有生成成功</span><span class="ax-sp"></span>'+
+      '<button type="button" class="ax-b" data-ax-ask="1">打开 AI 助手</button>'+
+      '<button type="button" class="ax-b" data-ax-regen="1">重试</button>'+
+      '<button type="button" class="ax-b" data-ax-close="1">关闭</button></div>'+
+      '<div class="ax-body"><span class="ax-tip">'+mkEscHtml(msg)+'</span></div>';
+  }
+  var P = window.PMPAI;
+  if(!P || typeof P.stream !== 'function'){ fail('AI 组件还没加载好，请刷新页面后再试。'); return; }
+  if(location.protocol === 'file:'){ fail('离线单文件版不能调用 AI，请用联网的网页版打开；生成一次后会缓存在本机。'); return; }
+  var aborted = false;
+  task.abort = function(){ aborted = true; if(task.ctl) try{ task.ctl.abort(); }catch(e0){} };
+  var ready = (typeof P.ensure === 'function') ? Promise.resolve(P.ensure()) : Promise.resolve();
+  ready.then(function(){
+    if(aborted) throw new Error('ABORT');
+    var st = (typeof P.state === 'function') ? P.state() : { logged:true };
+    if(!st.logged) throw new Error('NO_LOGIN');
+    return P.stream(sylAiPrompt(code, ri), function(delta, all){
+      if(!alive) return;
+      buf = String(all == null ? buf + delta : all);
+      paint();
+    }, SYL_AI_SYS, task);
+  }).then(function(txt){
+    if(aborted) throw new Error('ABORT');
+    buf = String(txt || buf || '').trim();
+    if(!buf) throw new Error('模型没有返回内容');
+    var model = (P.modelName && P.modelName()) || '';
+    sylAiPut(code, ri, buf, model);
+    done();
+    /* 生成期间如果用户搜索/刷新把列表重建了，卡片已经脱离文档：直接按缓存重画列表 */
+    if(!document.body.contains(box)){ try{ renderSyl(sylLastKw); }catch(e1){} return; }
+    box.classList.remove('gen');
+    box.classList.add('has','on');
+    box.innerHTML = sylAiHead({ t:buf, ts:Date.now(), m:model }) + '<div class="ax-body rich">'+sylAiMd(buf)+'</div>';
+    var li = box.closest ? box.closest('li') : null;
+    if(li) li.classList.add('aix-on');
+    var b2 = sylAiBtn(code, ri); if(b2) b2.classList.add('on');
+    try{ hlSchedule(); }catch(e2){}
+  }).catch(function(e){
+    var msg = (e && e.message) || '生成失败';
+    if(msg === 'ABORT' || (e && e.name === 'AbortError')){ fail('已停止生成。', buf); return; }
+    if(msg === 'NO_LOGIN'){ fail('需要先登录 AI 助教才能生成讲解。点下面的按钮登录后回到这里再点一次「✨ AI 讲解」。'); return; }
+    fail(msg);
+  });
+}
+/* 带这段讲解去右侧助手继续追问：面板里能连着问，不用在这里堆长文 */
+function sylAiFollow(code, ri){
+  var t = ECO_TASKS[code], s = SYL[code];
+  if(!t || !s) return;
+  var d = sylAiGet(code, ri);
+  var from = '考点大纲 · ' + code + '「' + t.n + '」';
+  var text, label, tag = '追问讲解';
+  if(ri >= 0 && s.kps[ri]){
+    text = s.kps[ri].n + '\n' + (d ? d.t.slice(0, 1200) : s.kps[ri].d);
+    label = '继续追问：' + s.kps[ri].n;
+  }else{
+    text = t.n + '\n' + (d ? d.t.slice(0, 1200) : s.goal);
+    label = '继续追问任务：' + t.n; tag = '任务追问';
+  }
+  if(!window.PMPAI || typeof window.PMPAI.explain !== 'function'){ alert('AI 助手还没加载好，请刷新页面后再试。'); return; }
+  window.PMPAI.explain(text, label, tag, from);
+}
+/* 卡片上的按钮走事件委托：列表会被整块重建，逐个绑容易漏 */
+function sylAiBind(){
+  var box = $('sylBody');
+  if(!box || box.getAttribute('data-aix-bound') === '1') return;
+  box.setAttribute('data-aix-bound','1');
+  box.addEventListener('click', function(ev){
+    var t = ev.target;
+    if(!t || !t.closest) return;
+    var b = t.closest('[data-ax-copy],[data-ax-regen],[data-ax-fold],[data-ax-orig],[data-ax-ask],[data-ax-stop],[data-ax-close]');
+    if(!b) return;
+    var wrap = b.closest('.sk-aix');
+    if(!wrap) return;
+    var p = String(wrap.getAttribute('data-aix-for') || '').split('#');
+    var code = p[0], ri = parseInt(p[1], 10); if(isNaN(ri)) ri = -1;
+    if(ev.preventDefault){ ev.preventDefault(); }
+    if(ev.stopPropagation){ ev.stopPropagation(); }
+    if(b.hasAttribute('data-ax-stop')){
+      var bs = SYL_AI_BUSY[code+'#'+ri];
+      if(bs) bs.abort();
+      return;
+    }
+    if(b.hasAttribute('data-ax-regen')){ sylAiRun(code, ri, true); return; }
+    if(b.hasAttribute('data-ax-ask')){ sylAiFollow(code, ri); return; }
+    if(b.hasAttribute('data-ax-close')){
+      wrap.hidden = true;
+      var li0 = wrap.closest('li'); if(li0) li0.classList.remove('aix-on');
+      var b0 = sylAiBtn(code, ri); if(b0) b0.classList.remove('on');
+      return;
+    }
+    if(b.hasAttribute('data-ax-fold')){
+      var folded = wrap.classList.toggle('folded');
+      b.textContent = folded ? '展开' : '收起';
+      var b1 = sylAiBtn(code, ri); if(b1) b1.classList.toggle('on', !folded);
+      return;
+    }
+    if(b.hasAttribute('data-ax-orig')){
+      var li = wrap.closest('li');
+      if(!li) return;
+      var show = li.classList.toggle('show-orig');
+      b.classList.toggle('on', show);
+      return;
+    }
+    if(b.hasAttribute('data-ax-copy')){
+      var d = sylAiGet(code, ri);
+      if(!d) return;
+      var txt = d.t;
+      var flash = function(){ var old = b.textContent; b.textContent = '已复制'; setTimeout(function(){ b.textContent = old; }, 1400); };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(txt).then(flash, function(){ sylAiCopyFallback(txt); flash(); });
+      }else{ sylAiCopyFallback(txt); flash(); }
+    }
+  });
+}
+function sylAiCopyFallback(txt){
+  try{
+    var ta = document.createElement('textarea');
+    ta.value = txt; ta.style.position = 'fixed'; ta.style.left = '-9999px';
+    document.body.appendChild(ta); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+  }catch(e){}
+}
 function renderSyl(kw){
   const box = $('sylBody');
   if(!box) return;
+  sylLastKw = String(kw || '');
   box.innerHTML = sylHtml(kw);
   const btns = box.querySelectorAll ? box.querySelectorAll('[data-syl-drill]') : [];
   Array.prototype.forEach.call(btns, function(b){
     b.onclick = function(){ startSylDrill(b.getAttribute('data-syl-drill')); };
   });
+  const ais = box.querySelectorAll ? box.querySelectorAll('[data-syl-ai]') : [];
+  Array.prototype.forEach.call(ais, function(b){
+    b.onclick = function(ev){
+      if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+      const code = b.getAttribute('data-syl-ai');
+      let ki = parseInt(b.getAttribute('data-syl-kp'), 10); if(isNaN(ki)) ki = -1;
+      const wrap = sylAiBox(code, ki);
+      /* 已有讲解：再点一次收起，第三次展开；没有讲解才发起生成 */
+      if(wrap && wrap.classList.contains('has')){
+        if(!wrap.hidden && !wrap.classList.contains('folded')){
+          wrap.classList.add('folded');
+          b.classList.remove('on');
+        }else{
+          wrap.hidden = false; wrap.classList.remove('folded');
+          b.classList.add('on');
+        }
+        return;
+      }
+      sylAiRun(code, ki);
+    };
+  });
+  sylAiBind();
 }
 function startSylDrill(code){
   const all = sylCount(code);
@@ -18436,7 +19025,7 @@ if(s && Object.keys(s.answers||{}).length){
   }
   function check(){
     if(!window.caches) return;
-    caches.open('pmp-exam-offline-v30').then(function(c){ return c.match('./index.html'); })
+    caches.open('pmp-exam-offline-v33').then(function(c){ return c.match('./index.html'); })
       .then(function(hit){
         if(hit) setUI('ok','✅ 已可离线','题库已完整缓存到本机。现在开飞行模式刷新本页，也能正常出题、答题、交卷与保存进度。');
         else setUI('warn','⏳ 正在准备','正在缓存题库，请保持联网稍等几秒；若一直不变，请点「保存完整题库到手机」兜底。');
@@ -18447,7 +19036,7 @@ if(s && Object.keys(s.answers||{}).length){
     .then(function(){
       /* 页面自己把当前整页写进缓存：比 SW install 预缓存更可靠（当前 URL 一定能访问） */
       if(window.caches){
-        caches.open('pmp-exam-offline-v30').then(function(c){
+        caches.open('pmp-exam-offline-v33').then(function(c){
           return fetch(location.href,{cache:'no-store'}).then(function(r){
             if(r&&r.ok) return c.put('./index.html', r.clone());
           }).catch(function(){});
@@ -19262,7 +19851,7 @@ if(s && Object.keys(s.answers||{}).length){
     }
     return [{role:'system',content:SYS}].concat(out,[{role:'user',content:q}]);
   }
-  function aiSend(preset,quote){
+  function aiSend(preset,quote,label){
     if(window.PMPGate&&!PMPGate.ok('AI 助教（提问 / 划词讲解）')) return;
     if(aiBusy) return;
     if(!aiUser){ view('login'); return; }
@@ -19276,7 +19865,7 @@ if(s && Object.keys(s.answers||{}).length){
     aiLastSend=Date.now();
     err('aiErrChat','');
     if(!preset) inp.value='';
-    aiAddMsg('user',quote?'划词提问 · 请讲解这段内容':q,quote);
+    aiAddMsg('user', label || (quote?'划词提问 · 请讲解这段内容':q), quote);
     var bot=aiAddMsg('bot','');
     /* 先给「正在思考」的进度反馈：推理型模型首字要等好几秒，空白气泡会被当成没反应 */
     var think=document.createElement('span'); think.className='ai-think'; think.textContent='正在思考…';
@@ -19387,10 +19976,12 @@ if(s && Object.keys(s.answers||{}).length){
     $('aiInput').value=aiQuestion(o.text,'答题中标记','答题页（暂存）');
     aiToast('已把答题中标记的内容放进输入框，点「发送」即可追问');
   }
-  function aiOpenWith(text,auto){
+  function aiOpenWith(text,auto,tag,from,label){
     if(window.PMPGate&&!PMPGate.ok('AI 助教（划词提问）')) return;
     $('aiPanel').classList.add('open');
-    var q=aiQuestion(text,'划词提问');
+    var q=aiQuestion(text,tag||'划词提问',from);
+    /* 先把内容放进输入框：点下去立刻有反馈，后面 SDK 初始化慢或失败也不会丢内容 */
+    if(auto) $('aiInput').value=q;
     /* 首次划词时助手可能尚未初始化；等会话就绪再决定「直接发」还是「留待登录」 */
     var ready=aiInited?Promise.resolve():aiInit();
     if(!auto){ $('aiInput').value=q; $('aiInput').focus(); return; }
@@ -19398,10 +19989,16 @@ if(s && Object.keys(s.answers||{}).length){
       if(!aiUser){
         $('aiInput').value=q;
         aiToast(isFile()||!online()?'AI 问答需要联网打开网页版；题库本身可离线使用':
-          '已把划词内容放进输入框，登录（或刷新会话）后点「发送」即可');
+          ((tag&&tag!=='划词提问'?'已把要讲解的内容放进输入框，':'已把划词内容放进输入框，')+
+           '登录（或刷新会话）后点「发送」即可'));
         return;
       }
-      var go=function(){ aiSend(q,text); };
+      var go=function(){
+        /* 只在确定会真的发出去时才清空输入框；被忙/限流挡回时保留内容，用户可手动点发送 */
+        var willSend=!aiBusy && aiUser && $('aiModel').value && (Date.now()-aiLastSend>=1200);
+        if(willSend) $('aiInput').value='';
+        aiSend(q,text,label);
+      };
       var sel=$('aiModel');
       if(!sel.value||sel.disabled) return aiEnsureModels().then(go);
       go();
@@ -19593,12 +20190,68 @@ if(s && Object.keys(s.answers||{}).length){
       }).catch(reject);
     });
   }
+  /* ---- 供考点大纲「就地生成讲解」使用：边收流边把增量交给调用方 ----
+     onDelta(delta, all)；task 用来挂 AbortController，调用方点「停止」时能真正中断请求。
+     与 aiGenText 共用 SDK、登录态和模型选择，只是把系统提示与温度开放出来。 */
+  function aiGenStream(prompt, onDelta, sys, task){
+    return new Promise(function(resolve, reject){
+      function fail(msg){ reject(new Error(msg)); }
+      if(isFile()) return fail('本地单文件版无法调用 AI');
+      if(!online()) return fail('当前处于离线状态，请联网后再生成');
+      aiEnsureSdk().then(function(c){
+        var ready = aiInited ? Promise.resolve() : aiInit();
+        return Promise.resolve(ready).then(function(){
+          if(!aiUser) return fail('未登录 AI 助手');
+          return aiEnsureModels().then(function(){
+            var sel = $('aiModel');
+            var model = (sel && sel.value) || '', i;
+            if(!model){ for(i=0;i<aiModels.length;i++){ if(aiModels[i].id==='fast-model'){ model='fast-model'; break; } } }
+            if(!model){ for(i=0;i<aiModels.length;i++){ if(aiModels[i].isDefault){ model=aiModels[i].id; break; } } }
+            if(!model && aiModels.length) model=aiModels[0].id;
+            if(!model) return fail('没有可用的对话模型');
+            var opts = { model:model, stream:true, temperature:0.5,
+              messages:[{role:'system',content:sys||MKREVIEW_SYS},{role:'user',content:prompt}] };
+            if(task && typeof AbortController==='function'){
+              try{ task.ctl = new AbortController(); opts.signal = task.ctl.signal; }catch(e0){}
+            }
+            return Promise.resolve(cloud.llm.chat.completions.create(opts)).then(function(stream){
+              if(!stream) return fail('模型没有返回内容');
+              if(typeof stream[Symbol.asyncIterator]!=='function'){
+                var d0 = stream.choices && stream.choices[0];
+                var t0 = (d0 && ((d0.message && d0.message.content) || d0.text)) || '';
+                if(t0 && onDelta) onDelta(t0, t0);
+                return t0;
+              }
+              var out = '';
+              return (async function(){
+                for await(var chunk of stream){
+                  var d = chunk && chunk.choices && chunk.choices[0] && chunk.choices[0].delta;
+                  if(d && d.content){
+                    out += d.content;
+                    try{ if(onDelta) onDelta(d.content, out); }catch(eD){}
+                  }
+                }
+                return out;
+              })();
+            });
+          });
+        });
+      }).then(function(txt){
+        if(typeof txt==='string' && txt.trim()) resolve(txt.trim());
+        else reject(new Error('模型没有返回内容'));
+      }).catch(reject);
+    });
+  }
   window.PMPAI={state:function(){
     return {logged:!!aiUser,models:aiModels.length,busy:aiBusy,screen:aiScreen,
       panelOpen:$('aiPanel').classList.contains('open'),history:aiHist.length,
       selOn:$('aiSelBar').classList.contains('on'),pending:!!aiPendRead(),sys:SYS,
       view:$('aiChat').classList.contains('on')?'chat':($('aiLogin').classList.contains('on')?'login':'off')};
-  },init:aiInit,ask:aiOpenWith,gen:aiGenText,modelName:function(){ var s=$('aiModel'); return (s&&s.value)||''; }};
+  },init:aiInit,ask:aiOpenWith,gen:aiGenText,stream:aiGenStream,
+  ensure:function(){ return aiInited ? Promise.resolve() : aiInit(); },
+  modelName:function(){ var s=$('aiModel'); return (s&&s.value)||''; },
+  /* 考点大纲等页面用：把一段内容直接交给助手讲解（tag/from 决定气泡里的来源标注） */
+  explain:function(text,label,tag,from){ aiOpenWith(text,true,tag||'知识点讲解',from||'考点大纲',label); }};
 
   /* ---- 事件绑定 ---- */
   $('aiLogout').style.display='none';
